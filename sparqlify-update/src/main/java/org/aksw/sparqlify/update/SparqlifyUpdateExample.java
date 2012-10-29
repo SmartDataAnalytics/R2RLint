@@ -30,7 +30,6 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.RDF;
 
-
 public class SparqlifyUpdateExample {
 	private static final Logger logger = LoggerFactory.getLogger(SparqlifyUpdateExample.class);
 	

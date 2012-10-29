@@ -6,6 +6,9 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import mapping.SparqlifyConstants;
+
+import org.aksw.sparqlify.algebra.sparql.expr.E_StrConcatPermissive;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
 import org.aksw.sparqlify.core.algorithms.SqlTranslatorImpl;
 import org.aksw.sparqlify.core.datatypes.DatatypeSystem;
@@ -14,6 +17,13 @@ import org.aksw.sparqlify.core.interfaces.SqlTranslator;
 import org.aksw.sparqlify.util.MapReader;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
+
+import com.hp.hpl.jena.sparql.core.Var;
+import com.hp.hpl.jena.sparql.expr.E_Function;
+import com.hp.hpl.jena.sparql.expr.Expr;
+import com.hp.hpl.jena.sparql.expr.ExprList;
+import com.hp.hpl.jena.sparql.expr.ExprVar;
+import com.hp.hpl.jena.sparql.expr.NodeValue;
 
 
 public class ImporterR2RML {
@@ -48,6 +58,21 @@ public class ImporterR2RML {
 		/*
 		System.out.println("test");
 		*/
+		
+
+		{
+			ExprList eargs = new ExprList();
+			eargs.add(NodeValue.makeString("http://example.org/"));
+			eargs.add(new ExprVar(Var.alloc("varName")));
+			
+			Expr subject =
+					new E_Function(SparqlifyConstants.uriLabel,
+							new ExprList(new E_StrConcatPermissive(eargs))
+					);
+			
+			System.out.println(subject);
+		}		
+		
 	}
 }
 
