@@ -14,7 +14,7 @@
 	<modules>
 		<module>sparqlify-r2rml-parser</module>
 		<module>sparqlify-r2rml-exporter</module>
-		<!-- <module>sparqlify-update</module> -->
+		<module>sparqlify-update</module>
 	</modules>
 
 
