@@ -1,62 +1,76 @@
 package org.aksw.sparqlify.update;
 
 import java.io.File;
-import java.io.InputStream;
 import java.sql.Connection;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import javax.sql.DataSource;
 
-import org.aksw.sparqlify.config.lang.ConfigParser;
-import org.aksw.sparqlify.config.syntax.Config;
-import org.aksw.sparqlify.config.v0_2.bridge.SchemaProvider;
-import org.aksw.sparqlify.config.v0_2.bridge.SyntaxBridge;
+import org.aksw.commons.jena.util.ExprUtils;
+import org.aksw.sparqlify.algebra.sql.exprs2.SqlExpr;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
 import org.aksw.sparqlify.core.TypeToken;
 import org.aksw.sparqlify.core.algorithms.CandidateViewSelectorImpl;
+import org.aksw.sparqlify.core.algorithms.ExprEvaluator;
+import org.aksw.sparqlify.core.algorithms.MappingOpsImpl;
+import org.aksw.sparqlify.core.algorithms.SqlTranslationUtils;
+import org.aksw.sparqlify.core.algorithms.SqlTranslatorImpl;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.datatypes.DatatypeSystem;
+import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
-import org.aksw.sparqlify.restriction.RestrictionManager;
+import org.aksw.sparqlify.core.interfaces.SqlTranslator;
+import org.aksw.sparqlify.database.Clause;
+import org.aksw.sparqlify.database.NestedNormalForm;
+import org.aksw.sparqlify.restriction.RestrictionManagerImpl;
 import org.aksw.sparqlify.util.MapReader;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
-import org.aksw.sparqlify.validation.LoggerCount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.sparql.algebra.Op;
 import com.hp.hpl.jena.sparql.core.Quad;
 import com.hp.hpl.jena.sparql.core.Var;
-import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.sparql.expr.E_Equals;
+import com.hp.hpl.jena.sparql.expr.Expr;
+import com.hp.hpl.jena.sparql.expr.ExprList;
+import com.hp.hpl.jena.sparql.expr.ExprVar;
+import com.hp.hpl.jena.sparql.expr.NodeValue;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 public class SparqlifyUpdateExample {
 	private static final Logger logger = LoggerFactory.getLogger(SparqlifyUpdateExample.class);
 	
+	
 	public static void main(String[] args)
 		throws Exception
 	{
-		
+		/*
+		 * Register some custom functions to the Jena framework
+		 */
 		RdfViewSystemOld.initSparqlifyFunctions();
 		
 		
 		DatatypeSystem datatypeSystem = SparqlifyUtils.createDefaultDatatypeSystem();
+		SqlTranslator sqlTranslator = new SqlTranslatorImpl(datatypeSystem);
+		ExprEvaluator exprTransformer = SqlTranslationUtils.createDefaultEvaluator();
 
 		
+		/*
+		 * Create a simple test database
+		 */
 		DataSource dataSource = SparqlifyUtils.createTestDatabase(); 
 		Connection conn = dataSource.getConnection();
 
-		// typeAliases for the H2 datatype
+		
+		/*
+		 *  typeAliases for the H2 datatype
+		 *  
+		 *  This is somewhat hacky, the idea is to map database specific types to database independent ones
+		 */
 		Map<String, String> typeAlias = MapReader.readFile(new File("src/main/resources/type-map.h2.tsv"));
 		
 		
@@ -73,100 +87,117 @@ public class SparqlifyUpdateExample {
 		candidateSelector.addView(deptView);
 		candidateSelector.addView(personToDeptView);
 
-		Var g = Var.alloc("g");
-		Var s = Var.alloc("s");
-		Var p = Var.alloc("p");
-		Var o = Var.alloc("o");
-		Node gv = Quad.defaultGraphIRI;
-		Node sv = Node.createURI("http://ex.org/person5");
-		Node pv = RDF.type.asNode();
-		Node ov = Node.createURI("http://ex.org/Person");
-		Quad quad = new Quad(g, s, p, o);
 		
-		RestrictionManager r = new RestrictionManager();
-		r.stateNode(g, gv);
-		r.stateNode(s, sv);
-		r.stateNode(p, pv);
-		r.stateNode(o, ov);
+		/*
+		 * Let's assume the following quad should be inserted.
+		 * The procedure is as follows:
+		 * - For every view, find all the quads which could yield the one being inserted.
+		 * - Make sure all the views make use of table names (supporting inserts on queries is tough)
+		 * - Based on the view's variable definition, try to figure out, what the SQL columns were
+		 * 
+		 */
+		Quad insertQuad = new Quad(Quad.defaultGraphNodeGenerated, Node.createURI("http://ex.org/person/5"), RDF.type.asNode(), Node.createURI("http://ex.org/Person"));
 		
-		// TODO The quad may only consist of variables....
-		Set<ViewQuad> viewQuads = candidateSelector.findCandidates(quad, r);
+		Set<ViewQuad> viewQuads = getCandidateViews(candidateSelector, insertQuad);
+		
 		
 		System.out.println("# View quads: " + viewQuads.size());
 		System.out.println("View quads: " + viewQuads);
 		
 		
-		Query query = QueryFactory.create("Prefix ex:<http://ex.org/> Select * { <http://ex.org/person/123> a ex:Person }");
-		Op op = candidateSelector.getApplicableViews(query);
 		
-		System.out.println(op);
-		
-		
-		System.out.println(personView);
+		for(ViewQuad viewQuad : viewQuads) {
+			ViewDefinition viewDef = viewQuad.getView();
+			VarDefinition varDef = viewDef.getMapping().getVarDefinition();
+			
+			Map<String, TypeToken> typeMap = viewDef.getMapping().getSqlOp().getSchema().getTypeMap();
+			
+			//ViewDefinitionNormalizer viewDefNormalizer = new ViewDefinitionNormalizer();
+			//ViewDefinition viewDef = viewDefNormalizer.normalize(tmpViewDef);		
 
-		Collection<ViewDefinition> viewDefs= Arrays.asList(personView, deptView, personToDeptView);
-				
-		/*
-		System.out.println("test");
-		*/
+			
+			Quad quad = viewQuad.getQuad();
+			
+			ExprList exprs = new ExprList();
+			exprs.add(new E_Equals(NodeValue.makeNode(quad.getSubject()), NodeValue.makeNode(insertQuad.getSubject())));
+			
+			Expr condition = ExprUtils.andifyBalanced(exprs);
+			
+			SqlExpr sqlExpr = MappingOpsImpl.createSqlCondition(condition, varDef, typeMap, exprTransformer, sqlTranslator);
+			System.out.println(sqlExpr);
+			
+			//VarBinding binding = VarBinding.create(quad, insertQuad);
+			
+			//System.out.println(binding);
+		}
 		
-		Model model = ModelFactory.createDefaultModel();
-				
-		exportR2RML(viewDefs, model);
-
-		System.out.println("R2R-ML Output:");
-		model.write(System.out, "TURTLE");
+		//SqlTranslationUtils.splitEqualsConcat(la, lb)
 		
+			
 	}
 
-	static void exportR2RML(Collection<ViewDefinition> viewDefs, Model result) {
-		// TODO This the heart to be implemented
-		Resource foo = result.createResource("http://foo.bar");
-		result.add(foo, RDF.type, OWL.Class);
-	}
+
 	
 	
 	/**
-	 * !!! Ignore this for now as it is not done yet, I want to simply this a bit !!!
+	 * Utility function that returns the set of candidate views for
+	 * a variable-free quad.
 	 * 
-	 * @throws Exception
+	 * @param candidateSelector
+	 * @param quad
+	 * @return
 	 */
-	public static void thisCodeIsForProcessingFiles()
-		throws Exception
-	{
+	public static Set<ViewQuad> getCandidateViews(CandidateViewSelectorImpl candidateSelector, Quad quad) {
+		Var g = Var.alloc("g");
+		Var s = Var.alloc("s");
+		Var p = Var.alloc("p");
+		Var o = Var.alloc("o");
 		
-		ConfigParser parser = new ConfigParser();
+		Node gv = quad.getGraph();
+		Node sv = quad.getSubject();
+		Node pv = quad.getPredicate();
+		Node ov = quad.getObject();
 		
-		/**
-		 * The schema provider returns the datatype for colmn names.
-		 * For rewriting queries, we need to know the datatypes, however for the R2RML export we do not need it.
-		 * 
-		 * Since we don't want to require  a database for the R2RML export, we need to
-		 * implement a dummy SchemaProvider, which just returns 
-		 * TypeToken.Special for every column name.
-		 * (A TypeToken is just a wrapper for a String referring to the type name).
-		 * 
-		 * 
+		Quad tmpQuad = new Quad(g, s, p, o);
+		
+		RestrictionManagerImpl r = new RestrictionManagerImpl();
+		/*
+		ExprList exprs = new ExprList();
+		exprs.add(new E_Equals(new ExprVar(g), NodeValue.makeNode(gv)));
+		exprs.add(new E_Equals(new ExprVar(s), NodeValue.makeNode(sv)));
+		exprs.add(new E_Equals(new ExprVar(p), NodeValue.makeNode(pv)));
+		exprs.add(new E_Equals(new ExprVar(o), NodeValue.makeNode(ov)));
+
+		Clause clause = new Clause(new HashSet<Expr>(exprs.getList()));
+		*/
+	
+		
+		/*
+		 * Create a conjunctive normal form (literals ORed, clauses ANDed),
+		 * with one clause for constraint of {g, s, p, o}
 		 */
-		TypeToken datatype = TypeToken.Special;
-		
-		// TODO Implement one which uses TypoToken.Special.
-		SchemaProvider schemaProvider = null;
-			
-		// Wrap the logger with LoggerCount; this allows us to check how many errors/warnings were emitted.
-		LoggerCount loggerCount = new LoggerCount(logger);
-		
-		// TODO Your source file goes here
-		InputStream in = null; 
-		
-		// The config already contains view definitions
-		Config config = parser.parse(in, loggerCount);
+		Set<Clause> clauses = new HashSet<Clause>();
+		clauses.add(new Clause(new E_Equals(new ExprVar(g), NodeValue.makeNode(gv))));
+		clauses.add(new Clause(new E_Equals(new ExprVar(s), NodeValue.makeNode(sv))));
+		clauses.add(new Clause(new E_Equals(new ExprVar(p), NodeValue.makeNode(pv))));
+		clauses.add(new Clause(new E_Equals(new ExprVar(o), NodeValue.makeNode(ov))));
 
+		NestedNormalForm nnf = new NestedNormalForm(clauses);
 		
-		SyntaxBridge syntaxBridge = new SyntaxBridge(schemaProvider);
-
+		r.stateCnf(nnf);
 		
-
+		
+		/*
+		 * BUG: stating a Node does not change the CNF (should it do that?)
+		r.stateNode(g, gv);
+		r.stateNode(s, sv);
+		r.stateNode(p, pv);
+		r.stateNode(o, ov);
+		*/
+		
+		// TODO The quad may only consist of variables....
+		Set<ViewQuad> result = candidateSelector.findCandidates(tmpQuad, r);
+		return result;
 	}
 }
 
