@@ -2,6 +2,7 @@ package org.aksw.sparqlify.update;
 
 import java.io.File;
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -9,7 +10,12 @@ import java.util.Set;
 import javax.sql.DataSource;
 
 import org.aksw.commons.jena.util.ExprUtils;
+import org.aksw.commons.util.jdbc.ColumnsReference;
+import org.aksw.commons.util.jdbc.PrimaryKey;
+import org.aksw.commons.util.jdbc.Schema;
 import org.aksw.sparqlify.algebra.sql.exprs2.SqlExpr;
+import org.aksw.sparqlify.algebra.sql.nodes.SqlOp;
+import org.aksw.sparqlify.algebra.sql.nodes.SqlOpTable;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
 import org.aksw.sparqlify.core.TypeToken;
 import org.aksw.sparqlify.core.algorithms.CandidateViewSelectorImpl;
@@ -65,6 +71,22 @@ public class SparqlifyUpdateExample {
 		DataSource dataSource = SparqlifyUtils.createTestDatabase(); 
 		Connection conn = dataSource.getConnection();
 
+		/*
+		 * The H2 database does not yield primary keys :/
+		 * In the worst case, we can create them ourselves in order to continue
+		 */
+		Map<String, PrimaryKey> pkMap = new HashMap<String, PrimaryKey>();
+		String tableName = "person";
+		PrimaryKey pk = new PrimaryKey("pkPerson", new ColumnsReference(tableName, "id"));
+		pkMap.put(tableName, pk);
+		
+		Schema schema = new Schema(null, pkMap, null);
+//		schema.
+		
+		//Schema schema = Schema.create(conn);
+		System.out.println("Primary keys" + schema.getPrimaryKeys());
+		
+
 		
 		/*
 		 *  typeAliases for the H2 datatype
@@ -101,11 +123,18 @@ public class SparqlifyUpdateExample {
 		Set<ViewQuad> viewQuads = getCandidateViews(candidateSelector, insertQuad);
 		
 		
+		/*
+		 * Print out which view's quad-patterns may yield the quad being modified. 
+		 */
 		System.out.println("# View quads: " + viewQuads.size());
 		System.out.println("View quads: " + viewQuads);
 		
 		
 		
+		/*
+		 * For each view-quad: Try to figure out, what values the
+		 * underlying table needs no have in order to yield the quad.
+		 */
 		for(ViewQuad viewQuad : viewQuads) {
 			ViewDefinition viewDef = viewQuad.getView();
 			VarDefinition varDef = viewDef.getMapping().getVarDefinition();
@@ -116,6 +145,16 @@ public class SparqlifyUpdateExample {
 			//ViewDefinition viewDef = viewDefNormalizer.normalize(tmpViewDef);		
 
 			
+			// Retrieve the view's table
+			SqlOp tmpTable = viewDef.getMapping().getSqlOp();
+			if(!(tmpTable instanceof SqlOpTable)) {
+				throw new Exception("Not supported: " + tmpTable);
+			}
+			SqlOpTable table = (SqlOpTable)tmpTable;
+			
+			//table.g
+			
+			
 			Quad quad = viewQuad.getQuad();
 			
 			ExprList exprs = new ExprList();
@@ -123,8 +162,15 @@ public class SparqlifyUpdateExample {
 			
 			Expr condition = ExprUtils.andifyBalanced(exprs);
 			
+			
+			/*
+			 * Dammit!!! This is not working as expected here.
+			 */
 			SqlExpr sqlExpr = MappingOpsImpl.createSqlCondition(condition, varDef, typeMap, exprTransformer, sqlTranslator);
 			System.out.println(sqlExpr);
+
+			
+			
 			
 			//VarBinding binding = VarBinding.create(quad, insertQuad);
 			
