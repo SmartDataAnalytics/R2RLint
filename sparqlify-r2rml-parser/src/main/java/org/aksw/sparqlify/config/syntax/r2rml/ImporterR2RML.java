@@ -203,10 +203,11 @@ public class ImporterR2RML {
 
 					//	{
 					ExprList tableExprList = new ExprList();
+					
 
 
 
-//					for(PredicateObjectMap pom: tm.getPredicateObjectMaps()){
+//					for(PredicateObjectMap pom:$ tm.getPredicateObjectMaps()){
 //						//System.out.println(logicalTable.getTableName());
 //						for(ObjectMap om: pom.getObjectMap()){
 //							String colName= om.getColumnName();
