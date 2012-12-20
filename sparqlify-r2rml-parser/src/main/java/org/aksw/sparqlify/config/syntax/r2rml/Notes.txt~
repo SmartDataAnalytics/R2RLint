@@ -30,7 +30,7 @@ Create View whatever As
   With {
     ?s = uri(concat("wals.org/data#producer/nr", ?nr)) // Follows from template "wals.org/data#producer/nr={nr}" in the subject map
     ?t = plainLiteral(?publisher) // follows from rr:column "publisher"
-    ?u = typedLiteral(?nr, xsd:int) 
+    ?u = typedLiteral(?nr, xsd;int) 
      
  
  
@@ -58,11 +58,3 @@ Set<Quad> process(TriplesMap tm, varToExpr) {
        // Assign variables to expressions
     }
  }
- 
- 
- 
- 
- 1. test with myDb
- 2. change the object to "o" subject to s predicate to p
- 3. implement the predicateMap 
- 4. unify the predicateMap and objectMap code (one function 4 both)
