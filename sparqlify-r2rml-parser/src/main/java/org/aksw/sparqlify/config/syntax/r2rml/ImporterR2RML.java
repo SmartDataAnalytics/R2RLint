@@ -1,8 +1,10 @@
 package org.aksw.sparqlify.config.syntax.r2rml;
 
 import java.io.File;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -144,11 +146,12 @@ public class ImporterR2RML {
 				varToExprs.put(varS, restExpr);
 				VarDefinition varDef = new VarDefinition(varToExprs);
 				template.add(new Quad(Quad.defaultGraphNodeGenerated, varS, RDF.type.asNode(), rrClass.asNode()));
-				
+				Generator genO = Gensym.create("O");
 
 				for (PredicateObjectMap pom : tm.getPredicateObjectMaps()) {
 					for (ObjectMap om : pom.getObjectMap()) {
-						varDef = getVarDefinition(template, varToExprs, subjectVar,	varDef, pom, om);
+						
+						varDef = getVarDefinition(template, varToExprs, subjectVar,	varDef, pom, om, genO);
 					}
 				}
 				SqlOp op;
@@ -194,8 +197,8 @@ public class ImporterR2RML {
 	 */
 	public static VarDefinition getVarDefinition(QuadPattern template,
 			Multimap<Var, RestrictedExpr> varToExprs, Var subjectVar,
-			VarDefinition varDef, PredicateObjectMap pom, ObjectMap om) {
-		Generator genO = Gensym.create("O");
+			VarDefinition varDef, PredicateObjectMap pom, ObjectMap om, Generator genO) {
+		
 		ExprList tableExprList = new ExprList();
 		E_Function ef;
 		RDFNode datatype = om.getDatatype();
@@ -243,5 +246,10 @@ public class ImporterR2RML {
 		}
 		}
 
+	}
+	Map<String, ViewDefinition> load(InputStream in) {
+	
+		Map<String, ViewDefinition> actuals= new HashMap<String, ViewDefinition>();
+		return actuals;
 	}
 }
