@@ -15,6 +15,7 @@
 		<module>sparqlify-r2rml-parser</module>
 		<module>sparqlify-r2rml-exporter</module>
 		<module>sparqlify-update</module>
+		<module>sparqlify-web-demo</module>
 	</modules>
 
 
@@ -615,7 +616,7 @@
 			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
-				<version>1.3.168</version>
+				<version>1.3.170</version>
 			</dependency>
 
 
