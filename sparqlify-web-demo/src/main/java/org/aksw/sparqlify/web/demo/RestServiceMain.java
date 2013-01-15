@@ -1,4 +1,4 @@
-package org.linkeddata.qa.dashboard.web;
+package org.aksw.sparqlify.web.demo;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -73,7 +73,7 @@ public class RestServiceMain {
 				"com.sun.jersey.config.property.resourceConfigClass",
 				"com.sun.jersey.api.core.PackagesResourceConfig");
 		sh.setInitParameter("com.sun.jersey.config.property.packages",
-				"org.linkeddata.qa.dashboard.web");
+				"org.aksw.sparqlify.web.demo");
 
 		Server server = new Server(port);
 		Context context = new Context(server, "/", Context.SESSIONS);
