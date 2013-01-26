@@ -128,8 +128,6 @@ public class R2RMLExporter {
 		 *   "bar"
 		 * * statements are named the same way: <scope>Statement_<use>
 		 */
-		// just to see what I built so far
-		GraphMemFaster debugGraph = (GraphMemFaster) Factory.createDefaultGraph();
 
 		// create the triples map subject
 		String triplesMapId = String.format("#TriplesMap%d", idCounter++); 
@@ -141,14 +139,13 @@ public class R2RMLExporter {
 		
 		Statement logicalTblStatement_tblDefinition =
 					buildLogicalTableTriple(r2rml, relation);
-		debugGraph.add(logicalTblStatement_tblDefinition.asTriple());
+		r2rml.add(logicalTblStatement_tblDefinition);
 		
 		Statement triplesMapStatement_logicalTable = r2rml.createStatement(
 								triplesMapSubject,
 								triplesMapPredicate_logicalTable,
 								logicalTblStatement_tblDefinition.getSubject());
-		debugGraph.add(triplesMapStatement_logicalTable.asTriple());
-		
+		r2rml.add(triplesMapStatement_logicalTable);
 		
 		/*
 		 * subject map
@@ -164,7 +161,8 @@ public class R2RMLExporter {
 		// [] rr:template "http://data.example.com/department/{DEPTNO}" and
         // [] rr:class ex:Department
 		for (Statement statement : triplesMapStatement_subjectMaps) {
-			debugGraph.add(statement.asTriple());
+			r2rml.add(statement);
+			//debugGraph.add(statement.asTriple());
 		}
 		
 		// build up the subject map triple that looks sth. like this: 
@@ -181,7 +179,7 @@ public class R2RMLExporter {
 									triplesMapSubject,
 									triplesMapPredicate_subjectMap,
 									triplesMapObject_subjectMap);
-			debugGraph.add(subjectMapTriple.asTriple());
+			r2rml.add(subjectMapTriple);
 		}
 		
 		/*
@@ -198,7 +196,7 @@ public class R2RMLExporter {
 		// [] rr:template "http://data.example.com/department/{DEPTNO}" and
         // [] rr:class ex:Department
 		for (Statement statement : prediacteMapStatements) {
-			debugGraph.add(statement.asTriple());
+			r2rml.add(statement);
 		}
 
 		/*
@@ -215,7 +213,7 @@ public class R2RMLExporter {
 		// [] rr:template "http://data.example.com/department/{DEPTNO}" and
         // [] rr:class ex:Department
 		for (Statement statement : objectMapStatements) {
-			debugGraph.add(statement.asTriple());
+			r2rml.add(statement);
 		}
 
 		/*
@@ -244,7 +242,7 @@ public class R2RMLExporter {
 									triplesMapObject_predicateObjectMap,
 									predicateObjectMapPredicate_predicateMap,
 									predicateObjectMapObject_predicateMap);
-		debugGraph.add(predicateObjectMapStatement_predicateMap.asTriple());
+		r2rml.add(predicateObjectMapStatement_predicateMap);
 		
 		// 2) the statement for [#1] rr:objectMap [#3]
 		Property prediacteObjectMapPrediacte_objectMap = 
@@ -256,7 +254,7 @@ public class R2RMLExporter {
 											triplesMapObject_predicateObjectMap,
 											prediacteObjectMapPrediacte_objectMap,
 											prediacteObjectMapObject_objectMap);
-		debugGraph.add(predicateObjectMapStatement_objectMap.asTriple());
+		r2rml.add(predicateObjectMapStatement_objectMap);
 		
 		// 3) the statement for <#TriplesMap2> rr:prediacteObjectMap [#1]
 		Property triplesMapPredicate_predicateObjectMap =
@@ -266,9 +264,7 @@ public class R2RMLExporter {
 								triplesMapSubject,
 								triplesMapPredicate_predicateObjectMap,
 								triplesMapObject_predicateObjectMap);
-		debugGraph.add(triplesMapStatement_predicateObjectMap.asTriple());
-		
-		printGraph(debugGraph);
+		r2rml.add(triplesMapStatement_predicateObjectMap);
 	}
 	
 	/**
@@ -517,7 +513,6 @@ public class R2RMLExporter {
 		 */
 		if (expr.isFunction()) {
 			ExprFunction func = expr.getFunction();
-			System.out.println();
 			
 			// uri( ... )
 			if (func.getFunctionIRI() == "http://aksw.org/sparqlify/uri") {
@@ -571,99 +566,5 @@ public class R2RMLExporter {
 		}
 			
 		return exprStr;
-	}
-	
-	/**
-	 * This method is just for debugging purposes and may create structures
-	 * that are not in valid TURTLE syntax (especially missing semicolons). But
-	 * I don't care at this point because this should just give a hint if I'm
-	 * on the right way or everything is fucked up.
-	 * @param graph: the graph to be printed
-	 */
-	private void printGraph(GraphMemFaster graph) {
-		//System.out.println(graph.store.listSubjects());
-		String out = "";
-		for ( Node subject : graph.store.listSubjects().toList()) {
-			if (graph.store.listObjects().toList().contains(subject)){
-				continue;
-			}
-			if (subject.isURI()) {
-				for (Triple triple : graph.store.find(
-						new Triple(subject, Node.ANY, Node.ANY)).toList()) {
-					out += serializeTriple(triple, graph, 0);
-				}
-			}
-		}
-		System.out.println(out);
-	}
-	
-	/**
-	 * This method is just a helper method for the printGraph method and may
-	 * create structures that are not in valid TURTLE syntax (especially
-	 * missing semicolons).
-	 * @param triple: the input triple to be serialized to be printable
-	 * @param graph: the actual graph needed to query other triples that e.g.
-	 * share the same blank node or a certain resource
-	 * @return the String containing the serialized triple with all the nested triples
-	 */
-	private String serializeTriple(Triple triple, GraphMemFaster graph, int indentationLevel) {
-		String out = "";
-		
-		/*
-		 *  subject
-		 */
-		Node subject = triple.getSubject();
-		//   ...is URI --> <...>
-		if (subject.isURI()) {
-			out += indentString(indentationLevel);
-			out += "<" + subject.getURI() + "> ";
-		
-		//   ...is blank node --> do nothing
-		} else if (subject.isBlank()) {
-			// brackets already set in calling method
-		}
-		
-		/*
-		 * predicate
-		 */
-		Node predicate = triple.getPredicate();
-		out += indentString(indentationLevel);
-		out += "<" + predicate.getURI() + "> ";
-		
-		/*
-		 * object(s)
-		 */
-		Node object = triple.getObject();
-		//   ...is URI --> <...>
-		if (object.isURI()) {
-			out += "<"+ object.getURI() + ">\n";
-			
-		//   ...is Literal --> "..."
-		} else if (object.isLiteral()) {
-			out += "\"" + object.getLiteral() + "\"\n";
-			
-		//   ...is a blank node --> [ serialized children ]
-		} else if (object.isBlank()) {
-			List<Triple> childTriples =
-					graph.store.find(new Triple(object, Node.ANY, Node.ANY)).toList();
-			out += "[\n";
-			for (Triple trpl : childTriples) {
-				out += serializeTriple(trpl, graph, indentationLevel+1);
-			}
-			out += indentString(indentationLevel);
-			out += "]\n";
-			
-		}
-		
-		return out;
-	}
-	
-	private String indentString(int indentationLevel) {
-		String out = "";
-		
-		for (int i=0; i<indentationLevel; i++) {
-			out += "\t";
-		}
-		return out;
 	}
 }

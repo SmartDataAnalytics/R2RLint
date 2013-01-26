@@ -1,11 +1,8 @@
 package org.aksw.sparqlify.export.r2rml;
 
-import java.io.File;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -15,11 +12,8 @@ import org.aksw.sparqlify.config.v0_2.bridge.SchemaProvider;
 import org.aksw.sparqlify.config.v0_2.bridge.SyntaxBridge;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
 import org.aksw.sparqlify.core.TypeToken;
-import org.aksw.sparqlify.core.datatypes.DatatypeSystem;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
-import org.aksw.sparqlify.util.MapReader;
 import org.aksw.sparqlify.util.SparqlifyUtils;
-import org.aksw.sparqlify.util.ViewDefinitionFactory;
 import org.aksw.sparqlify.validation.LoggerCount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,26 +34,30 @@ public class ExporterR2RMLExample {
 		
 		RdfViewSystemOld.initSparqlifyFunctions();
 		
-		
-		DatatypeSystem datatypeSystem = SparqlifyUtils.createDefaultDatatypeSystem();
+		// FIXME: commented out because this would cause errors
+		//DatatypeSystem datatypeSystem = SparqlifyUtils.createDefaultDatatypeSystem();
 
 		
 		DataSource dataSource = SparqlifyUtils.createTestDatabase(); 
 		Connection conn = dataSource.getConnection();
 
 		// typeAliases for the H2 datatype
-		Map<String, String> typeAlias = MapReader.readFile(new File("src/main/resources/type-map.h2.tsv"));
+		// FIXME: commented out because this would cause errors
+		//Map<String, String> typeAlias = MapReader.readFile(new File("src/main/resources/type-map.h2.tsv"));
 		
+		// FIXME: commented out because this would cause errors
+		//ViewDefinitionFactory vdf = SparqlifyUtils.createViewDefinitionFactory(conn, typeAlias);
 		
-		ViewDefinitionFactory vdf = SparqlifyUtils.createViewDefinitionFactory(conn, typeAlias);
-		
-		ViewDefinition personView = vdf.create("Prefix ex:<http://ex.org/> Create View person As Construct { ?s a ex:Person ; ex:name ?t } With ?s = uri(concat('http://ex.org/person/', ?ID) ?t = plainLiteral(?NAME) From person");
-		ViewDefinition deptView = vdf.create("Prefix ex:<http://ex.org/> Create View dept As Construct { ?s a ex:Department ; ex:name ?t } With ?s = uri(concat('http://ex.org/dept/', ?ID) ?t = plainLiteral(?NAME) From dept");
-		ViewDefinition personToDeptView = vdf.create("Prefix ex:<http://ex.org/> Create View person_to_dept As Construct { ?p ex:worksIn ?d } With ?p = uri(concat('http://ex.org/person/', ?PERSON_ID) ?d = uri(concat('http://ex.org/dept/', ?DEPT_ID) From person_to_dept");
+		// FIXME: commented out because this would cause errors
+		//ViewDefinition personView = vdf.create("Prefix ex:<http://ex.org/> Create View person As Construct { ?s a ex:Person ; ex:name ?t } With ?s = uri(concat('http://ex.org/person/', ?ID) ?t = plainLiteral(?NAME) From person");
+		//ViewDefinition deptView = vdf.create("Prefix ex:<http://ex.org/> Create View dept As Construct { ?s a ex:Department ; ex:name ?t } With ?s = uri(concat('http://ex.org/dept/', ?ID) ?t = plainLiteral(?NAME) From dept");
+		//ViewDefinition personToDeptView = vdf.create("Prefix ex:<http://ex.org/> Create View person_to_dept As Construct { ?p ex:worksIn ?d } With ?p = uri(concat('http://ex.org/person/', ?PERSON_ID) ?d = uri(concat('http://ex.org/dept/', ?DEPT_ID) From person_to_dept");
 
-		System.out.println(personView);
+		// FIXME: commented out because this would cause errors
+		//System.out.println(personView);
 
-		Collection<ViewDefinition> viewDefs= Arrays.asList(personView, deptView, personToDeptView);
+		// FIXME: commented out because this would cause errors
+		//Collection<ViewDefinition> viewDefs= Arrays.asList(personView, deptView, personToDeptView);
 				
 		/*
 		System.out.println("test");
@@ -67,7 +65,8 @@ public class ExporterR2RMLExample {
 		
 		Model model = ModelFactory.createDefaultModel();
 				
-		exportR2RML(viewDefs, model);
+		// FIXME: commented out because this would cause errors
+		//exportR2RML(viewDefs, model);
 
 		System.out.println("R2R-ML Output:");
 		model.write(System.out, "TURTLE");
