@@ -70,14 +70,15 @@ public class Run {
 						"Construct {" +
 							"?s a ex:Department." +
 							"?s ex:name ?t." +
-						"}" +
+						"} " +
 						"With " +
 							"?s = uri(concat('http://ex.org/dept/', ?id) " +
-							"?t = plainLiteral(concat('FOOO', 'OOH!', ?age), 'en')" +
+							"?t = bNode(?id) " +
+							//"?t = plainLiteral(concat('FOOO', 'OOH!', ?age), 'en')" +
 						"From [[" +
 							"SELECT id, name " +
-							"FROM dept " +
-							"WHERE ID > 23]]"
+							"FROM dept ]]" // +
+							//"WHERE id > 23]]"
 				);
 		
 		// and yet another one
@@ -89,13 +90,14 @@ public class Run {
 							"?p ex:worksIn ?d" +
 						"} " +
 						"With " +
-							"?p = uri(concat('http://ex.org/person/', ?persn_id) " +
+							"?p = uri(concat('http://ex.org/person/', ?pers_id) " +
 							"?d = uri(concat('http://ex.org/dept/', ?dept_id) " +
 						"From [[SELECT * FROM person_to_dept " +
 						"JOIN dept ON person_to_dept.dept_id=dept.id]]"
 				);
 		
 		Collection<ViewDefinition> viewDefs = 
+				//Arrays.asList(deptView);
 				Arrays.asList(personView, deptView, personToDeptView);
 		
 		R2RMLExporter exporter = new R2RMLExporter(viewDefs);

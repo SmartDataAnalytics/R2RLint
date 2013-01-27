@@ -33,14 +33,20 @@ public class R2RMLExporter {
 	String rrNamespace = "http://www.w3.org/ns/r2rml#";
 	String rrPrefix = "rr";
 	FunctionLabel concatLabel = new FunctionLabel("concat");
+	FunctionLabel functionLabel = new FunctionLabel("function");
 
 	// just needed because I know no better way to let a method return multiple
 	// values
 	private class PredicateAndObject {
 		Property predicate;
-		Literal object;
+		RDFNode object;
 
 		PredicateAndObject(Property predicate, Literal object) {
+			this.predicate = predicate;
+			this.object = object;
+		}
+		
+		PredicateAndObject(Property predicate, Resource object) {
 			this.predicate = predicate;
 			this.object = object;
 		}
@@ -50,6 +56,10 @@ public class R2RMLExporter {
 		}
 
 		Literal getObject() {
+			return object.asLiteral();
+		}
+		
+		RDFNode getRawObject() {
 			return object;
 		}
 	}
@@ -354,17 +364,36 @@ public class R2RMLExporter {
 		// (or in rare cases a URI, which is handled separately)
 		Literal mapObject;
 
-		// template or column
+		// template or column or constant
 		if (mappingData.isVariable()) {
 			Collection<RestrictedExpr> restrictions = varDefs
 					.getDefinitions((Var) mappingData);
 			List<PredicateAndObject> mapPredicateAndObjects = processRestrictions(restrictions);
 
 			for (PredicateAndObject result : mapPredicateAndObjects) {
-				mapObject = result.getObject();
 				mapPredicate = result.getPrediacte();
-				Statement resultStatement = r2rml.createStatement(mapSubject,
+				Statement resultStatement;
+				RDFNode rawObject = result.getRawObject();
+				
+				// object is literal
+				if (rawObject.isLiteral()) {
+					mapObject = rawObject.asLiteral();
+					resultStatement = r2rml.createStatement(mapSubject,
 						mapPredicate, mapObject);
+				
+				// object is blank node
+				} else if (rawObject.isAnon()) {
+					Resource mapResObject = rawObject.asResource();
+					resultStatement = r2rml.createStatement(mapSubject,
+							mapPredicate, mapResObject);
+					
+				// object is resource
+				} else {
+					Resource mapResObject = rawObject.asResource();
+					resultStatement = r2rml.createStatement(mapSubject,
+							mapPredicate, mapResObject);
+				}
+				
 				results.add(resultStatement);
 			}
 
@@ -454,24 +483,26 @@ public class R2RMLExporter {
 					.toArray()[i];
 			Expr expression = restriction.getExpr();
 
-			// Build up the expression string recursively processing all
-			// functions involved. In this case the mapPredicate can be
-			// rr:template or rr:column.
+			/*
+			 * handle functions:
+			 * - plainLiteral (explicitly)
+			 * - blankNode (explicitly)
+			 * - other (generic)
+			 */
 			if (expression.isFunction()) {
 				exprStr += processRestrExpr(expression);
 
 				// get first argument of the function
 				Expr firstArg = expression.getFunction().getArgs().get(0);
 
-				// rr:column or rr:template depending on the first function
-				// argument: if this is
-				// - a variable rr:column is used
-				// - another function rr:template is used
+				/*
+				 * plainLiteral
+				 */
 				if (expression.getFunction().getFunctionIRI() == "http://aksw.org/sparqlify/plainLiteral") {
 					
 					// if the outermost function is plainLiteral( ... ) with...
 
-					// ...a variable as first argument
+					// ...a variable as first argument --> rr:column
 					if (firstArg.isVariable()) {
 						mapPredicate = ResourceFactory.createProperty(
 								rrNamespace, "column");
@@ -484,7 +515,7 @@ public class R2RMLExporter {
 						int strlength = exprStr.length();
 						exprStr = exprStr.substring(1, strlength - 1);
 						
-					// ...a function as first argument
+					// ...a function as first argument --> rr:template
 					} else if (firstArg.isFunction()) {
 						/*
 						 * Since the value is defined by the function and is not
@@ -496,25 +527,35 @@ public class R2RMLExporter {
 						 */
 						mapPredicate = ResourceFactory.createProperty(
 								rrNamespace, "template");
-					// ...a constant
+					// ...a constant --> rr:constant
 					} else {
 						mapPredicate = ResourceFactory.createProperty(
 								rrNamespace, "constant");
 					}
 
-
 					// get language tag (if set)
 					List<Expr> funcArgs = expression.getFunction().getArgs();
 					
-					// there is more than one argument, like in
-					// plainLiteral(?foo, 'en')
 					if (funcArgs.size() > 1) {
+						// there is more than one argument, like in
+						// plainLiteral(?foo, 'en')
+						
 						if (funcArgs.get(1).isConstant()
 								&& funcArgs.get(1).getConstant().isString()) {
 							// looks like this could be a language tag
 							langTag = funcArgs.get(1).getConstant().asString();
 						}
 					}
+				
+				} else if (expression.getFunction().getFunctionIRI().equals("http://aksw.org/sparqlify/blankNode")) {
+				//} else if (expression.getFunction().getFunctionSymbol().equals(functionLabel)) {
+					// TODO: go on here
+					mapPredicate = ResourceFactory.createProperty(rrNamespace, "constant");
+					Resource mapObject = ResourceFactory.createResource();
+					PredicateAndObject result = new PredicateAndObject(mapPredicate,
+							mapObject);
+					results.add(result);
+					continue;
 
 				// rr:template
 				} else {
@@ -539,6 +580,7 @@ public class R2RMLExporter {
 			}
 
 			Literal mapObject = ResourceFactory.createPlainLiteral(exprStr);
+
 			PredicateAndObject result = new PredicateAndObject(mapPredicate,
 					mapObject);
 
@@ -618,8 +660,6 @@ public class R2RMLExporter {
 				Expr subExpr = func.getArgs().get(0);
 				exprStr += processRestrExpr(subExpr);
 			}
-			// blankNode( ... )
-			// TODO: implement
 			
 			// typedLiteral
 			// TODO: implement
