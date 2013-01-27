@@ -73,7 +73,7 @@ public class Run {
 						"}" +
 						"With " +
 							"?s = uri(concat('http://ex.org/dept/', ?id) " +
-							"?t = plainLiteral(?NAME)" +
+							"?t = plainLiteral(concat('FOOO', 'OOH!', ?age), 'en')" +
 						"From [[" +
 							"SELECT id, name " +
 							"FROM dept " +

@@ -463,21 +463,45 @@ public class R2RMLExporter {
 				// get first argument of the function
 				Expr firstArg = expression.getFunction().getArgs().get(0);
 
-				// rr:column
-				if (expression.getFunction().getFunctionIRI() == "http://aksw.org/sparqlify/plainLiteral"
-						&& firstArg.isVariable()) {
-					// if the outermost function is plainLiteral( ... ) with
-					// a variable as first argument
-					mapPredicate = ResourceFactory.createProperty(rrNamespace,
-							"column");
+				// rr:column or rr:template depending on the first function
+				// argument: if this is
+				// - a variable rr:column is used
+				// - another function rr:template is used
+				if (expression.getFunction().getFunctionIRI() == "http://aksw.org/sparqlify/plainLiteral") {
+					
+					// if the outermost function is plainLiteral( ... ) with...
 
-					// Yes, this is  a bit goofy, but I have to strip off the
-					// curly braces added in the processRestrExpr method before.
-					// This is necessary because down there I could not check
-					// if the variable would end up in a rr:template or
-					// rr:column literal
-					int strlength = exprStr.length();
-					exprStr = exprStr.substring(1, strlength - 1);
+					// ...a variable as first argument
+					if (firstArg.isVariable()) {
+						mapPredicate = ResourceFactory.createProperty(
+								rrNamespace, "column");
+						
+						// Yes, this is  a bit goofy, but I have to strip off the
+						// curly braces added in the processRestrExpr method before.
+						// This is necessary because down there I could not check
+						// if the variable would end up in a rr:template or
+						// rr:column literal
+						int strlength = exprStr.length();
+						exprStr = exprStr.substring(1, strlength - 1);
+						
+					// ...a function as first argument
+					} else if (firstArg.isFunction()) {
+						/*
+						 * Since the value is defined by the function and is not
+						 * the pure column value, this has to be rr:template.
+						 * This inner function could also work with constants
+						 * which would be OK since rr:template would also fit
+						 * here being more general than rr:constant, which
+						 * would be the clean choice here
+						 */
+						mapPredicate = ResourceFactory.createProperty(
+								rrNamespace, "template");
+					// ...a constant
+					} else {
+						mapPredicate = ResourceFactory.createProperty(
+								rrNamespace, "constant");
+					}
+
 
 					// get language tag (if set)
 					List<Expr> funcArgs = expression.getFunction().getArgs();
@@ -585,12 +609,29 @@ public class R2RMLExporter {
 					exprStr += processRestrExpr(arg);
 				}
 
-			// plainLiteral
+			// plainLiteral( ... )
 			} else if (func.getFunctionIRI() == "http://aksw.org/sparqlify/plainLiteral") {
-				// there should be just one argument here
+				// I am only interested in the first argument here, since a
+				// possible second argument containing a language tag is only
+				// of interest, if the plainLiteral is the most outer function
+				// which is handled in a different place
 				Expr subExpr = func.getArgs().get(0);
 				exprStr += processRestrExpr(subExpr);
 			}
+			// blankNode( ... )
+			// TODO: implement
+			
+			// typedLiteral
+			// TODO: implement
+			
+			// urlEncode
+			// TODO: implement
+			
+			// urlDecode
+			// TODO: implement
+			
+			// arithmetic expressions
+			// TODO: implement
 
 		/*
 		 * variables and strings
