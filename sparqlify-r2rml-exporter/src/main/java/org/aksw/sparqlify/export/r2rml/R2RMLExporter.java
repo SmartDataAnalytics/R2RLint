@@ -152,14 +152,15 @@ public class R2RMLExporter {
 		 * ===========
 		 */
 		Node subjectMapObject_templColOrConst = pattern.getSubject();
-		List<Statement> triplesMapStatement_subjectMaps = buildMapStatements(
-										r2rml,
-										subjectMapObject_templColOrConst,
-										varDefs);
+		List<Statement> triplesMapStatement_subjectMaps =
+					buildMapStatements(
+								r2rml,
+								subjectMapObject_templColOrConst,
+								varDefs);
 		
 		// there may be more than one entry, e.g.
 		// [] rr:template "http://data.example.com/department/{DEPTNO}" and
-        // [] rr:class ex:Department
+		// [] rr:class ex:Department
 		for (Statement statement : triplesMapStatement_subjectMaps) {
 			r2rml.add(statement);
 			//debugGraph.add(statement.asTriple());
@@ -176,9 +177,9 @@ public class R2RMLExporter {
 					(RDFNode) triplesMapStatement_subjectMaps.get(0).getSubject();
 			// <#TriplesMap2> rr:subjectMap []
 			Statement subjectMapTriple = r2rml.createStatement(
-									triplesMapSubject,
-									triplesMapPredicate_subjectMap,
-									triplesMapObject_subjectMap);
+								triplesMapSubject,
+								triplesMapPredicate_subjectMap,
+								triplesMapObject_subjectMap);
 			r2rml.add(subjectMapTriple);
 		}
 		
@@ -187,14 +188,15 @@ public class R2RMLExporter {
 		 * =============
 		 */
 		Node predicateMap_templColOrConst = pattern.getPredicate();
-		List<Statement> prediacteMapStatements =	buildMapStatements(
-									r2rml,
-									predicateMap_templColOrConst,
-									varDefs);
+		List<Statement> prediacteMapStatements =
+					buildMapStatements(
+								r2rml,
+								predicateMap_templColOrConst,
+								varDefs);
 		
 		// there may be more than one entry, e.g.
 		// [] rr:template "http://data.example.com/department/{DEPTNO}" and
-        // [] rr:class ex:Department
+		// [] rr:class ex:Department
 		for (Statement statement : prediacteMapStatements) {
 			r2rml.add(statement);
 		}
@@ -204,14 +206,15 @@ public class R2RMLExporter {
 		 * ==========
 		 */
 		Node objectMap_templColOrConst = pattern.getObject();
-		List<Statement> objectMapStatements = buildMapStatements(
-									r2rml,
-									objectMap_templColOrConst,
-									varDefs);
+		List<Statement> objectMapStatements =
+					buildMapStatements(
+								r2rml,
+								objectMap_templColOrConst,
+								varDefs);
 		
 		// there may be more than one entry, e.g.
 		// [] rr:template "http://data.example.com/department/{DEPTNO}" and
-        // [] rr:class ex:Department
+		// [] rr:class ex:Department
 		for (Statement statement : objectMapStatements) {
 			r2rml.add(statement);
 		}
@@ -233,15 +236,15 @@ public class R2RMLExporter {
 
 		// 1) the statement for [#1] rr:predicateMap [#2]
 		Property predicateObjectMapPredicate_predicateMap = 
-					ResourceFactory.createProperty(rrNamespace, "predicate");
+					ResourceFactory.createProperty(rrNamespace, "predicateMap");
 		// [#2]
 		RDFNode predicateObjectMapObject_predicateMap =
 				(RDFNode) prediacteMapStatements.get(0).getSubject();
 		Statement predicateObjectMapStatement_predicateMap =
 					r2rml.createStatement(
-									triplesMapObject_predicateObjectMap,
-									predicateObjectMapPredicate_predicateMap,
-									predicateObjectMapObject_predicateMap);
+							triplesMapObject_predicateObjectMap,
+							predicateObjectMapPredicate_predicateMap,
+							predicateObjectMapObject_predicateMap);
 		r2rml.add(predicateObjectMapStatement_predicateMap);
 		
 		// 2) the statement for [#1] rr:objectMap [#3]
@@ -250,10 +253,11 @@ public class R2RMLExporter {
 		// [#3]
 		RDFNode prediacteObjectMapObject_objectMap = 
 				(RDFNode) objectMapStatements.get(0).getSubject();
-		Statement predicateObjectMapStatement_objectMap = r2rml.createStatement(
-											triplesMapObject_predicateObjectMap,
-											prediacteObjectMapPrediacte_objectMap,
-											prediacteObjectMapObject_objectMap);
+		Statement predicateObjectMapStatement_objectMap =
+					r2rml.createStatement(
+							triplesMapObject_predicateObjectMap,
+							prediacteObjectMapPrediacte_objectMap,
+							prediacteObjectMapObject_objectMap);
 		r2rml.add(predicateObjectMapStatement_objectMap);
 		
 		// 3) the statement for <#TriplesMap2> rr:prediacteObjectMap [#1]
@@ -261,9 +265,9 @@ public class R2RMLExporter {
 				ResourceFactory.createProperty(rrNamespace, "predicateObjectMap");
 		Statement triplesMapStatement_predicateObjectMap =
 					r2rml.createStatement(
-								triplesMapSubject,
-								triplesMapPredicate_predicateObjectMap,
-								triplesMapObject_predicateObjectMap);
+							triplesMapSubject,
+							triplesMapPredicate_predicateObjectMap,
+							triplesMapObject_predicateObjectMap);
 		r2rml.add(triplesMapStatement_predicateObjectMap);
 	}
 	
@@ -349,10 +353,11 @@ public class R2RMLExporter {
 			for (PredicateAndObject result: mapPredicateAndObjects) {
 				mapObject = result.getObject();
 				mapPredicate = result.getPrediacte();
-				Statement resultStatement = r2rml.createStatement(
-														mapSubject,
-														mapPredicate,
-														mapObject);
+				Statement resultStatement =
+						r2rml.createStatement(
+									mapSubject,
+									mapPredicate,
+									mapObject);
 				results.add(resultStatement);
 			}
 			
@@ -378,10 +383,11 @@ public class R2RMLExporter {
 				Resource mapObject_uri =
 						ResourceFactory.createResource(mappingData.getURI());
 				mapPredicate = ResourceFactory.createProperty(rrNamespace, "constant");
+				
 				resultStatement = r2rml.createStatement(
-												mapSubject,
-												mapPredicate,
-												mapObject_uri);
+									mapSubject,
+									mapPredicate,
+									mapObject_uri);
 				results.add(resultStatement);
 				
 				return results;
@@ -390,7 +396,7 @@ public class R2RMLExporter {
 			} else if (mappingData.isLiteral()) {
 				
 				mapObject = ResourceFactory.createPlainLiteral(
-									mappingData.getLiteral().toString(false));
+								mappingData.getLiteral().toString(false));
 			
 			// else (e.g. blank node)
 			} else { // mapSubject.isBlank() == true
@@ -402,9 +408,9 @@ public class R2RMLExporter {
 			mapPredicate = ResourceFactory.createProperty(rrPrefix, "constant");
 			
 			resultStatement = r2rml.createStatement(
-											mapSubject,
-											mapPredicate,
-											mapObject);
+									mapSubject,
+									mapPredicate,
+									mapObject);
 			results.add(resultStatement);
 		}
 		
