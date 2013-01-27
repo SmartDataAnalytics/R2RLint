@@ -58,7 +58,8 @@ public class Run {
 						"With " +
 							"?s = uri(concat('http://ex.org/person/', ?id) " +
 							//"?s = plainLiteral(?id) " +
-							"?t = plainLiteral(?name, 'en')" +
+							//"?t = plainLiteral(?name, 'en')" +
+							"?t = typedLiteral(?name, xsd:string)" +
 						"From [[SELECT * FROM person]]"
 				);
 		

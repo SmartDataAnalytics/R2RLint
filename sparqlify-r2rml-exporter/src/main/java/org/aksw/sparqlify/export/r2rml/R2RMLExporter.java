@@ -12,6 +12,7 @@ import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.Node_URI;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -32,6 +33,10 @@ public class R2RMLExporter {
 	int idCounter;
 	String rrNamespace = "http://www.w3.org/ns/r2rml#";
 	String rrPrefix = "rr";
+	String typedLiteralFunctionIRI = "http://aksw.org/sparqlify/typedLiteral";
+	String plainLiteralFunctionIRI = "http://aksw.org/sparqlify/plainLiteral";
+	String blankNodeFunctionIRI = "http://aksw.org/sparqlify/blankNode";
+	String uriFunctionIRI = "http://aksw.org/sparqlify/uri";
 	FunctionLabel concatLabel = new FunctionLabel("concat");
 	FunctionLabel functionLabel = new FunctionLabel("function");
 
@@ -374,26 +379,26 @@ public class R2RMLExporter {
 				mapPredicate = result.getPrediacte();
 				Statement resultStatement;
 				RDFNode rawObject = result.getRawObject();
-				
+
 				// object is literal
 				if (rawObject.isLiteral()) {
 					mapObject = rawObject.asLiteral();
 					resultStatement = r2rml.createStatement(mapSubject,
-						mapPredicate, mapObject);
-				
+							mapPredicate, mapObject);
+
 				// object is blank node
 				} else if (rawObject.isAnon()) {
 					Resource mapResObject = rawObject.asResource();
 					resultStatement = r2rml.createStatement(mapSubject,
 							mapPredicate, mapResObject);
-					
+
 				// object is resource
 				} else {
 					Resource mapResObject = rawObject.asResource();
 					resultStatement = r2rml.createStatement(mapSubject,
 							mapPredicate, mapResObject);
 				}
-				
+
 				results.add(resultStatement);
 			}
 
@@ -474,6 +479,8 @@ public class R2RMLExporter {
 			Collection<RestrictedExpr> restrictions) {
 		String exprStr = "";
 		String langTag = null;
+		Node_URI type = null;
+		
 		List<PredicateAndObject> results = new ArrayList<PredicateAndObject>();
 
 		for (int i = 0; i < restrictions.size(); i++) {
@@ -486,6 +493,7 @@ public class R2RMLExporter {
 			/*
 			 * handle functions:
 			 * - plainLiteral (explicitly)
+			 * - typedLiteral
 			 * - blankNode (explicitly)
 			 * - other (generic)
 			 */
@@ -498,7 +506,8 @@ public class R2RMLExporter {
 				/*
 				 * plainLiteral
 				 */
-				if (expression.getFunction().getFunctionIRI() == "http://aksw.org/sparqlify/plainLiteral") {
+				if (expression.getFunction().getFunctionIRI()
+						.equals(plainLiteralFunctionIRI)) {
 					
 					// if the outermost function is plainLiteral( ... ) with...
 
@@ -547,13 +556,59 @@ public class R2RMLExporter {
 						}
 					}
 				
-				} else if (expression.getFunction().getFunctionIRI().equals("http://aksw.org/sparqlify/blankNode")) {
-				//} else if (expression.getFunction().getFunctionSymbol().equals(functionLabel)) {
-					// TODO: go on here
-					mapPredicate = ResourceFactory.createProperty(rrNamespace, "constant");
+				/*
+				 * typed literal
+				 */
+				} else if (expression.getFunction().getFunctionIRI()
+						.equals(typedLiteralFunctionIRI)) {
+					
+					// rr:column
+					if (firstArg.isVariable()) {
+						mapPredicate = ResourceFactory.createProperty(rrNamespace, "column");
+						
+						// Yes, this is  a bit goofy, but I have to strip off the
+						// curly braces added in the processRestrExpr method before.
+						// This is necessary because down there I could not check
+						// if the variable would end up in a rr:template or
+						// rr:column literal
+						int strlength = exprStr.length();
+						exprStr = exprStr.substring(1, strlength - 1);
+						
+					// rr:template
+					} else if (firstArg.isFunction()) {
+						mapPredicate = ResourceFactory.createProperty(rrNamespace, "template");
+						
+					// rr:constant
+					} else {
+						mapPredicate = ResourceFactory.createProperty(
+								rrNamespace, "constant");
+					}
+					
+					// get type
+					List<Expr> funcArgs = expression.getFunction().getArgs();
+					
+					if (funcArgs.size() > 1) {
+						// there is more than one argument, like in
+						// typedLiteral(?foo, xsd:date)
+						if (funcArgs.get(1).isConstant()
+								&& funcArgs.get(1).getConstant().isIRI()) {
+							// looks like this could be a language tag
+							type = (Node_URI) funcArgs.get(1).getConstant()
+									.getNode();
+						}
+					}
+					
+				/*
+				 * blank node
+				 */
+				} else if (expression.getFunction().getFunctionIRI()
+						.equals(blankNodeFunctionIRI)) {
+					
+					mapPredicate = ResourceFactory.createProperty(rrNamespace,
+							"constant");
 					Resource mapObject = ResourceFactory.createResource();
-					PredicateAndObject result = new PredicateAndObject(mapPredicate,
-							mapObject);
+					PredicateAndObject result = new PredicateAndObject(
+							mapPredicate, mapObject);
 					results.add(result);
 					continue;
 
@@ -589,10 +644,36 @@ public class R2RMLExporter {
 			if (langTag != null) {
 				PredicateAndObject rrlanguage = buildLangPredAndObj(langTag);
 				results.add(rrlanguage);
+			} else if (type != null) {
+				PredicateAndObject rrDataType = buildDataTypePredAndObj(type);
+				results.add(rrDataType);
 			}
 		}
 
 		return results;
+	}
+	
+	/**
+	 * Builds the predicate and object of a data type definition like
+	 * [] rr:dataType xsd:date
+	 * 
+	 * @param type
+	 * 			a Node_URI object containing the type resource URI
+	 * @return a PredicateAndObject object containing the predicate
+	 * 			(rr:dataType) and the object (e.g. xsd:string) of the
+	 * 			rr:dataType expression
+	 */
+	private PredicateAndObject buildDataTypePredAndObj(Node_URI type) {
+		Property rrDataTypePredicate = ResourceFactory.createProperty(
+				rrNamespace, "dataType");
+		// FIXME: there must be a better way of converting Node_URI to Resource
+		Resource rrDataTypeObject = ResourceFactory.createResource(type
+				.toString());
+		
+		PredicateAndObject rrDataType = new PredicateAndObject(
+				rrDataTypePredicate, rrDataTypeObject);
+		
+		return rrDataType;
 	}
 	
 	/**
@@ -603,7 +684,8 @@ public class R2RMLExporter {
 	 * @param langTag
 	 *            a String containing a language abbreviation like 'en' or 'de'
 	 * @return a PredicateAndObject object containing the predicate
-	 *         (rr:language) and object ("en") of the rr:language expression
+	 *         (rr:language) and object (e.g. "en") of the rr:language
+	 *         expression
 	 */
 	private PredicateAndObject buildLangPredAndObj(String langTag) {
 		Property rrLangPredicate = ResourceFactory.createProperty(rrNamespace,
@@ -638,40 +720,37 @@ public class R2RMLExporter {
 		if (expr.isFunction()) {
 			ExprFunction func = expr.getFunction();
 
+			// concat( ... )
+			if (func.getFunctionSymbol().equals(concatLabel)) {
+			List<Expr> args = func.getArgs();
+			for (Expr arg : args) {
+				exprStr += processRestrExpr(arg);
+			}
+			
 			// uri( ... )
-			if (func.getFunctionIRI() == "http://aksw.org/sparqlify/uri") {
+			} else if (func.getFunctionIRI().equals(uriFunctionIRI)) {
 				// there should be just one argument here
 				Expr subExpr = func.getArgs().get(0);
 				exprStr += processRestrExpr(subExpr);
 
-			// concat( ... )
-			} else if (func.getFunctionSymbol().equals(concatLabel)) {
-				List<Expr> args = func.getArgs();
-				for (Expr arg : args) {
-					exprStr += processRestrExpr(arg);
-				}
 
 			// plainLiteral( ... )
-			} else if (func.getFunctionIRI() == "http://aksw.org/sparqlify/plainLiteral") {
+			} else if (func.getFunctionIRI().equals(plainLiteralFunctionIRI)) {
 				// I am only interested in the first argument here, since a
 				// possible second argument containing a language tag is only
 				// of interest, if the plainLiteral is the most outer function
-				// which is handled in a different place
+				// which is handled in a different place.
+				Expr subExpr = func.getArgs().get(0);
+				exprStr += processRestrExpr(subExpr);
+			
+			// typedLiteral
+			} else if (func.getFunctionIRI().equals(typedLiteralFunctionIRI)) {
+				// As above I am only interested in the first argument here
+				// since the second argument stating which type the first
+				// argument has, should be processed in a different place.
 				Expr subExpr = func.getArgs().get(0);
 				exprStr += processRestrExpr(subExpr);
 			}
-			
-			// typedLiteral
-			// TODO: implement
-			
-			// urlEncode
-			// TODO: implement
-			
-			// urlDecode
-			// TODO: implement
-			
-			// arithmetic expressions
-			// TODO: implement
 
 		/*
 		 * variables and strings
