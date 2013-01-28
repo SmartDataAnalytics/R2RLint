@@ -31,14 +31,17 @@ public class R2RMLExporter {
 
 	Collection<ViewDefinition> viewDefs;
 	int idCounter;
-	String rrNamespace = "http://www.w3.org/ns/r2rml#";
-	String rrPrefix = "rr";
-	String typedLiteralFunctionIRI = "http://aksw.org/sparqlify/typedLiteral";
-	String plainLiteralFunctionIRI = "http://aksw.org/sparqlify/plainLiteral";
-	String blankNodeFunctionIRI = "http://aksw.org/sparqlify/blankNode";
-	String uriFunctionIRI = "http://aksw.org/sparqlify/uri";
-	FunctionLabel concatLabel = new FunctionLabel("concat");
-	FunctionLabel functionLabel = new FunctionLabel("function");
+	final String rrNamespace = "http://www.w3.org/ns/r2rml#";
+	final String rrPrefix = "rr";
+	final String typedLiteralFunctionIRI = "http://aksw.org/sparqlify/typedLiteral";
+	final String plainLiteralFunctionIRI = "http://aksw.org/sparqlify/plainLiteral";
+	final String blankNodeFunctionIRI = "http://aksw.org/sparqlify/blankNode";
+	final String uriFunctionIRI = "http://aksw.org/sparqlify/uri";
+	final FunctionLabel concatLabel = new FunctionLabel("concat");
+	final FunctionLabel functionLabel = new FunctionLabel("function");
+	final String literalType = "Literal";
+	final String bNodeType = "BlankNode";
+	final String uriType = "IRI";
 
 	// just needed because I know no better way to let a method return multiple
 	// values
@@ -73,7 +76,7 @@ public class R2RMLExporter {
 	 * @param viewDefs
 	 *            a Collection<ViewDefinition> containing view definition data
 	 */
-	public R2RMLExporter(Collection<ViewDefinition> viewDefs) {
+	public R2RMLExporter(final Collection<ViewDefinition> viewDefs) {
 		this.viewDefs = viewDefs;
 		idCounter = 1;
 	}
@@ -420,6 +423,7 @@ public class R2RMLExporter {
 				 *   returned to not go through any further ordinary processing
 				 */
 
+				
 				Resource mapObject_uri = ResourceFactory
 						.createResource(mappingData.getURI());
 				mapPredicate = ResourceFactory.createProperty(rrNamespace,
@@ -480,6 +484,7 @@ public class R2RMLExporter {
 		String exprStr = "";
 		String langTag = null;
 		Node_URI type = null;
+		String termType = null;
 		
 		List<PredicateAndObject> results = new ArrayList<PredicateAndObject>();
 
@@ -510,6 +515,7 @@ public class R2RMLExporter {
 						.equals(plainLiteralFunctionIRI)) {
 					
 					// if the outermost function is plainLiteral( ... ) with...
+					termType = literalType;
 
 					// ...a variable as first argument --> rr:column
 					if (firstArg.isVariable()) {
@@ -561,6 +567,8 @@ public class R2RMLExporter {
 				 */
 				} else if (expression.getFunction().getFunctionIRI()
 						.equals(typedLiteralFunctionIRI)) {
+
+					termType = literalType;
 					
 					// rr:column
 					if (firstArg.isVariable()) {
@@ -604,6 +612,8 @@ public class R2RMLExporter {
 				} else if (expression.getFunction().getFunctionIRI()
 						.equals(blankNodeFunctionIRI)) {
 					
+					termType = bNodeType;
+					
 					mapPredicate = ResourceFactory.createProperty(rrNamespace,
 							"constant");
 					Resource mapObject = ResourceFactory.createResource();
@@ -614,6 +624,9 @@ public class R2RMLExporter {
 
 				// rr:template
 				} else {
+					if (expression.getFunction().getFunctionIRI().equals(uriFunctionIRI)) {
+						termType = uriType;
+					}
 					mapPredicate = ResourceFactory.createProperty(rrNamespace,
 							"template");
 				}
@@ -641,6 +654,11 @@ public class R2RMLExporter {
 
 			results.add(result);
 			
+			if (termType != null) {
+				PredicateAndObject termTypePredAndObj = buildTermTypePredAndObj(termType);
+				results.add(termTypePredAndObj);
+			}
+			
 			if (langTag != null) {
 				PredicateAndObject rrlanguage = buildLangPredAndObj(langTag);
 				results.add(rrlanguage);
@@ -651,6 +669,16 @@ public class R2RMLExporter {
 		}
 
 		return results;
+	}
+	
+	/**
+	 * TODO: comment
+	 */
+	private PredicateAndObject buildTermTypePredAndObj(String termType) {
+		Property termTypePredicate = ResourceFactory.createProperty(rrNamespace, "termType");
+		Resource termTypeObjct = ResourceFactory.createResource(rrNamespace + termType);
+
+		return new PredicateAndObject(termTypePredicate, termTypeObjct);
 	}
 	
 	/**

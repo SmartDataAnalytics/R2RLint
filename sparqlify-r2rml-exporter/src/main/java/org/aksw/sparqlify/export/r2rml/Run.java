@@ -74,8 +74,8 @@ public class Run {
 						"} " +
 						"With " +
 							"?s = uri(concat('http://ex.org/dept/', ?id) " +
-							"?t = bNode(?id) " +
-							//"?t = plainLiteral(concat('FOOO', 'OOH!', ?age), 'en')" +
+							//"?t = bNode(?id) " +
+							"?t = plainLiteral(concat('http:/foo.org/', 'OOH!', ?age), 'en')" +
 						"From [[" +
 							"SELECT id, name " +
 							"FROM dept ]]" // +
