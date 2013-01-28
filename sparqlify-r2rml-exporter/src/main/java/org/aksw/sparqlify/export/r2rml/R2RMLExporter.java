@@ -43,6 +43,7 @@ public class R2RMLExporter {
 	final String bNodeType = "BlankNode";
 	final String uriType = "IRI";
 
+	
 	// just needed because I know no better way to let a method return multiple
 	// values
 	private class PredicateAndObject {
@@ -72,6 +73,7 @@ public class R2RMLExporter {
 		}
 	}
 
+	
 	/**
 	 * @param viewDefs
 	 *            a Collection<ViewDefinition> containing view definition data
@@ -81,6 +83,7 @@ public class R2RMLExporter {
 		idCounter = 1;
 	}
 
+	
 	/**
 	 * The actual export method returning an RDF model
 	 * 
@@ -96,6 +99,7 @@ public class R2RMLExporter {
 		return r2rml;
 	}
 
+	
 	/**
 	 * Derives an R2RML graph from the given Sparqlify-ML view definition input
 	 * 
@@ -117,6 +121,7 @@ public class R2RMLExporter {
 		}
 	}
 
+	
 	/**
 	 * Builds up the RDF model "r2ml" representing the R2RML structure of the
 	 * given Sparqlify-ML definitions. At this point only parts of the
@@ -264,10 +269,12 @@ public class R2RMLExporter {
 		// [#2]
 		RDFNode predicateObjectMapObject_predicateMap = (RDFNode) prediacteMapStatements
 				.get(0).getSubject();
+		
 		Statement predicateObjectMapStatement_predicateMap = r2rml
 				.createStatement(triplesMapObject_predicateObjectMap,
 						predicateObjectMapPredicate_predicateMap,
 						predicateObjectMapObject_predicateMap);
+
 		r2rml.add(predicateObjectMapStatement_predicateMap);
 
 		// 2) the statement for [#1] rr:objectMap [#3]
@@ -276,22 +283,27 @@ public class R2RMLExporter {
 		// [#3]
 		RDFNode prediacteObjectMapObject_objectMap = (RDFNode) objectMapStatements
 				.get(0).getSubject();
+		
 		Statement predicateObjectMapStatement_objectMap = r2rml
 				.createStatement(triplesMapObject_predicateObjectMap,
 						prediacteObjectMapPrediacte_objectMap,
 						prediacteObjectMapObject_objectMap);
+		
 		r2rml.add(predicateObjectMapStatement_objectMap);
 
 		// 3) the statement for <#TriplesMap2> rr:prediacteObjectMap [#1]
 		Property triplesMapPredicate_predicateObjectMap = ResourceFactory
 				.createProperty(rrNamespace, "predicateObjectMap");
+
 		Statement triplesMapStatement_predicateObjectMap = r2rml
 				.createStatement(triplesMapSubject,
 						triplesMapPredicate_predicateObjectMap,
 						triplesMapObject_predicateObjectMap);
+
 		r2rml.add(triplesMapStatement_predicateObjectMap);
 	}
 
+	
 	/**
 	 * Builds up the one triple that states where the actual data for the target
 	 * mapping comes from. Such a source can be simply a database table or an
@@ -343,6 +355,7 @@ public class R2RMLExporter {
 		return logicalTblStatement;
 	}
 
+	
 	/**
 	 * Builds up statements like
 	 * [] rr:template "http://data.example.com/department/{DEPTNO}" or
@@ -361,6 +374,7 @@ public class R2RMLExporter {
 	 */
 	private List<Statement> buildMapStatements(Model r2rml, Node mappingData,
 			VarDefinition varDefs) {
+		
 		List<Statement> results = new ArrayList<Statement>();
 
 		// a blank node []
@@ -379,6 +393,7 @@ public class R2RMLExporter {
 			List<PredicateAndObject> mapPredicateAndObjects = processRestrictions(restrictions);
 
 			for (PredicateAndObject result : mapPredicateAndObjects) {
+				
 				mapPredicate = result.getPrediacte();
 				Statement resultStatement;
 				RDFNode rawObject = result.getRawObject();
@@ -423,7 +438,6 @@ public class R2RMLExporter {
 				 *   returned to not go through any further ordinary processing
 				 */
 
-				
 				Resource mapObject_uri = ResourceFactory
 						.createResource(mappingData.getURI());
 				mapPredicate = ResourceFactory.createProperty(rrNamespace,
@@ -443,8 +457,11 @@ public class R2RMLExporter {
 
 			// else (e.g. blank node)
 			} else { // mapSubject.isBlank() == true
-				// Hmm... I think this violates the standard. So lean back and
-				// enjoy the trace...
+				/*
+				 * Hmm... I think this violates the standard. So lean back and
+				 *  enjoy the trace...
+				 */
+				
 				mapObject = null;
 			}
 
@@ -458,6 +475,7 @@ public class R2RMLExporter {
 		return results;
 	}
 
+	
 	/**
 	 * Builds up an R2RML literal string -- the actual mapping value that can be
 	 * constructed like this: "http://data.example.com/department/{DEPTNO}" .
@@ -481,6 +499,7 @@ public class R2RMLExporter {
 	 */
 	private List<PredicateAndObject> processRestrictions(
 			Collection<RestrictedExpr> restrictions) {
+		
 		String exprStr = "";
 		String langTag = null;
 		Node_URI type = null;
@@ -489,6 +508,7 @@ public class R2RMLExporter {
 		List<PredicateAndObject> results = new ArrayList<PredicateAndObject>();
 
 		for (int i = 0; i < restrictions.size(); i++) {
+			
 			Property mapPredicate;
 
 			RestrictedExpr restriction = (RestrictedExpr) restrictions
@@ -498,7 +518,7 @@ public class R2RMLExporter {
 			/*
 			 * handle functions:
 			 * - plainLiteral (explicitly)
-			 * - typedLiteral
+			 * - typedLiteral (explicitly)
 			 * - blankNode (explicitly)
 			 * - other (generic)
 			 */
@@ -542,12 +562,14 @@ public class R2RMLExporter {
 						 */
 						mapPredicate = ResourceFactory.createProperty(
 								rrNamespace, "template");
+					
 					// ...a constant --> rr:constant
 					} else {
 						mapPredicate = ResourceFactory.createProperty(
 								rrNamespace, "constant");
 					}
 
+					
 					// get language tag (if set)
 					List<Expr> funcArgs = expression.getFunction().getArgs();
 					
@@ -561,7 +583,8 @@ public class R2RMLExporter {
 							langTag = funcArgs.get(1).getConstant().asString();
 						}
 					}
-				
+
+					
 				/*
 				 * typed literal
 				 */
@@ -572,6 +595,7 @@ public class R2RMLExporter {
 					
 					// rr:column
 					if (firstArg.isVariable()) {
+						
 						mapPredicate = ResourceFactory.createProperty(rrNamespace, "column");
 						
 						// Yes, this is  a bit goofy, but I have to strip off the
@@ -600,12 +624,13 @@ public class R2RMLExporter {
 						// typedLiteral(?foo, xsd:date)
 						if (funcArgs.get(1).isConstant()
 								&& funcArgs.get(1).getConstant().isIRI()) {
-							// looks like this could be a language tag
+							// looks like this could be a type declaration
 							type = (Node_URI) funcArgs.get(1).getConstant()
 									.getNode();
 						}
 					}
 					
+
 				/*
 				 * blank node
 				 */
@@ -620,6 +645,18 @@ public class R2RMLExporter {
 					PredicateAndObject result = new PredicateAndObject(
 							mapPredicate, mapObject);
 					results.add(result);
+					
+					PredicateAndObject bNodeTypePredAndObj = buildTermTypePredAndObj(bNodeType);
+					
+					results.add(bNodeTypePredAndObj);
+					
+					/*
+					 * It would be
+					 * - wrong going through the build-up process of the literal object
+					 * - useless to go through the type or language tag detection
+					 *   process
+					 * so we get out of this loop here.  
+					 */
 					continue;
 
 				// rr:template
@@ -671,8 +708,16 @@ public class R2RMLExporter {
 		return results;
 	}
 	
+	
 	/**
-	 * TODO: comment
+	 * Builds the predicate and object of the rr:termType definition, e.g
+	 * [] rr:termType rr:Literal
+	 * 
+	 * @param termType
+	 * 			one of literalType, bNodeType and uriType
+	 * @return a PredicateAndObject object containing the predicate
+	 * 			(rr:termType) and the object (e.g. rr:Literal) of the term type
+	 * 			definition 
 	 */
 	private PredicateAndObject buildTermTypePredAndObj(String termType) {
 		Property termTypePredicate = ResourceFactory.createProperty(rrNamespace, "termType");
@@ -680,6 +725,7 @@ public class R2RMLExporter {
 
 		return new PredicateAndObject(termTypePredicate, termTypeObjct);
 	}
+	
 	
 	/**
 	 * Builds the predicate and object of a data type definition like
@@ -692,8 +738,10 @@ public class R2RMLExporter {
 	 * 			rr:dataType expression
 	 */
 	private PredicateAndObject buildDataTypePredAndObj(Node_URI type) {
+		
 		Property rrDataTypePredicate = ResourceFactory.createProperty(
 				rrNamespace, "dataType");
+		
 		// FIXME: there must be a better way of converting Node_URI to Resource
 		Resource rrDataTypeObject = ResourceFactory.createResource(type
 				.toString());
@@ -703,6 +751,7 @@ public class R2RMLExporter {
 		
 		return rrDataType;
 	}
+	
 	
 	/**
 	 * Builds the predicate and object of a language restriction like
@@ -726,6 +775,7 @@ public class R2RMLExporter {
 		return result;
 	}
 
+	
 	/**
 	 * Processes (at the time of writing some) known functions available in the
 	 * Sparqlify-ML, variables and constant strings. Since arguments of the
