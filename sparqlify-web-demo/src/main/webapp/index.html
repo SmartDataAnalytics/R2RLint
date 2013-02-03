@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html lang="en">
+<html>
+	<head>
+		<title>SparqlifyWeb</title>
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<link href="css/bootstrap.css" rel="stylesheet" media="screen">
+		<script src="js/bootstrap.js"></script>
+		<link rel="stylesheet" type="text/css" href="/sparqlify/sparqlify.css">
+		<link href="bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+		<script src="bootstrap-editable/js/bootstrap-editable.js"></script>	
+ 		<script type="text/javascript">
+			//var url = "http://localhost/test/sparqlify-demo-backend-test?sql=fss";
+			// create HttpRequest
+		   $(window).load(function() {
+			   
+			   //submit() for buttonEvent
+			   var sqlTextArea = $("#sql");
+			   var submitSqlBtn = $("#submitSql");
+				console.log("Button SQL:", submitSqlBtn);
+
+			   submitSqlBtn.click(function(ev) {
+				   var v = sqlTextArea.val().trim();
+				   submitSQL(v);
+			   });
+			   
+			   var mappingTextArea = $("#mapping");
+			   var submitMappingBtn = $("#submitMapping");
+				console.log("Button Mapping:", submitMappingBtn);
+
+			   submitMappingBtn.click(function(ev){
+					var w = mappingTextArea.val();
+					submitMAP(w);
+			   });
+
+			});
+		   // Funktion fuer SQL
+		   function submitSQL(daten)
+		   {
+				var params = {sql: daten};
+				var url = "http://localhost/test/setSql";
+				$.ajax({url: url, data: params}).success(function(response) {
+					var log = JSON.stringify(response)+"\r"+JSON.stringify(daten);
+					$("#log").text(log);
+				}).fail(function(msg) {
+					$("#log").text(JSON.stringify(msg));
+				});
+		   }
+		   // Funktion fuer Mapping
+		   function submitMAP(daten)
+		   {
+				var params = {mapping: daten};
+				var url = "http://localhost/test/setMapping";
+				$.ajax({url: url, data: params}).success(function(response) {
+					var output = JSON.stringify(response)+"\r"+JSON.stringify(daten);
+					$("#output").text(output);
+				}).fail(function(msg) {
+					$("#output").text(JSON.stringify(msg));
+				});
+		   }		   
+	</script>
+	</head>
+	<body>
+		
+		<!-- Titel der Webseite -->
+		<div class="row">
+			<div class="span8 offset1">
+				<h2>Sparqlify Web</h2>
+			</div>			    
+		</div>
+
+		<!-- vier Tabs auf Web -->
+		<ul class="nav nav-tabs" id="Tab">
+			<li><a href="#query"><h5>Query it</h5></a>
+				<!-- SparQled on DBPedia -->
+			</li>
+			<li><a href="#map"><h5>Map it</h5></a>
+				<!-- bootstrap-editable und RDF-Output -->
+			</li>
+			<li><a href="#post"><h5>Post it</h5></a>
+				<!-- Textarea mit SQL Statement -->				
+			</li>
+			<li class="active"><a href="#overview"><h5>Overview</h5></a>
+				<!-- Anleitung ueber Sparqlify Web -->				
+			</li>
+		</ul>
+
+		<div class="tab-content">
+
+			<!-- Query it -->
+			<div class="tab-pane" id="query">
+				
+				<!-- Flint SPARQL Editor -->
+				<h4>Flint SPARQL Editor</h4>
+				<p>Flint SPARQL Editor is an editor for SPARQL queries.</p>
+				<ul>
+					<li>Support for SPARQL 1.1</li>
+					<li>Syntax highlighting and error detection and indication as you type</li>
+					<li>Ctrl-space auto-completion is sensitive to the syntactic context at the cursor position.</li>
+					<li>Auto-completion for properties and classes, which are populated by what is actually in the dataset.</li>
+					<li>Multiple query tabs</li>
+					<li>Configurable to work with multiple endpoints</li>
+					<li>Slide out panel giving:
+						<ul>
+							<li>Keyword buttons: SPARQL keyword buttons provide a simple means to enter keywords, and the buttons are enabled/disabled according to the syntactic context</li>
+							<li>The properties and classes which occur in the dataset</li>
+							<li>Namespace prefixes for the dataset (configurable)</li>
+							<li>Sample queries for the dataset (configurable)</li>
+						</ul>
+					</li>
+					<li>Flint runs fully in the browser with no additional server-side dependency</li>
+					<li>Can be pointed to any CORS-enabled SPARQL endpoint</li>
+					<li>Easily embeddable in web pages</li>        
+				</ul>
+				<p><strong>Go to<a href="./sparqlify/FlintSparqlEditor/sparql-editor.html">&nbsp;sparql-editor</a></strong></p>
+				<Script>
+					$('#Tab a[href="#query"]').click(function (e) {
+						e.preventDefault();
+						$(this).tab('show');
+					})
+				</script>
+
+				<!-- TODO: Endpoint in Flint Sparql Editor reinlegen, um Ergebnis nach Anfrage zu zeigen -->
+			</div>
+
+			<!-- Map it -->
+			<div class="tab-pane" id="map">
+				<div class="container-fluid">
+					<div class="row-fluid">
+						<div class="span7">
+							<p><strong>Edit your created Table</strong></p>
+							
+							<!-- bootstrap-editable -->							
+							<div id="msg" class="alert hide"></div>
+							<table id="user" class="table table-bordered table-striped" style="clear: both">
+								<tbody style="margin: auto;"> 
+									<tr>         
+										<td width="50%">ID</td>
+										<td width="50%"><a href="#" id="ID" class="myeditable" data-type="text" data-pk="1" data-placeholder="Enter ID"></a></td>
+										<script>
+											$.fn.editable.defaults.mode = 'inline';
+											$('#ID').editable({
+											//url: '/post),
+											});
+										</script>
+									</tr>
+									<tr>         
+										<td>name</td>
+										<td><a href="#" id="name" class="myeditable" data-type="text" data-pk="1" data-placement="right" data-placeholder="Enter name"></a></td>
+										<script>
+											$.fn.editable.defaults.mode = 'inline';
+											$('#name').editable({
+											//url: '/post),
+											});
+										</script>
+									</tr>  
+									<tr>         
+										<td>age</td>
+										<td><a href="#" id="age" class="myeditable" data-type="text" data-pk="1" data-placement="right" data-placeholder="Enter age"></a></td>
+										<script>
+											$.fn.editable.defaults.mode = 'inline';
+											$('#age').editable({
+											//url: '/post),
+											});
+										</script>
+									</tr>
+									<tr>         
+										<td>country</td>
+										<td><a href="#" id="country" class="myeditable" data-type="text" data-pk="1" data-placement="right" data-placeholder="Enter country"></a></td>
+										<script>
+											$.fn.editable.defaults.mode = 'inline';
+											$('#country').editable({
+											//url: '/post),
+											});
+										</script>
+									</tr>
+					              </tbody>
+							</table>
+							<button id="submit" class="btn btn-primary" type="submit"><i class="icon-arrow-right"></i>&nbsp;Submit</button>
+							<button id="reset" class="btn btn-primary pull-right" type="reset">Reset</button>
+							
+							<div class="row-fluid">
+							</br>
+							<!-- !!Textformat in Textarea -->
+							<textarea id="mapping" class="span12" style="resize:none" rows="10">
+Prefix rr: <http://www.w3.org/ns/r2rml#>
+Prefix foaf: <http://xmlns.com/foaf/0.1/>
+Prefix ex: <http://example.com/>
+Prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
+Create View TriplesMap1 As
+ Construct {
+   ?s foaf:name ?o .
+ }
+ With
+ ?s = uri(concat("http://example.com/", ?Name))
+ ?o = plainLiteral(?Name)
+From
+ Student
+							</textarea>
+							<button id="submitMapping" class="btn btn-primary" type="submit"><i class="icon-arrow-right"></i>&nbsp;mapping</button>
+							</div>
+
+							<!-- Funktion von Button "Reset" -->
+							<Script>
+								$('#reset').click(function() {
+									$('.myeditable').editable('setValue', null)
+									.editable('option', 'pk', null)
+									.removeClass('editable-unsaved');
+									$('#submit').show();
+									$('#msg').hide();
+								});
+							</Script>
+						</div>
+						<div class="span5">
+						<!-- Ausgabebereich fuer Mapping Ergebnisse -->
+						<textarea id="output" class="span12" style="resize:none" rows="23">Output:</textarea>
+						</div>
+					</div>
+				</div>
+				<Script>
+					$('#Tab a[href="#map"]').click(function (e) {
+						e.preventDefault();
+						$(this).tab('show');
+					})
+				</script>
+			</div>
+
+			<!-- Post it -->
+			<div class="tab-pane" id="post">
+				<div class="container-fluid">
+					<div class="row-fluid">
+
+						<!-- Input -->
+						<div class="span8">
+							<p><strong>Enter you SQL Statement</strong></p>
+
+							<!-- Textarea mit SQL Statemente -->
+							<textarea id="sql" class="span12" style="resize:none" rows="20">CREATE TABLE "Student" ("Name" varchar(50)); INSERT INTO "Student" ("Name") VALUES ('Venus');</textarea>					
+							
+							<!-- Button zur Abgabe der Staremente -->
+							<div class="row-fluid">
+								<Button id="submitSql" class="btn btn-primary" type="submit""><i class="icon-arrow-right"></i>&nbsp;Create</Button>
+							</div>
+						</div>
+
+						<!-- Output -->
+						<div class="span4">
+							<p><strong>Logfile Output</strong></p>
+
+							<!-- Textarea mit Logs -->
+							<textarea id="log" class="span12" style="resize:none" rows="20">Log:</textarea>
+						</div>
+					</div>
+				</div>
+				<Script>
+					$('#Tab a[href="#post"]').click(function (e) {
+						e.preventDefault();
+						$(this).tab('show');
+					})
+				</script>
+			</div>
+
+			<!-- Overview -->
+			<div class="tab-pane active" id="overview">
+				<p><h4>welcome to Sparqlify Web</h4></p>
+				</br>
+				</br>
+				<!-- Vorstellung -->
+				<p><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sparqlify Web is an online application which is based on the project <a href="http://aksw.org/Projects/Sparqlify.html">sparqlify</a>&nbsp;as a terse Demo.</h6></p> 
+				<p><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This application supports creation of data on H2Database and to view or edit them in the form of table, finally it can query them with SPARQL.</h6></p>
+				<p><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By "Query it" we use a powerful software called Flint SPARQL Editor, which offers the SPARQL-Output that can be chosen in 3 versions, concretely text, JSON and xml.</h6></p>
+				<p><h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;So enjoy yourself now!</h6></p>
+				<Script>
+					$('#Tab a[href="#overview"]').click(function (e) {
+						e.preventDefault();
+						$(this).tab('show');
+					})
+				</script>
+			</div>
+		</div>		
+	</body>
+</html>

@@ -34,13 +34,6 @@ public class RestServiceMain {
 	 */
 	public static void main(String[] args) throws Exception {
 		logger.info("Launching server...");
-
-		/*
-		PropertyConfigurator.configure("log4j.properties");
-		LogManager.getLogManager().readConfiguration(
-				new FileInputStream("jdklog.properties"));
-		*/
-
 		CommandLineParser cliParser = new GnuParser();
 
 		cliOptions.addOption("P", "port", true, "Server port");
@@ -53,10 +46,8 @@ public class RestServiceMain {
 		
 		// Parsing of command line args
 		String portStr = commandLine.getOptionValue("P", "5533");
-		//String backLogStr = commandLine.getOptionValue("B", "100");
-		//String contextStr = commandLine.getOptionValue("C", "/sparqlify");
+
 		int port = Integer.parseInt(portStr);
-		//int backLog = Integer.parseInt(backLogStr);
 		
 		ServletHolder sh = new ServletHolder(ServletContainer.class);
 
@@ -65,10 +56,6 @@ public class RestServiceMain {
 		 * For 0.8 and later the "com.sun.ws.rest" namespace has been renamed to
 		 * "com.sun.jersey". For 0.7 or early use the commented out code instead
 		 */
-		// sh.setInitParameter("com.sun.ws.rest.config.property.resourceConfigClass",
-		// "com.sun.ws.rest.api.core.PackagesResourceConfig");
-		// sh.setInitParameter("com.sun.ws.rest.config.property.packages",
-		// "jetty");
 		sh.setInitParameter(
 				"com.sun.jersey.config.property.resourceConfigClass",
 				"com.sun.jersey.api.core.PackagesResourceConfig");

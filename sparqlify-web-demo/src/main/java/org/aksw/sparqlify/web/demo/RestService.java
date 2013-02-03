@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.web.demo;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import org.aksw.commons.sparql.api.core.QueryExecutionFactory;
 import org.aksw.commons.util.MapReader;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
 import org.aksw.sparqlify.core.algorithms.CandidateViewSelectorImpl;
-import org.aksw.sparqlify.core.datatypes.TypeSystem;
+import org.aksw.sparqlify.core.datatypes.DatatypeSystem;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.core.interfaces.CandidateViewSelector;
 import org.aksw.sparqlify.core.interfaces.SparqlSqlRewriter;
@@ -40,8 +41,6 @@ import com.hp.hpl.jena.query.ResultSetFormatter;
  * 
  */
 @Path("/service")
-// @Produces("application/rdf+xml")
-// @Produces("text/plain")
 public class RestService {
 
 	/**
@@ -53,9 +52,6 @@ public class RestService {
 	}
 
 	/**
-	 * TODO Diese Methode mit POST Requests zum funktionieren zu bringen.
-	 * 
-	 * 
 	 * @param sql
 	 * @param mapping
 	 * @param queryString
@@ -68,7 +64,6 @@ public class RestService {
 	public String executeTest(@QueryParam("sql") String sql,
 			@QueryParam("mapping") String mapping,
 			@QueryParam("query") String queryString) throws Exception {
-		// String rsStr = "test"; // TODO Zur Not hier ein Dummy RDF result set
 		// eintragen
 		// - am Besten wohl doch RDF Talis JSON:
 		// http://docs.api.talis.com/platform-api/output-types/rdf-json
@@ -85,71 +80,99 @@ public class RestService {
 
 		return result;
 	}
+	
 
 	@GET
 	@Produces("text/plain")
-	public String hello(@Context HttpServletRequest req,
+	@Path("/setSql")
+	public String setSql(@Context HttpServletRequest req,
 			@QueryParam("sql") String sqlString) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
 		try {
 			HttpSession session = req.getSession(true);
 
 			String sessionId = session.getId();
 			System.out.println(sessionId);
 
-			// Object oldVal = session.getAttribute("foo");
-
 			JdbcDataSource dataSource = (JdbcDataSource) session
 					.getAttribute("database");
+			
+			if (dataSource != null) {
+				Connection conn;
+				conn = dataSource.getConnection();
+				conn.createStatement().execute("SHUTDOWN");
+
+			}
+			
 			Connection conn;
 
-			if (dataSource == null) {
+			// Lade eine H2 Datenbank mit dem angegebenen SQL
+			dataSource = new JdbcDataSource();
+			dataSource.setURL("jdbc:h2:mem:" + sessionId + ";DB_CLOSE_DELAY=-1");
+			dataSource.setUser("sa");
+			dataSource.setPassword("sa");
 
-				// Lade eine H2 Datenbank mit dem angegebenen SQL
-				dataSource = new JdbcDataSource();
-				dataSource.setURL("jdbc:h2:mem:" + sessionId);
-				dataSource.setUser("sa");
-				dataSource.setPassword("sa");
+			conn = dataSource.getConnection();
 
-				conn = dataSource.getConnection();
-				conn.createStatement().executeUpdate(
-						"CREATE TABLE person (name VARCHAR)");
+			session.setAttribute("database", dataSource);
 
-				session.setAttribute("database", dataSource);
-			} else {
-				conn = dataSource.getConnection();
-			}
+			conn.createStatement().executeUpdate(sqlString);
 
-			conn.createStatement().executeUpdate(
-					"INSERT INTO person VALUES ('" + sqlString + "');");
+			map.put("success", true);
 
-			String result = "";
-			java.sql.ResultSet rs = conn.createStatement().executeQuery(
-					"Select name AS c FROM person");
-			while (rs.next()) {
-				result += " " + rs.getString("name");
-			}
-
-			return result;
 		} catch (SQLException e) {
 			String msg = e.getMessage(); 
 			
-			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("success", false);
 			map.put("errormsg", msg);
 			
-			Gson gson = new Gson();
-			String result = gson.toJson(map);
-			
-			return result;
 		}
-
-		// ExceptionUtils.getFullStackTrace(e);
-
+		Gson gson = new Gson();
+		String result = gson.toJson(map);
+		return result;
 	}
 
+	// TODO: setMapping(String mappingStr)
+	@GET
+	@Path("/setMapping")
+	@Produces("text/plain")
+	public String setMapping(@Context HttpServletRequest req,
+			@QueryParam("mapping") String mapping){
+		Map<String, Object> map = new HashMap<String, Object>();
+		 try{
+			HttpSession session = req.getSession(true);
+
+			String sessionId = session.getId();
+			System.out.println(sessionId);
+			JdbcDataSource dataSource = (JdbcDataSource) session
+					.getAttribute("database");
+			Connection conn = null;
+
+			// Erstellen der Mappings
+			Map<String, String> typeAlias = MapReader.readFromResource("/type-map.h2.tsv");
+
+			ViewDefinitionFactory vdf = SparqlifyUtils.createViewDefinitionFactory(conn, typeAlias);
+
+			ViewDefinition vd = vdf.create(mapping);
+			
+			map.put("success", true);
+		 }
+		 catch (IOException e){
+				String msg = e.getMessage(); 
+				
+				map.put("success", false);
+				map.put("errormsg", msg);
+		 }
+			
+		Gson gson = new Gson();
+		String result = gson.toJson(map);
+		return result;
+	}
+	
+	// TODO: getTriples() Wenn Fehler: dann z.B. success = false (die ist in getMapping() zu definieren)
+	
 	/**
-	 * 
-	 * 
 	 * 
 	 * @param sql
 	 * @param mapping
@@ -177,8 +200,6 @@ public class RestService {
 		conn.createStatement().executeUpdate(
 				"INSERT INTO person VALUES (1, 'Anne', 20)");
 
-		// conn.createStatement().executeQuery("Select * From person");
-
 		// Erstellen der Mappings
 		Map<String, String> typeAlias = MapReader
 				.readFromResource("/type-map.h2.tsv");
@@ -195,9 +216,7 @@ public class RestService {
 
 		// Initialisieren von Sparqlify
 		RdfViewSystemOld.initSparqlifyFunctions();
-		TypeSystem datatypeSystem = SparqlifyUtils
-				.createDefaultDatatypeSystem();
-		// SqlTranslator sqlTranslator = new SqlTranslatorImpl(datatypeSystem);
+		DatatypeSystem datatypeSystem = null;
 
 		SparqlSqlRewriter rewriter = SparqlifyUtils.createTestRewriter(
 				candidateViewSelector, datatypeSystem);
@@ -209,11 +228,6 @@ public class RestService {
 				.createQueryExecution("Select ?s ?p ?o { ?s ?p ?o }");
 		ResultSet rs = qe.execSelect();
 		String rsStr = ResultSetFormatter.asText(rs);
-
-		// QueryExecution qe =
-		// qef.createQueryExecution("Construct { ?s ?p ?o } WHERE { ?s ?p ?o }");
-		// Model model = qe.execConstruct();
-		// String rsStr = ModelUtils.toString(model);
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("sql", sql);
