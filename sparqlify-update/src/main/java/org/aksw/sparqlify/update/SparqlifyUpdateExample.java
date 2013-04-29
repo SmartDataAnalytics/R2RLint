@@ -2,7 +2,6 @@ package org.aksw.sparqlify.update;
 
 import java.io.File;
 import java.sql.Connection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -10,8 +9,8 @@ import java.util.Set;
 import javax.sql.DataSource;
 
 import org.aksw.commons.jena.util.ExprUtils;
-import org.aksw.commons.util.jdbc.ColumnsReference;
-import org.aksw.commons.util.jdbc.PrimaryKey;
+import org.aksw.commons.jena.util.QuadUtils;
+import org.aksw.commons.util.MapReader;
 import org.aksw.commons.util.jdbc.Schema;
 import org.aksw.sparqlify.algebra.sql.exprs2.SqlExpr;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOp;
@@ -19,19 +18,14 @@ import org.aksw.sparqlify.algebra.sql.nodes.SqlOpTable;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
 import org.aksw.sparqlify.core.TypeToken;
 import org.aksw.sparqlify.core.algorithms.CandidateViewSelectorImpl;
-import org.aksw.sparqlify.core.algorithms.ExprEvaluator;
 import org.aksw.sparqlify.core.algorithms.MappingOpsImpl;
-import org.aksw.sparqlify.core.algorithms.SqlTranslationUtils;
-import org.aksw.sparqlify.core.algorithms.SqlTranslatorImpl;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
-import org.aksw.sparqlify.core.datatypes.DatatypeSystem;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.core.interfaces.SqlTranslator;
 import org.aksw.sparqlify.database.Clause;
 import org.aksw.sparqlify.database.NestedNormalForm;
 import org.aksw.sparqlify.restriction.RestrictionManagerImpl;
-import org.aksw.sparqlify.util.MapReader;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
 import org.slf4j.Logger;
@@ -60,9 +54,9 @@ public class SparqlifyUpdateExample {
 		RdfViewSystemOld.initSparqlifyFunctions();
 		
 		
-		DatatypeSystem datatypeSystem = SparqlifyUtils.createDefaultDatatypeSystem();
-		SqlTranslator sqlTranslator = new SqlTranslatorImpl(datatypeSystem);
-		ExprEvaluator exprTransformer = SqlTranslationUtils.createDefaultEvaluator();
+		//TypeSystem datatypeSystem = SparqlifyUtils.createDefaultDatatypeSystem();
+		SqlTranslator sqlTranslator = SparqlifyUtils.createSqlRewriter(); //new SqlTranslatorImpl(datatypeSystem);
+		//ExprEvaluator exprTransformer = SqlTranslationUtils.createDefaultEvaluator();
 
 		
 		/*
@@ -70,22 +64,13 @@ public class SparqlifyUpdateExample {
 		 */
 		DataSource dataSource = SparqlifyUtils.createTestDatabase(); 
 		Connection conn = dataSource.getConnection();
-
+		
 		/*
-		 * The H2 database does not yield primary keys :/
-		 * In the worst case, we can create them ourselves in order to continue
+		 * Retrieve 
+		 * 
 		 */
-		Map<String, PrimaryKey> pkMap = new HashMap<String, PrimaryKey>();
-		String tableName = "person";
-		PrimaryKey pk = new PrimaryKey("pkPerson", new ColumnsReference(tableName, "id"));
-		pkMap.put(tableName, pk);
-		
-		Schema schema = new Schema(null, pkMap, null);
-//		schema.
-		
-		//Schema schema = Schema.create(conn);
-		System.out.println("Primary keys" + schema.getPrimaryKeys());
-		
+		Schema schema = Schema.create(conn);
+		System.out.println(schema.getPrimaryKeys());
 
 		
 		/*
@@ -158,16 +143,37 @@ public class SparqlifyUpdateExample {
 			Quad quad = viewQuad.getQuad();
 			
 			ExprList exprs = new ExprList();
-			exprs.add(new E_Equals(NodeValue.makeNode(quad.getSubject()), NodeValue.makeNode(insertQuad.getSubject())));
+
+			for(int i = 0; i < 4; ++i) {
+				Node n = QuadUtils.getNode(quad, i);
+				if(!n.isVariable()) {
+					continue;
+				}
+				
+				Var v = (Var)n;
+				
+				Node insertNode = QuadUtils.getNode(insertQuad, i);
+			
+			
+				//exprs.add(new E_Equals(NodeValue.makeNode(quad.getSubject()), NodeValue.makeNode(insertQuad.getSubject())));
+				exprs.add(new E_Equals(new ExprVar(v), NodeValue.makeNode(insertNode)));
+			}
 			
 			Expr condition = ExprUtils.andifyBalanced(exprs);
+			System.out.println("Condition: " + condition);
+			System.out.println("VarDef   : " + varDef);
+
 			
 			
 			/*
-			 * Dammit!!! This is not working as expected here.
+			 * 
 			 */
-			SqlExpr sqlExpr = MappingOpsImpl.createSqlCondition(condition, varDef, typeMap, exprTransformer, sqlTranslator);
-			System.out.println(sqlExpr);
+			SqlExpr sqlExpr = MappingOpsImpl.createSqlCondition(condition, varDef, typeMap, sqlTranslator);
+
+			
+			//SqlTranslatorImpl2.asSqlExpr(sqlExpr);
+			
+			System.out.println("Result: " + sqlExpr);
 
 			
 			

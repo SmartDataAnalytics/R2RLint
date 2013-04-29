@@ -14,8 +14,9 @@
 	<modules>
 		<module>sparqlify-r2rml-parser</module>
 		<module>sparqlify-r2rml-exporter</module>
-		<module>sparqlify-update</module>
+		<!-- module>sparqlify-update</module -->
 		<module>sparqlify-web-demo</module>
+		<module>sml-web-eval</module>
 	</modules>
 
 
@@ -37,7 +38,7 @@
 
 		<jersey.version>1.8</jersey.version>
 		<spring.version>3.1.2.RELEASE</spring.version>
-		<aksw.commons.version>0.5-SNAPSHOT</aksw.commons.version>
+		<aksw.commons.version>0.6-SNAPSHOT</aksw.commons.version>
 	</properties>
 
 	<scm>

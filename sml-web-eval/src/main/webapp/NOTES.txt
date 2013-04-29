@@ -1,0 +1,28 @@
+When requesting tasks, the following data is fetched:
+
+tasks = [{
+    id: 'task 1',
+    description: 'Complete the given mapping so that the triples created from it match the reference data set.',
+
+    tables: [{
+        /* table data in here */
+    }, {
+        /* ... */
+    }],
+    
+    initialMapping: 'Create View foobar ...',
+    userMapping: 'Whatever the user submitted last',
+    userSolutionMapping: 'The first user mapping that got accepted as a solution', // null if not solved
+    
+    referenceData: [{
+        /* talis json rdf */
+    }],
+    
+}, {
+
+/* next task */
+
+}
+
+
+]

@@ -1,0 +1,88 @@
+/**
+ * Vertically separated lists
+ * @since 0.9.5
+ *
+ * - usage: <ul class="separated">...</ul>
+ */
+ul.separated > li,
+ol.separated > li {
+    padding: 0.1em 0;
+    border-top: dotted 1px #ccc;
+}
+ul.separated > li:first-child,
+ol.separated > li:first-child {
+    border-top: none;
+}
+/* for nested lists we want a upper border */
+ul.separated > li:first-child ol.separated > li:first-child, 
+ol.separated > li:first-child ul.separated > li:first-child, 
+ul.separated > li:first-child ul.separated > li:first-child, 
+ol.separated > li:first-child ol.separated > li:first-child {
+    border-top: dotted 1px #ccc;
+}
+
+
+
+/* ---- 2.2.1. Bullets and Numbers ------------------------------------------ */
+
+.bullets-none {
+    list-style-type: none;
+    margin-left: 0;
+}
+
+
+
+/* ---- 2.6.1. Separations -------------------------------------------------- */
+
+table.separated-vertical tbody {
+    border-style:solid none;
+    border-color:#aaa;
+    border-width:1px;
+}
+
+table.separated-vertical td {
+    border-top: dotted 1px #ccc;
+}
+
+table.separated-vertical tr:first-child  td {
+    border-top: none;
+}
+
+table.separated-vertical tbody tr:first-child th,
+table.separated-vertical tbody tr:first-child td {
+/*    border-top: solid 1px #aaa; */
+    border-top: none;
+}
+
+table.separated-vertical tbody:first-child tr:first-child td,
+table.separated-vertical caption + tbody tr:first-child td,
+table.separated-vertical thead + tbody tr:first-child td,
+table.separated-vertical colgroup + tbody tr:first-child td {
+    border-top: none;
+}
+
+table.separated-vertical th {
+    border-bottom: solid 1px #aaa;
+}
+
+table.separated-vertical tr.grouptitle th { border-bottom: none; }
+
+table.separated-horizontal th,
+table.separated-horizontal td {
+    border-left: dotted 1px #ccc;
+}
+
+table.separated-horizontal tr th:first-child,
+table.separated-horizontal tr td:first-child {
+    border-left: none;
+}
+
+table.spaced-vertical th,
+table.spaced-vertical td {
+    border-top: solid 2px #fff;
+}
+
+table.spaced-horizontal th,
+table.spaced-horizontal td {
+    border-right: solid 2px #fff;
+}

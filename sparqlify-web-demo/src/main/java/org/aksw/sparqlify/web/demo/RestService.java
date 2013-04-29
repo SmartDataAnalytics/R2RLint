@@ -31,6 +31,7 @@ import org.aksw.sparqlify.core.cast.NewWorldTest;
 import org.aksw.sparqlify.core.cast.TypeSystem;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.core.interfaces.CandidateViewSelector;
+import org.aksw.sparqlify.core.interfaces.OpMappingRewriter;
 import org.aksw.sparqlify.core.interfaces.SparqlSqlRewriter;
 import org.aksw.sparqlify.core.sparql.QueryExecutionFactorySparqlifyDs;
 import org.aksw.sparqlify.util.SparqlifyUtils;
@@ -229,16 +230,19 @@ public class RestService {
 		ViewDefinition personView = vdf
 				.create("Prefix ex:<http://ex.org/> Create View person As Construct { ?s a ex:Person ; ex:name ?t } With ?s = uri(concat('http://ex.org/person/', ?ID) ?t = plainLiteral(?NAME) From person");
 
+		
 		// Laden der Mappings in die Sparqlify engine
-		CandidateViewSelector candidateViewSelector = new CandidateViewSelectorImpl();
+		CandidateViewSelector<ViewDefinition> candidateViewSelector = new CandidateViewSelectorImpl();
 		candidateViewSelector.addView(personView);
 
-		// Initialisieren von Sparqlify
 		RdfViewSystemOld.initSparqlifyFunctions();
-		TypeSystem datatypeSystem = NewWorldTest.createDefaultDatatypeSystem();
+		TypeSystem typeSystem = NewWorldTest.createDefaultDatatypeSystem();
+		OpMappingRewriter opMappingRewriter = SparqlifyUtils.createDefaultOpMappingRewriter(typeSystem);
+
+		// Initialisieren von Sparqlify
 
 		SparqlSqlRewriter rewriter = SparqlifyUtils.createTestRewriter(
-				candidateViewSelector, datatypeSystem);
+				candidateViewSelector, opMappingRewriter, typeSystem);
 		QueryExecutionFactory qef = new QueryExecutionFactorySparqlifyDs(
 				rewriter, dataSource);
 

@@ -12,27 +12,23 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
-import mapping.SparqlifyConstants;
-
+import org.aksw.commons.util.MapReader;
 import org.aksw.sparqlify.algebra.sparql.expr.E_StrConcatPermissive;
 import org.aksw.sparqlify.algebra.sql.nodes.SchemaImpl;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOp;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpTable;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
-import org.aksw.sparqlify.core.algorithms.SqlTranslatorImpl;
-import org.aksw.sparqlify.core.datatypes.DatatypeSystem;
+import org.aksw.sparqlify.core.SparqlifyConstants;
 import org.aksw.sparqlify.core.domain.input.Mapping;
 import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.core.interfaces.SqlTranslator;
-import org.aksw.sparqlify.util.MapReader;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.sdb.core.Generator;
@@ -69,9 +65,9 @@ public class ImporterR2RML {
 
 		RdfViewSystemOld.initSparqlifyFunctions();
 
-		DatatypeSystem datatypeSystem = SparqlifyUtils
-				.createDefaultDatatypeSystem();
-		SqlTranslator sqlTranslator = new SqlTranslatorImpl(datatypeSystem);
+//		TypeSystem datatypeSystem = SparqlifyUtils
+//				.createDefaultDatatypeSystem();
+		//SqlTranslator sqlTranslator = SparqlifyUtils.createSqlRewriter(); //new SqlTranslatorImpl(datatypeSystem);
 
 		DataSource dataSource = SparqlifyUtils.createTestDatabase();
 		Connection conn = dataSource.getConnection();

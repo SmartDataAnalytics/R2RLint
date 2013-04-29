@@ -1,0 +1,15 @@
+span.covered {
+	color: green
+}
+
+span.uncovered {
+	color: grey
+}
+
+span.invalid {
+	color: magenta
+}
+
+span.excessive {
+	color: red
+}
