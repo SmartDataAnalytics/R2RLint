@@ -102,7 +102,7 @@ var rdfDiff;
 		var union = _.union(expected, actual);
 		var uniq = _.uniq(union, false, rdfObjectToString);
 		var items = _.sortBy(uniq, rdfObjectToString);
-		console.log("items", items, expected, actual);
+		//console.log("items", items, expected, actual);
 
 		
 		var result = [];
@@ -112,7 +112,7 @@ var rdfDiff;
 			
 			var isExpected = myIndexOf(expected, item) != -1;
 			var isActual = myIndexOf(actual, item) != -1;
-			console.log("On item: ", item, isExpected, isActual);
+			//console.log("On item: ", item, isExpected, isActual);
 			
 			var state = ns.getState(isExpected, isActual);
 			

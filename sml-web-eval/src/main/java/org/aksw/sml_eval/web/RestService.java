@@ -133,7 +133,7 @@ public class RestService {
 	@POST
 	@Path("/register")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerClassic(
+	public String registerClassic(
 			@Context HttpServletRequest req,
 			@FormParam("username") String username,
 			@FormParam("password") String password,
@@ -141,7 +141,7 @@ public class RestService {
 			@FormParam("email")String email,
 			@FormParam("emailConfirm")String emailConfirm) throws SQLException
 	{
-		//Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> response = new HashMap<String, Object>();
 		
 		// TODO Validation
 //		if(password == null) {
@@ -150,12 +150,18 @@ public class RestService {
 		
 		Store store = new Store(dataSource);
 		
-		boolean success = store.registerUser(username, password, email);
-		if(!success) {
+		Integer userId = store.registerUser(username, password, email);
+		if(userId == null) {
 			throw new RuntimeException("Could not register user");
 		}
 		
-		return success;
+		response.put("userId", userId);
+		//response.put("success", value);
+		
+		
+		Gson gson = new Gson();
+		String result = gson.toJson(response);
+		return result;
 	}
 	
 	/**

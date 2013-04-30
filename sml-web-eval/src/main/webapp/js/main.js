@@ -1,5 +1,9 @@
 (function() {
 	
+
+	
+	
+	
 	var tableModel = {
 			name: 'Person',
 			head: [{
@@ -128,46 +132,55 @@
 			return result;
 		}
 	
+	/*		
+		var doLogin = function(data) {
+			var data = readLogin();
+			
+			$.ajax({
+				url: apiUrl + "login",
+				type: 'POST',
+				data:data
+			}).done(function() {
+				alert("Login Success");
+			}).fail(function() {
+				alert("Login Fail");
+			});
+		}
+		
+		var doRegister = function(data) {
+			var data = readRegister();
+			
+			$.ajax({
+				url: apiUrl + "register",
+				type: 'POST',
+				data:data
+			}).done(function() {
+				alert("Register Success");
+			}).fail(function() {
+				alert("Register Fail");
+			});
+		}
+		*/	
 		$(document).ready(function() {
-	
-			$('#logIn').click(function(e) {
-				e.preventDefault();
-				
+			
+			var app = org.aksw.sml_eval.app;
+			var appModel = new Backbone.Model();
+			
+			var smlEval = new app.SmlEval(appModel);
+			
+			
+			$('#logIn').click(function(ev) {
+				ev.preventDefault();
 				var data = readLogin();
-				
-				$.ajax({
-					url: apiUrl + "login",
-					type: 'POST',
-					data:data
-				}).done(function() {
-					alert("Login Success");
-				}).fail(function() {
-					alert("Login Fail");
-				});
-
+				smlEval.login(data);
 			});
-			
-			$('#registerAndLogIn').click(function(e) {
-				e.preventDefault();
-				
+
+			$('#registerAndLogIn').click(function(ev) {
+				ev.preventDefault();
 				var data = readRegister();
-				
-				$.ajax({
-					url: apiUrl + "register",
-					type: 'POST',
-					data:data
-				}).done(function() {
-					alert("Register Success");
-				}).fail(function() {
-					alert("Register Fail");
-				});
-
+				smlEval.register(data);
 			});
 
-			
-			
-			
-			
 			
 			// Twitter Bootstrap's way of enabling tabs
 			$('#tabs > ul > li > a').click(function (e) {
@@ -176,8 +189,9 @@
 		    });
 	    	$('#tabs a:first').tab('show');
 	
-	    	resetApp();
 	    	
+	    	
+	    	smlEval.reset();
 	    	
 		});
 	

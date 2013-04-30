@@ -13,3 +13,11 @@ span.invalid {
 span.excessive {
 	color: red
 }
+
+td.login-labels {
+	width: 200px;
+}
+td.login-fields {
+	width: 200px;
+}
+

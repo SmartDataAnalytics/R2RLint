@@ -47,6 +47,15 @@ public class Store {
 	}
 	
 	
+	public Integer getUserId(Connection conn, String username) throws SQLException {
+		Integer result = null;
+		String sql = "SELECT id FROM users WHERE name = ?";
+	
+		result = SqlUtils.execute(conn, sql, Integer.class, username);
+		
+		return result;		
+	}
+	
 	// Returns the user id - null if that fails
 	public Integer authenticate(String username, String password) throws SQLException
 	{
@@ -54,7 +63,7 @@ public class Store {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
-		
+			
 			String sql = "SELECT id FROM users WHERE name = ? AND password = ?";
 		
 			result = SqlUtils.execute(conn, sql, Integer.class, username, password);
@@ -68,21 +77,39 @@ public class Store {
 		return result;
 	}
 	
-	public boolean registerUser(String username, String password, String email) throws SQLException {
+	public Integer registerUser(String username, String password, String email) throws SQLException {
 		
 		// The result indicates success
-		boolean result = false;
+		Integer result;
 		
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
+			conn.setAutoCommit(false);
+			
+			
+			logger.debug("Authentication with: " + username + " " + password + " " + email);
+			
+			Integer userId = getUserId(conn, username);			
+			if(userId != null) {
+				throw new RuntimeException("User already registered");
+			}
+
 			
 			String sql = "INSERT INTO users(name, email, password) VALUES (?, ?, ?)";
 			
 			SqlUtils.execute(conn, sql, Void.class, username, email, password);
 			
-			result = true;
+			result = getUserId(conn, username);
+			
+			if(result == null) {
+				throw new RuntimeException("Internal error: User does not exist after insertion");
+			}
+			
+			conn.commit();
+			
 		} finally {
+			
 			if(conn != null) {
 				try {
 					conn.close();

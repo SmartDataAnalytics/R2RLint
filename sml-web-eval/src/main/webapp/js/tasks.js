@@ -1,6 +1,18 @@
 var tasks;
 (function(ns) {
 
+	var expected = {
+			  "http://example.org/about" : 
+			    {
+			       "http://purl.org/dc/elements/1.1/title": [ { "type" : "literal" , "value" : "Anna's Homepage" }, { "type" : "literal" , "value" : "Peter's Homepage" } ]
+			    },
+			    
+				  "http://example.org/goobar" : 
+				    {
+				       "http://purl.org/dc/elements/1.1/title": [ { "type" : "literal" , "value" : "Anna's Homepage" }, { "type" : "literal" , "value" : "Peter's Homepage" } ]
+				    },
+			};
+
 	ns.template
 		= '<div class="row-fluid">'
 		+ '    <div class="span12">'
@@ -53,7 +65,7 @@ var tasks;
 		$elResult.find('.mappingArea').val(task.initialMappings['sparqlify']);
 		
 		
-		var rd = rdfDiff.createDiff(task.referenceData, {});
+		var rd = rdfDiff.createDiff(task.referenceData, expected);
 		var rdHtml = rdfDiff.renderDiff(rd);
 		$elResult.find('.rdfdiff').html(rdHtml);
 		
