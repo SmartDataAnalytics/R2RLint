@@ -1,4 +1,4 @@
-package org.aksw.sml_eval.web;
+package org.aksw.sml_eval.core;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,8 +10,6 @@ import javax.sql.DataSource;
 
 import org.aksw.commons.util.jdbc.JdbcUtils;
 import org.aksw.commons.util.jdbc.Relation;
-import org.aksw.sml_eval.core.TaskRepo;
-import org.aksw.sml_eval.core.TaskRepoReader;
 import org.h2.jdbcx.JdbcDataSource;
 
 public class Playground {

@@ -166,9 +166,33 @@
 			var app = org.aksw.sml_eval.app;
 			var appModel = new Backbone.Model();
 			
-			var smlEval = new app.SmlEval(appModel);
+			var smlEval = new app.SmlEval({
+				model: appModel
+			});
 			
 			
+			//smlEval.on("loggedIn", function() {
+			appModel.on("change:isLoggedIn", function() {
+				console.log("model", this);
+				var isLoggedIn = this.get('isLoggedIn');
+				if(isLoggedIn) {
+					console.log("yay", $('#signUp-form'));
+					$('#signUp-form').hide();
+					$('#signUp-loggedIn').show();
+					$('#logOut').show();
+				} else {
+					console.log("awww");
+					$('#signUp-form').show();
+					$('#signUp-loggedIn').hide();
+					$('#logOut').hide();
+				}
+			})
+
+			$('#logOut').click(function(ev) {
+				ev.preventDefault();
+				smlEval.logout();
+			});
+
 			$('#logIn').click(function(ev) {
 				ev.preventDefault();
 				var data = readLogin();

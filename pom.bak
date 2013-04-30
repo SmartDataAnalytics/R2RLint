@@ -32,8 +32,10 @@
 
 		<jena-sparql-api.version>0.6.0-SNAPSHOT</jena-sparql-api.version>
 		<!-- DON'T TOUCH THESE VERSIONS OR KITTENS WILL DIE -->
+<!-- 		<jersey.version>1.8</jersey.version> -->
 		<jersey.version>1.8</jersey.version>
 		<jersey-spring.version>1.12</jersey-spring.version>
+		<jersey-json.version>1.12</jersey-json.version>
 
 
 		<!-- project defaults -->
@@ -114,21 +116,6 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>org.antlr</groupId>
-				<artifactId>antlr3-maven-plugin</artifactId>
-				<version>3.4</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>antlr</goal>
-						</goals>
-						<configuration>
-							<debug>false</debug>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -238,6 +225,21 @@
 				<version>${project.version}</version>
 			</dependency>
 
+			<!-- <dependency> -->
+			<!-- <groupId>org.aksw.sparqlify</groupId> -->
+			<!-- <artifactId>sparqlify-server</artifactId> -->
+			<!-- <version>${project.version}</version> -->
+			<!-- <type>war</type> -->
+			<!-- </dependency> -->
+
+
+			<!-- <dependency> -->
+			<!-- <groupId>org.aksw.sparqlify</groupId> -->
+			<!-- <artifactId>sparqlify-platform</artifactId> -->
+			<!-- <version>${project.version}</version> -->
+			<!-- </dependency> -->
+
+
 			<!-- Jena SPARQL API -->		
 			<dependency>
 				<groupId>org.aksw.jena-sparql-api</groupId>
@@ -265,34 +267,13 @@
 				<artifactId>jersey-spring</artifactId>
 				<version>${jersey-spring.version}</version>
 			</dependency>
-
-
-			<!-- <dependency> -->
-			<!-- <groupId>org.aksw.sparqlify</groupId> -->
-			<!-- <artifactId>sparqlify-server</artifactId> -->
-			<!-- <version>${project.version}</version> -->
-			<!-- <type>war</type> -->
-			<!-- </dependency> -->
-
-
-			<!-- <dependency> -->
-			<!-- <groupId>org.aksw.sparqlify</groupId> -->
-			<!-- <artifactId>sparqlify-platform</artifactId> -->
-			<!-- <version>${project.version}</version> -->
-			<!-- </dependency> -->
-
-
-
-			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-core</artifactId>
-				<version>${jersey.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-server</artifactId>
-				<version>${jersey.version}</version>
-			</dependency>
+	        <dependency>
+	            <groupId>javax</groupId>
+	            <artifactId>javaee-api</artifactId>
+	            <version>${javaee-api.version}</version>
+	            <scope>provided</scope>
+	        </dependency>
+	        
 
 			<!-- <dependency> <groupId>org.aksw.commons</groupId> <artifactId>commons</artifactId> 
 				<version>1.0-SNAPSHOT</version> <scope>compile</scope> </dependency> -->
@@ -680,6 +661,12 @@
 				<artifactId>spring-beans</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+
+<!-- 			<dependency> -->
+<!-- 				<groupId>com.sun.jersey.contribs</groupId> -->
+<!-- 				<artifactId>jersey-spring</artifactId> -->
+<!-- 				<version>${jersey.version}</version> -->
+<!-- 			</dependency> -->
 
 			<dependency>
 				<groupId>org.tuckey</groupId>

@@ -3,10 +3,13 @@ package org.aksw.sml_eval.core;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.aksw.commons.sparql.api.cache.extra.SqlUtils;
+import org.aksw.commons.util.jdbc.SqlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +49,30 @@ public class Store {
 		this.ds = ds;
 	}
 	
+	public List<String> generateToolList() {
+		List<String> tools = Arrays.asList("sparqlify", "sparqlmap");
+		
+		Collections.shuffle(tools);
+
+		return tools;
+	}
+	
+	public void generateUserEvalOrder(Connection conn, Integer userId, List<String> toolList) throws SQLException {
+		
+		//ColumnsReference cr = new ColumnsReference("eval_order", "user_id", "sequence_id", "name");
+		//Inserter inserter = new Inserter(target, schema);
+		//inserter.add(userId, i, toolList);
+		
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO \"eval_order\"(\"user_id\", \"sequence_id\", \"name\") VALUES (?, ?, ?)");
+		
+		int i = 0;
+		for(String item : toolList) {
+			SqlUtils.execute(stmt, Void.class, userId, i, item);
+			++i;
+		}
+		
+	}
+	
 	
 	public Integer getUserId(Connection conn, String username) throws SQLException {
 		Integer result = null;
@@ -76,11 +103,35 @@ public class Store {
 		
 		return result;
 	}
+
 	
+	public String getEvalMode(Integer userId) throws SQLException {
+		Connection conn = ds.getConnection();
+		String result = getEvalMode(conn, userId);
+		
+		return result;
+	}
+	
+	/**
+	 * Extend to getUserState
+	 * 
+	 * @param conn
+	 * @param userId
+	 * @return
+	 * @throws SQLException 
+	 */
+	public String getEvalMode(Connection conn, Integer userId) throws SQLException {
+		String sql = "SELECT MIN(sequence_id) FROM eval_order WHERE user_id = ? AND is_finished = FALSE";
+		String result = SqlUtils.execute(conn, sql, String.class, userId);
+
+		return result;
+	}
+
+
 	public Integer registerUser(String username, String password, String email) throws SQLException {
 		
 		// The result indicates success
-		Integer result;
+		Integer result = null;
 		
 		Connection conn = null;
 		try {
@@ -106,9 +157,15 @@ public class Store {
 				throw new RuntimeException("Internal error: User does not exist after insertion");
 			}
 			
+			generateUserEvalOrder(conn, result, generateToolList());
+			
 			conn.commit();
 			
-		} finally {
+		}
+		finally {
+			if(result == null) {
+				conn.rollback();
+			}
 			
 			if(conn != null) {
 				try {

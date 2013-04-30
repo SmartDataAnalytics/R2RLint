@@ -1,4 +1,4 @@
-package org.aksw.sml_eval.web;
+package org.aksw.sml_eval.web.resources;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -69,9 +68,12 @@ public class RestService {
 	@Resource(name="smlEval.taskRepo")
 	private TaskRepo taskRepo;
 	
-	@Resource(name="smlEval.dataSource")
-	private DataSource dataSource;
+//	@Resource(name="smlEval.dataSource")
+//	private DataSource dataSource;
 	
+	@Resource(name="smlEval.store")
+	private Store store;
+
 	//private @Context ServletContext context;
 	
 	/**
@@ -88,13 +90,16 @@ public class RestService {
 	public void logout(@Context HttpServletRequest req) {
 		HttpSession session = req.getSession();
 
-		Object tmpUserId = session.getAttribute("userId");
-		if(tmpUserId == null) {
-			throw new RuntimeException("Not logged in");
+		try {
+			Object tmpUserId = session.getAttribute("userId");
+			if(tmpUserId == null) {
+				throw new RuntimeException("Not logged in");
+			}
+		} finally {
+			session.invalidate();
 		}
-		
-		session.removeAttribute("userId");
 	}
+		
 
 	
 	/*
@@ -103,12 +108,10 @@ public class RestService {
 	@POST
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean loginClassic(@Context HttpServletRequest req, @FormParam("username") String username, @FormParam("password") String password) throws SQLException {
+	public String loginClassic(@Context HttpServletRequest req, @FormParam("username") String username, @FormParam("password") String password) throws SQLException {
 		// Create a WebEval object, and put it into the session
 		HttpSession session = req.getSession();
 		
-		Store store = new Store(dataSource);
-
 		Object tmpUserId = session.getAttribute("userId");
 		if(tmpUserId != null) {
 			throw new RuntimeException("Already logged in");
@@ -122,7 +125,10 @@ public class RestService {
 		session.setAttribute("userId", userId);
 		//session.get
 		
-		return true;
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("success", true);
+		
+		return toJsonString(response);
 	}
 	
 	/*
@@ -147,9 +153,7 @@ public class RestService {
 //		if(password == null) {
 //			response.put("isPasswordValid", false);
 //		}
-		
-		Store store = new Store(dataSource);
-		
+				
 		Integer userId = store.registerUser(username, password, email);
 		if(userId == null) {
 			throw new RuntimeException("Could not register user");
@@ -159,8 +163,62 @@ public class RestService {
 		//response.put("success", value);
 		
 		
+		return toJsonString(response);
+	}
+	
+	@POST
+	@Path("/fetchState")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String fetchState(@Context HttpServletRequest req) throws SQLException {
+		
+		HttpSession session = req.getSession();
+		Integer userId = (Integer)session.getAttribute("userId");
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		boolean isLoggedIn = userId != null;
+		String evalMode = store.getEvalMode(userId);
+		response.put("isLoggedIn", isLoggedIn);
+		
+		// Note: The client has no control of the eval mode
+		// Its purely informational
+		response.put("evalMode", evalMode);
+		
+		// For each task, fetch the appropriate mapping
+		
+		return toJsonString(response);
+	}
+
+	
+	/**
+	 * Informs the client about which tasks are open / finished
+	 * Also contains whether it is possible to advance to the next eval stage
+	 * or whether the survey has been completed
+	 * 
+	 * @return
+	 */
+	@Path("/fetchSummary")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String fetchSummary() {
+		return "{}";
+	}
+	
+	/**
+	 * Advances to the next eval mode (if it exists)
+	 * 
+	 * @return
+	 */
+	@Path("/advance")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String advance() {
+		return "{}";
+	}
+	
+	
+	
+	public static String toJsonString(Object o) {
 		Gson gson = new Gson();
-		String result = gson.toJson(response);
+		String result = gson.toJson(o);
 		return result;
 	}
 	

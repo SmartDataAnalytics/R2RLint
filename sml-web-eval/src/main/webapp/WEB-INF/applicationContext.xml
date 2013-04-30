@@ -48,6 +48,10 @@
 		<property name="idleConnectionTestPeriod" value="${database.idleConnectionTestPeriod}" />
 	</bean>
 
+	<bean id="smlEval.store" class="org.aksw.sml_eval.core.Store">
+		<constructor-arg><ref local="smlEval.dataSource"></ref></constructor-arg>
+	</bean>
+
 	<bean id="smlEval.taskRepoReader" class="org.aksw.sml_eval.core.TaskRepoReader"></bean>
 
 	<bean id="smlEval.taskRepo" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

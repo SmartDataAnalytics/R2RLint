@@ -14,43 +14,72 @@ var org, aksw, sml_eval, app;
 	
 
 	
-	ns.SmlEval = function(appModel) {
-		this.apiUrl = "api/0.1/";
-		this.model = appModel;
-		
-		var model = this.model;
-		
-		model.set({
-			tasks: new Backbone.Collection()
-		});
-		
-		
-		var viewTasks = new views.ViewTaskTabs({
-			el: $('#tabs'),
-			collection: model.get('tasks'),
-			offset: 1
-		});
-		
-		viewTasks.render();
+	ns.SmlEval = Backbone.View.extend({//function(appModel) {
+		initialize: function() {
+			this.apiUrl = "api/0.1/";
+			//this.model = appModel;
+			
+			var model = this.model;
+			
+			model.set({
+				tasks: new Backbone.Collection(),
+				isLoggedIn: false,
+				evalMode: null // The selected eval mode (r2rml / sml) 
+			});
+			
+			
+			var viewTasks = new views.ViewTaskTabs({
+				el: $('#tabs'),
+				collection: model.get('tasks'),
+				offset: 1
+			});
+			
+			viewTasks.render();
 
-		//this.initialize();
-	};
-	
-	ns.SmlEval.prototype = {
+			
+			this.restoreSession();
+
+			//this.initialize();
+		},
 		
 		reset: function() {
 			this.resetTasks();
 		},
 		
+		// Checks for an active session
+		// Also re-fetches the session state
+		restoreSession: function() {
+			
+			var self = this;
+			$.ajax({
+				url: self.apiUrl + "fetchState",
+				type: 'POST'
+			}).done(function(data) {
+				
+				
+				self.model.set({
+					isLoggedIn: data.isLoggedIn,
+					evalMode: data.evalMode
+				});
+
+			}).fail(function() {
+				alert("Failed to fetch the session state");
+			});
+			
+		},
+		
 		login: function(credentials) {
 
+			var self = this;
 			var apiUrl = this.apiUrl;
 			$.ajax({
 				url: apiUrl + "login",
 				type: 'POST',
-				data:data
-			}).done(function() {
-				alert("Login Success");
+				data: credentials
+			}).done(function(data) {
+			
+				self.restoreSession();
+				
 			}).fail(function() {
 				alert("Login Fail");
 			});
@@ -59,15 +88,15 @@ var org, aksw, sml_eval, app;
 		
 		logout: function() {
 
+			var self = this;
 			var apiUrl = this.apiUrl;
 			$.ajax({
 				url: apiUrl + "logout",
 				type: 'POST',
-				data:data
-			}).done(function() {
-				alert("Logout Success");
-			}).fail(function() {
-				alert("Logout Fail");
+			}).always(function() {
+				self.model.set({
+					isLoggedIn: false
+				});				
 			});
 			
 		},
@@ -78,7 +107,7 @@ var org, aksw, sml_eval, app;
 			$.ajax({
 				url: apiUrl + "register",
 				type: 'POST',
-				data:data
+				data: credentials
 			}).done(function() {
 				alert("Register Success");
 			}).fail(function() {
@@ -153,7 +182,7 @@ var org, aksw, sml_eval, app;
 			
 		}
 
-	};
+	});
 
 	
 })(ns.app || (ns.app = {}));
