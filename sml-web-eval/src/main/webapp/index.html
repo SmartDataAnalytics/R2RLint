@@ -65,25 +65,22 @@
 				<div id="tab-body-signUp" class="tab-pane">
 					<ul>
 					<li>In order to participate in the survey you need to log in.</li>
-					<li>If you do not have an account yet, fill out <b>all</b> fields appropriately and click the 'Register & Log In' button in order to
+					<li>If you do not have an account yet, fill out <b>all</b> fields appropriately and click the 'Register &amp; Log In' button in order to
 					immediately log in into your new account.</li>
 					<li>You can peek into what is awaiting you in the survey <b>without</b> logging in!</li>
 					<li>We request your e-mail address <b>ONLY</b> for the purposes of password recovery and notifying you TODO</li>
-					</ul>
+					</ul>				
 				
-					Username: <input type="text" />
-					Password: <input type="text" />
-					<br />
-					<button id="logIn" class="btn btn-primary">Log In</button>
+					<table>					
+						<tr><td>Username:</td><td><input id="login-username" type="text" type="text" size="30" /></td><td></td></tr>
+						<tr><td>Password:</td><td><input id="login-password" type="password" size="30" /></td><td></td></tr>
+						<tr><td colspan="2"><hr /></td><td><button id="logIn" class="btn btn-primary">Log In</button></td></tr>
 
-					Confirm Password: <input type="text" />
-					Email: <input type="text" />
-					Confirm Email: <input type="text" />
-					<br />
-					<button id="registerAndLogIn" class="btn btn-primary">Register & Log In</button>
-					<form>
-					
-					</form>
+						<tr><td>Confirm Password:</td><td><input id="register-passwordConfirm" type="password" /></td><td></td></tr>
+						<tr><td>Email</td><td><input id="register-email" type="text" /></td><td></td></tr>
+						<tr><td>Confirm Email:</td><td><input id="register-emailConfirm" type="text" /></td></tr>
+						<tr><td colspan="2"><hr /></td><td><button id="registerAndLogIn" class="btn btn-primary">Register &amp; Log In</button></td></tr>
+					</table>
 				</div>
 
 				<div id="tab-body-scoreSheet" class="tab-pane">

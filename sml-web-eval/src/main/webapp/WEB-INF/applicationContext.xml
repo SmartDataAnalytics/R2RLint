@@ -23,30 +23,30 @@
 	<!-- 
 	:::: Enable Spring property substitution from external .properties file
 	 -->
-<!-- 	<bean id="propertyConfigurer" -->
-<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
-<!-- 		<property name="location" value="file:#{systemProperties['configDirectory'] + servletContext.contextPath}/platform.properties" /> -->
-<!-- 	</bean> -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="file:#{systemProperties['configDirectory'] + servletContext.contextPath}/platform.properties" />
+	</bean>
 
 
 	<!-- 
 	:::: DataSource Configuration
 	 -->
-<!-- 	<bean id="sparqlAnalytics.backend.dataSource" scope="singleton" -->
-<!-- 		class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close"> -->
-<!-- 		<property name="driverClass" value="${database.driverClass}" /> -->
+	<bean id="smlEval.dataSource" scope="singleton"
+		class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass" value="${database.driverClass}" />
 
-<!-- 		<property name="jdbcUrl" value="${database.jdbcUrl}" /> -->
-<!-- 		<property name="username" value="${database.username}" /> -->
-<!-- 		<property name="password" value="${database.password}" /> -->
+		<property name="jdbcUrl" value="${database.jdbcUrl}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
 
-<!-- 		<property name="partitionCount" value="${database.partitionCount}" /> -->
+		<property name="partitionCount" value="${database.partitionCount}" />
 
-<!-- 		<property name="minConnectionsPerPartition" value="${database.minConnectionsPerPartition}" /> -->
-<!-- 		<property name="maxConnectionsPerPartition" value="${database.maxConnectionsPerPartition}" /> -->
+		<property name="minConnectionsPerPartition" value="${database.minConnectionsPerPartition}" />
+		<property name="maxConnectionsPerPartition" value="${database.maxConnectionsPerPartition}" />
 
-<!-- 		<property name="idleConnectionTestPeriod" value="${database.idleConnectionTestPeriod}" /> -->
-<!-- 	</bean> -->
+		<property name="idleConnectionTestPeriod" value="${database.idleConnectionTestPeriod}" />
+	</bean>
 
 	<bean id="smlEval.taskRepoReader" class="org.aksw.sml_eval.core.TaskRepoReader"></bean>
 

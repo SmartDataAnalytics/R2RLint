@@ -87,10 +87,11 @@
 				tab.body.append(view);
 			}
 		};
-		
+
+		var apiUrl = "api/0.1/";
+
 	
 		var resetApp = function() {
-			var apiUrl = "api/0.1/";
 			
 			$.ajax({
 				url: apiUrl + "fetchTasks",
@@ -104,9 +105,70 @@
 			});
 		}
 		
+		
+		var readLogin = function() {
+			var result = {
+				username: $('#login-username').val(),
+				password: $('#login-password').val()
+			};
+			return result
+		}
+		
+		var readRegister = function() {
+			var result = readLogin();
+			
+			_.extend(result, {
+				passwordConfirm: $('#register-passwordConfirm').val(),
+				email: $('#register-email').val(),
+				emailConfirm: $('#register-emailConfirm').val(),
+			});
+			
+			console.log("Read register data: ", result);
+			
+			return result;
+		}
 	
 		$(document).ready(function() {
 	
+			$('#logIn').click(function(e) {
+				e.preventDefault();
+				
+				var data = readLogin();
+				
+				$.ajax({
+					url: apiUrl + "login",
+					type: 'POST',
+					data:data
+				}).done(function() {
+					alert("Login Success");
+				}).fail(function() {
+					alert("Login Fail");
+				});
+
+			});
+			
+			$('#registerAndLogIn').click(function(e) {
+				e.preventDefault();
+				
+				var data = readRegister();
+				
+				$.ajax({
+					url: apiUrl + "register",
+					type: 'POST',
+					data:data
+				}).done(function() {
+					alert("Register Success");
+				}).fail(function() {
+					alert("Register Fail");
+				});
+
+			});
+
+			
+			
+			
+			
+			
 			// Twitter Bootstrap's way of enabling tabs
 			$('#tabs > ul > li > a').click(function (e) {
 		        e.preventDefault();

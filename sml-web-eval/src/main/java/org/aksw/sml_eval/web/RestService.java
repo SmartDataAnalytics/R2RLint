@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -24,6 +25,7 @@ import javax.ws.rs.core.StreamingOutput;
 import org.aksw.commons.sparql.api.core.QueryExecutionFactory;
 import org.aksw.commons.util.MapReader;
 import org.aksw.commons.util.slf4j.LoggerCount;
+import org.aksw.sml_eval.core.Store;
 import org.aksw.sml_eval.core.TaskRepo;
 import org.aksw.sparqlify.config.syntax.Config;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
@@ -67,6 +69,9 @@ public class RestService {
 	@Resource(name="smlEval.taskRepo")
 	private TaskRepo taskRepo;
 	
+	@Resource(name="smlEval.dataSource")
+	private DataSource dataSource;
+	
 	//private @Context ServletContext context;
 	
 	/**
@@ -76,14 +81,48 @@ public class RestService {
 	 */
 	public RestService() {
 	}
+
 	
+	@POST
+	@Path("/logout")
+	public void logout(@Context HttpServletRequest req) {
+		HttpSession session = req.getSession();
+
+		Object tmpUserId = session.getAttribute("userId");
+		if(tmpUserId == null) {
+			throw new RuntimeException("Not logged in");
+		}
+		
+		session.removeAttribute("userId");
+	}
 
 	
 	/*
 	 * User management
 	 */
-	public void loginClassic(String username, String password) {
+	@POST
+	@Path("/login")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean loginClassic(@Context HttpServletRequest req, @FormParam("username") String username, @FormParam("password") String password) throws SQLException {
 		// Create a WebEval object, and put it into the session
+		HttpSession session = req.getSession();
+		
+		Store store = new Store(dataSource);
+
+		Object tmpUserId = session.getAttribute("userId");
+		if(tmpUserId != null) {
+			throw new RuntimeException("Already logged in");
+		}
+		
+		Integer userId = store.authenticate(username, password);
+		if(userId == null) {
+			throw new RuntimeException("Could not authenticate");
+		}
+
+		session.setAttribute("userId", userId);
+		//session.get
+		
+		return true;
 	}
 	
 	/*
@@ -91,8 +130,32 @@ public class RestService {
 	 * @param username
 	 * @param password
 	 */
-	public void registerClassic(String username, String password, String email) {
-		// WebEval.initUserAccount(username, password, email);
+	@POST
+	@Path("/register")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean registerClassic(
+			@Context HttpServletRequest req,
+			@FormParam("username") String username,
+			@FormParam("password") String password,
+			@FormParam("passwordConfirm")String passwordConfirm,
+			@FormParam("email")String email,
+			@FormParam("emailConfirm")String emailConfirm) throws SQLException
+	{
+		//Map<String, Object> response = new HashMap<String, Object>();
+		
+		// TODO Validation
+//		if(password == null) {
+//			response.put("isPasswordValid", false);
+//		}
+		
+		Store store = new Store(dataSource);
+		
+		boolean success = store.registerUser(username, password, email);
+		if(!success) {
+			throw new RuntimeException("Could not register user");
+		}
+		
+		return success;
 	}
 	
 	/**

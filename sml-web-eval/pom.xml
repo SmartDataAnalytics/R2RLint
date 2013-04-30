@@ -16,6 +16,9 @@
 
 
 	<properties>
+		<sml-eval.context-path>/sml-web-eval</sml-eval.context-path>
+	
+	
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 
@@ -54,6 +57,9 @@
 						</systemProperty>
 					</systemProperties>
 					<reload>manual</reload>
+					<webAppConfig>
+						<contextPath>${sml-eval.context-path}</contextPath>
+					</webAppConfig>
 				</configuration>
 			</plugin>
 
