@@ -122,7 +122,10 @@ public class Store {
 	 */
 	public String getEvalMode(Connection conn, Integer userId) throws SQLException {
 		String sql = "SELECT MIN(sequence_id) FROM eval_order WHERE user_id = ? AND is_finished = FALSE";
-		String result = SqlUtils.execute(conn, sql, String.class, userId);
+		Integer seqId = SqlUtils.execute(conn, sql, Integer.class, userId);
+		
+		String sql2 = "SELECT name FROM eval_order WHERE user_id = ? AND sequence_id = ?";
+		String result = SqlUtils.execute(conn, sql2, String.class, userId, seqId);
 
 		return result;
 	}

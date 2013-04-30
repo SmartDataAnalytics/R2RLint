@@ -32,6 +32,14 @@
 	<!-- 
 	:::: DataSource Configuration
 	 -->
+	<bean id="smlEval.dataSourceConfig" scope="singleton" class="org.aksw.commons.util.jdbc.DataSourceConfig">
+		<property name="driverClass" value="${database.driverClass}" />
+		<property name="jdbcUrl" value="${database.jdbcUrl}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+	 
+	 
 	<bean id="smlEval.dataSource" scope="singleton"
 		class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
 		<property name="driverClass" value="${database.driverClass}" />
@@ -46,6 +54,10 @@
 		<property name="maxConnectionsPerPartition" value="${database.maxConnectionsPerPartition}" />
 
 		<property name="idleConnectionTestPeriod" value="${database.idleConnectionTestPeriod}" />
+	</bean>
+
+	<bean id="smlEval.stage.sparqlify" class="">
+	
 	</bean>
 
 	<bean id="smlEval.store" class="org.aksw.sml_eval.core.Store">

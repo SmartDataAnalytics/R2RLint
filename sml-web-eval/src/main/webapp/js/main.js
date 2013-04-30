@@ -188,6 +188,12 @@
 				}
 			})
 
+			appModel.on("change", function() {
+				var stage = this.get('evalMode');
+				
+				alert("Stage:" + stage);
+			});			
+			
 			$('#logOut').click(function(ev) {
 				ev.preventDefault();
 				smlEval.logout();
