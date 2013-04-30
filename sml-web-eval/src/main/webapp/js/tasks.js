@@ -39,13 +39,14 @@ var tasks;
 		$elResult.find('.taskName').html(task.name);
 		
 		
-		var $elTableArea = $('.tableArea');
+		var $elTableArea = $elResult.find('.tableArea');
 		var tbles = task.tables;
 		for(var i = 0; i < tbles.length; ++i) {
 			var table = tbles[i];
 			
-			$el = tables.renderTable(table);
-			
+			var html = tables.renderTable(table);
+			var $el = $(html);
+			//console.log("table html", html);
 			$elTableArea.append($el);
 		}
 		
