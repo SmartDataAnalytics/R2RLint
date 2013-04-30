@@ -61,8 +61,10 @@ public class TaskRepo {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(taskBundle.getRefSet(), out, "http://example.org/");
 		
+		Gson gson = new Gson();
+		Object o = gson.fromJson(out.toString(), Object.class);
 		
-		result.put("referenceData", out.toString());
+		result.put("referenceData", o);
 		result.put("description", taskBundle.getProperties().get("description"));
 		result.put("hint", taskBundle.getProperties().get("hint"));
 
@@ -102,6 +104,7 @@ public class TaskRepo {
 			heads.add(head);
 		}
 		
+		result.put("head", heads);
 		result.put("body", table.getRowData());
 		
 		return result;		

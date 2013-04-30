@@ -29,7 +29,7 @@
 
 
 	<servlet>
-		<servlet-name>Jersey Web Application</servlet-name>
+		<servlet-name>smlEvalApi</servlet-name>
 		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
@@ -40,7 +40,27 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Jersey Web Application</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<servlet-name>smlEvalApi</servlet-name>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>staticAssets</servlet-name>
+		<servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>staticAssets</servlet-name>
+		<url-pattern>/static/*</url-pattern>
+	</servlet-mapping>
+	
+	
+	<welcome-file-list>  
+		<welcome-file>/index.html</welcome-file>  
+	</welcome-file-list>
+	
+	<session-config>  
+		<session-timeout>60</session-timeout>
+	</session-config>  
 </web-app>

@@ -59,7 +59,7 @@ import com.hp.hpl.jena.sparql.engine.http.HttpParams;
  * 
  */
 @Component
-@Path("/service")
+@Path("/0.1")
 public class RestService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RestService.class);
