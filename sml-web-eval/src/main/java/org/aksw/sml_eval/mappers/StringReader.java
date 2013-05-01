@@ -1,4 +1,4 @@
-package org.aksw.sml_eval.adapters;
+package org.aksw.sml_eval.mappers;
 
 import java.io.InputStream;
 import java.util.concurrent.Callable;

@@ -13,10 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
 import org.aksw.commons.util.StreamUtils;
+import org.aksw.commons.util.jdbc.DataSourceConfig;
+import org.aksw.commons.util.jdbc.DataSourceConfigDefault;
 import org.aksw.commons.util.jdbc.JdbcUtils;
 import org.aksw.commons.util.jdbc.Relation;
 import org.h2.jdbcx.JdbcDataSource;
@@ -27,6 +30,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.jolbox.bonecp.BoneCPDataSource;
 
 
 class ResourceComparator
@@ -55,12 +59,19 @@ public class TaskRepoReader
 	
 	public List<TaskBundle> getTaskBundles() throws IOException, SQLException {
 		List<TaskBundle> result = new ArrayList<TaskBundle>();
-	
-		Resource[] resources = resolver.getResources(taskBasePath + "*");
+			
+		
+		Resource defaultsRes = resolver.getResource(taskBasePath + "defaults.properties");
+		Properties defaults = new Properties();
+		defaults.load(defaultsRes.getInputStream());
+
+		
+		Resource[] resources = resolver.getResources(taskBasePath + "task*");
 		Arrays.sort(resources, resourceComparator);
+	
 		
 		for (Resource r : resources) {
-			TaskBundle tmp = process(r);
+			TaskBundle tmp = process(defaults, r);
 			result.add(tmp);
 		}
 
@@ -68,7 +79,7 @@ public class TaskRepoReader
 	}
 	
 	// Note treat file pattern r2rml(*).ttl
-	public TaskBundle process(Resource r) throws IOException, SQLException {
+	public TaskBundle process(Properties defaults, Resource r) throws IOException, SQLException {
 		//System.out.println(basePath + r.getFilename() + "/create.sql");
 
 		
@@ -106,11 +117,29 @@ public class TaskRepoReader
 		Model refSet = ModelFactory.createDefaultModel();
 		refSet.read(refSetRes.getInputStream(), "http://example.org/", "N-TRIPLES");
 		
-		List<Table> tables = getTablesFromSql(database);
+		//List<Table> tables = getTablesFromSql(database);
 
 		
-		TaskBundle result = new TaskBundle(taskName, taskProperties, mappings, refSet, tables);
 		
+		DataSourceConfigDefault dsc = new DataSourceConfigDefault();
+		
+		String host = defaults.getProperty("tasks.db.host");
+		String name = taskName;
+		String user = defaults.getProperty("tasks.db.user");
+		String pass = defaults.getProperty("tasks.db.pass");
+		
+		String jdbcUrl = "jdbc:postgresql://" + host + "/" + name;
+		
+		dsc.setJdbcUrl(jdbcUrl);
+		dsc.setUsername(user);
+		dsc.setPassword(pass);
+		
+		
+		DataSource ds = createDataSource(dsc);
+		List<Table> tables = getTables(ds, "public");
+		
+		TaskBundle result = new TaskBundle(taskName, taskProperties, mappings, refSet, tables, dsc);
+
 		return result;
 		//System.out.println(createRes.getURI());
 		//System.out.println(createRes.getFilename());
@@ -130,6 +159,74 @@ public class TaskRepoReader
 //		return result;
 //	}
 	
+	public static DataSource createDataSource(DataSourceConfig dsc) {
+		BoneCPDataSource result = new BoneCPDataSource();
+		result.setJdbcUrl(dsc.getJdbcUrl());
+		result.setUsername(dsc.getUsername());
+		result.setPassword(dsc.getPassword());
+		
+		return result;
+	}
+	
+	public static List<Table> getTables(DataSource dataSource, String schemaName) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			List<Table> result = getTables(conn, schemaName);
+			return result;
+		} finally {
+			if(conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public static List<Table> getTables(Connection conn, String schemaName) throws SQLException {
+		Set<String> tableNames = JdbcUtils.fetchRelationNames(conn);
+
+		List<Table> result = new ArrayList<Table>();
+
+		for(String tableName : tableNames) {
+			Map<String, Relation> relations = JdbcUtils.fetchColumns(conn, schemaName, tableName);
+			
+			Relation relation = relations.values().iterator().next();
+			
+			Table table = createTable(conn, relation);
+			result.add(table);
+		}
+		
+		return result;
+	}
+	
+	public static Table createTable(Connection conn, Relation relation) throws SQLException { 
+		
+		//logger.info("Relations: " + relations.keySet());
+		
+		List<Map<String, Object>> rowData = new ArrayList<Map<String, Object>>();
+		
+		String tableName = relation.getName();
+		
+		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM \"" + tableName + "\"");
+		ResultSetMetaData meta = rs.getMetaData();
+		
+		while(rs.next()) {
+			Map<String, Object> row = new HashMap<String, Object>();
+	
+			for(int i = 1; i <= meta.getColumnCount(); ++i) {
+				String columnName = meta.getColumnName(i);
+				
+				Object value = rs.getString(i); //rs.getObject(i);
+				row.put(columnName, value);
+			}
+			
+			rowData.add(row);
+		}
+
+		Table result = new Table(relation, rowData);
+					
+		return result;
+	}
+	
 	public static List<Table> getTablesFromSql(String sql) throws SQLException {
 		DataSource ds = createDefaultDatabase("testdb");
 		Connection conn = ds.getConnection();
@@ -138,38 +235,8 @@ public class TaskRepoReader
 		conn.createStatement().execute("SET SCHEMA " + schemaName);
 		
 		conn.createStatement().execute(sql);
-		
-		Map<String, Relation> relations = JdbcUtils.fetchColumns(conn, schemaName);
-	
-		logger.info("Relations: " + relations.keySet());
-		
-		List<Map<String, Object>> rowData = new ArrayList<Map<String, Object>>();
-		
-		List<Table> result = new ArrayList<Table>();
-		for(Relation relation : relations.values()) {
-			String tableName = relation.getName();
-			
-			ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM \"" + tableName + "\"");
-			ResultSetMetaData meta = rs.getMetaData();
-			
-			while(rs.next()) {
-				Map<String, Object> row = new HashMap<String, Object>();
-		
-				for(int i = 1; i <= meta.getColumnCount(); ++i) {
-					String columnName = meta.getColumnName(i);
-					
-					Object value = rs.getString(i); //rs.getObject(i);
-					row.put(columnName, value);
-				}
-				
-				rowData.add(row);
-			}
 
-			Table table = new Table(relation, rowData);
-			
-			result.add(table);
-		}
-		
+		List<Table> result = getTables(conn, schemaName);
 		
 		conn.createStatement().execute("SHUTDOWN");
 		

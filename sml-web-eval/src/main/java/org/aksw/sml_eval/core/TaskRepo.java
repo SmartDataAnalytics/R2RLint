@@ -12,10 +12,26 @@ import org.aksw.commons.util.jdbc.Column;
 import org.aksw.commons.util.jdbc.Relation;
 
 import com.google.gson.Gson;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.talis.rdfwriters.json.JSONJenaWriter;
 
 public class TaskRepo {
 	private Map<String, TaskBundle> nameToTask;
+	
+	public TaskBundle getTask(String taskId) {
+		TaskBundle result = nameToTask.get(taskId);
+		return result;
+	}
+	
+	public Model getReferenceModel(String taskId) {
+		TaskBundle task = nameToTask.get(taskId);
+		if(task == null) {
+			throw new RuntimeException("No task '" + taskId + "' exists");
+		}
+		
+		Model result = task.getRefSet();
+		return result;
+	}
 	
 	public TaskRepo(List<TaskBundle> taskBundles) {
 		nameToTask = new HashMap<String, TaskBundle>();

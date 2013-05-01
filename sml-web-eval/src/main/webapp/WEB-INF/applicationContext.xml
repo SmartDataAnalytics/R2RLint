@@ -56,11 +56,10 @@
 		<property name="idleConnectionTestPeriod" value="${database.idleConnectionTestPeriod}" />
 	</bean>
 
-	<bean id="smlEval.mapper.sml" class="org.aksw.sml_eval.adapters.AdapterCliSparqlify">
+	<bean id="smlEval.mapperFactory.sml" class="org.aksw.sml_eval.mappers.MapperFactorySparqlify">
 		<constructor-arg>
 			<bean class="java.io.File"><constructor-arg value="${mapper.sparqlify.bin}" /></bean>
 		</constructor-arg>
-		<constructor-arg><ref local="smlEval.dataSourceConfig" /></constructor-arg>
 	</bean>
 
 

@@ -1,4 +1,4 @@
-package org.aksw.sml_eval.adapters;
+package org.aksw.sml_eval.mappers;
 
 public class ExecResult {
 	private String stdout;

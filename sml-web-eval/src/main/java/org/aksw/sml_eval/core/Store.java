@@ -49,12 +49,13 @@ public class Store {
 		this.ds = ds;
 	}
 	
+	// Actually, language and tool are independent - one could want to e.g.  use sml with sparql map.
 	public List<String> generateToolList() {
-		List<String> tools = Arrays.asList("sparqlify", "sparqlmap");
+		List<String> ml = Arrays.asList("sml", "r2rml");
 		
-		Collections.shuffle(tools);
+		Collections.shuffle(ml);
 
-		return tools;
+		return ml;
 	}
 	
 	public void generateUserEvalOrder(Connection conn, Integer userId, List<String> toolList) throws SQLException {
@@ -130,6 +131,53 @@ public class Store {
 		return result;
 	}
 
+	public Integer writeMapping(Integer userId, String toolId, String taskId, String mapping) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			conn.setAutoCommit(false);
+			
+			Integer submissionId = writeMapping(conn, userId, toolId, taskId, mapping);
+			conn.commit();
+
+			return submissionId;
+		} finally {
+			if(conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public void setSolution(Integer submissionId) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			
+			setSolution(conn, submissionId);
+			conn.commit();
+		} finally {
+			if(conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public void setSolution(Connection conn, Integer submissionId) throws SQLException {
+		String sql = "UPDATE submissions SET is_solution = TRUE WHERE id = ?";
+		SqlUtils.execute(conn, sql, Void.class, submissionId);
+	}
+	
+	
+	public Integer writeMapping(Connection conn, Integer userId, String toolId, String taskId, String mapping) throws SQLException {
+
+		String sql = "INSERT INTO submissions(user_id, tool_id, task_id, mapping) VALUES(?, ?, ?, ?)";
+		SqlUtils.execute(conn, sql, Void.class, userId, toolId, taskId, mapping);
+		
+		Long tmp = SqlUtils.execute(conn, "SELECT LASTVAL()", Long.class);
+		Integer submissionId = tmp.intValue();
+		return submissionId;
+	}
+	
 
 	public Integer registerUser(String username, String password, String email) throws SQLException {
 		

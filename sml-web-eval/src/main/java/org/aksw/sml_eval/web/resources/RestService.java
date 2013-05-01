@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,11 +25,13 @@ import javax.ws.rs.core.StreamingOutput;
 import org.aksw.commons.sparql.api.core.QueryExecutionFactory;
 import org.aksw.commons.util.MapReader;
 import org.aksw.commons.util.slf4j.LoggerCount;
-import org.aksw.sml_eval.adapters.Adapter;
-import org.aksw.sml_eval.adapters.MapResult;
 import org.aksw.sml_eval.core.ModelUtils;
 import org.aksw.sml_eval.core.Store;
 import org.aksw.sml_eval.core.TaskRepo;
+import org.aksw.sml_eval.mappers.Adapter;
+import org.aksw.sml_eval.mappers.MapResult;
+import org.aksw.sml_eval.mappers.MapperFactory;
+import org.aksw.sml_eval.mappers.MapperFactorySparqlify;
 import org.aksw.sparqlify.config.syntax.Config;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
 import org.aksw.sparqlify.core.algorithms.CandidateViewSelectorImpl;
@@ -54,6 +57,7 @@ import com.google.gson.Gson;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFormatter;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.sparql.engine.http.HttpParams;
 
 /**
@@ -78,8 +82,18 @@ public class RestService {
 	private Store store;
 
 	
-	@Resource(name="smlEval.mapper.sml")
-	private Adapter adapterSml;
+	@Resource(name="smlEval.mapperFactory.sml")
+	private MapperFactorySparqlify mapperSml;
+	
+	private MapperRepo mapperRepo;
+	
+	@PostConstruct
+	private void init() {
+		Map<String, MapperFactory> toolToFactory = new HashMap<String, MapperFactory>();
+		toolToFactory.put("sml", mapperSml);
+		
+		mapperRepo = MapperRepo.create(taskRepo, toolToFactory);
+	}
 	
 	//private @Context ServletContext context;
 	
@@ -232,23 +246,80 @@ public class RestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String runMapping(@Context HttpServletRequest req, @FormParam("taskId") String taskId, @FormParam("mapping") String mappingStr) {
 		
-		// TODO How to get the appropriate task db?
+		Integer userId = requireUserId(req);
+		
+		MapResult mr = runMappingCore(userId, taskId, mappingStr);
+		
+		Map<String, Object> response = createJson(taskId, mr, null);
+		
+		return toJsonString(response);
+	}
+	
+	
+	public static Map<String, Object> createJson(String taskId, MapResult mr, Boolean isSolution) {
+
+		Object o = ModelUtils.toJsonObject(mr.getModel());
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("task", taskId);
+		result.put("model", o);
+		//result.put("isSolution", false);
+		result.put("messages", mr.getMessages());
+		
+		if(isSolution != null) {
+			result.put("isSolution", isSolution);
+		}
+		
+		return result;
+	}
+	
+	
+	public String requireEvalMode(Integer userId) throws SQLException {
+		String result = store.getEvalMode(userId);
+		
+		if(result == null) {
+			throw new RuntimeException("Eval mode required");
+		}
+		
+		return result;
+	}
+
+	public Integer requireUserId(@Context HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+
+		if(userId == null) {
+			throw new RuntimeException("Must be logged in");
+		}
+		
+		return userId;
+	}
+		
+	public MapResult runMappingCore(Integer userId, String taskId, String mappingStr) {
+		
+				
 		MapResult mr;
 		try {
-			mr = adapterSml.map(mappingStr);
+			
+			//boolean isLoggedIn = userId != null;
+			String evalMode = store.getEvalMode(userId);
+			
+			if(evalMode == null) {
+				throw new RuntimeException("No eval mode exists. Either the survey was completed or we have an internal error");
+			}
+	
+			Adapter mapper = mapperRepo.getMapper(evalMode, taskId);
+			mr = mapper.map(mappingStr);
+			
+			
+			//mr = adapterSml.map(mappingStr);
 		} catch(Exception e) {
 			logger.error("Something went wrong", e);
 			throw new RuntimeException(e);			
 		}
-		Object o = ModelUtils.toJsonObject(mr.getModel());
 		
-		Map<String, Object> response = new HashMap<String, Object>();
-		response.put("task", taskId);
-		response.put("model", o);
-		//result.put("isSolution", false);
-		response.put("messages", mr.getMessages());
-		
-		return toJsonString(response);
+		return mr;
 	}
 	
 	
@@ -271,15 +342,43 @@ public class RestService {
 	
 	/**
 	 * Sets the user's mapping for the given task.
-	 * Does not override a solution mapping.
+	 * Logs the action
 	 * 
 	 * 
 	 * @param taskName
 	 * @param mapping
+	 * @throws SQLException 
 	 */
-	// POST
-	public void submitMapping(String taskName, String mapping) {
+	@POST
+	@Path("/submitMapping")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String submitMapping(@Context HttpServletRequest req, @FormParam("taskId") String taskId, @FormParam("mapping") String mappingStr) throws SQLException {
+		//HttpSession session = req.getSession();
+
+		Integer userId = requireUserId(req);
+		String evalMode = requireEvalMode(userId);
 		
+		
+		Model expected = taskRepo.getReferenceModel(taskId);
+
+		// store.writeMapping(...)
+
+		
+		Integer submissionId = store.writeMapping(userId, evalMode, taskId, mappingStr);
+		
+		MapResult mr = runMappingCore(userId, taskId, mappingStr);
+		
+		// Compate the result
+		Model actual = mr.getModel();
+		boolean isTaskSolved = expected.isIsomorphicWith(actual);
+		
+		if(isTaskSolved) {
+			store.setSolution(submissionId);
+		}
+		
+		Map<String, Object> response = createJson(taskId, mr, isTaskSolved);
+		
+		return toJsonString(response);
 	}
 	
 	

@@ -44,7 +44,7 @@ var org, aksw, sml_eval, app;
 				var taskId = model.get('id'); //model.get('taskId');
 				var mappingText = model.get('mappingText');
 				
-				self.runMapping(taskId, mappingText);
+				self.submitMapping(taskId, mappingText);
 			});
 			
 			this.restoreSession();
@@ -174,12 +174,22 @@ var org, aksw, sml_eval, app;
 		},
 		
 		
+		runMapping: function(taskId, mappingText) {
+			var result = this.submitMappingCore(taskId, mappingText, 'runMapping');
+			return result;			
+		},
+		
+		submitMapping: function(taskId, mappingText) {
+			var result = this.submitMappingCore(taskId, mappingText, 'submitMapping');
+			return result;
+		},
+		
 		/**
 		 * Runs a task without creating a submit entry.
 		 * Used for calculating the diff
 		 * 
 		 */
-		runMapping: function(taskId, mappingText) {
+		submitMappingCore: function(taskId, mappingText, action) {
 			
 			var data = {
 				taskId: taskId,
@@ -188,13 +198,14 @@ var org, aksw, sml_eval, app;
 
 			this.setMappingResult(taskId, {
 				model: {},
-				messages: ["Running..."]
+				messages: ['Running...']
 			});
 
 			var apiUrl = this.apiUrl;
 			var self = this;
-			$.ajax({
-				url: apiUrl + "runMapping",
+			
+			var result = $.ajax({
+				url: apiUrl + action,
 				type: 'POST',
 				data: data
 			}).done(function(json) {
@@ -203,9 +214,10 @@ var org, aksw, sml_eval, app;
 				self.setMappingResult(taskId, json);
 				
 			}).fail(function() {
-				alert("Mapping Fail");
+				alert('Mapping Fail');
 			});
 			
+			return result;
 		},
 		
 		

@@ -695,6 +695,12 @@
 				<scope>compile</scope>
 			</dependency>
 
+			<dependency>
+				<groupId>oauth.signpost</groupId>
+<!-- 				<artifactId>oauth-signpost</artifactId> -->
+				<artifactId>signpost-core</artifactId>
+				<version>1.2.1.2</version>
+			</dependency>
 
 			<!-- <dependency> -->
 			<!-- <groupId>c3p0</groupId> -->

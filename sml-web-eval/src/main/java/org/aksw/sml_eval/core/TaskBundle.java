@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.aksw.commons.util.jdbc.DataSourceConfig;
 import org.aksw.commons.util.jdbc.Relation;
 
 import com.hp.hpl.jena.rdf.model.Model;
@@ -15,13 +16,16 @@ public class TaskBundle {
 	private Map<String, String> mappings;
 	private Model refSet;
 	private List<Table> relations;
+	
+	private DataSourceConfig dataSourceConfig;
 
-	public TaskBundle(String taskName, Properties properties, Map<String, String> mappings, Model refSet, List<Table> relations) {
+	public TaskBundle(String taskName, Properties properties, Map<String, String> mappings, Model refSet, List<Table> relations, DataSourceConfig dataSourceConfig) {
 		this.taskName = taskName;
 		this.properties = properties;
 		this.mappings = mappings;
 		this.refSet = refSet;
 		this.relations = relations;
+		this.dataSourceConfig = dataSourceConfig;
 	}
 	
 	public String getTaskName() {
@@ -43,9 +47,12 @@ public class TaskBundle {
 	public List<Table> getRelations() {
 		return relations;
 	}
-	
-	
 
+	public DataSourceConfig getDataSourceConfig() {
+		return dataSourceConfig;
+	}
+
+	
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
@@ -66,64 +73,7 @@ public class TaskBundle {
 		this.relations = relations;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((mappings == null) ? 0 : mappings.hashCode());
-		result = prime * result
-				+ ((properties == null) ? 0 : properties.hashCode());
-		result = prime * result + ((refSet == null) ? 0 : refSet.hashCode());
-		result = prime * result
-				+ ((relations == null) ? 0 : relations.hashCode());
-		result = prime * result
-				+ ((taskName == null) ? 0 : taskName.hashCode());
-		return result;
+	public void setDataSourceConfig(DataSourceConfig dataSourceConfig) {
+		this.dataSourceConfig = dataSourceConfig;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TaskBundle other = (TaskBundle) obj;
-		if (mappings == null) {
-			if (other.mappings != null)
-				return false;
-		} else if (!mappings.equals(other.mappings))
-			return false;
-		if (properties == null) {
-			if (other.properties != null)
-				return false;
-		} else if (!properties.equals(other.properties))
-			return false;
-		if (refSet == null) {
-			if (other.refSet != null)
-				return false;
-		} else if (!refSet.equals(other.refSet))
-			return false;
-		if (relations == null) {
-			if (other.relations != null)
-				return false;
-		} else if (!relations.equals(other.relations))
-			return false;
-		if (taskName == null) {
-			if (other.taskName != null)
-				return false;
-		} else if (!taskName.equals(other.taskName))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "TaskBundle [taskName=" + taskName + ", properties="
-				+ properties + ", mappings=" + mappings + ", refSet=" + refSet
-				+ ", relations=" + relations + "]";
-	}
-	
 }

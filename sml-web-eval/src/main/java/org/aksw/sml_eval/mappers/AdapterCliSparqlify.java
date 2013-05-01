@@ -1,4 +1,4 @@
-package org.aksw.sml_eval.adapters;
+package org.aksw.sml_eval.mappers;
 
 import java.io.File;
 
@@ -13,11 +13,18 @@ public class AdapterCliSparqlify
 {
 	public AdapterCliSparqlify(File exec, DataSourceConfig dsConfig) {
 		super(exec, dsConfig, new MessageParserDummy());
-	}	
+	}
 	
-	public MapResult _map(String mappingStr)
+	@Override
+	public MapResult _map(String mappingStr) throws Exception {
+		MapResult result = map(exec, dsConfig, messageParser, mappingStr);
+		return result;
+	}
+
+	public static MapResult map(File exec, DataSourceConfig dsConfig, MessageParser messageParser, String mappingStr)
 		throws Exception
 	{
+		
 		MapResult result = null;
 		
 		File mappingFile = File.createTempFile("sparqlify-", ".sml");
@@ -37,7 +44,7 @@ public class AdapterCliSparqlify
 			String command = exec.getAbsolutePath() + " " + argStr;
 			
 			//Runtime.getRuntime().ex
-			result = process(command);
+			result = AdapterCliBase.process(command, messageParser);
 		} finally {
 			mappingFile.delete();
 		}
@@ -52,9 +59,11 @@ public class AdapterCliSparqlify
 		dsc.setUsername("postgres");
 		dsc.setPassword("postgres");
 
+		/*
 		AdapterCliSparqlify wrapper = new AdapterCliSparqlify(exec, dsc);
 		MapResult r = wrapper._map("Prefix ex: <http://example.org/> Create View test As Construct { ?s a ex:Thing } With ?s = uri(ex:, ?id) From users");
 		r.getModel().write(System.out, "TTL");
 		System.err.println(r.getMessages());
+		*/
 	}
 }

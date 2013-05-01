@@ -1,4 +1,4 @@
-package org.aksw.sml_eval.adapters;
+package org.aksw.sml_eval.mappers;
 
 /**
  * Perform a RDB-RDF mapping based on the given string.

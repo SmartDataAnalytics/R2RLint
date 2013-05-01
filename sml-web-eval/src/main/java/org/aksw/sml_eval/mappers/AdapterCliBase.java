@@ -1,8 +1,9 @@
-package org.aksw.sml_eval.adapters;
+package org.aksw.sml_eval.mappers;
 
 import java.io.File;
 
 import org.aksw.commons.util.jdbc.DataSourceConfig;
+
 
 
 public abstract class AdapterCliBase
@@ -22,7 +23,7 @@ public abstract class AdapterCliBase
 		return "\"" + str.replace("\"", "\\\"") + "\"";
 	}
 	
-	public MapResult process(String command) throws Exception {
+	public static MapResult process(String command, MessageParser messageParser) throws Exception {
 		MapResult result = CliUtils.process(command, messageParser);
 		return result;
 	}
@@ -37,6 +38,6 @@ public abstract class AdapterCliBase
 		
 		return result;
 	}
-
+	
 	public abstract MapResult _map(String mappingStr) throws Exception;
 }
