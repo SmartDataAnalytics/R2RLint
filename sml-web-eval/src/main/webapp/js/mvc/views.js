@@ -6,7 +6,42 @@ var org, aksw, sml_eval, views;
 		initialize: function() {
 			_.bindAll(this);
 
-			this.model.on('remove', 'unrender', this);
+			this.model.on('remove', this.unrender, this);
+			
+			this.model.on('change:mapperOutput', this.onChangeMapperOutput, this);
+			this.model.on('change:mapperTriples', this.onChangeMapperTriples, this);
+		},
+		
+		events: {
+			'click .btnSubmit': function() {
+				
+				var mappingText = this.$el.find('.mappingArea').val();
+				
+				this.model.set('mappingText', mappingText);
+				
+				//alert("submit of task" + JSON.stringify(this.model.attributes));
+				this.trigger('run', this.model);
+			}
+		},
+		
+		onChangeMapperOutput: function(model) {
+			var mapperOutput = model.get('mapperOutput');
+			this.$el.find('.mapperOutput').html(utils.escapeHTML(JSON.stringify(mapperOutput)));
+		},
+		
+
+		onChangeMapperTriples: function(model) {
+			var mapperTriples = model.get('mapperTriples');
+			var referenceTriples = model.get('referenceData');
+			
+			console.log("Diff", referenceTriples, mapperTriples);
+			
+			var rd = rdfDiff.createDiff(referenceTriples, mapperTriples);
+			var rdHtml = rdfDiff.renderDiff(rd);
+			this.$el.find('.rdfdiff').html(rdHtml);
+
+			
+			//this.$el.find('.mapper').html(utils.escapeHtml(mapperOutput));
 		},
 		
 		render: function() {
@@ -95,6 +130,12 @@ var org, aksw, sml_eval, views;
 			
 			var viewTask = new ns.ViewTask({
 				model: model
+			});
+			
+			
+			var self = this;
+			viewTask.on('all', function(ev, args) {
+				self.trigger(ev, args);
 			});
 			
 			var $elViewTask = viewTask.render().$el;

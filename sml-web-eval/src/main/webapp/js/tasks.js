@@ -26,24 +26,39 @@ var tasks;
 		+ '    </div>'
 		+ '</div>'
 		+ ''
-		+ '<div class="row-fluid">'
-		+ '    <div class="span8">'
-		+ '        <textarea class="mappingArea span12" style="resize:none" rows="20">Create ...</textarea>'
-		+ '    </div>'
-		+ '    <div class="rdfdiff span4">'
-		+ '        Result goes here'
-		+ '    </div>'
-		+ '</div>'
-		+ ''
-		+ '<div class="row-fluid">'
-		+ '    <div class="span8">'
-		+ '        <div style="float:right">'
-		+ '            <button class="btnSubmit btn btn-primary">Run!</button>'
+		+ '<div class="container-fluid">'
+		+ '    <div class="row-fluid">'
+		+ '        <div class="span8">'
+		+ '            <textarea class="mappingArea span12" style="resize:none" rows="20">Create ...</textarea>'
+
+//		+ '            <div style="float:left">'
+//		+ '                <button class="btnSubmit btn btn-primary">Reset</button>'
+//		+ '            </div>'
+
+		+ '            <div style="float:right">'
+		+ '                <button class="btnSubmit btn btn-primary">Run!</button>'
+		+ '            </div>'
+
+		+ '            <div class="mapperOutput" style="float:clear-both"></div>'
+		
+		
+		+ '        </div>'
+		+ '        <div class="rdfdiff span4">'
+		+ '            Result goes here'
 		+ '        </div>'
 		+ '    </div>'
-		+ '</div>'
+		+ ''
+		+ "</div>"
 		;
-	
+
+//	+ '    <div class="row-fluid">'
+//	+ '        <div class="span8">'
+//	+ '            <div style="float:right">'
+//	+ '                <button class="btnSubmit btn btn-primary">Run!</button>'
+//	+ '            </div>'
+//	+ '        </div>'
+//	+ '    </div>'
+
 	ns.createTaskView = function(task) {
 		var $elResult = $(ns.template);
 		

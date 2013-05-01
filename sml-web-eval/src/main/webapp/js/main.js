@@ -191,7 +191,7 @@
 			appModel.on("change", function() {
 				var stage = this.get('evalMode');
 				
-				alert("Stage:" + stage);
+				//alert("Stage:" + stage);
 			});			
 			
 			$('#logOut').click(function(ev) {

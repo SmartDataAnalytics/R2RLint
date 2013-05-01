@@ -1,11 +1,11 @@
-package org.aksw.sml_eval.adaptors;
+package org.aksw.sml_eval.adapters;
 
 import java.util.List;
 
 
 import com.hp.hpl.jena.rdf.model.Model;
 
-class MapResult {
+public class MapResult {
 	private Model model;
 	private List<Message> messages;
 	

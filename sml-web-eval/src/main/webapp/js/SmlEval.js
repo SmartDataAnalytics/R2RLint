@@ -37,6 +37,16 @@ var org, aksw, sml_eval, app;
 			viewTasks.render();
 
 			
+			var self = this;
+			viewTasks.on('run', function(model) {
+
+				//console.log('run model', model);
+				var taskId = model.get('id'); //model.get('taskId');
+				var mappingText = model.get('mappingText');
+				
+				self.runMapping(taskId, mappingText);
+			});
+			
 			this.restoreSession();
 
 			//this.initialize();
@@ -169,10 +179,45 @@ var org, aksw, sml_eval, app;
 		 * Used for calculating the diff
 		 * 
 		 */
-		runTask: function(mapping) {
+		runMapping: function(taskId, mappingText) {
+			
+			var data = {
+				taskId: taskId,
+				mapping: mappingText
+			};
+
+			this.setMappingResult(taskId, {
+				model: {},
+				messages: ["Running..."]
+			});
+
+			var apiUrl = this.apiUrl;
+			var self = this;
+			$.ajax({
+				url: apiUrl + "runMapping",
+				type: 'POST',
+				data: data
+			}).done(function(json) {
+				
+				
+				self.setMappingResult(taskId, json);
+				
+			}).fail(function() {
+				alert("Mapping Fail");
+			});
 			
 		},
 		
+		
+		setMappingResult: function(taskId, json) {
+			var taskModels = this.model.get('tasks');
+			var taskModel = taskModels.get(taskId);
+			
+			taskModel.set({
+				mapperTriples: json.model,
+				mapperOutput: json.messages
+			});
+		},
 		
 		/**
 		 * Submits a mapping and records it

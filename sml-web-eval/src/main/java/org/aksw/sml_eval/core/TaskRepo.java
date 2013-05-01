@@ -52,6 +52,7 @@ public class TaskRepo {
 	public Map<String, Object> toJsonMap(TaskBundle taskBundle) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
+		result.put("id", taskBundle.getTaskName());
 		result.put("name", taskBundle.getTaskName());
 		result.put("tables", toJsonMap(taskBundle.getRelations()));
 

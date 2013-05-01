@@ -1,4 +1,4 @@
-package org.aksw.sml_eval.adaptors;
+package org.aksw.sml_eval.adapters;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;

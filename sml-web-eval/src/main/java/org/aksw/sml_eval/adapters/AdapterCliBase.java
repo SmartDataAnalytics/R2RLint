@@ -1,16 +1,18 @@
-package org.aksw.sml_eval.adaptors;
+package org.aksw.sml_eval.adapters;
 
 import java.io.File;
 
 import org.aksw.commons.util.jdbc.DataSourceConfig;
 
 
-public abstract class CliWrapperBase {
+public abstract class AdapterCliBase
+	implements Adapter
+{
 	protected File exec;
 	protected DataSourceConfig dsConfig;
 	protected MessageParser messageParser;
 	
-	public CliWrapperBase(File exec, DataSourceConfig dsConfig, MessageParser messageParser) {
+	public AdapterCliBase(File exec, DataSourceConfig dsConfig, MessageParser messageParser) {
 		this.exec = exec;
 		this.dsConfig = dsConfig;
 		this.messageParser = messageParser;
@@ -24,4 +26,17 @@ public abstract class CliWrapperBase {
 		MapResult result = CliUtils.process(command, messageParser);
 		return result;
 	}
+
+	public MapResult map(String mappingStr) {
+		MapResult result = null;
+		try {
+			result = _map(mappingStr);
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		return result;
+	}
+
+	public abstract MapResult _map(String mappingStr) throws Exception;
 }

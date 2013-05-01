@@ -1,4 +1,4 @@
-package org.aksw.sml_eval.adaptors;
+package org.aksw.sml_eval.adapters;
 
 import java.io.File;
 
@@ -8,10 +8,10 @@ import org.aksw.commons.util.jdbc.DataSourceConfigDefault;
 
 import com.google.common.base.Joiner;
 
-public class CliWrapperSparqlify
-	extends CliWrapperBase
+public class AdapterCliSparqlify
+	extends AdapterCliBase
 {
-	public CliWrapperSparqlify(File exec, DataSourceConfig dsConfig) {
+	public AdapterCliSparqlify(File exec, DataSourceConfig dsConfig) {
 		super(exec, dsConfig, new MessageParserDummy());
 	}	
 	
@@ -52,7 +52,7 @@ public class CliWrapperSparqlify
 		dsc.setUsername("postgres");
 		dsc.setPassword("postgres");
 
-		CliWrapperSparqlify wrapper = new CliWrapperSparqlify(exec, dsc);
+		AdapterCliSparqlify wrapper = new AdapterCliSparqlify(exec, dsc);
 		MapResult r = wrapper._map("Prefix ex: <http://example.org/> Create View test As Construct { ?s a ex:Thing } With ?s = uri(ex:, ?id) From users");
 		r.getModel().write(System.out, "TTL");
 		System.err.println(r.getMessages());

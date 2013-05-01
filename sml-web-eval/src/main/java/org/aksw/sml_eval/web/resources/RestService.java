@@ -24,6 +24,9 @@ import javax.ws.rs.core.StreamingOutput;
 import org.aksw.commons.sparql.api.core.QueryExecutionFactory;
 import org.aksw.commons.util.MapReader;
 import org.aksw.commons.util.slf4j.LoggerCount;
+import org.aksw.sml_eval.adapters.Adapter;
+import org.aksw.sml_eval.adapters.MapResult;
+import org.aksw.sml_eval.core.ModelUtils;
 import org.aksw.sml_eval.core.Store;
 import org.aksw.sml_eval.core.TaskRepo;
 import org.aksw.sparqlify.config.syntax.Config;
@@ -74,6 +77,10 @@ public class RestService {
 	@Resource(name="smlEval.store")
 	private Store store;
 
+	
+	@Resource(name="smlEval.mapper.sml")
+	private Adapter adapterSml;
+	
 	//private @Context ServletContext context;
 	
 	/**
@@ -213,6 +220,38 @@ public class RestService {
 	public String advance() {
 		return "{}";
 	}
+	
+	
+	/**
+	 * Advances to the next eval mode (if it exists)
+	 * 
+	 * @return
+	 */
+	@POST
+	@Path("/runMapping")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String runMapping(@Context HttpServletRequest req, @FormParam("taskId") String taskId, @FormParam("mapping") String mappingStr) {
+		
+		// TODO How to get the appropriate task db?
+		MapResult mr;
+		try {
+			mr = adapterSml.map(mappingStr);
+		} catch(Exception e) {
+			logger.error("Something went wrong", e);
+			throw new RuntimeException(e);			
+		}
+		Object o = ModelUtils.toJsonObject(mr.getModel());
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("task", taskId);
+		response.put("model", o);
+		//result.put("isSolution", false);
+		response.put("messages", mr.getMessages());
+		
+		return toJsonString(response);
+	}
+	
+	
 	
 	
 	
