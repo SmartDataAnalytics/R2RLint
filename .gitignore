@@ -20,6 +20,8 @@ target
 *.substvars
 *.swp
 
+config.js
+
 DEBIAN
 usr
 
