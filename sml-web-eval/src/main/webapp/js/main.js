@@ -92,7 +92,7 @@
 			}
 		};
 
-		var apiUrl = "api/0.1/";
+		var apiUrl = config.apiUrl;
 
 	
 		var resetApp = function() {
@@ -167,7 +167,8 @@
 			var appModel = new Backbone.Model();
 			
 			var smlEval = new app.SmlEval({
-				model: appModel
+				model: appModel,
+				apiUrl: apiUrl
 			});
 			
 			

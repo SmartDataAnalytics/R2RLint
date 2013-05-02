@@ -15,8 +15,9 @@ var org, aksw, sml_eval, app;
 
 	
 	ns.SmlEval = Backbone.View.extend({//function(appModel) {
-		initialize: function() {
-			this.apiUrl = "api/0.1/";
+		initialize: function(options) {
+			
+			this.apiUrl = this.options.apiUrl; //"api/0.1/";
 			//this.model = appModel;
 			
 			var model = this.model;
