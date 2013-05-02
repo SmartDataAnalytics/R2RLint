@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.aksw.commons.util.jdbc.DataSourceConfig;
-import org.aksw.commons.util.jdbc.Relation;
 
 import com.hp.hpl.jena.rdf.model.Model;
 

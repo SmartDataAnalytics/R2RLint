@@ -81,4 +81,26 @@
 	 </bean>
 
 
+
+
+	<bean id="osm.userTags.dataSource" scope="singleton"
+		class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass" value="${osm.userTags.db.driverClass}" />
+
+		<property name="jdbcUrl" value="${osm.userTags.db.jdbcUrl}" />
+		<property name="username" value="${osm.userTags.db.username}" />
+		<property name="password" value="${osm.userTags.db.password}" />
+
+		<property name="partitionCount" value="${osm.userTags.db.partitionCount}" />
+
+		<property name="minConnectionsPerPartition" value="${osm.userTags.db.minConnectionsPerPartition}" />
+		<property name="maxConnectionsPerPartition" value="${osm.userTags.db.maxConnectionsPerPartition}" />
+
+		<property name="idleConnectionTestPeriod" value="${osm.userTags.db.idleConnectionTestPeriod}" />
+	</bean>
+
+	<bean id="osm.userTags.store" class="org.aksw.sml_eval.web.resources.UserTagsStore">
+		<constructor-arg><ref local="osm.userTags.dataSource" /></constructor-arg>
+	</bean>
+
 </beans>

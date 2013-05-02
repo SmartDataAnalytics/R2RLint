@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html class="js" lang="en" dir="ltr" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head xmlns:update="http://ns.aksw.org/update/">
+
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>R2RML/SML Mapping Evaluation</title>
+
+
+	<link rel="stylesheet" href="lib/twitter-bootstrap/2.0.3/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="lib/select2/3.3.2/select2.css" />
+	<link rel="stylesheet" type="text/css" href="lib/jquery-ui/1.10.2/themes/base/jquery-ui.css" />
+
+	<link rel="stylesheet" type="text/css" href="css/style-ontowiki.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+	
+	<script type="text/javascript" src="lib/namespacedotjs/a28da387ce/Namespace.js"></script>
+	<script type="text/javascript" src="lib/jquery/1.9.1/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="lib/jQuery-ajaxTransport-XDomainRequest/current/jQuery.XDomainRequest.js"></script>
+	<script type="text/javascript" src="lib/jquery-ui/1.10.2/ui/jquery-ui.js"></script>
+	<script type="text/javascript" src="lib/underscore/1.4.4/underscore.js"></script>
+	<script type="text/javascript" src="lib/underscore.string/current/dist/underscore.string.min.js"></script>
+	<script type="text/javascript" src="lib/backbone/1.0.0/backbone.js"></script>
+	<script type="text/javascript" src="lib/twitter-bootstrap/2.0.3/js/bootstrap.js"></script>
+	<script type="text/javascript" src="lib/agility/current/agility.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/CryptoJS/3.0.2/components/core-min.js"></script>
+	<script type="text/javascript" src="lib/CryptoJS/3.0.2/components/enc-utf16-min.js"></script>
+	<script type="text/javascript" src="lib/CryptoJS/3.0.2/components/enc-base64-min.js"></script>
+	<script type="text/javascript" src="lib/open-layers/2.12/OpenLayers.js"></script>
+	<script type="text/javascript" src="lib/json-template/0.85/json-template.js"></script>
+	<script type="text/javascript" src="lib/RDFauthor/current/libraries/jquery.rdfquery.rdfa-1.0.js"></script>
+	<!-- <script type="text/javascript" src="lib/open-layers/2.10/extensions/OpenStreetMap/OpenStreetMap.js"></script> -->
+	
+	<script type="text/javascript" src="lib/select2/3.3.2/select2.js"></script>
+
+
+	<script type="text/javascript" src="js/utils.js"></script>
+	<script type="text/javascript" src="js/tables.js"></script>
+	<script type="text/javascript" src="js/sparql-syntax.js"></script>
+	<script type="text/javascript" src="js/rdf-color-diff.js"></script>
+	<script type="text/javascript" src="js/tasks.js"></script>
+
+	<script type="text/javascript" src="js/mvc/views.js"></script>
+	<script type="text/javascript" src="js/SmlEval.js"></script>
+
+
+	<script type="text/javascript">
+
+	$(document).ready(function() {
+	
+		var apiUrl = "foo/foo/0.1/store/";
+		
+		var url = apiUrl + "way/1";
+		
+		var tags = [
+				{k: 'foo', v: 'bar'}
+			];
+		
+		var payload = JSON.stringify(tags);
+		
+		
+		
+		$.ajax({
+			url: url,
+			type: 'POST',
+			data: {tags: payload}
+		}).done(function(json) {
+			console.log("Repsonse: ", json)
+		}).fail(function() {
+			console.log("epic FAIL");
+		});
+			
+	});
+	
+	</script>
+
+
+</head>
+
+<body>
+	<div class="container"> <!-- style="width: 100%"  -->
+
+		<div id="header" class="row-fluid">
+			<div class="span12 left-column">
+
+				
+									
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
