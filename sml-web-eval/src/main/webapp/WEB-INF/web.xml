@@ -45,6 +45,17 @@
 	</servlet-mapping>
 
 
+	<filter>
+		<filter-name>smlEvalApi-corsFilter</filter-name>
+		<filter-class>org.aksw.sml_eval.web.filters.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>smlEvalApi-corsFilter</filter-name>
+		<servlet-name>smlEvalApi</servlet-name>
+	</filter-mapping>
+
+
+
 	<servlet>
 		<servlet-name>osmUserTags</servlet-name>
 		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
@@ -60,6 +71,15 @@
 		<servlet-name>osmUserTags</servlet-name>
 		<url-pattern>/foo/*</url-pattern>
 	</servlet-mapping>
+
+	<filter>
+		<filter-name>osmUserTags-corsFilter</filter-name>
+		<filter-class>org.aksw.sml_eval.web.filters.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>osmUserTags-corsFilter</filter-name>
+		<servlet-name>osmUserTags</servlet-name>
+	</filter-mapping>
 
 
 
