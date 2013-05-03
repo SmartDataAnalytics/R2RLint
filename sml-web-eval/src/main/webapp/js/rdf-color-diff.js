@@ -159,8 +159,25 @@ var rdfDiff;
 
 	ns.renderDiff = function(subjects) {
 
-		//var result = '<table>';
-		var result = '<ul class="separated bullets-none">';
+		var resultSuccess = true;
+		var resultClass = resultSuccess ? 'alert-success' : 'alert-error';
+		// heading with status
+		var result = '<div class="alert '+resultClass+' fade in">';
+        result += '<button type="button" class="close" data-dismiss="alert">×</button>';
+        result += '<strong>Result:</strong> Success!';
+        result += '</div>';
+
+        // collapsible details
+        result += '<div class="accordion" id="resultAccordion">';
+        result += '<div class="accordion-group">';
+        result += '<div class="accordion-heading">';
+        result += '<a class="accordion-toggle" data-toggle="collapse" data-parent="#resultAccordion" href="#collapseDetails">Show details</a>';
+        result += '</div>';
+        result += '<div id="collapseDetails" class="accordion-body collapse">';
+        result += '<div class="accordion-inner">';
+
+        // data rendering stuff
+		result += '<ul class="separated bullets-none">';
 
 		for(var i = 0; i < subjects.length; ++i) {
 			var subject = subjects[i];
@@ -211,6 +228,13 @@ var rdfDiff;
 
 		//result += "</table>"
 		result += '</ul>';
+
+		// close collapsible
+		result += '</div>';
+		result += '</div>';
+		result += '</div>';
+		result += '</div>';
+
 		return result;
 	}
 
