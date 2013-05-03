@@ -16,8 +16,10 @@ var tasks;
 	ns.template
 		= '<div class="row-fluid">'
 		+ '    <div class="span12">'
-		+ '        <h3 class="taskName">Loading task description...</h3>'
-		+ '        <p class="taskHint"></p>'
+		+ '        <div class="hero-unit" style="padding: 10px; margin-bottom: 10px;">'
+		+ '            <p class="taskName">Loading task description...</p>'
+		+ '            <p class="taskHint"></p>'
+		+ '        </div>'
 		+ '    </div>'
 		+ '</div>'
 		+ ''
@@ -36,7 +38,7 @@ var tasks;
 //		+ '            </div>'
 
 		+ '            <div style="float:right">'
-		+ '                <button class="btnSubmit btn btn-primary">Run!</button>'
+		+ '                <button style="width:100px; height: 40px; font-weight: bold; font-size: 15px;" class="btnSubmit btn btn-success">Run!</button>'
 		+ '            </div>'
 
 		+ '            <div class="mapperOutput" style="float:clear-both"></div>'

@@ -12,12 +12,12 @@ var tables;
 		
 		var titleN = Math.ceil(n / 2);
 		
-		var result = '<table class="separated-vertical">';
+		var result = '<table class="table table-striped table-condensed table-bordered">';
 		
 		result += '<tr>';
-		result += '<td colspan="' + titleN + '">';
+		result += '<td colspan="' + titleN + '"><b>';
 		result += json.name;
-		result += '</td>';
+		result += '</b></td>';
 		
 		var m = body.length;
 		

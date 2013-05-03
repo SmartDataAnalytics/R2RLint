@@ -1,3 +1,3 @@
 var config = {};
 
-config.apiUrl = "api/0.1/";
+config.apiUrl = "http://cstadler.aksw.org/sml-web-eval/api/0.1/";
