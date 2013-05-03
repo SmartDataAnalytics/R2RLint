@@ -66,6 +66,7 @@ public class UserTagsResource {
 	
 	@PostConstruct
 	private void init() {
+		// Strange...
 		this.oAuthCallbackUrl = baseUrl + "/usertags-oauth-callback.html";
 	}
 	
