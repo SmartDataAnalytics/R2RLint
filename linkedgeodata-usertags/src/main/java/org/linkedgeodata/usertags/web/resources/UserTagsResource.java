@@ -143,7 +143,7 @@ public class UserTagsResource {
 		}
 		
 		oAuthClient.progress(code);
-		
+
 		User userDetails = oAuthClient.getUserDetails();
 		session.setAttribute("userDetails", userDetails);
 		
