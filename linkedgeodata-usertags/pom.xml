@@ -127,6 +127,12 @@
 <!-- 			<artifactId>oauth-signpost</artifactId> -->
 			<artifactId>signpost-core</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+		</dependency>
+		
 	</dependencies>
 
 
