@@ -20,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
@@ -35,8 +36,8 @@ import org.linkedgeodata.usertags.core.OsmUtils;
 import org.linkedgeodata.usertags.core.Tag;
 import org.linkedgeodata.usertags.core.TxWrapper;
 import org.linkedgeodata.usertags.core.UserId;
-import org.linkedgeodata.usertags.core.UserIdOsm;
 import org.linkedgeodata.usertags.core.UserTagsStore;
+import org.linkedgeodata.usertags.xml.User;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
@@ -69,7 +70,7 @@ public class UserTagsResource {
 	}
 	
 	public static UserId requireUserId(@Context HttpServletRequest req) {
-		if(true) { return new UserIdOsm(1); }
+		//if(true) { return new UserIdOsm(1); }
 		
 		HttpSession session = req.getSession();
 		
@@ -130,7 +131,7 @@ public class UserTagsResource {
 	@Path("/login/oauth/callback")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String loginOsmOAuthProgress(@Context HttpServletRequest req, @FormParam("oauth_verifier") String code, @FormParam("oauth_token") String token)
-			throws SQLException, OAuthMessageSignerException, OAuthNotAuthorizedException, OAuthExpectationFailedException, OAuthCommunicationException, IOException
+			throws SQLException, OAuthMessageSignerException, OAuthNotAuthorizedException, OAuthExpectationFailedException, OAuthCommunicationException, IOException, JAXBException
 	{
 		HttpSession session = req.getSession();
 
@@ -142,16 +143,47 @@ public class UserTagsResource {
 		
 		oAuthClient.progress(code);
 		
-		UserId userId = oAuthClient.getUserId();
-
-		session.setAttribute("userId", userId);
+		User userDetails = oAuthClient.getUserDetails();
+		session.setAttribute("userDetails", userDetails);
 		
 		Map<String, Object> response = new HashMap<String, Object>();
+		//Gson userJson = new Gson();
+		//String str = userJson.
+				
 		response.put("success", true);
-		response.put("userId", userId);
+		response.put("userDetails", userDetails);
 		
 		return toJsonString(response);		
 	}
+
+
+	/**
+	 * Retrieve session information
+	 * 
+	 * @param req
+	 * @return
+	 */
+	@GET
+	@Path("/session")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSessionState(@Context HttpServletRequest req)
+	{
+		HttpSession session = req.getSession();
+
+		//session.getAttribute("userSession");
+		
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("success", true);
+		
+		Map<String, Object> sub = new HashMap<String, Object>();
+		response.put("session", sub);
+		//response.put("userId", userId);
+		//response.put("userName", userName);
+		
+		return toJsonString(response);		
+	}
+
 	
 	@GET
 	@Path("/test/{type}/{id}")

@@ -1,9 +1,11 @@
 package org.linkedgeodata.usertags.core;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.xml.bind.JAXBException;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
@@ -12,7 +14,8 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import oauth.signpost.exception.OAuthNotAuthorizedException;
 
-import org.aksw.commons.util.StreamUtils;
+import org.linkedgeodata.usertags.xml.Osm;
+import org.linkedgeodata.usertags.xml.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,8 +69,8 @@ public class OsmOAuthClient {
 	
 	
 	
-	public UserId getUserId()
-			throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, IOException
+	public User getUserDetails()
+			throws OAuthMessageSignerException, OAuthExpectationFailedException, OAuthCommunicationException, IOException, JAXBException
 	{
 		URL url = new URL("http://api06.dev.openstreetmap.org/api/0.6/user/details");
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
@@ -80,9 +83,20 @@ public class OsmOAuthClient {
         System.out.println("Response: " + request.getResponseCode() + " "
                 + request.getResponseMessage());
 
+        InputStream in = request.getInputStream();
+        User result = null;
+        try {
+        	Osm osm = OsmUtils.unmarshallXml(Osm.class, in);
+        	result = osm.getUser();
+        } finally {
+        	in.close();
+        }
+        
+        /*
         String str = StreamUtils.toString(request.getInputStream());
         System.out.println(str);
+        */
         
-        return null;
+        return result;
 	}	
 }

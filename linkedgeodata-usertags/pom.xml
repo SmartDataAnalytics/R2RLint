@@ -39,6 +39,25 @@
 	<build>
 		<plugins>
 			<plugin>
+				<!-- Any eclipse problem with the plugin should disappear with m2e 1.1 -->
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<generatePackage>org.linkedgeodata.usertags.xml</generatePackage>
+				</configuration>
+			</plugin>
+		
+		
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
