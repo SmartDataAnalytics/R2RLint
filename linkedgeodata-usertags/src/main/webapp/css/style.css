@@ -1,0 +1,23 @@
+span.covered {
+	color: green
+}
+
+span.uncovered {
+	color: grey
+}
+
+span.invalid {
+	color: magenta
+}
+
+span.excessive {
+	color: red
+}
+
+td.login-labels {
+	width: 200px;
+}
+td.login-fields {
+	width: 200px;
+}
+
