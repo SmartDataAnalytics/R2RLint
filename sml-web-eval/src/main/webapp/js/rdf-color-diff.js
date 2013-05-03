@@ -6,6 +6,8 @@ var rdfDiff;
 		'http://xmlns.com/foaf/0.1/': 'foaf'
 	};
 
+	var widgetsCount = 0;
+
 	ns.getState = function(isExpected, isActual) {
 		var result;
 
@@ -168,12 +170,12 @@ var rdfDiff;
         result += '</div>';
 
         // collapsible details
-        result += '<div class="accordion" id="resultAccordion">';
+        result += '<div class="accordion" id="resultAccordion'+widgetsCount+'">';
         result += '<div class="accordion-group">';
         result += '<div class="accordion-heading">';
-        result += '<a class="accordion-toggle" data-toggle="collapse" data-parent="#resultAccordion" href="#collapseDetails">Show details</a>';
+        result += '<a class="accordion-toggle" data-toggle="collapse" data-parent="#resultAccordion'+widgetsCount+'" href="#collapseDetails'+widgetsCount+'">Show details</a>';
         result += '</div>';
-        result += '<div id="collapseDetails" class="accordion-body collapse">';
+        result += '<div id="collapseDetails'+widgetsCount+'" class="accordion-body collapse">';
         result += '<div class="accordion-inner">';
 
         // data rendering stuff
@@ -234,6 +236,9 @@ var rdfDiff;
 		result += '</div>';
 		result += '</div>';
 		result += '</div>';
+
+		// increase widget count
+		widgetsCount++;
 
 		return result;
 	}
