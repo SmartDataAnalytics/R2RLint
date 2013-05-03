@@ -1,0 +1,64 @@
+/**
+ * These mappings are instanced for each user
+ *
+ * Actually we need access control on top of the RDB RDF mappings,
+ * so that we only expose triples belonging to a certain user account.
+ *
+ * qefs.build().bind("user_id, 1).bind("foo", "bar").createQueryExecution("Select ...").execSelect();
+ *
+ *
+ * The good of the parameter approach:
+ * - The application could set parameters, and does not have to worry about anything
+ *
+ * If parameters work on the schema level, we can do constraints of columns which
+ * are not exposed as triples! (much more mighty -> killer argument) 
+ *
+ * The bad:
+ * - if we allow arbitrary expressions, we end up needing to parse the SQL
+ * - Can we inject expressions? E.g. (id between 5 and 10)
+ *
+ * Expression support only makes sense on the application level.
+ *
+ * I guess we really need to extend the SparqlifyQef with something like:
+ *
+ * qef.getView("foo").addSqlConstraint("id = 1");
+ * qef.getView("bar").addSqlConstraint("...");
+ *
+ * 
+ *
+ * List<SqlExpr> sqlExprs = qef.getView("baz").getSqlConstraints();
+ *
+ *
+ * Then, in our application we could do:
+ * 
+ * Qef qef = createQef();
+ * qef.getView("users").addSqlConstraint("...");
+ *
+ */
+
+Select * {
+  ?s a Stage
+}
+
+/**
+ * Expose additional triples
+ */
+Create View name extends stageStage As
+  Construct {
+  }
+  With
+    ?
+  
+  
+
+Create View stageState(?id ?userId, ...) As
+  Construct {
+  
+  }
+  With
+    
+  From
+    submissions
+  WHERE user_id = %user_id AND NOT EXISTS ...
+    
+    
