@@ -66,7 +66,7 @@ public class UserTagsResource {
 	
 	@PostConstruct
 	private void init() {
-		this.oAuthCallbackUrl = baseUrl + "/usertags-oauth-callback";
+		this.oAuthCallbackUrl = baseUrl + "/usertags-oauth-callback.html";
 	}
 	
 	public static UserId requireUserId(@Context HttpServletRequest req) {

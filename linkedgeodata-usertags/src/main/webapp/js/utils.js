@@ -5,7 +5,7 @@ var utils;
 	//console.log("The diff:", diff);
 	
 	// http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values
-	ns.getUriQuery(url) {
+	ns.getUriQuery = function(url) {
 	    if(!url) {
 	    	url = location.href;
 	    }
