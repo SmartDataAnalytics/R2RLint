@@ -1,6 +1,7 @@
 package org.linkedgeodata.usertags.web.resources;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -33,6 +34,7 @@ import oauth.signpost.exception.OAuthNotAuthorizedException;
 import org.linkedgeodata.usertags.core.OsmEntityType;
 import org.linkedgeodata.usertags.core.OsmOAuthClient;
 import org.linkedgeodata.usertags.core.OsmUtils;
+import org.linkedgeodata.usertags.core.Playground;
 import org.linkedgeodata.usertags.core.Tag;
 import org.linkedgeodata.usertags.core.TxWrapper;
 import org.linkedgeodata.usertags.core.UserId;
@@ -196,10 +198,13 @@ public class UserTagsResource {
 
 	@GET
 	@Path("/test")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String test(@Context HttpServletRequest req, @PathParam("type") String entitiyType, @PathParam("id") final Long osmEntityId)
+	//@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String test(@Context HttpServletRequest req) throws UnsupportedEncodingException, JAXBException, IOException
 	{
-		return "{success: true}";
+		return Playground.testXml().getUser().getDisplayName();
+		
+		//return "{success: true}";
 	}
 
 	

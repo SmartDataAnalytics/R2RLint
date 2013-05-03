@@ -1,9 +1,13 @@
 package org.linkedgeodata.usertags.core;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.xml.bind.JAXBException;
 
 import oauth.signpost.OAuth;
 import oauth.signpost.OAuthConsumer;
@@ -12,12 +16,31 @@ import oauth.signpost.basic.DefaultOAuthConsumer;
 import oauth.signpost.basic.DefaultOAuthProvider;
 
 import org.aksw.commons.util.StreamUtils;
+import org.linkedgeodata.usertags.xml.Osm;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 
 
 public class Playground {
 
+	public static Osm testXml() throws UnsupportedEncodingException, JAXBException, IOException {
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		Resource res = resolver.getResource("/osmUserDetailsTest.xml");
+
+		Osm osm = OsmUtils.unmarshallXml(Osm.class, res.getInputStream());
+		return osm;
+	}
+	
 	public static void main(String[] args) throws Exception {
+
+		Osm osm = testXml();
+		System.out.println(osm.getUser().getDisplayName());
+		
+	}
+	
+	
+	public static void mainO(String[] args) throws Exception {
 
 		// Production
 //		OAuthConsumer consumer = new DefaultOAuthConsumer("dwSU4C5KCpkpdnH5mFfLUPc1r5SVd0kshSR71LeA",
