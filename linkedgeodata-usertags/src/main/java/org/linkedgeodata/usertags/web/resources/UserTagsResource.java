@@ -47,7 +47,7 @@ import com.google.gson.reflect.TypeToken;
 @Component
 @Path("/api/0.1")
 public class UserTagsResource {
-
+ 
 	//@Resource(name="userTags.oAuthConsumer")
 	private OAuthConsumer oAuthConsumer = new DefaultOAuthConsumer("UNESf7cJrwH1o8f3Yx3LML3U27DHLu91YXf5gJMj",
 			"AZEpmpA8KK63xdp7p4c38kvaKKGmH088pEYWSW6g");
@@ -66,7 +66,7 @@ public class UserTagsResource {
 	
 	@PostConstruct
 	private void init() {
-		this.oAuthCallbackUrl = baseUrl + "/oauth/callback";
+		this.oAuthCallbackUrl = baseUrl + "/usertags-oauth-callback";
 	}
 	
 	public static UserId requireUserId(@Context HttpServletRequest req) {
