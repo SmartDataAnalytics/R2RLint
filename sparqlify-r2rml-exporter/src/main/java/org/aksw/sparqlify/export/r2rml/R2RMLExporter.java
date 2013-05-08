@@ -802,6 +802,12 @@ public class R2RMLExporter {
 			if (func.getFunctionSymbol().equals(concatLabel)) {
 			List<Expr> args = func.getArgs();
 			for (Expr arg : args) {
+				// explicitely use string representation of IRIs get strings
+				// without leading and trailing angle brackets
+				if (arg.isConstant() && arg.toString().startsWith("<")) {
+					exprStr += arg.getConstant().asString();
+					continue;
+				}
 				exprStr += processRestrExpr(arg);
 			}
 			
@@ -828,6 +834,12 @@ public class R2RMLExporter {
 				// argument has, should be processed in a different place.
 				Expr subExpr = func.getArgs().get(0);
 				exprStr += processRestrExpr(subExpr);
+			} else {
+				// URL encode
+				// FIXME: no URL encoding is done here!!
+				Expr subExpr = func.getArgs().get(0);
+				exprStr += processRestrExpr(subExpr);
+				
 			}
 
 		/*
