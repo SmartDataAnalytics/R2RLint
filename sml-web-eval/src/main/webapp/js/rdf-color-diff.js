@@ -173,9 +173,9 @@ var rdfDiff;
         result += '<div class="accordion" id="resultAccordion'+widgetsCount+'">';
         result += '<div class="accordion-group">';
         result += '<div class="accordion-heading">';
-        result += '<a class="accordion-toggle" data-toggle="collapse" data-parent="#resultAccordion'+widgetsCount+'" href="#collapseDetails'+widgetsCount+'">Show details</a>';
+        //result += '<a class="accordion-toggle" data-toggle="collapse" data-parent="#resultAccordion'+widgetsCount+'" href="#collapseDetails'+widgetsCount+'">Show details</a>';
         result += '</div>';
-        result += '<div id="collapseDetails'+widgetsCount+'" class="accordion-body collapse">';
+        result += '<div id="collapseDetails'+widgetsCount+'" class="accordion-body">'; //collapse
         result += '<div class="accordion-inner">';
 
         // data rendering stuff

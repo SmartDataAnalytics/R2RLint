@@ -25,8 +25,11 @@
 	<script type="text/javascript" src="lib/CryptoJS/3.0.2/components/core-min.js"></script>
 	<script type="text/javascript" src="lib/CryptoJS/3.0.2/components/enc-utf16-min.js"></script>
 	<script type="text/javascript" src="lib/CryptoJS/3.0.2/components/enc-base64-min.js"></script>
+	<script type="text/javascript" src="lib/CryptoJS/3.0.2/components/md5.js"></script>
 	<script type="text/javascript" src="lib/json-template/0.85/json-template.js"></script>
 	<!-- <script type="text/javascript" src="lib/open-layers/2.10/extensions/OpenStreetMap/OpenStreetMap.js"></script> -->
+
+	<script type="text/javascript" src="lib/doT/current/doT.js"></script>
 	
 	<script type="text/javascript" src="lib/select2/3.3.2/select2.js"></script>
 
@@ -80,65 +83,39 @@
 						
 							<form action="">
 								<table>
-									<tr><td class="login-labels">Username:</td><td class="login-fields"><input id="login-username" type="text" size="30" /></td></tr>
-									<tr><td>Password:</td><td><input id="login-password" type="password" size="30" /></td></tr>
+									<tr><td class="login-labels">Username:</td><td class="login-fields"><input id="login-username" type="text" size="30" /></td><td class="login-fields"><span id="login-username-msg"></span></td></tr>
+									<tr><td>Password:</td><td><input id="login-password" type="password" size="30" /></td><td><span id="login-password-msg"></span></td></tr>
 									<tr><td><hr /></td><td><button id="logIn" type="submit" class="btn btn-primary" value="logIn" style="width: 100%">Log In</button></td></tr>
 								</table>
 							</form>
 							<form action="">
 								<table>
-									<tr><td class="login-labels">Confirm Password:</td><td class="login-fields"><input id="register-passwordConfirm" type="password" /></td></tr>
-									<tr><td>Email</td><td><input id="register-email" type="text" /></td></tr>
-									<tr><td>Confirm Email:</td><td><input id="register-emailConfirm" type="text" /></td></tr>
+									<tr><td class="login-labels">Confirm Password:</td><td class="login-fields"><input id="register-passwordConfirm" type="password" /></td><td class="login-fields"><span id="register-passwordConfirm-msg"></span></td></tr>
+									<tr><td>Email</td><td><input id="register-email" type="text" /></td><td><span id="register-email-msg"></span></td></tr>
+									<tr><td>Confirm Email:</td><td><input id="register-emailConfirm" type="text" /></td><td><span id="register-emailConfirm-msg"></span></td></tr>
 									<tr><td><hr /></td><td><button id="registerAndLogIn" type="submit" class="btn btn-primary" value="registerAndLogIn" style="width: 100%">Register &amp; Log In</button></td></tr>
 								</table>
 							</form>
 						</div>
 					</div>
-					<div id="signUp-loggedIn" class="row-fluid" style="visibility:none">
+					<div id="signUp-loggedIn" class="row-fluid" style="display:none">
 						<div class="span12">
 							Thank you for participating in this survey!
+						<div class="lang-assignment span12">
+						</div>
 						</div>
 					</div>
 					
 				</div>
 
 				<div id="tab-body-scoreSheet" class="tab-pane">
-					<div class="row-fluid">
-						<div class="span12">
-							<h3>Task 1: Complete the given mapping so that the triples created from it match the reference data set.</h3>
-							<p>
-							The triples with the country and mbox properties are missing. 
-							</p>
-						</div>
-					</div>
-						
-					<div class="row-fluid">
-						<div class="tableArea span8" style="margin-bottom: 15px">
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span8">
-							<textarea id="sql" class="span12" style="resize:none" rows="20">Create ...</textarea>
-						</div>
-						<div class="rdfdiff span4">
-							Result goes here
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span8">
-							<div style="float:right">
-								<button class="btn btn-primary">Run!</button>
-							</div>
-						</div>
-					</div>
-
-				
+					<div id="scoreSheet-loggedOut">Please log in to receive your link to a scoresheet where you can give 1 to 5 points for a few questions (e.g. about your familiarity with RDB RDF, whether you found the tasks too difficult, ...).</div>
+					<div id="scoreSheet-loggedIn" style="display:none"></div>
 				</div>
 				
 				<div id="tab-body-summary" class="tab-pane">
 					<div class="row-fluid">
-						<div class="span8">
+						<div id="summary-content" class="span8">
 						Summary goes here
 						</div>
 					</div>

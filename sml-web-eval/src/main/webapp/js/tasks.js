@@ -79,7 +79,7 @@ var tasks;
 			$elTableArea.append($el);
 		}
 		
-		$elResult.find('.mappingArea').val(task.initialMappings['sparqlify']);
+		//$elResult.find('.mappingArea').val(task.initialMappings['sparqlify']);
 		
 		
 		var rd = rdfDiff.createDiff(task.referenceData, expected);

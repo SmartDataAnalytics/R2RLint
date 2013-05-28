@@ -25,12 +25,17 @@ import javax.ws.rs.core.StreamingOutput;
 import org.aksw.commons.sparql.api.core.QueryExecutionFactory;
 import org.aksw.commons.util.MapReader;
 import org.aksw.commons.util.slf4j.LoggerCount;
+import org.aksw.sml_eval.core.EvalSummary;
+import org.aksw.sml_eval.core.LangSummary;
 import org.aksw.sml_eval.core.ModelUtils;
 import org.aksw.sml_eval.core.Store;
+import org.aksw.sml_eval.core.TaskBundle;
 import org.aksw.sml_eval.core.TaskRepo;
+import org.aksw.sml_eval.core.TaskSummary;
 import org.aksw.sml_eval.mappers.Adapter;
 import org.aksw.sml_eval.mappers.MapResult;
 import org.aksw.sml_eval.mappers.MapperFactory;
+import org.aksw.sml_eval.mappers.MapperFactorySparqlMap;
 import org.aksw.sml_eval.mappers.MapperFactorySparqlify;
 import org.aksw.sparqlify.config.syntax.Config;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
@@ -85,12 +90,17 @@ public class RestService {
 	@Resource(name="smlEval.mapperFactory.sml")
 	private MapperFactorySparqlify mapperSml;
 	
+	@Resource(name="smlEval.mapperFactory.r2rml")
+	private MapperFactorySparqlMap mapperR2rml;
+	
+	
 	private MapperRepo mapperRepo;
 	
 	@PostConstruct
 	private void init() {
 		Map<String, MapperFactory> toolToFactory = new HashMap<String, MapperFactory>();
 		toolToFactory.put("sml", mapperSml);
+		toolToFactory.put("r2rml", mapperR2rml);
 		
 		mapperRepo = MapperRepo.create(taskRepo, toolToFactory);
 	}
@@ -195,11 +205,21 @@ public class RestService {
 		HttpSession session = req.getSession();
 		Integer userId = (Integer)session.getAttribute("userId");
 		
+		
 		Map<String, Object> response = new HashMap<String, Object>();
 		
 		boolean isLoggedIn = userId != null;
 		String evalMode = store.getEvalMode(userId);
 		response.put("isLoggedIn", isLoggedIn);
+		
+		if(isLoggedIn) {
+			String limesToken = store.getLimesToken(userId);
+	
+			response.put("limesToken", limesToken);
+		}
+		
+		
+		
 		
 		// Note: The client has no control of the eval mode
 		// Its purely informational
@@ -212,16 +232,77 @@ public class RestService {
 
 	
 	/**
+	 * Augment a user's eval summary.
+	 * 
+	 * 
+	 */
+	public void augmentEvalSummary(EvalSummary evalSummary, String evalMode) {
+		//for(Map<String, TaskBundle> tataskRepo.getTasks()
+
+		
+		Map<String, LangSummary> map = evalSummary.getLangToSummaries();
+		for(String lang : evalSummary.getLangOrder()) {
+			LangSummary tmp = map.get(lang);
+			
+			if(tmp == null) {
+				tmp = new LangSummary();
+				map.put(lang, tmp);
+			}	
+		}
+
+		for(LangSummary langSummaries : evalSummary.getLangToSummaries().values()) {
+			langSummaries.getTaskOrder().addAll(taskRepo.getTaskOrder());
+		}
+
+
+		
+		for(String taskId : taskRepo.getTasks().keySet()) {
+			
+			
+			
+			
+			// TODO We somehow need to get the available languages ...
+			// Actually, we get this from the user's initialized account.
+			
+			
+			for(LangSummary langSummaries : evalSummary.getLangToSummaries().values()) {
+								
+				Map<String, TaskSummary> taskSummaries = langSummaries.getTaskSummaries();
+				TaskSummary taskSummary = taskSummaries.get(taskId);
+
+				if(taskSummary == null) {
+					taskSummary = new TaskSummary(taskId);
+					taskSummaries.put(taskId, taskSummary);
+				}
+				
+				
+				
+			}
+		}
+	}
+	
+	
+	/**
 	 * Informs the client about which tasks are open / finished
 	 * Also contains whether it is possible to advance to the next eval stage
 	 * or whether the survey has been completed
 	 * 
 	 * @return
 	 */
+	//@POST
+	@GET
 	@Path("/fetchSummary")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String fetchSummary() {
-		return "{}";
+	public String fetchSummary(@Context HttpServletRequest req) throws SQLException {
+		Integer userId = requireUserId(req);
+		
+		String evalMode = requireEvalMode(userId);
+
+		
+		EvalSummary result = store.getSummary(userId);
+		augmentEvalSummary(result, evalMode);
+		
+		return toJsonString(result);
 	}
 	
 	/**
@@ -339,7 +420,27 @@ public class RestService {
 		
 	}
 	
-	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param req
+	 * @param taskId
+	 * @param mappingStr
+	 * @return
+	 * @throws SQLException
+	 */
+	@POST
+	@Path("/scoreSheet")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String scoreSheet(@Context HttpServletRequest req) throws SQLException {
+		Integer userId = requireUserId(req);
+		
+		return "{}";
+		
+	}
+
+
 	/**
 	 * Sets the user's mapping for the given task.
 	 * Logs the action
@@ -406,6 +507,58 @@ public class RestService {
 		String result = taskRepo.toJson();
 		return result;
 	}
+
+	
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return
+	 * @throws SQLException 
+	 */
+	@GET
+	@Path("/fetchTaskState")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String fetchTaskState(@Context HttpServletRequest req, @FormParam("taskId") String taskId) throws SQLException {
+
+		Integer userId = requireUserId(req);
+		
+		String evalMode = store.getEvalMode(userId);
+		
+		
+		String mapping = store.getLastTaskSubmission(userId, taskId, true);
+
+		// If there is no last mapping fall back to the initial one
+		if(mapping == null) {
+			TaskBundle task = taskRepo.getTasks().get(taskId);
+			Map<String, String> evalToInitMapping = task.getMappings();
+				
+			mapping = evalToInitMapping.get(evalMode);
+		}		
+		
+
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		Map<String, Object> idToStates = new HashMap<String, Object>();
+		response.put("taskStates", idToStates);
+		
+		Map<String, Object> taskState = new HashMap<String, Object>();
+		response.put(taskId, mapping);
+		
+		
+		boolean isTaskSolved = store.isTaskSolved(userId, taskId);
+		
+		//store.
+		
+		taskState.put("id", taskId);
+		taskState.put("mapping", mapping);
+		taskState.put("isSolved", isTaskSolved);
+		//taskState.put("isSolved", );
+		
+		return mapping;
+	}
+
 	
 //	public void setEval(String) {
 //		

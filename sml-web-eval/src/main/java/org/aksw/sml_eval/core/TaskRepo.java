@@ -17,12 +17,15 @@ import com.talis.rdfwriters.json.JSONJenaWriter;
 
 public class TaskRepo {
 	private Map<String, TaskBundle> nameToTask;
-	
+	private List<String> taskOrder;
+
+
 	public TaskBundle getTask(String taskId) {
 		TaskBundle result = nameToTask.get(taskId);
 		return result;
 	}
-	
+
+
 	public Model getReferenceModel(String taskId) {
 		TaskBundle task = nameToTask.get(taskId);
 		if(task == null) {
@@ -32,14 +35,29 @@ public class TaskRepo {
 		Model result = task.getRefSet();
 		return result;
 	}
-	
+
+
 	public TaskRepo(List<TaskBundle> taskBundles) {
 		nameToTask = new HashMap<String, TaskBundle>();
+
+		List<String> taskOrder = new ArrayList<String>();
 		
 		for(TaskBundle taskBundle : taskBundles) {
 			nameToTask.put(taskBundle.getTaskName(), taskBundle);
+			
+			
+			String taskName = taskBundle.getTaskName();
+			taskOrder.add(taskName);
 		}
+		
+		this.taskOrder = taskOrder;
 	}
+
+
+	public List<String> getTaskOrder() {
+		return taskOrder;
+	}
+
 	
 	public Map<String, TaskBundle> getTasks() {
 		return nameToTask;
@@ -72,7 +90,7 @@ public class TaskRepo {
 		result.put("name", taskBundle.getTaskName());
 		result.put("tables", toJsonMap(taskBundle.getRelations()));
 
-		result.put("initialMappings", taskBundle.getMappings());
+		//result.put("initialMappings", taskBundle.getMappings());
 		
 		JSONJenaWriter writer = new JSONJenaWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();

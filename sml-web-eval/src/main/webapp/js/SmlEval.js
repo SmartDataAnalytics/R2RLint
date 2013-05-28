@@ -70,7 +70,8 @@ var org, aksw, sml_eval, app;
 				
 				self.model.set({
 					isLoggedIn: data.isLoggedIn,
-					evalMode: data.evalMode
+					evalMode: data.evalMode,
+					limesToken: data.limesToken
 				});
 
 			}).fail(function() {
@@ -78,15 +79,31 @@ var org, aksw, sml_eval, app;
 			});
 			
 		},
+
+		
+		hashPassword: function(credentials) {
+			var result = _.extend({}, credentials);
+			
+			var tmp = credentials.password;
+			for(i = 0; i < 7; ++i) {
+				tmp = CryptoJS.MD5(tmp).toString();
+			}
+			
+			result.password = tmp; 
+
+			return result;
+		},
 		
 		login: function(credentials) {
-
+			
+			var c = this.hashPassword(credentials);
+			
 			var self = this;
 			var apiUrl = this.apiUrl;
 			$.ajax({
 				url: apiUrl + "login",
 				type: 'POST',
-				data: credentials
+				data: c
 			}).done(function(data) {
 			
 				self.restoreSession();
@@ -95,6 +112,56 @@ var org, aksw, sml_eval, app;
 				alert("Login Fail");
 			});
 
+		},
+		
+		fetchSummary: function() {
+			var self = this;
+
+			var result = $.ajax({
+				url: self.apiUrl + "fetchSummary",
+				type: 'GET'
+			});
+			
+			return result;
+		},
+		
+		
+		updateSummary: function() {
+			var self = this;
+
+			
+			var promise = this.fetchSummary();
+			promise.done(function(data) {
+				self.model.set({summary: data});
+			}).fail(function() {
+				console.log("Failed to fetch summary. Maybe not logged in.");
+				//alert("Failed fetching summary");
+			});
+		},
+		
+		// Returns the initial mapping, the latest mapping
+		// the latest working mapping and/or a flag whether
+		// the task is completed
+		fetchTaskState: function(taskId) {
+
+			var self = this;
+			var apiUrl = this.apiUrl;
+			var result = $.ajax({
+				url: apiUrl + "fetchTaskState",
+				type: 'POST',
+				data: {
+					taskId: taskId
+				}
+			});
+			
+			
+			/*
+			.always(function() {
+				self.model.set({
+					isLoggedIn: false
+				});				
+		});*/
+			return result;
 		},
 		
 		logout: function() {
@@ -114,13 +181,17 @@ var org, aksw, sml_eval, app;
 		
 		register: function(credentials) {
 
+			var c = this.hashPassword(credentials);
+			
+			var self = this;
 			var apiUrl = this.apiUrl;
 			$.ajax({
 				url: apiUrl + "register",
 				type: 'POST',
-				data: credentials
+				data: c
 			}).done(function() {
-				alert("Register Success");
+				self.login(credentials);
+				//alert("Register Success");
 			}).fail(function() {
 				alert("Register Fail");
 			});
