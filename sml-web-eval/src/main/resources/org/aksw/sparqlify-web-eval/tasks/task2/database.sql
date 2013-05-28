@@ -1,13 +1,19 @@
-CREATE TABLE person (
+CREATE TABLE product (
     id integer PRIMARY KEY,
-    first_name text,
-    last_name text,
-    age integer,
-    mbox text,
-    country text
+    name text,
+    producer text,
+
+    comment text,
+
+    resolution_x integer,
+    resolution_y integer,
+    color text,
+
+    publish_date date
 );
 
-INSERT INTO person VALUES (1, 'Anne' , 'Miller', 20, 'anne@example.org', 'us');
-INSERT INTO person VALUES (2, 'John' , 'Wayne', 30, 'john@example.org', 'us');
-INSERT INTO person VALUES (3, 'Frank', 'Sinatra', 40, 'frank@example.org', 'de');
+
+INSERT INTO product VALUES (1, 'IPhone 5', 'Apple Inc.', 'available', 1136, 640, 'white', '2012-10-21');
+INSERT INTO product VALUES (2, 'Galaxy S III', 'Samsung', 'available', 1280, 720, 'black', '2012-10-21');
+
 
