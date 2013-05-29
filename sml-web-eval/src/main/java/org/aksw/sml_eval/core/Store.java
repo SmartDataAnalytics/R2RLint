@@ -144,7 +144,7 @@ public class Store {
 	public String getLastTaskSubmission(Connection conn, Integer userId, String taskId, boolean requireWorking)
 			throws SQLException
 	{
-		String sql = "SELECT \"mapping\" FROM \"submission\" WHERE user_id = ? AND taskId = ? AND is_working = TRUE || is_working = ?";
+		String sql = "SELECT \"mapping\" FROM \"submission\" WHERE user_id = ? AND task_id = ? AND is_working = TRUE OR is_working = ?";
 		
 		
 		String result = SqlUtils.execute(conn, sql, String.class, userId, taskId, requireWorking);
@@ -258,13 +258,13 @@ public class Store {
 		return result;
 	}
 
-	public Integer writeMapping(Integer userId, String toolId, String taskId, String mapping) throws SQLException {
+	public Integer writeMapping(Integer userId, String requestAddr, String toolId, String taskId, String mapping) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
 			conn.setAutoCommit(false);
 			
-			Integer submissionId = writeMapping(conn, userId, toolId, taskId, mapping);
+			Integer submissionId = writeMapping(conn, userId, requestAddr, toolId, taskId, mapping);
 			conn.commit();
 
 			return submissionId;
@@ -294,7 +294,7 @@ public class Store {
 	public boolean isTaskSolved(Connection conn, Integer userId, String taskId)
 			throws SQLException
 	{
-		String sql = "SELECT id FROM \"submission\" WHERE user_id = ? AND task_i = ? AND is_solution = TRUE";
+		String sql = "SELECT id FROM \"submission\" WHERE user_id = ? AND task_id = ? AND is_solution = TRUE";
 
 		boolean result = false;
 		
@@ -327,16 +327,76 @@ public class Store {
 		}
 	}
 	
+
+	
+	public static void rollback(Connection conn) {
+		if(conn != null) {
+			try {
+				conn.rollback();
+			} catch(Exception e) {
+				logger.error("Error rolling back a transaction: ", e);
+			}
+		}		
+	}
+	
+	// TODO Move to SQL Utils
+	public static void close(Connection conn, boolean rollback) {
+		if(rollback) {
+			rollback(conn);
+		}
+		
+		close(conn);
+	}
+	
+	public static void close(Connection conn) {
+
+		if(conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("Error closing connection: ", e);
+			}
+		}
+
+	}
+
+	public void advance(Integer userId) {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			advance(conn, userId);
+		} catch(Exception e) {
+			rollback(conn);
+		}
+		finally {
+			close(conn);
+		}
+	}
+	
+	public void advance(Connection conn, Integer userId) throws SQLException {
+		
+		String sql = "SELECT MIN(sequence_id) FROM eval_order WHERE user_id = ? AND is_finished = FALSE";
+		Integer seqId = SqlUtils.execute(conn, sql, Integer.class, userId);
+
+		
+		SqlUtils.execute(conn, "UPDATE eval_order SET is_finished = true WHERE user_id = ? AND sequence_id = ?", Void.class, userId, seqId);
+
+		// Generate a new limes token
+		generateLimesToken(conn, userId);
+
+		conn.commit();
+	}
+	
 	public void setSolution(Connection conn, Integer submissionId) throws SQLException {
 		String sql = "UPDATE submission SET is_solution = TRUE WHERE id = ?";
 		SqlUtils.execute(conn, sql, Void.class, submissionId);
 	}
 	
 	
-	public Integer writeMapping(Connection conn, Integer userId, String toolId, String taskId, String mapping) throws SQLException {
+	public Integer writeMapping(Connection conn, Integer userId, String requestAddr, String toolId, String taskId, String mapping) throws SQLException {
 
-		String sql = "INSERT INTO submission(user_id, tool_id, task_id, mapping) VALUES(?, ?, ?, ?)";
-		SqlUtils.execute(conn, sql, Void.class, userId, toolId, taskId, mapping);
+		String sql = "INSERT INTO submission(user_id, request_addr, tool_id, task_id, mapping) VALUES(?, ?, ?, ?, ?)";
+		SqlUtils.execute(conn, sql, Void.class, userId, requestAddr, toolId, taskId, mapping);
 		
 		Long tmp = SqlUtils.execute(conn, "SELECT LASTVAL()", Long.class);
 		Integer submissionId = tmp.intValue();

@@ -57,6 +57,23 @@ var org, aksw, sml_eval, app;
 			this.resetTasks();
 		},
 		
+		
+		advance: function() {
+
+			var self = this;
+			$.ajax({
+				url: self.apiUrl + "advance",
+				type: 'POST'
+			}).done(function(data) {
+
+				self.reset();
+
+			}).fail(function() {
+				alert("Failed to advance to next language");
+			});
+			
+		},
+		
 		// Checks for an active session
 		// Also re-fetches the session state
 		restoreSession: function() {
@@ -215,7 +232,7 @@ var org, aksw, sml_eval, app;
 				self.loadTasks(json);
 				
 			}).fail(function(json) {
-				alert("Failed to initialize. Most likely the server is down or it cannot be reached. Message: " + JSON.stringif(msg));
+				alert("Failed to initialize. Most likely the server is down or it cannot be reached. Message: " + JSON.stringify(msg));
 			});
 
 		},
@@ -252,7 +269,14 @@ var org, aksw, sml_eval, app;
 		},
 		
 		submitMapping: function(taskId, mappingText) {
+
 			var result = this.submitMappingCore(taskId, mappingText, 'submitMapping');
+			
+			var self = this;
+			result.done(function() {
+				self.updateSummary();
+			});
+			
 			return result;
 		},
 		
@@ -263,11 +287,19 @@ var org, aksw, sml_eval, app;
 		 */
 		submitMappingCore: function(taskId, mappingText, action) {
 			
+			// TODO In the task model set the state to running
+			
 			var data = {
 				taskId: taskId,
 				mapping: mappingText
 			};
 
+			
+			var col = this.model.get('tasks');
+			var tsk = col.get(taskId);
+			tsk.set({state: 'running'});
+			
+			
 			this.setMappingResult(taskId, {
 				model: {},
 				messages: ['Running...']
@@ -281,11 +313,13 @@ var org, aksw, sml_eval, app;
 				type: 'POST',
 				data: data
 			}).done(function(json) {
-				
+				tsk.set({state: 'ready'});
 				
 				self.setMappingResult(taskId, json);
 				
 			}).fail(function() {
+				tsk.set({state: 'Failure. Please check the output below.'});
+				
 				alert('Mapping Fail');
 			});
 			

@@ -1,28 +1,21 @@
 Prefix xsd:<http://www.w3.org/2001/XMLSchema#>
-Prefix foaf:<http://xmlns.com/foaf/0.1/>
-Prefix r:<http://example.org/resource/>
-Prefix v:<http://example.org/vocab/>
+Prefix ex:<http://example.org/>
 
 Prefix country:<http://downlode.org/rdf/iso-3166/countries#>
 
 
 Create View people As
   Construct {
-    ?s
-      a foaf:Person     ;
-      foaf:firstName   ?fn ;
-      foaf:givenName   ?ln ;
-      v:age         ?a  ;
-      foaf:mbox     ?m  ;
-      v:country  ?c  .
+    ?s a ex:Person .
+    ?s ex:firstName ?fn .
+    ?s ex:age ?a .
+    ?s ex:occupation ?o .
   }
   With
-    ?s  = uri(concat(r:person, ?id))
+    ?s  = uri(concat(ex:person, ?id))
     ?fn = plainLiteral(?first_name)
-    ?ln = plainLiteral(?last_name)
     ?a  = typedLiteral(?age, xsd:integer)
-    ?m  = plainLiteral(?mbox)
-    ?c  = uri(concat('http://downlode.org/rdf/iso-3166/countries#', ?country))
+    ?o  = plainLiteral(?occupation, 'en')
   From
     person
 

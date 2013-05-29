@@ -107,8 +107,8 @@ public class TaskRepoReader
 		String mappingSparqlMap = StreamUtils.toString(mappingSparqlMapRes.getInputStream());
 		
 		Map<String, String> mappings = new HashMap<String, String>();
-		mappings.put("sparqlify", mappingSparqlify);
-		mappings.put("sparqlmap", mappingSparqlMap);
+		mappings.put("sml", mappingSparqlify);
+		mappings.put("r2rml", mappingSparqlMap);
 		
 		String database = StreamUtils.toString(databaseRes.getInputStream());
 		

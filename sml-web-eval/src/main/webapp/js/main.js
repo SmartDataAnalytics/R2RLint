@@ -241,6 +241,8 @@
 			
 			var result = {
 					currentLang: currentLang,
+					canAdvance: data.canAdvance,
+					isAllTasksComplete: data.isAllTasksComplete,
 					//langOrder: langOrder,
 					langs: null
 			};
@@ -302,8 +304,13 @@
 			
 			var str = tempFn(data);
 			
+			// Show an advance button if that is possible
+			str += "all tasks complete? " + d.isAllTasksComplete;
+			str += "   can advance? " + d.canAdvance;
+			
 			$('#summary-content').html(str);
 		};
+		
 		
 		
 	/*		
@@ -385,11 +392,12 @@
 			
 			appModel.on('change:limesToken', function() {
 				var token = this.get('limesToken');
-				$('#scoreSheet-loggedIn').html('Please visit <a href="http://survey.geoknow.eu/index.php/survey/index/sid/676733/token/' + token + '/Y" >this page</a> and give feedback on a few questions.');
+				$('#scoreSheet-loggedIn').html('<div class="alert">Please visit <a target="_blank" href="http://survey.geoknow.eu/index.php/survey/index/sid/676733/token/' + token + '/Y" >this page</a> and give feedback on a few questions.</div>');
 			});
 			
 			appModel.on("change:isLoggedIn", function() {
 				
+				smlEval.reset();
 				// For all known tasks fetch the state
 				//appModel
 				
@@ -408,7 +416,8 @@
 				
 				console.log("Fetching task state: ", taskId);
 				var promise = smlEval.fetchTaskState(taskId);
-				$.when(function(json) {
+				promise.done(function(json) {
+					console.log("Task state is", json);
 					var data = json.taskStates[taskId];
 					
 					/*
@@ -421,8 +430,8 @@
 					
 					
 					
-					taskCol.update(json);					
-				});				
+					taskCol.get(data.id).set(data);					
+				});
 			};
 			
 			taskCol.on('reset', function() {

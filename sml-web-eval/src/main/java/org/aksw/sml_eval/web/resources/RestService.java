@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -279,8 +281,50 @@ public class RestService {
 				
 			}
 		}
+		
+		
+		String currentLang = evalSummary.getCurrentLang();
+
+		boolean canAdvance = true;
+		{
+
+			List<String> langOrder = evalSummary.getLangOrder(); 
+			int index = langOrder.indexOf(currentLang);
+			if(index == langOrder.size() - 1) {
+				canAdvance = false;
+			}
+		
+			evalSummary.setCanAdvance(canAdvance);
+		}
+		
+		
+		boolean isAllTasksComplete = true;
+		{
+			LangSummary langSummary = evalSummary.getLangToSummaries().get(currentLang);
+			for(TaskSummary taskSummary : langSummary.getTaskSummaries().values()) {
+				isAllTasksComplete = isAllTasksComplete && taskSummary.isCompleted();
+			}
+			
+			evalSummary.setCompleted(isAllTasksComplete);
+		}
+
+		boolean isEvalComplete = isAllTasksComplete && !canAdvance;
+		
+		evalSummary.setEvalComplete(isEvalComplete);
+		
 	}
 	
+	
+	
+	public EvalSummary getEvalSummary(Integer userId) throws SQLException {
+		
+		String evalMode = requireEvalMode(userId);
+		
+		EvalSummary result = store.getSummary(userId);
+		augmentEvalSummary(result, evalMode);
+		
+		return result;
+	}
 	
 	/**
 	 * Informs the client about which tasks are open / finished
@@ -296,11 +340,7 @@ public class RestService {
 	public String fetchSummary(@Context HttpServletRequest req) throws SQLException {
 		Integer userId = requireUserId(req);
 		
-		String evalMode = requireEvalMode(userId);
-
-		
-		EvalSummary result = store.getSummary(userId);
-		augmentEvalSummary(result, evalMode);
+		EvalSummary result = getEvalSummary(userId);
 		
 		return toJsonString(result);
 	}
@@ -309,11 +349,29 @@ public class RestService {
 	 * Advances to the next eval mode (if it exists)
 	 * 
 	 * @return
+	 * @throws SQLException 
 	 */
+	@POST
 	@Path("/advance")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String advance() {
-		return "{}";
+	public String advance(@Context HttpServletRequest req) throws SQLException {
+		
+		Integer userId = requireUserId(req);
+		
+		EvalSummary summary = getEvalSummary(userId);
+		
+		if(!summary.isCompleted()) {
+			throw new RuntimeException("All tasks must be completed before advancing to the next language");
+		}
+			
+		if(!summary.isCanAdvance()) {
+			throw new RuntimeException("The survey has already been completed for all languages");
+		}
+
+		store.advance(userId);
+		
+		
+		return "{success: true}";
 	}
 	
 	
@@ -454,18 +512,28 @@ public class RestService {
 	@Path("/submitMapping")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String submitMapping(@Context HttpServletRequest req, @FormParam("taskId") String taskId, @FormParam("mapping") String mappingStr) throws SQLException {
-		//HttpSession session = req.getSession();
-
+		//HttpSession session = req.getSession();		
+		
+		
 		Integer userId = requireUserId(req);
 		String evalMode = requireEvalMode(userId);
+		String requestAddr = req.getRemoteAddr();
 		
+		
+		// If the task is already solved, reject the request
+		EvalSummary summary = getEvalSummary(userId);
+		TaskSummary taskSummary = summary.getLangToSummaries().get(evalMode).getTaskSummaries().get(taskId);
+		if(taskSummary.isCompleted()) {
+			throw new RuntimeException("Task already solved");
+		}
+
 		
 		Model expected = taskRepo.getReferenceModel(taskId);
 
 		// store.writeMapping(...)
 
 		
-		Integer submissionId = store.writeMapping(userId, evalMode, taskId, mappingStr);
+		Integer submissionId = store.writeMapping(userId, requestAddr, evalMode, taskId, mappingStr);
 		
 		MapResult mr = runMappingCore(userId, taskId, mappingStr);
 		
@@ -511,13 +579,13 @@ public class RestService {
 	
 	
 	/**
-	 * 
+	 * TODO Maybe this method is not needed, because we can fetch the task summary.
 	 * 
 	 * 
 	 * @return
 	 * @throws SQLException 
 	 */
-	@GET
+	@POST
 	@Path("/fetchTaskState")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String fetchTaskState(@Context HttpServletRequest req, @FormParam("taskId") String taskId) throws SQLException {
@@ -544,7 +612,6 @@ public class RestService {
 		response.put("taskStates", idToStates);
 		
 		Map<String, Object> taskState = new HashMap<String, Object>();
-		response.put(taskId, mapping);
 		
 		
 		boolean isTaskSolved = store.isTaskSolved(userId, taskId);
@@ -554,9 +621,11 @@ public class RestService {
 		taskState.put("id", taskId);
 		taskState.put("mapping", mapping);
 		taskState.put("isSolved", isTaskSolved);
+		
+		idToStates.put(taskId, taskState);
 		//taskState.put("isSolved", );
 		
-		return mapping;
+		return toJsonString(response);
 	}
 
 	

@@ -1,0 +1,42 @@
+<http://example.org/resource/person1> <http://example.org/vocab/age> "20"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/resource/person1> <http://example.org/vocab/country> <http://downlode.org/rdf/iso-3166/countries#us> .
+<http://example.org/resource/person1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/resource/person1> <http://xmlns.com/foaf/0.1/firstName> "Anne" .
+<http://example.org/resource/person1> <http://xmlns.com/foaf/0.1/givenName> "Miller" .
+<http://example.org/resource/person1> <http://xmlns.com/foaf/0.1/mbox> "anne@example.org" .
+<http://example.org/resource/person2> <http://example.org/vocab/age> "30"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/resource/person2> <http://example.org/vocab/country> <http://downlode.org/rdf/iso-3166/countries#us> .
+<http://example.org/resource/person2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/resource/person2> <http://xmlns.com/foaf/0.1/firstName> "John" .
+<http://example.org/resource/person2> <http://xmlns.com/foaf/0.1/givenName> "Wayne" .
+<http://example.org/resource/person2> <http://xmlns.com/foaf/0.1/mbox> "john@example.org" .
+<http://example.org/resource/person3> <http://example.org/vocab/age> "40"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/resource/person3> <http://example.org/vocab/country> <http://downlode.org/rdf/iso-3166/countries#de> .
+<http://example.org/resource/person3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/resource/person3> <http://xmlns.com/foaf/0.1/firstName> "Frank" .
+<http://example.org/resource/person3> <http://xmlns.com/foaf/0.1/givenName> "Sinatra" .
+<http://example.org/resource/person3> <http://xmlns.com/foaf/0.1/mbox> "frank@example.org" .
+<http://example.org/resource/product1> <http://example.org/vocab/color> "white" .
+<http://example.org/resource/product1> <http://example.org/vocab/resolutionX> "1136"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://example.org/resource/product1> <http://example.org/vocab/resolutionY> "640"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://example.org/resource/product1> <http://purl.org/dc/terms/created> "2012-10-21+02:00"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://example.org/resource/product1> <http://purl.org/dc/terms/creator> "Apple Inc." .
+<http://example.org/resource/product1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab/Product> .
+<http://example.org/resource/product1> <http://www.w3.org/2000/01/rdf-schema#comment> "available" .
+<http://example.org/resource/product1> <http://www.w3.org/2000/01/rdf-schema#label> "IPhone 5" .
+<http://example.org/resource/product2> <http://example.org/vocab/color> "black" .
+<http://example.org/resource/product2> <http://example.org/vocab/resolutionX> "1280"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://example.org/resource/product2> <http://example.org/vocab/resolutionY> "720"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://example.org/resource/product2> <http://purl.org/dc/terms/created> "2012-10-21+02:00"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://example.org/resource/product2> <http://purl.org/dc/terms/creator> "Samsung" .
+<http://example.org/resource/product2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab/Product> .
+<http://example.org/resource/product2> <http://www.w3.org/2000/01/rdf-schema#comment> "available" .
+<http://example.org/resource/product2> <http://www.w3.org/2000/01/rdf-schema#label> "Galaxy S III" .
+<http://example.org/resource/review1> <http://example.org/vocab/aboutProduct> <http://example.org/resource/product1> .
+<http://example.org/resource/review1> <http://purl.org/dc/terms/creator> <http://example.org/resource/person1> .
+<http://example.org/resource/review1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab/Review> .
+<http://example.org/resource/review1> <http://www.w3.org/2000/01/rdf-schema#label> "So awesome" .
+<http://example.org/resource/review2> <http://example.org/vocab/aboutProduct> <http://example.org/resource/product2> .
+<http://example.org/resource/review2> <http://purl.org/dc/terms/creator> <http://example.org/resource/person2> .
+<http://example.org/resource/review2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab/Review> .
+<http://example.org/resource/review2> <http://www.w3.org/2000/01/rdf-schema#label> "I love it" .

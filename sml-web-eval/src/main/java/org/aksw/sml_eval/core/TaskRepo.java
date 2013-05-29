@@ -100,8 +100,8 @@ public class TaskRepo {
 		Object o = gson.fromJson(out.toString(), Object.class);
 		
 		result.put("referenceData", o);
-		result.put("description", taskBundle.getProperties().get("description"));
-		result.put("hint", taskBundle.getProperties().get("hint"));
+		result.put("description", taskBundle.getProperties().get("taskDesc"));
+		result.put("hint", taskBundle.getProperties().get("taskHint"));
 
 		return result;
 	}

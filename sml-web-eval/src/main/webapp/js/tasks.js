@@ -45,8 +45,9 @@ var tasks;
 		
 		
 		+ '        </div>'
-		+ '        <div class="rdfdiff span4">'
-		+ '            Result goes here'
+		+ '        <div class="span4">'
+		+ '            <div class="mapstate row-fluid"></div>'
+		+ '            <div class="rdfdiff row-fluid"></div>'
 		+ '        </div>'
 		+ '    </div>'
 		+ ''
@@ -65,7 +66,7 @@ var tasks;
 		var $elResult = $(ns.template);
 		
 		console.log("Task: ", task);
-		$elResult.find('.taskName').html(task.name);
+		$elResult.find('.taskName').html(task.name + ": " + task.description);
 		
 		
 		var $elTableArea = $elResult.find('.tableArea');
@@ -79,10 +80,10 @@ var tasks;
 			$elTableArea.append($el);
 		}
 		
-		//$elResult.find('.mappingArea').val(task.initialMappings['sparqlify']);
+		$elResult.find('.mappingArea').val(task.mapping);
 		
 		
-		var rd = rdfDiff.createDiff(task.referenceData, expected);
+		var rd = rdfDiff.createDiff(task.referenceData, {}); //expected);
 		var rdHtml = rdfDiff.renderDiff(rd);
 		$elResult.find('.rdfdiff').html(rdHtml);
 		

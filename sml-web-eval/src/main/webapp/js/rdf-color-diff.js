@@ -161,13 +161,7 @@ var rdfDiff;
 
 	ns.renderDiff = function(subjects) {
 
-		var resultSuccess = true;
-		var resultClass = resultSuccess ? 'alert-success' : 'alert-error';
-		// heading with status
-		var result = '<div class="alert '+resultClass+' fade in">';
-        result += '<button type="button" class="close" data-dismiss="alert">×</button>';
-        result += '<strong>Result:</strong> Success!';
-        result += '</div>';
+		var result = '';
 
         // collapsible details
         result += '<div class="accordion" id="resultAccordion'+widgetsCount+'">';

@@ -27,7 +27,7 @@ public class AdapterCliSparqlMap
 		
 		MapResult result = null;
 		
-		File mappingFile = File.createTempFile("sparqlify-", ".sml");
+		File mappingFile = File.createTempFile("sparqlmap-", ".ttl");
 		try {
 			Files.writeToFile(mappingFile, mappingStr, false);
 

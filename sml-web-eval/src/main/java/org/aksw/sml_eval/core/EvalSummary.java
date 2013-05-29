@@ -11,6 +11,10 @@ public class EvalSummary {
 	private List<String> langOrder = new ArrayList<String>();
 	private Map<String, LangSummary> langSummaries = new HashMap<String, LangSummary>();
 
+	private boolean canAdvance;
+	private boolean isAllTasksComplete;
+	private boolean isEvalComplete;
+	
 //	public EvalSummary(Map<String, LangSummary> langSummaries) {
 //		super();
 //		this.langSummaries = langSummaries;
@@ -63,6 +67,36 @@ public class EvalSummary {
 	public void setLangSummaries(Map<String, LangSummary> langSummaries) {
 		this.langSummaries = langSummaries;
 	}
-	
-	
+
+	public boolean isCanAdvance() {
+		return canAdvance;
+	}
+
+	public void setCanAdvance(boolean canAdvance) {
+		this.canAdvance = canAdvance;
+	}
+
+	public boolean isCompleted() {
+		return isAllTasksComplete;
+	}
+
+	public void setCompleted(boolean isCompleted) {
+		this.isAllTasksComplete = isCompleted;
+	}
+
+	public boolean isAllTasksComplete() {
+		return isAllTasksComplete;
+	}
+
+	public void setAllTasksComplete(boolean isAllTasksComplete) {
+		this.isAllTasksComplete = isAllTasksComplete;
+	}
+
+	public boolean isEvalComplete() {
+		return isEvalComplete;
+	}
+
+	public void setEvalComplete(boolean isEvalComplete) {
+		this.isEvalComplete = isEvalComplete;
+	}
 }

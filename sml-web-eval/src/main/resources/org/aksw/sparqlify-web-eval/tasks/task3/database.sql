@@ -1,15 +1,9 @@
-
-
-CREATE TABLE review(
-    id int,
-    person_id int REFERENCES person(id),
-    product_id int REFERENCES product(id),
-    text text
+CREATE TABLE links (
+    s text,
+    p text,
+    o text,
+    source text,
+    date timestamp
 );
 
-INSERT INTO review VALUES (1, 1, 1, 'So awesome');
-INSERT INTO review VALUES (2, 2, 2, 'I love it');
-
-
-
-
+INSERT INTO links VALUES ('http://linkedgeodata.org/way5013364', 'http://www.w3.org/2002/07/owl#sameAs', 'http://dbpedia.org/resource/fr%3ATour%20Eiffel', 'LATC Project', '2011-');

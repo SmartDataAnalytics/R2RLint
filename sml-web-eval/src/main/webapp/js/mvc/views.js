@@ -2,6 +2,19 @@ var org, aksw, sml_eval, views;
 
 (function(ns) { (function(ns) { (function(ns) { (function(ns) {
 
+	var renderMapState = function(clazz, message) {
+		var resultClass = clazz;
+		// heading with status
+		var result = '<div class="alert '+resultClass+' fade in">';
+        result += '<button type="button" class="close" data-dismiss="alert">×</button>';
+        //result += '<strong>Result:</strong> ' + message;
+        result += message
+        result += '</div>';
+        
+        return result;
+	};
+
+	
 	ns.ViewTask = Backbone.View.extend({
 		initialize: function() {
 			_.bindAll(this);
@@ -10,6 +23,14 @@ var org, aksw, sml_eval, views;
 			
 			this.model.on('change:mapperOutput', this.onChangeMapperOutput, this);
 			this.model.on('change:mapperTriples', this.onChangeMapperTriples, this);
+			
+			this.model.on('change:isSolved', this.onChangeIsSolved, this);
+			
+			this.model.on('change:description', this.onChangeDescription, this);
+
+			this.model.on('change:mapping', this.onChangeMapping, this);
+			
+			this.model.on('change:state', this.onChangeState, this);
 		},
 		
 		events: {
@@ -24,11 +45,72 @@ var org, aksw, sml_eval, views;
 			}
 		},
 		
+		
+		onChangeState: function(model) {
+			var isSolved = model.get('isSolved');
+			if(isSolved) {
+				return;
+			}
+			
+			var state = model.get('state');
+			
+			var str;
+			if(state === 'running') {
+				str = renderMapState('alert', 'Running...');
+			} else if(state === 'ready') {
+				str = renderMapState('alert-success', 'Output:');
+			} else {
+				str = renderMapState('alert-error', 'Failure. Please check the output.');
+			}
+			
+			if(isSolved) {
+				var str = renderMapState('alert-success', 'Task solved sucessfully!');
+				
+				this.$el.find('.mapstate').html(str);
+			}
+
+			
+			this.$el.find('.mapstate').html(str);
+
+			
+			// Disable the submit button while a task is running
+			var disabled = state === 'running' ? 'disabled' : false;
+			this.$el.find('.btnSubmit').attr("disabled", disabled);
+		},
+		
+		onChangeMapping: function(model) {
+			var mapping = model.get('mapping');
+			
+			this.$el.find('.mappingArea').val(mapping);
+		},
+		
+		/**
+		 * Once the task is solved, prevent further editing
+		 */
+		onChangeIsSolved: function(model) {
+			var isSolved = model.get('isSolved');
+			
+			var state = isSolved ? "disabled" : false; 
+			
+			this.$el.find('.mappingArea').attr("disabled", state);
+			this.$el.find('.btnSubmit').attr("disabled", state);
+			
+			if(isSolved) {
+				var str = renderMapState('alert-success', 'Task solved sucessfully!');
+				
+				this.$el.find('.mapstate').html(str);
+			}
+		},
+		
 		onChangeMapperOutput: function(model) {
 			var mapperOutput = model.get('mapperOutput');
 			this.$el.find('.mapperOutput').html(utils.escapeHTML(JSON.stringify(mapperOutput)));
 		},
 		
+		onChangeDescription: function(model) {
+			var description = model.get('description');
+			this.$el.find('.taskName').html(utils.escapeHTML(JSON.stringify(description)));
+		},
 
 		onChangeMapperTriples: function(model) {
 			var mapperTriples = model.get('mapperTriples');
@@ -85,7 +167,7 @@ var org, aksw, sml_eval, views;
 			
 			var taskName = this.model.get('name');
 			
-			var tab = utils.createTab($elParent, 'task' + taskName, taskName, 'Foobar', position);
+			var tab = utils.createTab($elParent, 'task' + taskName, taskName, '', position);
 			this.$elHead = tab.head;
 			this.$elBody = tab.body;
 			

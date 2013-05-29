@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "limes_token" (
     "token" text PRIMARY KEY,
     "user_id" INT DEFAULT NULL
-
+-- "lang" text DEFAULT NULL -- for which lang the token was used
 );
 
 
@@ -106,6 +106,7 @@ swhaib49uvhic2t
 6cf2aqxbrgyf4if
 9r7cf8xfbs9a4kj
 eqvur5jpfa5ep8x
+
 \.
 
 
