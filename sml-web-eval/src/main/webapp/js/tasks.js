@@ -31,7 +31,7 @@ var tasks;
 		+ '<div class="container-fluid">'
 		+ '    <div class="row-fluid">'
 		+ '        <div class="span8">'
-		+ '            <textarea class="mappingArea span12" style="resize:none" rows="20">Create ...</textarea>'
+		+ '            <textarea class="mappingArea span12 lined" style="resize:none" rows="20">Create ...</textarea>'
 
 //		+ '            <div style="float:left">'
 //		+ '                <button class="btnSubmit btn btn-primary">Reset</button>'

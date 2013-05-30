@@ -104,7 +104,53 @@ var org, aksw, sml_eval, views;
 		
 		onChangeMapperOutput: function(model) {
 			var mapperOutput = model.get('mapperOutput');
-			this.$el.find('.mapperOutput').html(utils.escapeHTML(JSON.stringify(mapperOutput)));
+
+			var levelToClass = {
+					'INFO': 'info',
+					'ERROR': 'error',
+					'WARN': 'warning',
+					'FATAL': 'fatal'
+					//'DEBUG', null,
+					//'TRACE', null
+			};
+			
+			//console.log("Mapper output", mapperOutput);
+			
+			var data = [];
+			for(var i = 0; i < mapperOutput.length; ++i) {
+				var item = mapperOutput[i];
+				var level = item.level; 
+				
+				var clazz = levelToClass[level];
+				if(!clazz) {
+					continue;
+				}
+				
+				data.push({
+					'class': clazz,
+					'text': item.text
+				});
+			}
+			
+			// TODO Color the mapper output, skip debug messages
+			// TODO Add give up button
+			var templateStr
+				= '<table style="width: 80%" class="table">'
+				+ '<tr><th>Message</th></tr>'
+				+ '{{~it :item:itemi}}'
+				+ '<tr class="{{=item["class"]}}"><td>{{!item.text}}</td></tr>'
+				//+ '<tr><td><p class="text-{{=item["class"]}}">{{!item.text}}</p></td></tr>'
+				+ '{{~}}'
+				+ '</table>'
+				;
+
+			
+			var tempFn = doT.template(templateStr);
+			
+			var str = tempFn(data);
+
+			
+			this.$el.find('.mapperOutput').html(str); //utils.escapeHTML(JSON.stringify(mapperOutput)));
 		},
 		
 		onChangeDescription: function(model) {
@@ -136,6 +182,11 @@ var org, aksw, sml_eval, views;
 			
 			$el.append(view);
 			
+			//var textArea = $el.find('.lined');
+			//console.log("TextArea: ", textArea);
+			//textArea.linedtextarea();
+			//textArea.linedtextarea({selectedLine: 1});
+
 			
 			return this;
 		},
@@ -170,7 +221,7 @@ var org, aksw, sml_eval, views;
 			var tab = utils.createTab($elParent, 'task' + taskName, taskName, '', position);
 			this.$elHead = tab.head;
 			this.$elBody = tab.body;
-			
+						
 			return this;
 		},
 		

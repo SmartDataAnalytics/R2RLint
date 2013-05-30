@@ -1,9 +1,10 @@
 CREATE TABLE IF NOT EXISTS "limes_token" (
     "token" text PRIMARY KEY,
-    "user_id" INT DEFAULT NULL
--- "lang" text DEFAULT NULL -- for which lang the token was used
+    "user_id" INT DEFAULT NULL,
+    "lang" text DEFAULT NULL -- for which lang the token was used
 );
 
+-- ALTER TABLE limes_token ADD COLUMN lang text DEFAULT NULL;
 
 COPY "limes_token" ("token") FROM stdin;
 i9kmumajqw6n3r3

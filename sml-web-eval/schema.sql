@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS "user" (
     "ts" TIMESTAMP NOT NULL DEFAULT NOW(),
     "name" text NOT NULL,
     "email" text NOT NULL,
-    "password" text NOT NULL
+    "password" text NOT NULL,
+    
+    UNIQUE("name")
 );
 
 CREATE TABLE IF NOT EXISTS "eval_order" (

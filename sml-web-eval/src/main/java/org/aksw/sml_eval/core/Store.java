@@ -88,17 +88,39 @@ public class Store {
 		return result;
 	}
 	
+		
+	public Long countLang(Connection conn, String name) throws SQLException {
+		String sql = "SELECT COUNT(*) FROM eval_order WHERE sequence_id = 0 AND name = ?";
+		Long result = SqlUtils.execute(conn, sql, Long.class, name);
+		return result;
+	}
 	
 	// Actually, language and tool are independent - one could want to e.g.  use sml with sparql map.
-	public List<String> generateToolList() {
+	public List<String> generateToolList() throws SQLException {
 		List<String> ml = Arrays.asList("sml", "r2rml");
+
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+
+			Long sml = countLang(conn, "sml");
+			Long r2rml = countLang(conn, "r2rml");
+			
+			if(r2rml > sml) {
+				Collections.reverse(ml);
+			} else if(r2rml == sml) {
+				Collections.shuffle(ml);				
+			}
+			
+		} finally {
+			close(conn);
+		}
 		
-		Collections.shuffle(ml);
 
 		return ml;
 	}
 	
-	public String generateLimesToken(Connection conn, Integer userId) throws SQLException {
+	public String generateLimesToken(Connection conn, Integer userId, String lang) throws SQLException {
 		String sql = "SELECT \"token\" FROM \"limes_token\" WHERE \"user_id\" IS NULL LIMIT 1";
 		String token = SqlUtils.execute(conn, sql, String.class);
 		
@@ -108,18 +130,29 @@ public class Store {
 		
 		logger.debug("Limes Token is: " + token);
 		
-		String update = "UPDATE \"limes_token\" SET \"user_id\" = ? WHERE \"token\" = ?";
-		SqlUtils.execute(conn, update, Void.class, userId, token);
+		String update = "UPDATE \"limes_token\" SET \"user_id\" = ?, \"lang\" = ? WHERE \"token\" = ?";
+		SqlUtils.execute(conn, update, Void.class, userId, lang, token);
 		
 		
 		return token;
 	}
 	
-	public String fetchLimesToken(Connection conn, Integer userId) throws SQLException {
-		String sql = "SELECT \"token\" FROM \"limes_token\" WHERE \"user_id\" = ?";
-		String token = SqlUtils.execute(conn, sql, String.class, userId);
+	public Map<String, String> fetchLimesToken(Connection conn, Integer userId) throws SQLException {
+		Map<String, String> result = new HashMap<String, String>();
+		String sql = "SELECT \"lang\", \"token\" FROM \"limes_token\" WHERE \"user_id\" = ?";
+
+		ResultSet rs = SqlUtils.executeCore(conn, sql, userId);
+		while(rs.next()) {
+			String lang = rs.getString("lang");
+			String token = rs.getString("token");
+			
+			result.put(lang, token);
+		}
 		
-		return token;
+		
+		//String token = SqlUtils.execute(conn, sql, String.class, userId, lang);
+		
+		return result;
 	}
 	
 
@@ -144,7 +177,7 @@ public class Store {
 	public String getLastTaskSubmission(Connection conn, Integer userId, String taskId, boolean requireWorking)
 			throws SQLException
 	{
-		String sql = "SELECT \"mapping\" FROM \"submission\" WHERE user_id = ? AND task_id = ? AND is_working = TRUE OR is_working = ?";
+		String sql = "SELECT \"mapping\" FROM \"submission\" WHERE user_id = ? AND task_id = ? AND is_working = TRUE OR is_working = ? ORDER BY ts LIMIT 1";
 		
 		
 		String result = SqlUtils.execute(conn, sql, String.class, userId, taskId, requireWorking);
@@ -210,10 +243,15 @@ public class Store {
 
 	
 	public String getEvalMode(Integer userId) throws SQLException {
-		Connection conn = ds.getConnection();
-		String result = getEvalMode(conn, userId);
-		
-		return result;
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			String result = getEvalMode(conn, userId);
+			
+			return result;
+		} finally {
+			close(conn);
+		}
 	}
 
 	
@@ -294,13 +332,16 @@ public class Store {
 	public boolean isTaskSolved(Connection conn, Integer userId, String taskId)
 			throws SQLException
 	{
-		String sql = "SELECT id FROM \"submission\" WHERE user_id = ? AND task_id = ? AND is_solution = TRUE";
+		
+		String lang = getEvalMode(userId);
+		
+		String sql = "SELECT id FROM \"submission\" WHERE user_id = ? AND task_id = ? AND tool_id = ? AND is_solution = TRUE";
 
 		boolean result = false;
 		
 		ResultSet rs = null;
 		try {
-			rs = SqlUtils.executeCore(conn, sql, userId, taskId);
+			rs = SqlUtils.executeCore(conn, sql, userId, taskId, lang);
 			if(rs.next()) {
 				result = true;
 			}
@@ -313,12 +354,12 @@ public class Store {
 		
 	}
 	
-	public void setSolution(Integer submissionId) throws SQLException {
+	public void setSolution(Integer submissionId, boolean producesOutput, boolean isSolution) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
 			
-			setSolution(conn, submissionId);
+			setSolution(conn, submissionId, producesOutput, isSolution);
 			conn.commit();
 		} finally {
 			if(conn != null) {
@@ -380,16 +421,17 @@ public class Store {
 
 		
 		SqlUtils.execute(conn, "UPDATE eval_order SET is_finished = true WHERE user_id = ? AND sequence_id = ?", Void.class, userId, seqId);
-
+		String lang = getEvalMode(conn, userId);
+		
 		// Generate a new limes token
-		generateLimesToken(conn, userId);
+		generateLimesToken(conn, userId, lang);
 
-		conn.commit();
+		//conn.commit();
 	}
 	
-	public void setSolution(Connection conn, Integer submissionId) throws SQLException {
-		String sql = "UPDATE submission SET is_solution = TRUE WHERE id = ?";
-		SqlUtils.execute(conn, sql, Void.class, submissionId);
+	public void setSolution(Connection conn, Integer submissionId, boolean producesOutput, boolean isSolution) throws SQLException {
+		String sql = "UPDATE submission SET is_working = ?, is_solution = ? WHERE id = ?";
+		SqlUtils.execute(conn, sql, Void.class, producesOutput, isSolution, submissionId);
 	}
 	
 	
@@ -434,7 +476,9 @@ public class Store {
 			}
 			
 			generateUserEvalOrder(conn, uid, generateToolList());
-			generateLimesToken(conn, uid);
+			
+			String lang = getEvalMode(conn, uid);
+			generateLimesToken(conn, uid, lang);
 			
 			conn.commit();
 			
@@ -459,14 +503,17 @@ public class Store {
 
 
 
-	public String getLimesToken(Integer userId) throws SQLException {
+	public Map<String, String> getLimesToken(Integer userId) throws SQLException {
 		
-		String result = null;
+		Map<String, String> result = null;
 		
 		Connection conn = null;
 		try {
 			conn = ds.getConnection();
 			conn.setAutoCommit(false);
+			
+			
+			//String lang = getEvalMode(conn, userId);
 			
 			result = fetchLimesToken(conn, userId);
 			conn.commit();

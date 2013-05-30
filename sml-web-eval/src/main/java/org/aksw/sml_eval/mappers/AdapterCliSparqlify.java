@@ -12,7 +12,7 @@ public class AdapterCliSparqlify
 	extends AdapterCliBase
 {
 	public AdapterCliSparqlify(File exec, DataSourceConfig dsConfig) {
-		super(exec, dsConfig, new MessageParserDummy());
+		super(exec, dsConfig, MessageParserLogFormat.createForSparqlify());
 	}
 	
 	@Override

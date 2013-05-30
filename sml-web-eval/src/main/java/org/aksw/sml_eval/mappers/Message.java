@@ -3,10 +3,10 @@ package org.aksw.sml_eval.mappers;
 
 public class Message {
 	private Position position;
-	private int level;
+	private String level;
 	private String text;
 	
-	public Message(Position position, int level, String text) {
+	public Message(Position position, String level, String text) {
 		this.position = position;
 		this.level = level;
 		this.text = text;
@@ -16,7 +16,7 @@ public class Message {
 		return position;
 	}
 
-	public int getLevel() {
+	public String getLevel() {
 		return level;
 	}
 

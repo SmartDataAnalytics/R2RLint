@@ -1,5 +1,12 @@
 (function() {
 	
+	/*
+	 * Disable Backbone sync
+	 */
+	Backbone.sync = function(method, model, options) { 
+		options.success();
+	};
+
 
 	
 	
@@ -298,17 +305,34 @@
 			console.log("Transformed summary: ", data);
 			
 			
-			var templateStr = "{{~it.langs :lang:ilang}}<h2>{{=lang.lang}}</h2><table>{{~lang.tasks :task:itask}}<tr><td>{{=task.taskId}}</td><td>{{=task.isCompleted}}</td></tr>{{~}}</table>{{~}}";
+			// TODO Add give up button
+			var templateStr
+				= '{{~it.langs :lang:ilang}}'
+				+ '<h2>{{=lang.lang}}</h2>'
+				+ '<table style="width: 100%" class="table table-striped table-condensed table-bordered">'
+				+ '<tr><th>Task</th><th>completed?</th>'
+				+ '{{~lang.tasks :task:itask}}'
+				+ '<tr><td>{{=task.taskId}}</td><td>{{=task.isCompleted}}</td></tr>'
+				+ '{{~}}</table>{{~}}'
+				+ '<hr />'
+				;
+
+			if(d.canAdvance) {
+				
+				if(d.isAllTasksCompleted) {
+					templateStr += '<button style="width:400px; height: 40px; font-weight: bold; font-size: 15px;" class="advance btnSubmit btn btn-success">Try out the other mappnig language</button>'					
+				} else {
+					templateStr += '<button style="width:400px; height: 40px; font-weight: bold; font-size: 15px;" class="give-up-and-advance btnSubmit btn btn-danger">Give up and try out the other mapping language</button>'
+				}				
+			}
+
 
 			var tempFn = doT.template(templateStr);
 			
 			var str = tempFn(data);
 			
-			// Show an advance button if that is possible
-			str += "all tasks complete? " + d.isAllTasksComplete;
-			str += "   can advance? " + d.canAdvance;
-			
-			$('#summary-content').html(str);
+
+			return str;
 		};
 		
 		
@@ -376,23 +400,87 @@
 					$('#scoreSheet-loggedIn').hide();
 					$('#scoreSheet-loggedOut').show();
 				}
+				
+				//smlEval.reset();
 			});
 
-			appModel.on("change:isLoggedIn", function() {
-				smlEval.updateSummary();
-			});
+//			appModel.on("change:isLoggedIn", function() {
+//				smlEval.updateSummary();
+//			});
 
 			
 			appModel.on('change:summary', function() {
+				var el = $('#summary-content');
 				var summary = this.get('summary'); 
-				renderSummary(summary);
+				var str = renderSummary(summary);
+				
+				var tokens = appModel.get('limesToken');
+				var tmp = renderSurveyLinks(tokens);
+				
+				str = tmp + str;
+				//$('#scoreSheet-loggedIn').html(str); //'<div class="alert">Please visit <a target="_blank" href="http://survey.geoknow.eu/index.php/survey/index/sid/676733/token/' + token + '/Y" >this page</a> and give feedback on a few questions.</div>');
+
+
+				
+				// Show an advance button if that is possible
+				//str += "all tasks complete? " + d.isAllTasksComplete;
+				//str += "   can advance? " + d.canAdvance;
+				
+				el.html(str);			
+
+				
+				el.find('.advance').click(function() {
+					smlEval.advance();
+				});
+				
+				el.find('.give-up-and-advance').click(function() {
+					var r = confirm("After giving up, you can no longer attempt to solve the tasks using the currently active mapping language. Do you really want to give up?");
+					if (r == true) {
+						smlEval.advance();
+					}
+				});
+
 			});
 			
 
+			var renderSurveyLinks = function(tokens) {
+				
+				var data = [];
+				
+				_.each(tokens, function(token, lang) {
+					data.push({
+						lang: lang,
+						token: token
+					});
+				});
+				
+				var templateStr				
+				= '<div class="alert">'
+				+ 'Please do not forget to visit the following link(s) and express your personal opinion regarding the mapping languages by answering a few simple questions.'
+				+ '<table style="width: 80%" class="table">'
+				+ '{{~it :item:itemi}}'
+				+ '<tr><td><a target="_blank" href="http://survey.geoknow.eu/index.php/survey/index/sid/676733/token/{{=item.token}}/Y">{{=item.lang}}</a></td></tr>'
+				+ '{{~}}'
+				+ '</table>'
+				+ '</div>'
+				;
+				
+				
+				console.log("Token data", tokens, data);
+				var tempFn = doT.template(templateStr);
+				
+				var str = tempFn(data);
+				
+				return str;
+			}
 			
 			appModel.on('change:limesToken', function() {
-				var token = this.get('limesToken');
-				$('#scoreSheet-loggedIn').html('<div class="alert">Please visit <a target="_blank" href="http://survey.geoknow.eu/index.php/survey/index/sid/676733/token/' + token + '/Y" >this page</a> and give feedback on a few questions.</div>');
+				var tokens = this.get('limesToken');
+				
+				var str = renderSurveyLinks(tokens);
+				
+				$('#scoreSheet-loggedIn').html(str); //'<div class="alert">Please visit <a target="_blank" href="http://survey.geoknow.eu/index.php/survey/index/sid/676733/token/' + token + '/Y" >this page</a> and give feedback on a few questions.</div>');
+				
 			});
 			
 			appModel.on("change:isLoggedIn", function() {
@@ -420,6 +508,8 @@
 					console.log("Task state is", json);
 					var data = json.taskStates[taskId];
 					
+					
+					smlEval.runMapping(taskId, data.mapping)
 					/*
 					if(data.isSolved) {
 						// Disable write / execution

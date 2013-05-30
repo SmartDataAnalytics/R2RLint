@@ -55,6 +55,7 @@ var org, aksw, sml_eval, app;
 		
 		reset: function() {
 			this.resetTasks();
+			this.updateSummary();
 		},
 		
 		
@@ -63,15 +64,15 @@ var org, aksw, sml_eval, app;
 			var self = this;
 			$.ajax({
 				url: self.apiUrl + "advance",
-				type: 'POST'
+				type: 'POST',
+				data: {}
 			}).done(function(data) {
 
 				self.reset();
 
 			}).fail(function() {
 				alert("Failed to advance to next language");
-			});
-			
+			});			
 		},
 		
 		// Checks for an active session
@@ -242,6 +243,10 @@ var org, aksw, sml_eval, app;
 			var col = this.model.get('tasks');
 			
 			//col.reset();
+			var model;
+			while(model = col.first()) {
+				model.destroy();
+			}
 			
 			for(var i = 0; i < tsks.length; ++i) {
 				var task = tsks[i];

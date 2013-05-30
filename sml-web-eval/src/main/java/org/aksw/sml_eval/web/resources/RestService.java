@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -215,7 +213,7 @@ public class RestService {
 		response.put("isLoggedIn", isLoggedIn);
 		
 		if(isLoggedIn) {
-			String limesToken = store.getLimesToken(userId);
+			Map<String, String> limesToken = store.getLimesToken(userId);
 	
 			response.put("limesToken", limesToken);
 		}
@@ -360,9 +358,9 @@ public class RestService {
 		
 		EvalSummary summary = getEvalSummary(userId);
 		
-		if(!summary.isCompleted()) {
-			throw new RuntimeException("All tasks must be completed before advancing to the next language");
-		}
+//		if(!summary.isCompleted()) {
+//			throw new RuntimeException("All tasks must be completed before advancing to the next language");
+//		}
 			
 		if(!summary.isCanAdvance()) {
 			throw new RuntimeException("The survey has already been completed for all languages");
@@ -371,7 +369,7 @@ public class RestService {
 		store.advance(userId);
 		
 		
-		return "{success: true}";
+		return "{\"success\": true}";
 	}
 	
 	
@@ -537,13 +535,15 @@ public class RestService {
 		
 		MapResult mr = runMappingCore(userId, taskId, mappingStr);
 		
+		
 		// Compate the result
 		Model actual = mr.getModel();
+		boolean isOutput = !actual.isEmpty();
 		boolean isTaskSolved = expected.isIsomorphicWith(actual);
 		
-		if(isTaskSolved) {
-			store.setSolution(submissionId);
-		}
+		//if(isTaskSolved) {
+			store.setSolution(submissionId, isOutput, isTaskSolved);
+		//}
 		
 		Map<String, Object> response = createJson(taskId, mr, isTaskSolved);
 		
@@ -595,7 +595,8 @@ public class RestService {
 		String evalMode = store.getEvalMode(userId);
 		
 		
-		String mapping = store.getLastTaskSubmission(userId, taskId, true);
+		//String mapping = store.getLastTaskSubmission(userId, taskId, true);
+		String mapping = null;
 
 		// If there is no last mapping fall back to the initial one
 		if(mapping == null) {
