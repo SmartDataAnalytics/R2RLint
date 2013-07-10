@@ -105,7 +105,7 @@ public class SparqlifyUpdateExample {
 		 */
 		Quad insertQuad = new Quad(Quad.defaultGraphNodeGenerated, Node.createURI("http://ex.org/person/5"), RDF.type.asNode(), Node.createURI("http://ex.org/Person"));
 		
-		Set<ViewQuad> viewQuads = getCandidateViews(candidateSelector, insertQuad);
+		Set<ViewQuad<ViewDefinition>> viewQuads = getCandidateViews(candidateSelector, insertQuad);
 		
 		
 		/*
@@ -120,7 +120,7 @@ public class SparqlifyUpdateExample {
 		 * For each view-quad: Try to figure out, what values the
 		 * underlying table needs no have in order to yield the quad.
 		 */
-		for(ViewQuad viewQuad : viewQuads) {
+		for(ViewQuad<ViewDefinition> viewQuad : viewQuads) {
 			ViewDefinition viewDef = viewQuad.getView();
 			VarDefinition varDef = viewDef.getMapping().getVarDefinition();
 			
@@ -199,7 +199,7 @@ public class SparqlifyUpdateExample {
 	 * @param quad
 	 * @return
 	 */
-	public static Set<ViewQuad> getCandidateViews(CandidateViewSelectorImpl candidateSelector, Quad quad) {
+	public static Set<ViewQuad<ViewDefinition>> getCandidateViews(CandidateViewSelectorImpl candidateSelector, Quad quad) {
 		Var g = Var.alloc("g");
 		Var s = Var.alloc("s");
 		Var p = Var.alloc("p");
@@ -248,7 +248,7 @@ public class SparqlifyUpdateExample {
 		*/
 		
 		// TODO The quad may only consist of variables....
-		Set<ViewQuad> result = candidateSelector.findCandidates(tmpQuad, r);
+		Set<ViewQuad<ViewDefinition>> result = candidateSelector.findCandidates(tmpQuad, r);
 		return result;
 	}
 }
