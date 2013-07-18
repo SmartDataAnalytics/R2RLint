@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -23,6 +24,7 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.aksw.commons.sparql.api.core.QueryExecutionFactory;
 import org.aksw.commons.util.MapReader;
+import org.aksw.commons.util.jdbc.Schema;
 import org.aksw.commons.util.slf4j.LoggerCount;
 import org.aksw.sparqlify.config.syntax.Config;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
@@ -32,7 +34,8 @@ import org.aksw.sparqlify.core.cast.TypeSystem;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.core.interfaces.CandidateViewSelector;
 import org.aksw.sparqlify.core.interfaces.OpMappingRewriter;
-import org.aksw.sparqlify.core.interfaces.SparqlSqlRewriter;
+import org.aksw.sparqlify.core.interfaces.SparqlSqlStringRewriter;
+import org.aksw.sparqlify.core.sparql.QueryExecutionFactoryEx;
 import org.aksw.sparqlify.core.sparql.QueryExecutionFactorySparqlifyDs;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
@@ -238,11 +241,13 @@ public class RestService {
 		RdfViewSystemOld.initSparqlifyFunctions();
 		TypeSystem typeSystem = NewWorldTest.createDefaultDatatypeSystem();
 		OpMappingRewriter opMappingRewriter = SparqlifyUtils.createDefaultOpMappingRewriter(typeSystem);
+		DataSource db = SparqlifyUtils.createDefaultDatabase("Dummy");
+		Schema dbSchema = Schema.create(db.getConnection());
 
 		// Initialisieren von Sparqlify
 
-		SparqlSqlRewriter rewriter = SparqlifyUtils.createTestRewriter(
-				candidateViewSelector, opMappingRewriter, typeSystem);
+		SparqlSqlStringRewriter rewriter = SparqlifyUtils.createTestRewriter(
+				candidateViewSelector, opMappingRewriter, typeSystem, dbSchema);
 		QueryExecutionFactory qef = new QueryExecutionFactorySparqlifyDs(
 				rewriter, dataSource);
 
@@ -363,7 +368,7 @@ public class RestService {
 	{
 		QueryExecutionFactory qef = buildQueryExecutionFactory(req);
 		
-		return ProcessQuery.processQuery(queryString, format, qef);
+		return ProcessQuery.processQuery(queryString, format, (QueryExecutionFactoryEx) qef);
 	}
 
 	/*

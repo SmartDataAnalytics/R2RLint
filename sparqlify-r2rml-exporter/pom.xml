@@ -16,10 +16,6 @@
 	</parent>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.aksw.sparqlify</groupId>
-			<artifactId>sparqlify-core</artifactId>
-		</dependency>
 	
 	
 		<dependency>
