@@ -5,7 +5,7 @@
 
 	<groupId>org.aksw.sparqlify</groupId>
 	<artifactId>sparqlify-ext-parent</artifactId>
-	<version>0.6.1-SNAPSHOT</version>
+	<version>0.6.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Sparqlify SPARQL-&gt;SQL rewriter Extensions - Parent</name>
