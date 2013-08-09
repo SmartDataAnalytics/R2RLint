@@ -20,7 +20,8 @@ import org.aksw.sparqlify.qa.metrics.ShortUri;
 
 
 class DimensionFactory {
-	private static HashMap<String, Class> metricClasses = new HashMap<String, Class>() {
+	
+	private final static HashMap<String, Class> metricClasses = new HashMap<String, Class>() {
 		private static final long serialVersionUID = -8496214118714182820L;
 
 		{
@@ -33,9 +34,10 @@ class DimensionFactory {
 			List<Pair<String, Float>> metricsInfo)
 			throws DimensionUnknownException, InstantiationException,
 			IllegalAccessException, MetricUnknownException {
+		
 		Dimension dim = new Dimension(dimensionName);
 		
-		for (Pair metricInfo : metricsInfo) {
+		for (Pair<String, Float> metricInfo : metricsInfo) {
 			String name = (String) metricInfo.first;
 			Class metricClass = metricClasses.get(name);
 			

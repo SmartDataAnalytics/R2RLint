@@ -77,7 +77,7 @@ public class QualityAssessment {
 		datasetMetrics = new ArrayList<Metric>();
 		tripleMetrics = new ArrayList<Metric>();
 		nodeMetrics = new ArrayList<Metric>();
-		
+	
 	
 		for (Dimension dim : dims) {
 			Collection<Metric> metrics = dim.getMetrics();
@@ -118,7 +118,6 @@ public class QualityAssessment {
 					
 					metric.registerPinpointer(pinpointer);
 				}
-				
 			}
 		}
 	}
@@ -137,11 +136,12 @@ public class QualityAssessment {
 				Model lineStatement = ModelFactory.createDefaultModel();
 				StringReader reader = new StringReader(line);
 				lineStatement.read(reader, null,  "TTL");
-				
+				// NtripleIterator
 				StmtIterator iter = lineStatement.listStatements();
 				
 				while (iter.hasNext()) {
 					Statement triple = iter.next();
+					// no optimizations here
 					if (runTripleAssessment) assessTriple(triple);
 					if (runNodeAssessment) assessNodes(triple);
 				}

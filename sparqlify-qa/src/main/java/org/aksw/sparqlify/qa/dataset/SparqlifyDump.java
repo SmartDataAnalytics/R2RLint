@@ -13,6 +13,17 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 
+/*
+ * TODO:
+ * - make this a subclass of Model
+ * - performance and memory tweaks can be applied later; for now a naive model
+ *   based approach is sufficient
+ * 
+ * notes:
+ * - Model-based approach would allow to use a SPARQL endpoint or a Sparqlify
+ *   dump
+ */
+
 public class SparqlifyDump implements Iterable<String> {
 	
 	private String dumpFilePath;
