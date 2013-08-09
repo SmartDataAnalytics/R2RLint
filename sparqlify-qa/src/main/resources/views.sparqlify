@@ -9,7 +9,10 @@ Prefix spy:<http://aksw.org/sparqlify/>
 /*
  * cases to cover:
  * 
- * - create redundant rdf:type definitions
+ * - create wrong URI for foreign key parents, e.g.
+ *     ?dept = uri('http://ex.org/', ?id) in employee
+ *   and 
+ *     ?dept = uri('http://ex.org/dept', ?id) in dept
  */
 
 Create View employees As
@@ -31,13 +34,12 @@ Create View employees As
     // plainLiteral: plain literal with concat
     ?fnme = plainLiteral(concat(?firstname, ' ', ?lastname))
     // typedLiteral: typed literal with type from db; invalid type; no consistent range
-    //?empt = typedLiteral(?employment_time, uri('http://www.w3.org/2001/XMLSchema#', ?employment_time_unit))
     ?empt = typedLiteral(?employment_time, concat('http://www.w3.org/2001/XMLSchema#', ?employment_time_unit))
     // typedLiteral: with constant type
     ?bday = typedLiteral(?birthday, xsd:date)
     // typedLiteral: result of arithmetic expression
     ?salr = typedLiteral(
-        + ?salary_monthly + ?salary_monthly + ?salary_monthly
+        ?salary_monthly + ?salary_monthly + ?salary_monthly
         + ?salary_monthly + ?salary_monthly + ?salary_monthly
         + ?salary_monthly + ?salary_monthly + ?salary_monthly
         + ?salary_monthly + ?salary_monthly + ?salary_monthly, xsd:int)
