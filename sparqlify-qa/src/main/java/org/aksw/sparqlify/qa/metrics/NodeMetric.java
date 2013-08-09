@@ -1,9 +1,9 @@
 package org.aksw.sparqlify.qa.metrics;
 
-import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.graph.Triple;
 
 public interface NodeMetric extends Metric {
 	
-	public void assessNodes(Statement triple);
+	public void assessNodes(Triple triple);
 	
 }

@@ -150,16 +150,16 @@ public class QualityAssessment {
 	}
 	
 	
-	private void assessTriple(Statement triple) {
+	private void assessTriple(Statement statement) {
 		for (Metric metric : tripleMetrics) {
-			((TripleMetric) metric).assessTriple(triple);
+			((TripleMetric) metric).assessTriple(statement.asTriple());
 		}
 	}
 	
 	
-	private void assessNodes(Statement triple) {
+	private void assessNodes(Statement statement) {
 		for (Metric metric : nodeMetrics) {
-			((NodeMetric) metric).assessNodes(triple);
+			((NodeMetric) metric).assessNodes(statement.asTriple());
 		}
 	}
 	

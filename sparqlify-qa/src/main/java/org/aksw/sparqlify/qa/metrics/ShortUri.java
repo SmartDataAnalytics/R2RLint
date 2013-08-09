@@ -6,6 +6,8 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
@@ -21,23 +23,23 @@ public class ShortUri implements NodeMetric {
 	
 	
 	@Override
-	public void assessNodes(Statement triple) {
-		RDFNode subj = triple.getSubject();
-		if (subj.isURIResource()) {
-			if (resourceTooLong((Resource) subj)) {
+	public void assessNodes(Triple triple) {
+		Node subj = triple.getSubject();
+		if (subj.isURI()) {
+			if (resourceTooLong(subj)) {
 				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer.getViewCandidates(triple);
 				writeBack("subject", triple, viewQuads);
 			}
 		}
 		
-		RDFNode pred = triple.getPredicate();
-		if (pred.isURIResource()) resourceTooLong((Resource) pred);
+		Node pred = triple.getPredicate();
+		if (pred.isURI()) resourceTooLong(pred);
 		
-		RDFNode obj = triple.getObject();
-		if (obj.isURIResource()) resourceTooLong((Resource) obj);
+		Node obj = triple.getObject();
+		if (obj.isURI()) resourceTooLong(obj);
 	}
 
-	private boolean resourceTooLong(Resource res) {
+	private boolean resourceTooLong(Node res) {
 		if (res.getURI().length() > 50) return true;
 		else return false;
 	}
@@ -77,7 +79,7 @@ public class ShortUri implements NodeMetric {
 	}
 	
 	
-	private void writeBack(String position, Statement triple, Set<ViewQuad<ViewDefinition>> viewQuads){
+	private void writeBack(String position, Triple triple, Set<ViewQuad<ViewDefinition>> viewQuads){
 		// FIXME: just a debug dummy
 		String reason = "";
 		for (ViewQuad<ViewDefinition> viewQuad : viewQuads) {

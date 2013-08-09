@@ -2,9 +2,7 @@ package org.aksw.sparqlify.qa.metrics;
 
 import java.sql.Connection;
 
-import org.aksw.sparqlify.core.algorithms.CandidateViewSelectorImpl;
-
-import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.graph.Triple;
 
 public class NoProlixFeatures implements TripleMetric {
 	
@@ -17,7 +15,7 @@ public class NoProlixFeatures implements TripleMetric {
 	
 	
 	@Override
-	public void assessTriple(Statement triple) {
+	public void assessTriple(Triple triple) {
 		// TODO Auto-generated method stub
 
 	}

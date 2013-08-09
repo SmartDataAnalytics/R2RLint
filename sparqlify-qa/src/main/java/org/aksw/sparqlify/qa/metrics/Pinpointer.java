@@ -12,7 +12,7 @@ import org.aksw.sparqlify.database.NestedNormalForm;
 import org.aksw.sparqlify.restriction.RestrictionManagerImpl;
 
 import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.sparql.core.Quad;
 import com.hp.hpl.jena.sparql.core.Var;
 import com.hp.hpl.jena.sparql.expr.E_Equals;
@@ -39,16 +39,16 @@ public class Pinpointer {
 	}
 	
 	
-	public Set<ViewQuad<ViewDefinition>> getViewCandidates(Statement triple) {
+	public Set<ViewQuad<ViewDefinition>> getViewCandidates(Triple triple) {
 		Var g = Var.alloc("g");
 		Var s = Var.alloc("s");
 		Var p = Var.alloc("p");
 		Var o = Var.alloc("o");
 
 		Node gv = Quad.defaultGraphNodeGenerated;
-		Node sv = triple.getSubject().asNode();
-		Node pv = triple.getPredicate().asNode();
-		Node ov = triple.getObject().asNode();
+		Node sv = triple.getSubject();
+		Node pv = triple.getPredicate();
+		Node ov = triple.getObject();
 		
 		Quad tmpQuad = new Quad(g, s, p, o);
 		
