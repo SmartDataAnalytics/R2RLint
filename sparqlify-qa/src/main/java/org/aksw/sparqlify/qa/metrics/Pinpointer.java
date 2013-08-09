@@ -21,7 +21,7 @@ import com.hp.hpl.jena.sparql.expr.NodeValue;
 
 public class Pinpointer {
 
-	private Collection<ViewDefinition> viewDefs;
+//	private Collection<ViewDefinition> viewDefs;
 	CandidateViewSelectorImpl candidateSelector;
 	
 	/*
@@ -31,7 +31,7 @@ public class Pinpointer {
 	 */
 	
 	public Pinpointer(Collection<ViewDefinition> viewDefs) {
-		this.viewDefs = viewDefs;
+//		this.viewDefs = viewDefs;
 		candidateSelector = new CandidateViewSelectorImpl();
 		for (ViewDefinition viewDef : viewDefs) {
 			candidateSelector.addView(viewDef);

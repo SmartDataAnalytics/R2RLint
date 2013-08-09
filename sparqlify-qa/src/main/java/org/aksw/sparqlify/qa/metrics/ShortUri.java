@@ -17,6 +17,7 @@ public class ShortUri implements NodeMetric {
 	private float threshold;
 	private MeasureDataSink sink;
 	private Pinpointer pinpointer;
+	private Connection conn;
 	
 	
 	@Override
@@ -66,8 +67,7 @@ public class ShortUri implements NodeMetric {
 
 	@Override
 	public void registerDbConnection(Connection conn) {
-		// TODO Auto-generated method stub
-		
+		this.conn = conn;
 	}
 
 
