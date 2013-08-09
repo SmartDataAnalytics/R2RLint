@@ -25,18 +25,27 @@ public class ShortUri implements NodeMetric {
 	@Override
 	public void assessNodes(Triple triple) {
 		Node subj = triple.getSubject();
-		if (subj.isURI()) {
-			if (resourceTooLong(subj)) {
-				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer.getViewCandidates(triple);
-				writeBack("subject", triple, viewQuads);
-			}
+		if (subj.isURI() && resourceTooLong(subj)) {
+			Set<ViewQuad<ViewDefinition>> viewQuads =
+						pinpointer.getViewCandidates(triple);
+			writeBack("subject", triple, viewQuads);
 		}
 		
 		Node pred = triple.getPredicate();
-		if (pred.isURI()) resourceTooLong(pred);
+		if (resourceTooLong(pred)) {
+			Set<ViewQuad<ViewDefinition>> viewQuads =
+					pinpointer.getViewCandidates(triple);
+			
+			writeBack("subject", triple, viewQuads);
+		}
 		
 		Node obj = triple.getObject();
-		if (obj.isURI()) resourceTooLong(obj);
+		if (obj.isURI() && resourceTooLong(obj)) {
+			Set<ViewQuad<ViewDefinition>> viewQuads =
+					pinpointer.getViewCandidates(triple);
+			
+			writeBack("subject", triple, viewQuads);
+		}
 	}
 
 	private boolean resourceTooLong(Node res) {
@@ -90,7 +99,7 @@ public class ShortUri implements NodeMetric {
 		
 		reason += "\n\n";
 		MeasureDatum datum = new MeasureDatum(
-				parentDimension, name, 0, position + " position of " + triple.toString(), reason);
+				parentDimension, name, 0, position + " position of " + triple.toString(), ""); //reason);
 		sink.write(datum);
 	}
 
