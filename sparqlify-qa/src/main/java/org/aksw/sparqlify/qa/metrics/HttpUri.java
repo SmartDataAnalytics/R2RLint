@@ -28,7 +28,7 @@ public class HttpUri implements NodeMetric {
 	 *  - information from http://tools.ietf.org/html/rfc1123#page-13
 	 *  - information from http://tools.ietf.org/html/draft-fielding-url-syntax-09#appendix-A 
 	 */
-	private final String httpUrlPattern = "^" +
+	public static final String httpUrlPattern = "^" +
 			// protocol: http:// or https://
 			"(?:(?:https?)://)" +
 			// user info, e.g. user@ or user:passwd@
@@ -56,7 +56,7 @@ public class HttpUri implements NodeMetric {
 					"(?:[1-9]\\d?|" + "1\\d\\d|" + "2[01]\\d|22[0-3])" +
 					// second and third octet
 					//       0-99            1xx          2xx up to 255
-					"(?:\\.(?:\\d{1,2}|" + "1\\d\\d|" + "2[0-4]\\d|25[0-4])){2}" +
+					"(?:\\.(?:\\d{1,2}|" + "1\\d\\d|" + "2[0-4]\\d|25[0-5])){2}" +
 					// fourth octet
 					// omitting network (x.x.x.0) and broadcast (x.x.x.255)
 					// addresses
@@ -120,23 +120,23 @@ public class HttpUri implements NodeMetric {
 					// field
 					"(?:([a-zA-Z\\d;/:_~',\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))+" +
 					// = 
-					"=" +
+					"(?:=" +
 					// value &
-					"(?:([a-zA-Z\\d;/:_~',\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))+[&;]" +
+					"(?:([a-zA-Z\\d;/:_~',\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))+)?[&;]" +
 				")*" + 
 					
 				"(?:" +
 					// field
 					"(?:([a-zA-Z\\d;/:_~',\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))+" +
 					// =
-					"=" +
+					"(?:=" +
 					// value
-					"(?:([a-zA-Z\\d;/:_~',\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))+" +
+					"(?:([a-zA-Z\\d;/:_~',\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))+)?" +
 				")" +
 			")?" +
 			
 			// fragment
-			"(?:#(?:([a-zA-Z\\d;/:_~',=\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))*)?" +
+			"(?:#(?:([a-zA-Z\\d;/:_~',=&\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))*)?" +
 			"$";
 	
 	@Override
