@@ -12,11 +12,13 @@ import org.aksw.sparqlify.qa.dimensions.Dimension;
 import org.aksw.sparqlify.qa.exceptions.TripleParseException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
-import org.aksw.sparqlify.qa.metrics.MeasureDataSink;
 import org.aksw.sparqlify.qa.metrics.Metric;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
-import org.aksw.sparqlify.qa.metrics.Pinpointer;
+import org.aksw.sparqlify.qa.metrics.PinpointDbMetric;
+import org.aksw.sparqlify.qa.metrics.PinpointMetric;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -112,11 +114,16 @@ public class QualityAssessment {
 					 *     measured data to the measure data sink
 					 */
 					metric.registerMeasureDataSink(measureDataSink);
-					metric.registerDbConnection(conn);
-					
-					Pinpointer pinpointer = new Pinpointer(viewDefs);
-					
-					metric.registerPinpointer(pinpointer);
+					String className = metric.getClass().getName();
+					if (className.equals(PinpointMetric.class.getName())) {
+						Pinpointer pinpointer = new Pinpointer(viewDefs);
+						((PinpointMetric) metric).registerPinpointer(pinpointer);
+
+						if (className.equals(PinpointDbMetric.class.getName())) {
+							((PinpointDbMetric) metric).registerDbConnection(conn);
+							
+						}
+					}
 				}
 			}
 		}

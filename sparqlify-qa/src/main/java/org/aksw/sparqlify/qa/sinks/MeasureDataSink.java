@@ -1,4 +1,6 @@
-package org.aksw.sparqlify.qa.metrics;
+package org.aksw.sparqlify.qa.sinks;
+
+import org.aksw.sparqlify.qa.metrics.MeasureDatum;
 
 public interface MeasureDataSink {
 

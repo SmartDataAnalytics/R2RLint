@@ -1,5 +1,6 @@
-package org.aksw.sparqlify.qa.metrics;
+package org.aksw.sparqlify.qa.sinks;
 
+import org.aksw.sparqlify.qa.metrics.MeasureDatum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

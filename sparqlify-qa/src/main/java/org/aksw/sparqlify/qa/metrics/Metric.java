@@ -1,8 +1,6 @@
 package org.aksw.sparqlify.qa.metrics;
 
-import java.sql.Connection;
-
-import org.aksw.sparqlify.core.algorithms.CandidateViewSelectorImpl;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 
 
 public interface Metric {
@@ -14,10 +12,6 @@ public interface Metric {
 	public String getParentDimension();
 
 	public void registerMeasureDataSink(MeasureDataSink sink);
-	
-	public void registerDbConnection(Connection conn);
-	
-	public void registerPinpointer(Pinpointer pinpointer);
-	
+		
 	public void setName(String name);
 }

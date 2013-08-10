@@ -1,7 +1,5 @@
 package org.aksw.sparqlify.qa.metrics;
 
-import java.net.MalformedURLException;
-import java.sql.Connection;
 import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
@@ -10,14 +8,7 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
 
-public class HttpUri implements NodeMetric {
-	
-	private String parentDim;
-	private String name;
-	private float threshold = 0;
-	private MeasureDataSink sink;
-	private Pinpointer pinpointer;
-	
+public class HttpUri extends PinpointMetric implements NodeMetric {
 	
 	// TODO: host names up to 255 characters
 	
@@ -93,9 +84,10 @@ public class HttpUri implements NodeMetric {
 			// alpha         = lowalpha | upalpha
 			// mark          = "$" | "-" | "_" | "." | "!" | "~" |
 			//				   "*" | "'" | "(" | ")" | ","
+			"(?:(?:/([a-zA-Z\\d_~',\\Q$-.!*()\\E]|%[a-fA-F\\d]{2})*)*)" +
 
 			// opaque URLs not considered here
-			"(?:(?:/([a-zA-Z\\d_~',\\Q$-.!*()\\E]|%[a-fA-F\\d]{2})*)*)" +
+			
 			
 			// query
 			//
@@ -138,44 +130,7 @@ public class HttpUri implements NodeMetric {
 			// fragment
 			"(?:#(?:([a-zA-Z\\d;/:_~',=&\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))*)?" +
 			"$";
-	
-	@Override
-	public void setParentDimension(String parentDimension) {
-		parentDim = parentDimension;
 
-	}
-
-	
-	@Override
-	public void setThreshold(float threshold) {
-		this.threshold = threshold;
-	}
-
-	
-	@Override
-	public String getParentDimension() {
-		return parentDim;
-	}
-
-	@Override
-	public void registerMeasureDataSink(MeasureDataSink sink) {
-		this.sink = sink;
-	}
-
-	@Override
-	public void registerDbConnection(Connection conn) {
-		// pass
-	}
-
-	@Override
-	public void registerPinpointer(Pinpointer pinpointer) {
-		this.pinpointer = pinpointer;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	@Override
 	public void assessNodes(Triple triple) {
@@ -205,18 +160,20 @@ public class HttpUri implements NodeMetric {
 	}
 
 	
-	private void writeBack(String position, Triple triple, Set<ViewQuad<ViewDefinition>> viewQuads){
-		// FIXME: just a debug dummy
-		String reason = "";
-		for (ViewQuad<ViewDefinition> viewQuad : viewQuads) {
-			reason += viewQuad.getQuad() + "\n" +
-					"of the following view definition:\n" +
-					viewQuad.getView() + "\n";
-		}
+	private void writeBack(String position, Triple triple,
+			Set<ViewQuad<ViewDefinition>> viewQuads) {
 		
-		reason += "\n\n";
-		MeasureDatum datum = new MeasureDatum(
-				parentDim, name, 0, position + " position of " + triple.toString(), ""); //reason);
+		// FIXME: just a debug dummy
+//		String reason = "";
+//		for (ViewQuad<ViewDefinition> viewQuad : viewQuads) {
+//			reason += viewQuad.getQuad() + "\n"
+//					+ "of the following view definition:\n"
+//					+ viewQuad.getView() + "\n";
+//		}
+//
+//		reason += "\n\n";
+		MeasureDatum datum = new MeasureDatum(parentDimension, name, 0,
+				position + " position of " + triple.toString(), ""); // reason);
 		sink.write(datum);
 	}
 

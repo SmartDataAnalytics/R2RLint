@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics;
+package org.aksw.sparqlify.qa.pinpointing;
 
 import java.util.Collection;
 import java.util.HashSet;
