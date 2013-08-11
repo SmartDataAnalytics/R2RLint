@@ -114,12 +114,12 @@ public class QualityAssessment {
 					 *     measured data to the measure data sink
 					 */
 					metric.registerMeasureDataSink(measureDataSink);
-					String className = metric.getClass().getName();
-					if (className.equals(PinpointMetric.class.getName())) {
+					List<String> classNames = getClassNames(metric.getClass());
+					if (classNames.contains(PinpointMetric.class.getName())) {
 						Pinpointer pinpointer = new Pinpointer(viewDefs);
 						((PinpointMetric) metric).registerPinpointer(pinpointer);
 
-						if (className.equals(PinpointDbMetric.class.getName())) {
+						if (classNames.contains(PinpointDbMetric.class.getName())) {
 							((PinpointDbMetric) metric).registerDbConnection(conn);
 							
 						}
@@ -129,6 +129,19 @@ public class QualityAssessment {
 		}
 	}
 	
+	private List<String> getClassNames(Class cls) {
+		List<String> classes = new ArrayList<String>();
+		
+		classes.add(cls.getName());
+		
+		Class superclass = cls.getSuperclass();
+		while (superclass != null) {
+			classes.add(superclass.getName());
+			superclass = superclass.getSuperclass();
+		}
+		
+		return classes;
+	}
 	
 	public void run() throws TripleParseException {
 		boolean runDatasetAssessment = datasetMetrics.size() > 0;
