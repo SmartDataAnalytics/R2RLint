@@ -17,7 +17,17 @@ public class ShortUri extends PinpointMetric implements NodeMetric {
 		if (subj.isURI() && resourceTooLong(subj)) {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 						pinpointer.getViewCandidates(triple);
-			writeBack("subject", triple, viewQuads);
+			
+			String note1 = "subject position of " + triple.toString();
+			String note2 = "";
+//			for (ViewQuad<ViewDefinition> viewQuad : viewQuads) {
+//				note2 += viewQuad.getQuad() + "\n"
+//						+ "of the following view definition:\n"
+//						+ viewQuad.getView() + "\n";
+//			}
+//	
+//			note2 += "\n\n";
+			writeToSink(0, note1, note2, viewQuads);
 		}
 		
 		Node pred = triple.getPredicate();
@@ -25,7 +35,9 @@ public class ShortUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 					pinpointer.getViewCandidates(triple);
 			
-			writeBack("subject", triple, viewQuads);
+			String note1 = "predicate position of " + triple.toString();
+			String note2 = "";
+			writeToSink(0, note1, note2, viewQuads);
 		}
 		
 		Node obj = triple.getObject();
@@ -33,30 +45,14 @@ public class ShortUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 					pinpointer.getViewCandidates(triple);
 			
-			writeBack("subject", triple, viewQuads);
+			String note1 = "object position of " + triple.toString();
+			String note2 = "";
+			writeToSink(0, note1, note2, viewQuads);
 		}
 	}
 
 	private boolean resourceTooLong(Node res) {
 		if (res.getURI().length() > 50) return true;
 		else return false;
-	}
-
-	
-	private void writeBack(String position, Triple triple,
-			Set<ViewQuad<ViewDefinition>> viewQuads) {
-		
-		// FIXME: just a debug dummy
-//		String reason = "";
-//		for (ViewQuad<ViewDefinition> viewQuad : viewQuads) {
-//			reason += viewQuad.getQuad() + "\n"
-//					+ "of the following view definition:\n"
-//					+ viewQuad.getView() + "\n";
-//		}
-//
-//		reason += "\n\n";
-		MeasureDatum datum = new MeasureDatum(parentDimension, name, 0,
-				position + " position of " + triple.toString(), ""); // reason);
-		sink.write(datum);
 	}
 }

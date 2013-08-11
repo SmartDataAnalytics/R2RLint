@@ -17,7 +17,8 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 	 *  - the BNF from http://www.w3.org/Addressing/URL/5_BNF.html
 	 *  - the post of Diego Perini from https://gist.github.com/dperini/729294
 	 *  - information from http://tools.ietf.org/html/rfc1123#page-13
-	 *  - information from http://tools.ietf.org/html/draft-fielding-url-syntax-09#appendix-A 
+	 *  - information from
+	 *    http://tools.ietf.org/html/draft-fielding-url-syntax-09#appendix-A 
 	 */
 	public static final String httpUrlPattern = "^" +
 			// protocol: http:// or https://
@@ -134,47 +135,54 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 
 	@Override
 	public void assessNodes(Triple triple) {
+		
+		/* assess subject */
 		Node subj = triple.getSubject();
+		
 		if (subj.isURI() && !subj.getURI().matches(httpUrlPattern)) {
-			Set<ViewQuad<ViewDefinition>> viewQuads =
-					pinpointer.getViewCandidates(triple);
 			
-			writeBack("subject" , triple, viewQuads);
+			Set<ViewQuad<ViewDefinition>> viewQuads =
+							pinpointer.getViewCandidates(triple);
+			
+			String note1 = "subject position of " + triple.toString();
+			String note2 = "";
+//			for (ViewQuad<ViewDefinition> viewQuad : viewQuads) {
+//				note2 += viewQuad.getQuad() + "\n"
+//						+ "of the following view definition:\n"
+//						+ viewQuad.getView() + "\n";
+//			}
+//	
+//			note2 += "\n\n";
+			
+			writeToSink(0, note1, note2, viewQuads);
 		}
 		
+		/* assess predicate */
 		Node pred = triple.getPredicate();
+		
 		if (!pred.getURI().matches(httpUrlPattern)) {
-			Set<ViewQuad<ViewDefinition>> viewQuads =
-					pinpointer.getViewCandidates(triple);
 			
-			writeBack("predicate", triple, viewQuads);
+			Set<ViewQuad<ViewDefinition>> viewQuads =
+							pinpointer.getViewCandidates(triple);
+			
+			String note1 = "predicate position of " + triple.toString();
+			String note2 = "";
+			
+			writeToSink(0, note1, note2, viewQuads);
 		}
-		
+
+		/* object */
 		Node obj = triple.getObject();
+		
 		if (obj.isURI() && !obj.getURI().matches(httpUrlPattern)) {
-			Set<ViewQuad<ViewDefinition>> viewQuads =
-					pinpointer.getViewCandidates(triple);
 			
-			writeBack("object", triple, viewQuads);
+			Set<ViewQuad<ViewDefinition>> viewQuads =
+							pinpointer.getViewCandidates(triple);
+			
+			String note1 = "object position of " + triple.toString();
+			String note2 = "";
+			
+			writeToSink(0, note1, note2, viewQuads);
 		}
 	}
-
-	
-	private void writeBack(String position, Triple triple,
-			Set<ViewQuad<ViewDefinition>> viewQuads) {
-		
-		// FIXME: just a debug dummy
-//		String reason = "";
-//		for (ViewQuad<ViewDefinition> viewQuad : viewQuads) {
-//			reason += viewQuad.getQuad() + "\n"
-//					+ "of the following view definition:\n"
-//					+ viewQuad.getView() + "\n";
-//		}
-//
-//		reason += "\n\n";
-		MeasureDatum datum = new MeasureDatum(parentDimension, name, 0,
-				position + " position of " + triple.toString(), ""); // reason);
-		sink.write(datum);
-	}
-
 }

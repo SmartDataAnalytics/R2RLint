@@ -13,17 +13,18 @@ public class DummySink implements MeasureDataSink {
 		logger = LoggerFactory.getLogger("Dummy sink");
 	}
 	
+	
 	@Override
 	public void initMeasure(String name, String type, String parentDimension) {
 		// pass
 	}
 
+	
 	@Override
 	public void write(MeasureDatum datum) {
 		logger.info(datum.getDimension() + "'s measure " + datum.getMeasure() +
 				" wrote value " + datum.getValue() +
-				"\nfor: " + datum.getSource() + "\nbecause of: " + datum.getAdditionalSource());
-
+				"\n\tfor: " + datum.getSource());// +
+				// "\nbecause of: " + datum.getAdditionalSource());
 	}
-
 }

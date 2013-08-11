@@ -1,5 +1,9 @@
 package org.aksw.sparqlify.qa.metrics;
 
+import java.util.Set;
+
+import org.aksw.sparqlify.core.algorithms.ViewQuad;
+import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 
 public abstract class MetricImpl implements Metric {
@@ -37,6 +41,15 @@ public abstract class MetricImpl implements Metric {
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	// TODO: fix this first shot approach method signature
+	protected void writeToSink(float val, String note1, String note2,
+			Set<ViewQuad<ViewDefinition>> viewQuads) {
+		
+		MeasureDatum datum = new MeasureDatum(parentDimension, name, val,
+				note1, note2);
+		sink.write(datum);
 	}
 
 }
