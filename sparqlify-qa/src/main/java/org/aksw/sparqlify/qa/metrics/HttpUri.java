@@ -171,7 +171,7 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 			writeToSink(0, note1, note2, viewQuads);
 		}
 
-		/* object */
+		/* assess object */
 		Node obj = triple.getObject();
 		
 		if (obj.isURI() && !obj.getURI().matches(httpUrlPattern)) {
