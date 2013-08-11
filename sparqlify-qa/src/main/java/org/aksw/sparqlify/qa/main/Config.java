@@ -18,6 +18,7 @@ import org.aksw.sparqlify.qa.metrics.HttpUri;
 import org.aksw.sparqlify.qa.metrics.Metric;
 import org.aksw.sparqlify.qa.metrics.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.ShortUri;
+import org.aksw.sparqlify.qa.metrics.SoundingUri;
 
 
 class DimensionFactory {
@@ -29,6 +30,7 @@ class DimensionFactory {
 			put(Config.metricNoProlixRdfFeatures, NoProlixFeatures.class);
 			put(Config.metricShortUris, ShortUri.class);
 			put(Config.metricHttpUris, HttpUri.class);
+			put(Config.metricSoundingUri, SoundingUri.class);
 		}
 	};
 	
@@ -83,6 +85,7 @@ public class Config {
 	final static String metricShortUris = "short_uris";
 	final static String metricNoProlixRdfFeatures = "no_prolix_rdf_features";
 	final static String metricHttpUris = "http_uris";
+	final static String metricSoundingUri = "sounding_uri";
 	
 	private final List<String> knownDimensions = Arrays.asList(dimAccuracy,
 			dimAmountOfData, dimAvailability, dimBelievability, dimCompleteness,
