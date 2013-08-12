@@ -41,7 +41,7 @@ public class ShortUri extends PinpointMetric implements NodeMetric {
 	}
 
 	private boolean resourceTooLong(Node res) {
-		if (res.getURI().length() > threshold) return true;
+		if (res.getURI().length() >= threshold) return true;
 		else return false;
 	}
 }
