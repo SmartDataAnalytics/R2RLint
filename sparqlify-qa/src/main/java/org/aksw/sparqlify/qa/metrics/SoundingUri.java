@@ -72,18 +72,39 @@ import com.hp.hpl.jena.graph.Triple;
  */
 public class SoundingUri extends PinpointMetric implements NodeMetric {
 
+	String wordlistFilePath = "src/main/resources/uwords_all.txt";
 	HashMap<String, Integer> trigramStats;
 	int numTrigrams;
 	// TODO: factor chosen arbitrarily
 	int scoreFactor = 1000;
 	
 	
+	/**
+	 * default constructor used by the assessment framework
+	 * 
+	 * @throws IOException
+	 */
 	public SoundingUri() throws IOException {
-		String filePath = "src/main/resources/uwords_all.txt";
+		initTrigramStats(wordlistFilePath);
+	}
+	
+	
+	/**
+	 * constructor for testing
+	 * 
+	 * @param wordlistFilePath
+	 * @throws IOException
+	 */
+	public SoundingUri(String wordlistFilePath) throws IOException {
+		initTrigramStats(wordlistFilePath);
+	}
+		
+		
+	private void initTrigramStats(String wordlistFilePath) throws IOException {
 		trigramStats = new HashMap<String, Integer>();
 		numTrigrams = 0;
 		
-		FileReader fReader = new FileReader(filePath);
+		FileReader fReader = new FileReader(wordlistFilePath);
 		BufferedReader bReader = new BufferedReader(fReader);
 		
 		String lineBuff = "";
