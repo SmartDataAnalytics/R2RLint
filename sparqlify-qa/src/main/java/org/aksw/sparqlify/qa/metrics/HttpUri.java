@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
+import org.aksw.sparqlify.qa.sinks.TriplePosition;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
@@ -144,17 +145,7 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 			
-			String note1 = "subject position of " + triple.toString();
-			String note2 = "";
-//			for (ViewQuad<ViewDefinition> viewQuad : viewQuads) {
-//				note2 += viewQuad.getQuad() + "\n"
-//						+ "of the following view definition:\n"
-//						+ viewQuad.getView() + "\n";
-//			}
-//	
-//			note2 += "\n\n";
-			
-			writeToSink(0, note1, note2, viewQuads);
+			writeToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
 		}
 		
 		/* assess predicate */
@@ -165,10 +156,7 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 			
-			String note1 = "predicate position of " + triple.toString();
-			String note2 = "";
-			
-			writeToSink(0, note1, note2, viewQuads);
+			writeToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
 		}
 
 		/* assess object */
@@ -179,10 +167,7 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 			
-			String note1 = "object position of " + triple.toString();
-			String note2 = "";
-			
-			writeToSink(0, note1, note2, viewQuads);
+			writeToSink(0, TriplePosition.OBJECT, triple, viewQuads);
 		}
 	}
 }

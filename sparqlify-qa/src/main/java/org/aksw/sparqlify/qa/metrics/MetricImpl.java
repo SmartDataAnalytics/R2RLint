@@ -5,6 +5,11 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
+import org.aksw.sparqlify.qa.sinks.MeasureDatum;
+import org.aksw.sparqlify.qa.sinks.NodeMeasureDatum;
+import org.aksw.sparqlify.qa.sinks.TriplePosition;
+
+import com.hp.hpl.jena.graph.Triple;
 
 public abstract class MetricImpl implements Metric {
 
@@ -54,8 +59,9 @@ public abstract class MetricImpl implements Metric {
 	protected void writeToSink(float val, String note1, String note2,
 			Set<ViewQuad<ViewDefinition>> viewQuads) {
 		
-		MeasureDatum datum = new MeasureDatum(parentDimension, name, val,
-				note1, note2);
+		MeasureDatum datum = new NodeMeasureDatum(parentDimension, name, val,
+				pos, triple, viewQuads);
+		
 		sink.write(datum);
 	}
 

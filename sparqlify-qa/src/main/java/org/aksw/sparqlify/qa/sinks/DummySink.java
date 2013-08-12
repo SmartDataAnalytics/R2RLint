@@ -1,6 +1,5 @@
 package org.aksw.sparqlify.qa.sinks;
 
-import org.aksw.sparqlify.qa.metrics.MeasureDatum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +21,15 @@ public class DummySink implements MeasureDataSink {
 	
 	@Override
 	public void write(MeasureDatum datum) {
-		logger.info(datum.getDimension() + "'s measure " + datum.getMeasure() +
-				" wrote value " + datum.getValue() +
-				"\n\tfor: " + datum.getSource());// +
-				// "\nbecause of: " + datum.getAdditionalSource());
+		String logLine = datum.getDimension() + "'s measure " +
+				datum.getMetric() + " wrote value " + datum.getValue() + "\n" +
+						"\tfor: ";
+		
+		if (datum.getClass().getName().equals(NodeMeasureDatum.class.getName())) {
+			logLine += ((NodeMeasureDatum) datum).getTriplePosition().name() +
+					" position in " + ((NodeMeasureDatum) datum).getTriple();
+		}
+		
+		logger.info(logLine);
 	}
 }

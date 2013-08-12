@@ -1,6 +1,5 @@
 package org.aksw.sparqlify.qa.sinks;
 
-import org.aksw.sparqlify.qa.metrics.MeasureDatum;
 
 public class H5Sink implements MeasureDataSink {
 
