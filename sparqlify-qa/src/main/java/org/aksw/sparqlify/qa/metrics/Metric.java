@@ -14,4 +14,6 @@ public interface Metric {
 	public void registerMeasureDataSink(MeasureDataSink sink);
 		
 	public void setName(String name);
+
+	public String getName();
 }
