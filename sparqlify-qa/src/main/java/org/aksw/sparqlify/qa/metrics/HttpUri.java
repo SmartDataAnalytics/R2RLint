@@ -124,12 +124,12 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 					// =
 					"(?:=" +
 					// value
-					"(?:([a-zA-Z\\d;/:_~',\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))+)?" +
+					"(?:([a-zA-Z\\d/:_~',\\Q;-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))+)?" +
 				")" +
 			")?" +
 			
 			// fragment
-			"(?:#(?:([a-zA-Z\\d;/:_~',=&\\Q-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))*)?" +
+			"(?:#(?:([a-zA-Z\\d/:_~',=&\\Q;-?@$+*.!()\\E]|%[a-fA-F\\d]{2}))*)?" +
 			"$";
 
 
