@@ -24,6 +24,7 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDump;
 import org.aksw.sparqlify.qa.dimensions.Dimension;
 import org.aksw.sparqlify.qa.exceptions.DimensionUnknownException;
+import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.exceptions.TripleParseException;
 import org.aksw.sparqlify.qa.sinks.DummySink;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
@@ -44,8 +45,9 @@ public class Run {
 	 * @throws SQLException 
 	 * @throws RecognitionException 
 	 * @throws TripleParseException 
+	 * @throws NotImplementedException 
 	 */
-	public static void main(String[] args) throws IOException, DimensionUnknownException, SQLException, RecognitionException, TripleParseException {
+	public static void main(String[] args) throws IOException, DimensionUnknownException, SQLException, RecognitionException, TripleParseException, NotImplementedException {
 		// TODO: things to put in a config file:
 		String resDirPrefix = "src/main/resources/";
 		String configFilePath = resDirPrefix + "dimensions.properties";

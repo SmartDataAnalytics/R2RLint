@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
+import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 
 import com.hp.hpl.jena.graph.Node;
@@ -135,7 +136,7 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 
 
 	@Override
-	public void assessNodes(Triple triple) {
+	public void assessNodes(Triple triple) throws NotImplementedException {
 		
 		/* assess subject */
 		Node subj = triple.getSubject();

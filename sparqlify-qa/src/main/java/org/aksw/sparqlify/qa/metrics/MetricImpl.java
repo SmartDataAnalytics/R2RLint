@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
+import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.MeasureDatum;
 import org.aksw.sparqlify.qa.sinks.NodeMeasureDatum;
@@ -56,8 +57,8 @@ public abstract class MetricImpl implements Metric {
 	}
 	
 	// TODO: fix this first shot approach method signature
-	protected void writeToSink(float val, String note1, String note2,
-			Set<ViewQuad<ViewDefinition>> viewQuads) {
+	protected void writeToSink(float val, TriplePosition pos, Triple triple,
+			Set<ViewQuad<ViewDefinition>> viewQuads) throws NotImplementedException {
 		
 		MeasureDatum datum = new NodeMeasureDatum(parentDimension, name, val,
 				pos, triple, viewQuads);

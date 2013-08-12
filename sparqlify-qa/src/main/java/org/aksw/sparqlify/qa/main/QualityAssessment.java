@@ -9,6 +9,7 @@ import java.util.List;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDump;
 import org.aksw.sparqlify.qa.dimensions.Dimension;
+import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.exceptions.TripleParseException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
@@ -143,7 +144,7 @@ public class QualityAssessment {
 		return classes;
 	}
 	
-	public void run() throws TripleParseException {
+	public void run() throws TripleParseException, NotImplementedException {
 		boolean runDatasetAssessment = datasetMetrics.size() > 0;
 		boolean runTripleAssessment = tripleMetrics.size() > 0;
 		boolean runNodeAssessment = nodeMetrics.size() > 0;
@@ -177,7 +178,7 @@ public class QualityAssessment {
 	}
 	
 	
-	private void assessNodes(Statement statement) {
+	private void assessNodes(Statement statement) throws NotImplementedException {
 		for (Metric metric : nodeMetrics) {
 			((NodeMetric) metric).assessNodes(statement.asTriple());
 		}
