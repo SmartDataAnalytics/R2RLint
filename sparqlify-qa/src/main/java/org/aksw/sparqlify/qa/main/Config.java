@@ -20,6 +20,7 @@ import org.aksw.sparqlify.qa.metrics.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.QueryParamFreeUri;
 import org.aksw.sparqlify.qa.metrics.ShortUri;
 import org.aksw.sparqlify.qa.metrics.SoundingUri;
+import org.aksw.sparqlify.qa.metrics.availability.DereferenceableForwardLinks;
 
 
 class DimensionFactory {
@@ -28,6 +29,8 @@ class DimensionFactory {
 		private static final long serialVersionUID = -8496214118714182820L;
 
 		{
+			// availability
+			put(Config.metricDereferenceableForwardLinks, DereferenceableForwardLinks.class);
 			// representational conciseness
 			put(Config.metricNoProlixRdfFeatures, NoProlixFeatures.class);
 			put(Config.metricShortUris, ShortUri.class);
@@ -88,7 +91,9 @@ public class Config {
 
 	// <accuracy></accuracy>
 	// <amountOfData></amountOfData>
-	// <availability></availability>
+	// <availability>
+	final static String metricDereferenceableForwardLinks = "dereferenceable_forward_links";
+	// </availability>
 	// <believability></believability>
 	// <completeness></completeness>
 	// <conciseness></conciseness>
