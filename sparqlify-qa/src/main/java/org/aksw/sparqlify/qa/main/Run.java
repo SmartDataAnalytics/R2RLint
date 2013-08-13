@@ -157,8 +157,6 @@ public class Run {
 				dimensions, sink);
         
 		qa.run();
-        
-		int foo = 23;
 	}
 
 }
