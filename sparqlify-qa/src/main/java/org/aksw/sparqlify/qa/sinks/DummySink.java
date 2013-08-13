@@ -29,6 +29,8 @@ public class DummySink implements MeasureDataSink {
 		if (datum.getClass().getName().equals(NodeMeasureDatum.class.getName())) {
 			logLine += ((NodeMeasureDatum) datum).getTriplePosition().name() +
 					" position in " + ((NodeMeasureDatum) datum).getTriple();
+		} else if (datum.getClass().getName().equals(TripleMeasureDatum.class.getName())) {
+			logLine += ((TripleMeasureDatum) datum).getTriple();
 		}
 		
 		logger.info(logLine);
