@@ -1,11 +1,10 @@
 package org.aksw.sparqlify.qa.metrics.availability;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -81,15 +80,33 @@ public class DereferenceableForwardLinks extends PinpointMetric implements
 				return true;
 			}
 			
-			URLConnection urlConn;
+			HttpURLConnection urlConn;
+			
 			try {
-				urlConn = extUrl.openConnection();
+				urlConn = (HttpURLConnection) extUrl.openConnection();
 			} catch (IOException e) {
 				linkBroken.put(node.getURI(), true);
 				return true;
 			}
 			
-			if (urlConn.getContentType() != null) {
+			try {
+				urlConn.setRequestMethod("GET");
+			} catch (ProtocolException e) {
+				linkBroken.put(node.getURI(), true);
+				return true;
+			}
+			
+			int responseCode = 0;
+			
+			try {
+				urlConn.connect();
+				responseCode = urlConn.getResponseCode();
+			} catch (IOException e) {
+				linkBroken.put(node.getURI(), true);
+				return true;
+			}
+
+			if (responseCode >= 200 && responseCode < 400) {
 				linkBroken.put(node.getURI(), false);
 				return false;
 			} else {
