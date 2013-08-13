@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.sinks;
 
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,7 @@ public class DummySink implements MeasureDataSink {
 	
 	
 	@Override
-	public void initMeasure(String name, String type, String parentDimension) {
+	public void initMeasure(String name,Class<? extends MetricImpl> cls, String parentDimension) {
 		// pass
 	}
 

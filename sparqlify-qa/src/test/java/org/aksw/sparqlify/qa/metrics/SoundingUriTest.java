@@ -1,6 +1,7 @@
 package org.aksw.sparqlify.qa.metrics;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,10 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Node_URI;
 import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.sparql.util.NodeFactory;
-import com.sun.jersey.server.impl.component.ResourceFactory;
 
 public class SoundingUriTest {
 	
@@ -52,9 +50,9 @@ public class SoundingUriTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertTrue(sink.written(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.written(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.written(metricName, TriplePosition.OBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 	
 	@Test
@@ -77,9 +75,9 @@ public class SoundingUriTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertTrue(sink.written(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.written(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.written(metricName, TriplePosition.OBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 	
 	@Test
@@ -102,8 +100,8 @@ public class SoundingUriTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.written(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.written(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.written(metricName, TriplePosition.OBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 }

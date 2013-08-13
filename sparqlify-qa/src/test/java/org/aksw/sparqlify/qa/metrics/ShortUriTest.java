@@ -47,9 +47,9 @@ public class ShortUriTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertTrue(sink.written(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.written(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.written(metricName, TriplePosition.OBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	@Test
@@ -72,8 +72,8 @@ public class ShortUriTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.written(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.written(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.written(metricName, TriplePosition.OBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 }

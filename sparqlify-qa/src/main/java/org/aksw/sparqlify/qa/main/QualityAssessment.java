@@ -172,8 +172,10 @@ public class QualityAssessment {
 	}
 	
 	
-	private void assessDataset() {
-		// TODO: implement
+	private void assessDataset() throws NotImplementedException {
+		for (Metric metric : datasetMetrics) {
+			((DatasetMetric) metric).assessDataset(dataset);
+		}
 	}
 	
 	

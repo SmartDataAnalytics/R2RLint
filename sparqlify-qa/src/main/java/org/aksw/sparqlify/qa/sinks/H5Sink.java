@@ -1,5 +1,7 @@
 package org.aksw.sparqlify.qa.sinks;
 
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+
 
 public class H5Sink implements MeasureDataSink {
 
@@ -20,7 +22,7 @@ public class H5Sink implements MeasureDataSink {
 
 	
 	@Override
-	public void initMeasure(String name, String type, String parentDimension) {
+	public void initMeasure(String name, Class<? extends MetricImpl> cls, String parentDimension) {
 		// TODO Auto-generated method stub
 	}
 }

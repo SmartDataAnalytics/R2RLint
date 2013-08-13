@@ -41,7 +41,7 @@ public abstract class MetricImpl implements Metric {
 	@Override
 	public void registerMeasureDataSink(MeasureDataSink sink) {
 		this.sink = sink;
-		sink.initMeasure(name, getClass().getName(), parentDimension);
+		sink.initMeasure(name, getClass(), parentDimension);
 	}
 
 
