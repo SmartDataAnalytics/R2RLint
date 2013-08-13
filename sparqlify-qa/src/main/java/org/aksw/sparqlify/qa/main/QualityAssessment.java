@@ -68,10 +68,10 @@ public class QualityAssessment {
 	private List<Metric> mappingMetrics;
 
 
-	public QualityAssessment(SparqlifyDataset dump,
+	public QualityAssessment(SparqlifyDataset dataset,
 			Collection<ViewDefinition> viewDefs, Connection conn,
 			Collection<Dimension> dims, MeasureDataSink measureDataSink) {
-		this.dataset = dump;
+		this.dataset = dataset;
 		
 		datasetMetrics = new ArrayList<Metric>();
 		tripleMetrics = new ArrayList<Metric>();
@@ -111,11 +111,13 @@ public class QualityAssessment {
 					 *     measured data to the measure data sink
 					 */
 					metric.registerMeasureDataSink(measureDataSink);
+					metric.setPrefix(dataset.getPrefix());
+					
 					List<String> classNames = getClassNames(metric.getClass());
 					if (classNames.contains(PinpointMetric.class.getName())) {
 						Pinpointer pinpointer = new Pinpointer(viewDefs);
 						((PinpointMetric) metric).registerPinpointer(pinpointer);
-
+						
 						if (classNames.contains(PinpointDbMetric.class.getName())) {
 							((PinpointDbMetric) metric).registerDbConnection(conn);
 							

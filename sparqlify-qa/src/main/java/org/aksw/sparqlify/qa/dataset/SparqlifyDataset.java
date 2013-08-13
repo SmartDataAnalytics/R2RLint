@@ -29,7 +29,9 @@ import com.hp.hpl.jena.sparql.graph.GraphFactory;
 
 public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple> {
 
-	Iterator<Triple> it;
+	private Iterator<Triple> it;
+	// to be able to differentiate between "re-used" and own resources
+	private String prefix = null;
 
 
 	public SparqlifyDataset() {
@@ -48,6 +50,15 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 		it = new NTripleIterator(iteratorStream, null, null);
 	}
 
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+
+	public String getPrefix() {
+		return prefix;
+	}
 
 	@Override
 	public Iterator<Triple> iterator() {

@@ -16,4 +16,6 @@ public interface Metric {
 	public void setName(String name);
 
 	public String getName();
+	
+	public void setPrefix(String domain);
 }

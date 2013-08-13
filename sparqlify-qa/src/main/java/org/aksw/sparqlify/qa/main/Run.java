@@ -62,6 +62,7 @@ public class Run {
 		String databaseHost = "10.23.0.2";
 		int databasePort = 5432;
 
+		String prefix = "http://ex.org/";
 		
 		Config confReader;
 		LoggerCount loggerCount = new LoggerCount(logger);
@@ -72,6 +73,7 @@ public class Run {
 		 */
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		dataset.readFromDump(dumpFilePath);
+		dataset.setPrefix(prefix);
 
 		
 		/*

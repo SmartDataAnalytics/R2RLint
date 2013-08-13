@@ -4,7 +4,7 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 
 public abstract class PinpointMetric extends MetricImpl implements Metric {
 	
-	Pinpointer pinpointer;
+	protected Pinpointer pinpointer;
 
 
 	public void registerPinpointer(Pinpointer pinpointer) {

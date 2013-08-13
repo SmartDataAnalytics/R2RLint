@@ -15,10 +15,11 @@ import com.hp.hpl.jena.graph.Triple;
 
 public abstract class MetricImpl implements Metric {
 
-	String name;
-	String parentDimension;
-	float threshold = 0;
-	MeasureDataSink sink;
+	protected String name;
+	protected String parentDimension;
+	protected String prefix = "";
+	protected float threshold = 0;
+	protected MeasureDataSink sink;
 
 
 	@Override
@@ -77,6 +78,10 @@ public abstract class MetricImpl implements Metric {
 				triple, viewQuads);
 		
 		sink.write(datum);
+	}
+	
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 
 }
