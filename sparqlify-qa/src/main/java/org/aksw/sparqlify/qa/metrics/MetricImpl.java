@@ -8,6 +8,7 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.MeasureDatum;
 import org.aksw.sparqlify.qa.sinks.NodeMeasureDatum;
+import org.aksw.sparqlify.qa.sinks.TripleMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 
 import com.hp.hpl.jena.graph.Triple;
@@ -57,11 +58,23 @@ public abstract class MetricImpl implements Metric {
 	}
 	
 	// TODO: fix this first shot approach method signature
-	protected void writeToSink(float val, TriplePosition pos, Triple triple,
-			Set<ViewQuad<ViewDefinition>> viewQuads) throws NotImplementedException {
+	protected void writeNodeMeasureToSink(float val, TriplePosition pos,
+			Triple triple, Set<ViewQuad<ViewDefinition>> viewQuads)
+			throws NotImplementedException {
 		
 		MeasureDatum datum = new NodeMeasureDatum(parentDimension, name, val,
 				pos, triple, viewQuads);
+		
+		sink.write(datum);
+	}
+
+
+	protected void writeTripleMeasureToSink(float val, Triple triple,
+			Set<ViewQuad<ViewDefinition>> viewQuads)
+			throws NotImplementedException {
+		
+		MeasureDatum datum = new TripleMeasureDatum(parentDimension, name, val,
+				triple, viewQuads);
 		
 		sink.write(datum);
 	}

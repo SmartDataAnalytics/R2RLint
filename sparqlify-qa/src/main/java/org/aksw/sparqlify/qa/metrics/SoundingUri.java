@@ -158,7 +158,7 @@ public class SoundingUri extends PinpointMetric implements NodeMetric {
 				Set<ViewQuad<ViewDefinition>> viewQuads =
 									pinpointer.getViewCandidates(triple);
 			
-				writeToSink(qualityVal, TriplePosition.SUBJECT, triple, viewQuads);
+				writeNodeMeasureToSink(qualityVal, TriplePosition.SUBJECT, triple, viewQuads);
 			}
 		}
 		
@@ -172,7 +172,7 @@ public class SoundingUri extends PinpointMetric implements NodeMetric {
 				Set<ViewQuad<ViewDefinition>> viewQuads =
 									pinpointer.getViewCandidates(triple);
 			
-				writeToSink(qualityVal, TriplePosition.PREDICATE, triple, viewQuads);
+				writeNodeMeasureToSink(qualityVal, TriplePosition.PREDICATE, triple, viewQuads);
 			}
 		}
 
@@ -186,7 +186,7 @@ public class SoundingUri extends PinpointMetric implements NodeMetric {
 				Set<ViewQuad<ViewDefinition>> viewQuads =
 									pinpointer.getViewCandidates(triple);
 			
-				writeToSink(qualityVal, TriplePosition.OBJECT, triple, viewQuads);
+				writeNodeMeasureToSink(qualityVal, TriplePosition.OBJECT, triple, viewQuads);
 			}
 		}
 	}

@@ -146,7 +146,7 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 			
-			writeToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
+			writeNodeMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
 		}
 		
 		/* assess predicate */
@@ -157,7 +157,7 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 			
-			writeToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
+			writeNodeMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
 		}
 
 		/* assess object */
@@ -168,7 +168,7 @@ public class HttpUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 			
-			writeToSink(0, TriplePosition.OBJECT, triple, viewQuads);
+			writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
 		}
 	}
 }
