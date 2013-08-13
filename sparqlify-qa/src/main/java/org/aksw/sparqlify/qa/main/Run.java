@@ -21,7 +21,7 @@ import org.aksw.sparqlify.core.RdfViewSystemOld;
 import org.aksw.sparqlify.core.cast.NewWorldTest;
 import org.aksw.sparqlify.core.cast.TypeSystem;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
-import org.aksw.sparqlify.qa.dataset.SparqlifyDump;
+import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.dimensions.Dimension;
 import org.aksw.sparqlify.qa.exceptions.DimensionUnknownException;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
@@ -32,7 +32,6 @@ import org.antlr.runtime.RecognitionException;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.ext.XLogger.Level;
 
 public class Run {
 	
@@ -71,7 +70,8 @@ public class Run {
 		/*
 		 *  get Sparqlify dump
 		 */
-		SparqlifyDump dump = new SparqlifyDump(dumpFilePath);
+		SparqlifyDataset dataset = new SparqlifyDataset();
+		dataset.readFromDump(dumpFilePath);
 
 		
 		/*
@@ -153,7 +153,7 @@ public class Run {
         /*
          * init quality assessment
          */
-		QualityAssessment qa = new QualityAssessment(dump, viewDefs, conn,
+		QualityAssessment qa = new QualityAssessment(dataset, viewDefs, conn,
 				dimensions, sink);
         
 		qa.run();

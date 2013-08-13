@@ -1,13 +1,12 @@
 package org.aksw.sparqlify.qa.main;
 
-import java.io.StringReader;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
-import org.aksw.sparqlify.qa.dataset.SparqlifyDump;
+import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.dimensions.Dimension;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.exceptions.TripleParseException;
@@ -21,10 +20,7 @@ import org.aksw.sparqlify.qa.metrics.TripleMetric;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.graph.Triple;
 
 
 
@@ -65,17 +61,17 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  */
 public class QualityAssessment {
 	
-	private SparqlifyDump dump;
+	private SparqlifyDataset dataset;
 	private List<Metric> datasetMetrics;
 	private List<Metric> tripleMetrics;
 	private List<Metric> nodeMetrics;
 	private List<Metric> mappingMetrics;
 
 
-	public QualityAssessment(SparqlifyDump dump,
+	public QualityAssessment(SparqlifyDataset dump,
 			Collection<ViewDefinition> viewDefs, Connection conn,
 			Collection<Dimension> dims, MeasureDataSink measureDataSink) {
-		this.dump = dump;
+		this.dataset = dump;
 		
 		datasetMetrics = new ArrayList<Metric>();
 		tripleMetrics = new ArrayList<Metric>();
@@ -153,34 +149,25 @@ public class QualityAssessment {
 			assessDataset();
 		}
 		if (runTripleAssessment || runNodeAssessment) {
-			for (String line : dump) {
-				Model lineStatement = ModelFactory.createDefaultModel();
-				StringReader reader = new StringReader(line);
-				lineStatement.read(reader, null,  "TTL");
-				// NtripleIterator
-				StmtIterator iter = lineStatement.listStatements();
-				
-				while (iter.hasNext()) {
-					Statement triple = iter.next();
-					// no optimizations here
-					if (runTripleAssessment) assessTriple(triple);
-					if (runNodeAssessment) assessNodes(triple);
-				}
+			
+			for (Triple triple : dataset) {
+				if (runTripleAssessment) assessTriple(triple);
+				if (runNodeAssessment) assessNodes(triple);
 			}
 		}
 	}
 	
 	
-	private void assessTriple(Statement statement) {
+	private void assessTriple(Triple triple) throws NotImplementedException {
 		for (Metric metric : tripleMetrics) {
-			((TripleMetric) metric).assessTriple(statement.asTriple());
+			((TripleMetric) metric).assessTriple(triple);
 		}
 	}
 	
 	
-	private void assessNodes(Statement statement) throws NotImplementedException {
+	private void assessNodes(Triple triple) throws NotImplementedException {
 		for (Metric metric : nodeMetrics) {
-			((NodeMetric) metric).assessNodes(statement.asTriple());
+			((NodeMetric) metric).assessNodes(triple);
 		}
 	}
 	
