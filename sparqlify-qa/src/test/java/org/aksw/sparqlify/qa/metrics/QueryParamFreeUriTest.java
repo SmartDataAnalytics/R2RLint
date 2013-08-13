@@ -16,7 +16,7 @@ import org.junit.Test;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
 
-public class QueryStringFreeUriTest {
+public class QueryParamFreeUriTest {
 
 	BooleanTestingSink sink;
 	Pinpointer pinpointer;
@@ -31,7 +31,7 @@ public class QueryStringFreeUriTest {
 
 	@Test
 	public void test01() throws NotImplementedException {
-		QueryStringFreeUri metric = new QueryStringFreeUri();
+		QueryParamFreeUri metric = new QueryParamFreeUri();
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -53,7 +53,7 @@ public class QueryStringFreeUriTest {
 
 	@Test
 	public void test02() throws NotImplementedException {
-		QueryStringFreeUri metric = new QueryStringFreeUri();
+		QueryParamFreeUri metric = new QueryParamFreeUri();
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -75,7 +75,7 @@ public class QueryStringFreeUriTest {
 
 	@Test
 	public void test03() throws NotImplementedException {
-		QueryStringFreeUri metric = new QueryStringFreeUri();
+		QueryParamFreeUri metric = new QueryParamFreeUri();
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
