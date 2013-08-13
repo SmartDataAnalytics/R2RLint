@@ -11,7 +11,7 @@ import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_URI;
 import com.hp.hpl.jena.graph.Triple;
 
-public class QueryStringFreeUri extends PinpointMetric implements NodeMetric {
+public class QueryParamFreeUri extends PinpointMetric implements NodeMetric {
 
 	
 	@Override
