@@ -17,6 +17,7 @@ import org.aksw.sparqlify.qa.exceptions.MetricUnknownException;
 import org.aksw.sparqlify.qa.metrics.HttpUri;
 import org.aksw.sparqlify.qa.metrics.Metric;
 import org.aksw.sparqlify.qa.metrics.NoProlixFeatures;
+import org.aksw.sparqlify.qa.metrics.QueryParamFreeUri;
 import org.aksw.sparqlify.qa.metrics.ShortUri;
 import org.aksw.sparqlify.qa.metrics.SoundingUri;
 
@@ -27,8 +28,11 @@ class DimensionFactory {
 		private static final long serialVersionUID = -8496214118714182820L;
 
 		{
+			// representational conciseness
 			put(Config.metricNoProlixRdfFeatures, NoProlixFeatures.class);
 			put(Config.metricShortUris, ShortUri.class);
+			put(Config.metricQueryParamFreeUri, QueryParamFreeUri.class);
+			// understandability
 			put(Config.metricHttpUris, HttpUri.class);
 			put(Config.metricSoundingUri, SoundingUri.class);
 		}
@@ -81,11 +85,28 @@ public class Config {
 	final static String dimUnderstandability = "understandability";
 	final static String dimVerifiability = "verifiability";
 	final static String dimVersatility = "versatility";
-	
+
+	// <accuracy></accuracy>
+	// <amountOfData></amountOfData>
+	// <availability></availability>
+	// <believability></believability>
+	// <completeness></completeness>
+	// <conciseness></conciseness>
+	// <consistency></consistency>
+	// <interlinking></interlinking>
+	// <interpretability></interpretability>
+	// <performance></performance>
+	// <relevancy></relevancy>
+	// <representationalConciseness>
 	final static String metricShortUris = "short_uris";
 	final static String metricNoProlixRdfFeatures = "no_prolix_rdf_features";
+	final static String metricQueryParamFreeUri = "query_parameter-free_uri";
+	// </representationalConciseness>
+	// <representationalConsistency></representationalConsistency>
+	// <understandability>
 	final static String metricHttpUris = "http_uris";
 	final static String metricSoundingUri = "sounding_uri";
+	// </understandability>
 	
 	private final List<String> knownDimensions = Arrays.asList(dimAccuracy,
 			dimAmountOfData, dimAvailability, dimBelievability, dimCompleteness,
