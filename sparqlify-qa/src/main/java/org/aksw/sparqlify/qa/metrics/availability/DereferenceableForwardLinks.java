@@ -29,7 +29,8 @@ public class DereferenceableForwardLinks extends PinpointMetric implements
 	public DereferenceableForwardLinks() {
 		linkBroken = new HashMap<String, Boolean>();
 	}
-	
+
+
 	@Override
 	public void assessNodes(Triple triple) throws NotImplementedException {
 		// FIXME: make this threaded
