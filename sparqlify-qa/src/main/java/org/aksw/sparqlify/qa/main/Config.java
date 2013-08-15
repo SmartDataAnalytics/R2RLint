@@ -21,6 +21,7 @@ import org.aksw.sparqlify.qa.metrics.QueryParamFreeUri;
 import org.aksw.sparqlify.qa.metrics.ShortUri;
 import org.aksw.sparqlify.qa.metrics.SoundingUri;
 import org.aksw.sparqlify.qa.metrics.availability.DereferenceableForwardLinks;
+import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 
 
 class DimensionFactory {
@@ -31,6 +32,8 @@ class DimensionFactory {
 		{
 			// availability
 			put(Config.metricDereferenceableForwardLinks, DereferenceableForwardLinks.class);
+			// performance
+			put(Config.metricNoHashUris, NoHashUris.class);
 			// representational conciseness
 			put(Config.metricNoProlixRdfFeatures, NoProlixFeatures.class);
 			put(Config.metricShortUris, ShortUri.class);
@@ -100,7 +103,9 @@ public class Config {
 	// <consistency></consistency>
 	// <interlinking></interlinking>
 	// <interpretability></interpretability>
-	// <performance></performance>
+	// <performance>
+	final static String metricNoHashUris = "no_hash_uris";
+	// </performance>
 	// <relevancy></relevancy>
 	// <representationalConciseness>
 	final static String metricShortUris = "short_uris";
