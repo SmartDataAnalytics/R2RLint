@@ -9,14 +9,14 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -29,7 +29,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: dept; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: dept; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE dept (
@@ -38,10 +38,8 @@ CREATE TABLE dept (
 );
 
 
-ALTER TABLE public.dept OWNER TO postgres;
-
 --
--- Name: dept_translation; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: dept_translation; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE dept_translation (
@@ -51,10 +49,8 @@ CREATE TABLE dept_translation (
 );
 
 
-ALTER TABLE public.dept_translation OWNER TO postgres;
-
 --
--- Name: employee; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: employee; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE employee (
@@ -71,10 +67,8 @@ CREATE TABLE employee (
 );
 
 
-ALTER TABLE public.employee OWNER TO postgres;
-
 --
--- Data for Name: dept; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: dept; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY dept (id, default_name) FROM stdin;
@@ -86,24 +80,24 @@ COPY dept (id, default_name) FROM stdin;
 
 
 --
--- Data for Name: dept_translation; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: dept_translation; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY dept_translation (id, lang, name) FROM stdin;
-1	eng	IT
-1	deu	IT
-2	eng	Accounting
-2	deu	Buchhaltung
-3	eng	Production
-3	deu	Produktion
-4	eng	Marketing
-4	deu	Marketing
-1	sax	Ei Dieh
+1	en	IT
+1	de	IT
+2	en	Accounting
+2	de	Buchhaltung
+3	en	Production
+3	de	Produktion
+4	en	Marketing
+4	de	Marketing
+1	sx	Ei Dieh
 \.
 
 
 --
--- Data for Name: employee; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: employee; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY employee (id, firstname, lastname, employment_time, employment_time_unit, birthday, salary_monthly, web_id, married, dept) FROM stdin;
@@ -122,7 +116,7 @@ COPY employee (id, firstname, lastname, employment_time, employment_time_unit, b
 
 
 --
--- Name: dept_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: dept_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY dept
@@ -130,7 +124,7 @@ ALTER TABLE ONLY dept
 
 
 --
--- Name: dept_translations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: dept_translations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY dept_translation
@@ -138,7 +132,7 @@ ALTER TABLE ONLY dept_translation
 
 
 --
--- Name: employees_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: employees_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY employee
@@ -146,7 +140,7 @@ ALTER TABLE ONLY employee
 
 
 --
--- Name: dept_translations_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: dept_translations_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY dept_translation
@@ -154,7 +148,7 @@ ALTER TABLE ONLY dept_translation
 
 
 --
--- Name: employees_dept_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: employees_dept_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY employee
@@ -162,7 +156,7 @@ ALTER TABLE ONLY employee
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: postgres
+-- Name: public; Type: ACL; Schema: -; Owner: -
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;

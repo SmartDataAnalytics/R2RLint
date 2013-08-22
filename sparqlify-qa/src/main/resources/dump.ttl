@@ -98,12 +98,12 @@
 <http://ex.org/employee/Idehen/Iadh> <http://ex.org/employmentTime> "3"^^<http://www.w3.org/2001/XMLSchema#gYear> .
 <http://ex.org/employee/Jin/Jiao> <http://ex.org/employmentTime> "11"^^<http://www.w3.org/2001/XMLSchema#month> .
 <http://ex.org/employee/H%C3%B6llm%C3%B8ll%C3%A2r/H%C3%A8l%C3%A9na> <http://ex.org/employmentTime> "3"^^<http://www.w3.org/2001/XMLSchema#gYear> .
-<http://ex.org/1> <http://ex.org/title> "IT"@eng .
-<http://ex.org/1> <http://ex.org/title> "IT"@deu .
-<http://ex.org/2> <http://ex.org/title> "Accounting"@eng .
-<http://ex.org/2> <http://ex.org/title> "Buchhaltung"@deu .
-<http://ex.org/3> <http://ex.org/title> "Production"@eng .
-<http://ex.org/3> <http://ex.org/title> "Produktion"@deu .
-<http://ex.org/4> <http://ex.org/title> "Marketing"@eng .
-<http://ex.org/4> <http://ex.org/title> "Marketing"@deu .
-<http://ex.org/1> <http://ex.org/title> "Ei Dieh"@sax .
+<http://ex.org/1> <http://ex.org/title> "IT"@en .
+<http://ex.org/1> <http://ex.org/title> "IT"@de .
+<http://ex.org/2> <http://ex.org/title> "Accounting"@en .
+<http://ex.org/2> <http://ex.org/title> "Buchhaltung"@de .
+<http://ex.org/3> <http://ex.org/title> "Production"@en .
+<http://ex.org/3> <http://ex.org/title> "Produktion"@de .
+<http://ex.org/4> <http://ex.org/title> "Marketing"@en .
+<http://ex.org/4> <http://ex.org/title> "Marketing"@de .
+<http://ex.org/1> <http://ex.org/title> "Ei Dieh"@sx .
