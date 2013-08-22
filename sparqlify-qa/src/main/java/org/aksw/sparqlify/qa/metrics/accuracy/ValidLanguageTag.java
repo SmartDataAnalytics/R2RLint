@@ -2,7 +2,6 @@ package org.aksw.sparqlify.qa.metrics.accuracy;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,20 +28,8 @@ public class ValidLanguageTag extends PinpointMetric implements NodeMetric {
 	public ValidLanguageTag() {
 		langTags = new ArrayList<String>();
 		
-		File langTagsFile = new File(langTagFilePath);
-		FileReader fileIn = null;
 		try {
-			fileIn = new FileReader(langTagsFile);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		BufferedReader in = new BufferedReader(fileIn);
-		
-		String line;
-		try {
-			while ((line = in.readLine()) != null) {
-				langTags.add(line);
-			}
+			readIanaLangTagsFromFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -55,19 +42,36 @@ public class ValidLanguageTag extends PinpointMetric implements NodeMetric {
 		if (object.isLiteral()) {
 			
 			Node_Literal litObj = (Node_Literal) object;
-			if (litObj.getLiteralLanguage() != null && !litObj.getLiteralLanguage().equals("")) {
+			if (litObj.getLiteralLanguage() != null
+					&& !litObj.getLiteralLanguage().equals("")) {
 				
 				String[] res = LangTag.parse(litObj.getLiteralLanguage());
-				if (res == null || !langTags.contains(res[0])) {
+				
+				if (res == null || (res[2] == null && res[4] == null &&
+						(res[0] == null || !langTags.contains(res[0])))) {
 					
 					Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 					
-					writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
+					writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple,
+							viewQuads);
 				}
 			}
 			
 		}
 	}
 
+	private void readIanaLangTagsFromFile() throws IOException {
+		
+		File langTagsFile = new File(langTagFilePath);
+		FileReader fileIn = new FileReader(langTagsFile);
+
+		BufferedReader in = new BufferedReader(fileIn);
+		
+		String line;
+		while ((line = in.readLine()) != null) {
+			langTags.add(line);
+		}
+		in.close();
+	}
 }
