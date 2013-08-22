@@ -20,6 +20,7 @@ import org.aksw.sparqlify.qa.metrics.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.QueryParamFreeUri;
 import org.aksw.sparqlify.qa.metrics.ShortUri;
 import org.aksw.sparqlify.qa.metrics.SoundingUri;
+import org.aksw.sparqlify.qa.metrics.accuracy.XSDDatatypeCompatibleLiterals;
 import org.aksw.sparqlify.qa.metrics.availability.DereferenceableForwardLinks;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 
@@ -30,6 +31,8 @@ class DimensionFactory {
 		private static final long serialVersionUID = -8496214118714182820L;
 
 		{
+			// accuracy
+			put(Config.metricDatatypeCompatibleLiterals, XSDDatatypeCompatibleLiterals.class);
 			// availability
 			put(Config.metricDereferenceableForwardLinks, DereferenceableForwardLinks.class);
 			// performance
@@ -92,7 +95,9 @@ public class Config {
 	final static String dimVerifiability = "verifiability";
 	final static String dimVersatility = "versatility";
 
-	// <accuracy></accuracy>
+	// <accuracy>
+	final static String metricDatatypeCompatibleLiterals = "datatype-compatible_literals";
+	// </accuracy>
 	// <amountOfData></amountOfData>
 	// <availability>
 	final static String metricDereferenceableForwardLinks = "dereferenceable_forward_links";
