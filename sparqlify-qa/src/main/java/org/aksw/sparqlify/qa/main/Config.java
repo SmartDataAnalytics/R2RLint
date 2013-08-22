@@ -20,6 +20,7 @@ import org.aksw.sparqlify.qa.metrics.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.QueryParamFreeUri;
 import org.aksw.sparqlify.qa.metrics.ShortUri;
 import org.aksw.sparqlify.qa.metrics.SoundingUri;
+import org.aksw.sparqlify.qa.metrics.accuracy.ValidLanguageTag;
 import org.aksw.sparqlify.qa.metrics.accuracy.XSDDatatypeCompatibleLiterals;
 import org.aksw.sparqlify.qa.metrics.availability.DereferenceableForwardLinks;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
@@ -33,6 +34,7 @@ class DimensionFactory {
 		{
 			// accuracy
 			put(Config.metricDatatypeCompatibleLiterals, XSDDatatypeCompatibleLiterals.class);
+			put(Config.metricValidLanguageTag, ValidLanguageTag.class);
 			// availability
 			put(Config.metricDereferenceableForwardLinks, DereferenceableForwardLinks.class);
 			// performance
@@ -97,6 +99,7 @@ public class Config {
 
 	// <accuracy>
 	final static String metricDatatypeCompatibleLiterals = "datatype-compatible_literals";
+	final static String metricValidLanguageTag = "valid_language_tag";
 	// </accuracy>
 	// <amountOfData></amountOfData>
 	// <availability>
