@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics;
+package org.aksw.sparqlify.qa.metrics.reprconciseness;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +8,8 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.TripleMetric;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_URI;

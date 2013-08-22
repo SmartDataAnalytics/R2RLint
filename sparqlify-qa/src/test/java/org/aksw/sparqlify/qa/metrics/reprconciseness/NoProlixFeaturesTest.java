@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics;
+package org.aksw.sparqlify.qa.metrics.reprconciseness;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.junit.Before;

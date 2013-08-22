@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics;
+package org.aksw.sparqlify.qa.metrics.understandability;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,6 +9,8 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.NodeMetric;
+import org.aksw.sparqlify.qa.metrics.PinpointMetric;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 
 import com.hp.hpl.jena.graph.Node;

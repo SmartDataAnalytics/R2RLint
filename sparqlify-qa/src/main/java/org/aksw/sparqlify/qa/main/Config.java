@@ -14,16 +14,16 @@ import org.aksw.commons.collections.Pair;
 import org.aksw.sparqlify.qa.dimensions.Dimension;
 import org.aksw.sparqlify.qa.exceptions.DimensionUnknownException;
 import org.aksw.sparqlify.qa.exceptions.MetricUnknownException;
-import org.aksw.sparqlify.qa.metrics.HttpUri;
 import org.aksw.sparqlify.qa.metrics.Metric;
-import org.aksw.sparqlify.qa.metrics.NoProlixFeatures;
-import org.aksw.sparqlify.qa.metrics.QueryParamFreeUri;
-import org.aksw.sparqlify.qa.metrics.ShortUri;
-import org.aksw.sparqlify.qa.metrics.SoundingUri;
 import org.aksw.sparqlify.qa.metrics.accuracy.ValidLanguageTag;
 import org.aksw.sparqlify.qa.metrics.accuracy.XSDDatatypeCompatibleLiterals;
 import org.aksw.sparqlify.qa.metrics.availability.DereferenceableForwardLinks;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
+import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
+import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
+import org.aksw.sparqlify.qa.metrics.reprconciseness.ShortUri;
+import org.aksw.sparqlify.qa.metrics.understandability.HttpUri;
+import org.aksw.sparqlify.qa.metrics.understandability.SoundingUri;
 
 
 class DimensionFactory {

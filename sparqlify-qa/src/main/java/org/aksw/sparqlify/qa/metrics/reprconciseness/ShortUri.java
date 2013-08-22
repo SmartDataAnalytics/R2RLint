@@ -1,62 +1,49 @@
-package org.aksw.sparqlify.qa.metrics;
+package org.aksw.sparqlify.qa.metrics.reprconciseness;
 
 import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.NodeMetric;
+import org.aksw.sparqlify.qa.metrics.PinpointMetric;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 
 import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Node_URI;
 import com.hp.hpl.jena.graph.Triple;
 
-public class QueryParamFreeUri extends PinpointMetric implements NodeMetric {
+public class ShortUri extends PinpointMetric implements NodeMetric {
 
 	
 	@Override
 	public void assessNodes(Triple triple) throws NotImplementedException {
-		/* assess subject */
 		Node subj = triple.getSubject();
-		
-		if (subj.isURI() && hasQueryString((Node_URI) subj)) {
-			
+		if (subj.isURI() && resourceTooLong(subj)) {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
-							pinpointer.getViewCandidates(triple);
+						pinpointer.getViewCandidates(triple);
 			
 			writeNodeMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
 		}
 		
-		/* assess predicate */
 		Node pred = triple.getPredicate();
-		
-		if (hasQueryString((Node_URI) pred)) {
-			
+		if (resourceTooLong(pred)) {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
-							pinpointer.getViewCandidates(triple);
+					pinpointer.getViewCandidates(triple);
 			
 			writeNodeMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
 		}
-
-		/* assess object */
-		Node obj = triple.getObject();
 		
-		if (obj.isURI() && hasQueryString((Node_URI) obj)) {
-			
+		Node obj = triple.getObject();
+		if (obj.isURI() && resourceTooLong(obj)) {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
-							pinpointer.getViewCandidates(triple);
+					pinpointer.getViewCandidates(triple);
 			
 			writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
 		}
 	}
-	
-	private boolean hasQueryString(Node_URI resource) {
-		String uri = resource.getURI();
-		int qMarkIndex = uri.indexOf("?");
-		int hashTagIndex = uri.indexOf("#");
-		if (qMarkIndex > -1 && (hashTagIndex == -1 || qMarkIndex < hashTagIndex))
-			return true;
+
+	private boolean resourceTooLong(Node res) {
+		if (res.getURI().length() >= threshold) return true;
 		else return false;
 	}
-
 }

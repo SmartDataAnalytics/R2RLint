@@ -1,8 +1,9 @@
-package org.aksw.sparqlify.qa.metrics;
+package org.aksw.sparqlify.qa.metrics.understandability;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.aksw.sparqlify.qa.metrics.understandability.HttpUri;
 import org.junit.Test;
 
 
