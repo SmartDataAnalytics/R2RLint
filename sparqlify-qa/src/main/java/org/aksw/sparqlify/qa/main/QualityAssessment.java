@@ -71,8 +71,9 @@ public class QualityAssessment {
 	public QualityAssessment(SparqlifyDataset dataset,
 			Collection<ViewDefinition> viewDefs, Connection conn,
 			Collection<Dimension> dims, MeasureDataSink measureDataSink) {
+	
 		this.dataset = dataset;
-		
+	
 		datasetMetrics = new ArrayList<Metric>();
 		tripleMetrics = new ArrayList<Metric>();
 		nodeMetrics = new ArrayList<Metric>();
