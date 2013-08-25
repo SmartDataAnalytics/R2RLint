@@ -20,6 +20,8 @@ Create View employees As
     // no class assigned!
     //?empl a ex:Employee.
     ?empl rdfs:label ?fnme.
+    // just for testing schema completeness with variable predicate
+    //?empl ?wbid ?empl.
     ?empl ex:employmentTime ?empt.
     ?empl ex:birthDay ?bday.
     ?empl ex:salary ?salr.
