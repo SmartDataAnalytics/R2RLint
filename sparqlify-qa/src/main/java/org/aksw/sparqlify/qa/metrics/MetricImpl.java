@@ -5,6 +5,8 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.sinks.DatasetMeasureDatum;
+import org.aksw.sparqlify.qa.sinks.MappingMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.MeasureDatum;
 import org.aksw.sparqlify.qa.sinks.NodeMeasureDatum;
@@ -57,7 +59,8 @@ public abstract class MetricImpl implements Metric {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+
 	// TODO: fix this first shot approach method signature
 	protected void writeNodeMeasureToSink(float val, TriplePosition pos,
 			Triple triple, Set<ViewQuad<ViewDefinition>> viewQuads)
@@ -79,7 +82,25 @@ public abstract class MetricImpl implements Metric {
 		
 		sink.write(datum);
 	}
-	
+
+
+	// TODO: fix this first shot approach method signature
+	protected void writeDatasetMeasureToDisk(float val) throws NotImplementedException {
+		MeasureDatum datum = new DatasetMeasureDatum(parentDimension, name, val);
+		sink.write(datum);
+	}
+
+
+	// TODO: fix this first shot approach method signature
+	protected void writeMappingMeasureToDisk(float val,
+			Set<ViewQuad<ViewDefinition>> viewQuads)
+			throws NotImplementedException {
+		
+		MeasureDatum datum = new MappingMeasureDatum(parentDimension, name, val, viewQuads);
+		sink.write(datum);
+	}
+
+
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
