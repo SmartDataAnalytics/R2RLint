@@ -11,6 +11,7 @@ import org.aksw.sparqlify.qa.dimensions.Dimension;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.exceptions.TripleParseException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
+import org.aksw.sparqlify.qa.metrics.DbMetric;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
 import org.aksw.sparqlify.qa.metrics.Metric;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
@@ -66,6 +67,7 @@ public class QualityAssessment {
 	private List<Metric> tripleMetrics;
 	private List<Metric> nodeMetrics;
 	private List<Metric> mappingMetrics;
+	private Collection<ViewDefinition> viewDefs;
 
 
 	public QualityAssessment(SparqlifyDataset dataset,
@@ -73,10 +75,12 @@ public class QualityAssessment {
 			Collection<Dimension> dims, MeasureDataSink measureDataSink) {
 	
 		this.dataset = dataset;
+		this.viewDefs = viewDefs;
 	
 		datasetMetrics = new ArrayList<Metric>();
 		tripleMetrics = new ArrayList<Metric>();
 		nodeMetrics = new ArrayList<Metric>();
+		mappingMetrics = new ArrayList<Metric>();
 	
 	
 		for (Dimension dim : dims) {
@@ -124,6 +128,9 @@ public class QualityAssessment {
 							
 						}
 					}
+					if (classNames.contains(DbMetric.class.getName())) {
+						((DbMetric) metric).registerDbConnection(conn);
+					}
 				}
 			}
 		}
@@ -147,6 +154,11 @@ public class QualityAssessment {
 		boolean runDatasetAssessment = datasetMetrics.size() > 0;
 		boolean runTripleAssessment = tripleMetrics.size() > 0;
 		boolean runNodeAssessment = nodeMetrics.size() > 0;
+		boolean runMappingAssessment = mappingMetrics.size() > 0;
+		
+		if (runMappingAssessment) {
+			assessMappings();
+		}
 		
 		if (runDatasetAssessment) {
 			assessDataset();
@@ -182,7 +194,9 @@ public class QualityAssessment {
 	}
 	
 	
-	private void assessMappings() {
-		// TODO: implement
+	private void assessMappings() throws NotImplementedException {
+		for (Metric metric : mappingMetrics) {
+			((MappingMetric) metric).assessMappings(viewDefs);
+		}
 	}
 }
