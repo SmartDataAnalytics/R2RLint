@@ -9,7 +9,8 @@ import com.hp.hpl.jena.graph.Triple;
 
 public class TripleMeasureDatum extends MeasureDatum {
 
-	Triple triple;
+	protected Triple triple;
+	protected Set<ViewQuad<ViewDefinition>> viewQuads;
 
 	public TripleMeasureDatum(String dimension, String metric, float value, Triple triple,
 			Set<ViewQuad<ViewDefinition>> viewQuads) {
@@ -20,6 +21,11 @@ public class TripleMeasureDatum extends MeasureDatum {
 		this.triple = triple;
 		this.viewQuads = viewQuads;
 		
+	}
+
+
+	public Set<ViewQuad<ViewDefinition>> getViewQuads() {
+		return viewQuads;
 	}
 
 
