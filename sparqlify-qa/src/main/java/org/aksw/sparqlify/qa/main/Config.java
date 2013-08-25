@@ -18,6 +18,7 @@ import org.aksw.sparqlify.qa.metrics.Metric;
 import org.aksw.sparqlify.qa.metrics.accuracy.ValidLanguageTag;
 import org.aksw.sparqlify.qa.metrics.accuracy.XSDDatatypeCompatibleLiterals;
 import org.aksw.sparqlify.qa.metrics.availability.DereferenceableForwardLinks;
+import org.aksw.sparqlify.qa.metrics.completeness.SchemaCompleteness;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
@@ -37,6 +38,8 @@ class DimensionFactory {
 			put(Config.metricValidLanguageTag, ValidLanguageTag.class);
 			// availability
 			put(Config.metricDereferenceableForwardLinks, DereferenceableForwardLinks.class);
+			// completeness
+			put(Config.metricSchemaCompleteness, SchemaCompleteness.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
 			// representational conciseness
@@ -106,7 +109,9 @@ public class Config {
 	final static String metricDereferenceableForwardLinks = "dereferenceable_forward_links";
 	// </availability>
 	// <believability></believability>
-	// <completeness></completeness>
+	// <completeness>
+	final static String metricSchemaCompleteness = "schema_completeness";
+	// </completeness>
 	// <conciseness></conciseness>
 	// <consistency></consistency>
 	// <interlinking></interlinking>
