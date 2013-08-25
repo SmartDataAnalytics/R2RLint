@@ -72,7 +72,7 @@ public class QualityAssessment {
 
 	public QualityAssessment(SparqlifyDataset dataset,
 			Collection<ViewDefinition> viewDefs, Connection conn,
-			Collection<Dimension> dims, MeasureDataSink measureDataSink) {
+			Collection<Dimension> dims, MeasureDataSink measureDataSink) throws NotImplementedException {
 	
 		this.dataset = dataset;
 		this.viewDefs = viewDefs;

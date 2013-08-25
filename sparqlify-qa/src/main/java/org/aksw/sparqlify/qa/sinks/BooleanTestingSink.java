@@ -23,7 +23,7 @@ public class BooleanTestingSink implements MeasureDataSink {
 
 
 	@Override
-	public void initMeasure(String name, Class<? extends MetricImpl> cls, String parentDimension) {
+	public void initMeasure(String name, Class<? extends MetricImpl> cls, String parentDimension) throws NotImplementedException {
 		List<String> interfaceNames = new ArrayList<String>();
 		
 		for (Class<?> interfce : cls.getInterfaces()){
@@ -40,6 +40,8 @@ public class BooleanTestingSink implements MeasureDataSink {
 			nodeWrites.put(name, posWrites);
 		} else if (interfaceNames.contains(TripleMetric.class.getName())) {
 			tripleWrites.put(name, false);
+		} else {
+			throw new NotImplementedException();
 		}
 	}
 

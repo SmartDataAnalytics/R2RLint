@@ -43,7 +43,7 @@ public abstract class MetricImpl implements Metric {
 
 
 	@Override
-	public void registerMeasureDataSink(MeasureDataSink sink) {
+	public void registerMeasureDataSink(MeasureDataSink sink) throws NotImplementedException {
 		this.sink = sink;
 		sink.initMeasure(name, getClass(), parentDimension);
 	}
