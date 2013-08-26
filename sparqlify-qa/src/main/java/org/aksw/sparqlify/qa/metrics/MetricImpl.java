@@ -92,11 +92,10 @@ public abstract class MetricImpl implements Metric {
 
 
 	// TODO: fix this first shot approach method signature
-	protected void writeMappingMeasureToDisk(float val,
-			Set<ViewQuad<ViewDefinition>> viewQuads)
+	protected void writeMappingMeasureToDisk(float val, ViewDefinition viewDef)
 			throws NotImplementedException {
 		
-		MeasureDatum datum = new MappingMeasureDatum(parentDimension, name, val, viewQuads);
+		MeasureDatum datum = new MappingMeasureDatum(parentDimension, name, val, viewDef);
 		sink.write(datum);
 	}
 
