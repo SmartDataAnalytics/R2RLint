@@ -39,11 +39,6 @@ public class SchemaCompletenessTest {
 	}
 
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
-
 	@Test
 	public void test01() throws NotImplementedException {
 		SchemaCompleteness metric = new SchemaCompleteness();
