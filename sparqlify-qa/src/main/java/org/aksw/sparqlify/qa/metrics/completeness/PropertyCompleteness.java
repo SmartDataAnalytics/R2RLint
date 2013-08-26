@@ -12,6 +12,20 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DbMetric;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
 
+/**
+ * This metric measures the property completeness giving a score of the
+ * completeness of the available values of a property. In the RDB2RDF case this
+ * means the ratio of the number of property values to the number of attribute
+ * values in the considered (logical) table.
+ * To be totally accurate one would have to use the number of *distinct* values
+ * (of a considered property and the corresponding attribute). But since this
+ * would mean that the property would have to be computed per attribute used
+ * in the mapping things would become more complex. So this metric can be
+ * considered as an approximation of the per attribute property completeness.
+ * 
+ * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
+ *
+ */
 public class PropertyCompleteness extends DbMetric implements MappingMetric {
 	
 	private final String whereStr = "where";
