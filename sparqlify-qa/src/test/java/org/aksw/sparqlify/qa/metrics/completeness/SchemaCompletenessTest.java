@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 
 import org.aksw.commons.util.MapReader;
@@ -17,19 +16,18 @@ import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
 import org.h2.jdbcx.JdbcDataSource;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class SchemaCompletenessTest {
 
-	Connection conn;
-	Collection<ViewDefinition> viewDefs;
-	ValueTestingSink sink;
-	ViewDefinition employeeView1;
-	ViewDefinition employeeView2;
-	ViewDefinition deptView;
-	
+	private Connection conn;
+	private ValueTestingSink sink;
+	private ViewDefinition employeeView1;
+	private ViewDefinition employeeView2;
+	private ViewDefinition deptView;
+
+
 	@Before
 	public void setUp() throws Exception {
 		initDB();
