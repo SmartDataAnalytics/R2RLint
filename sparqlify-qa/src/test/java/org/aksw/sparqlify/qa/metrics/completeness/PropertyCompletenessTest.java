@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 
 import org.aksw.commons.util.MapReader;
@@ -22,14 +21,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PropertyCompletenessTest {
-	Connection conn;
-	Collection<ViewDefinition> viewDefs;
-	ValueTestingSink sink;
-	ViewDefinition employeeView;
-	ViewDefinition deptView1;
-	ViewDefinition deptView2;
-	ViewDefinition deptView3;
-	ViewDefinition deptView4;
+	private Connection conn;
+	private ValueTestingSink sink;
+	private ViewDefinition employeeView;
+	private ViewDefinition deptView1;
+	private ViewDefinition deptView2;
+	private ViewDefinition deptView3;
+	private ViewDefinition deptView4;
 
 
 	@Before
