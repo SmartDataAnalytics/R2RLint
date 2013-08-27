@@ -14,9 +14,11 @@ import org.aksw.sparqlify.qa.metrics.TripleMetric;
 public class ValueTestingSink implements MeasureDataSink {
 	
 	private HashMap<String, Float> mappingWrites;
+	private HashMap<String, Float> datasetWrites;
 	
 	public ValueTestingSink() {
 		mappingWrites = new HashMap<String, Float>();
+		datasetWrites = new HashMap<String, Float>();
 	}
 
 	@Override
@@ -34,7 +36,7 @@ public class ValueTestingSink implements MeasureDataSink {
 		} else if (interfaceNames.contains(TripleMetric.class.getName())) {
 			throw new NotImplementedException();
 		} else if (interfaceNames.contains(DatasetMetric.class.getName())) {
-			throw new NotImplementedException();
+			datasetWrites.put(name, null);
 		} else if (interfaceNames.contains(MappingMetric.class.getName())) {
 			mappingWrites.put(name, null);
 		} else {
@@ -50,12 +52,22 @@ public class ValueTestingSink implements MeasureDataSink {
 		} else if (datum.getClass().getName().equals(TripleMeasureDatum.class.getName())) {
 			throw new NotImplementedException();
 		} else if (datum.getClass().getName().equals(DatasetMeasureDatum.class.getName())){
-			throw new NotImplementedException();
+			writeDatasetMeasure((DatasetMeasureDatum) datum);
 		} else if (datum.getClass().getName().equals(MappingMeasureDatum.class.getName())) {
 			writeMappingMeasure((MappingMeasureDatum) datum);
 		} else {
 			throw new NotImplementedException();
 		}
+	}
+
+
+	private void writeDatasetMeasure(DatasetMeasureDatum datum) {
+		datasetWrites.put(datum.getMetric(), datum.getValue());
+	}
+
+
+	public float datasetMeasureValue(String metricName) {
+		return datasetWrites.get(metricName);
 	}
 
 
