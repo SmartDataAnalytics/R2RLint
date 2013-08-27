@@ -52,7 +52,7 @@ Create View employees As
     // bNode
     ?spou = bNode(?id)
     // uri: no sounding name and subpath starting with int
-    ?dept = uri('http://ex.org/', ?id) 
+    ?dept = uri('http://ex.org/', ?dept) 
    From
      employee
 
