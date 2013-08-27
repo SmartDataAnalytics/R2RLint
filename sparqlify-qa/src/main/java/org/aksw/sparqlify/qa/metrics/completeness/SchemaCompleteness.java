@@ -64,7 +64,8 @@ public class SchemaCompleteness extends DbMetric implements
 
 
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs) throws NotImplementedException {
+	public void assessMappings(Collection<ViewDefinition> viewDefs)
+			throws NotImplementedException {
 
 		int numColumns = getNumColumns();
 		int numMappingPattens = getNumMappingPatterns(viewDefs);
@@ -95,7 +96,8 @@ public class SchemaCompleteness extends DbMetric implements
 					numColumns ++;
 				}
 				
-				ResultSet foreignKeys = meta.getImportedKeys(conn.getCatalog(), null, tableName);
+				ResultSet foreignKeys =
+						meta.getImportedKeys(conn.getCatalog(), null, tableName);
 				
 				// iterate over foreign keys of that table (subtracting count)
 				while (foreignKeys.next()) {
@@ -119,7 +121,8 @@ public class SchemaCompleteness extends DbMetric implements
 			
 			
 			for (Quad pattern : patterns) {
-				if (pattern.getSubject().isVariable() && pattern.getObject().isVariable()) {
+				if (pattern.getSubject().isVariable()
+						&& pattern.getObject().isVariable()) {
 
 					// predicate is also variable
 					if (pattern.getPredicate().isVariable()) {
@@ -128,12 +131,15 @@ public class SchemaCompleteness extends DbMetric implements
 							continue;
 						}
 						
-						SqlOpBase relation = (SqlOpBase) viewDef.getMapping().getSqlOp();
-						Node_Variable predicate = (Node_Variable) pattern.getPredicate();
+						SqlOpBase relation =
+								(SqlOpBase) viewDef.getMapping().getSqlOp();
+						Node_Variable predicate =
+								(Node_Variable) pattern.getPredicate();
 						Collection<RestrictedExpr> predVarDefs =
 								varDefs.getDefinitions((Var) predicate);
 						
-						numMappingPatterns += getVariablePredicateCount(predVarDefs, relation);
+						numMappingPatterns +=
+								getVariablePredicateCount(predVarDefs, relation);
 						
 					// predicate is a constant
 					} else {
