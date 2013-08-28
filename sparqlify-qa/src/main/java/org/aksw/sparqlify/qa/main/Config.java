@@ -41,15 +41,15 @@ class DimensionFactory {
 			// availability
 			put(Config.metricDereferenceableForwardLinks, DereferenceableForwardLinks.class);
 			// completeness
-			put(Config.metricSchemaCompleteness, SchemaCompleteness.class);
 			put(Config.metricPopulationCompleteness, PopulationCompleteness.class);
 			put(Config.metricPropertyCompleteness, PropertyCompleteness.class);
+			put(Config.metricSchemaCompleteness, SchemaCompleteness.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
 			// representational conciseness
 			put(Config.metricNoProlixRdfFeatures, NoProlixFeatures.class);
-			put(Config.metricShortUris, ShortUri.class);
 			put(Config.metricQueryParamFreeUri, QueryParamFreeUri.class);
+			put(Config.metricShortUris, ShortUri.class);
 			// understandability
 			put(Config.metricHttpUris, HttpUri.class);
 			put(Config.metricSoundingUri, SoundingUri.class);

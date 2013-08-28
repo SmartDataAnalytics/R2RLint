@@ -72,7 +72,7 @@ public class SchemaCompleteness extends DbMetric implements
 		float ratio = (float) numMappingPattens / (float) numColumns;
 		
 		if (threshold == 0 || ratio < threshold) {
-			writeMappingMeasureToDisk(ratio, null);
+			writeMappingMeasureToSink(ratio, null);
 		}
 		
 	}

@@ -77,7 +77,7 @@ public class PopulationCompleteness extends PinpointDbMetric implements
 		float ratio = (float) numResources / (float) numDbEntities;
 		
 		if (threshold == 0 || ratio < threshold) {
-			writeDatasetMeasureToDisk(ratio);
+			writeDatasetMeasureToSink(ratio);
 		}
 	}
 

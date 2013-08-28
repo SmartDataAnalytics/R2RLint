@@ -41,14 +41,14 @@ public class PropertyCompleteness extends DbMetric implements MappingMetric {
 				 * The whole table is considered which means a maximal
 				 * completeness.  
 				 */
-				if (threshold == 0) writeMappingMeasureToDisk(1, viewDef);
+				if (threshold == 0) writeMappingMeasureToSink(1, viewDef);
 
 			} else if (logicalTbl instanceof SqlOpQuery) {
 				float completeness = getTupleCompleteness((SqlOpQuery) logicalTbl);
 				if (threshold == 0) {
-					writeMappingMeasureToDisk(completeness, viewDef);
+					writeMappingMeasureToSink(completeness, viewDef);
 				} else if (completeness < threshold) {
-					writeMappingMeasureToDisk(completeness, viewDef);
+					writeMappingMeasureToSink(completeness, viewDef);
 				}
 			} else {
 				// should not happen...

@@ -155,11 +155,10 @@ public class QualityAssessment {
 		boolean runTripleAssessment = tripleMetrics.size() > 0;
 		boolean runNodeAssessment = nodeMetrics.size() > 0;
 		boolean runMappingAssessment = mappingMetrics.size() > 0;
-		
+
 		if (runMappingAssessment) {
 			assessMappings();
 		}
-		
 		if (runDatasetAssessment) {
 			assessDataset();
 		}
