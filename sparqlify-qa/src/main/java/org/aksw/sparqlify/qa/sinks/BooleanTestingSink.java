@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.MappingMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
@@ -14,11 +15,13 @@ public class BooleanTestingSink implements MeasureDataSink {
 
 	private HashMap<String, HashMap<TriplePosition, Boolean>> nodeWrites;
 	private HashMap<String, Boolean> tripleWrites;
+	private HashMap<String, Boolean> mappingWrites;
 
 
 	public BooleanTestingSink() {
 		nodeWrites = new HashMap<String, HashMap<TriplePosition, Boolean>>();
 		tripleWrites = new HashMap<String, Boolean>();
+		mappingWrites = new HashMap<String, Boolean>();
 	}
 
 
@@ -40,6 +43,8 @@ public class BooleanTestingSink implements MeasureDataSink {
 			nodeWrites.put(name, posWrites);
 		} else if (interfaceNames.contains(TripleMetric.class.getName())) {
 			tripleWrites.put(name, false);
+		} else if (interfaceNames.contains(MappingMetric.class.getName())) {
+			mappingWrites.put(name, false);
 		} else {
 			throw new NotImplementedException();
 		}
@@ -52,6 +57,8 @@ public class BooleanTestingSink implements MeasureDataSink {
 			writeNodeMeasure((NodeMeasureDatum) datum);
 		} else if (datum.getClass().getName().equals(TripleMeasureDatum.class.getName())) {
 			writeTripleMeasure((TripleMeasureDatum) datum);
+		} else if (datum.getClass().getName().equals(MappingMeasureDatum.class.getName())) {
+			writeMappingMeasure((MappingMeasureDatum) datum);
 		} else {
 			throw new NotImplementedException();
 		}
@@ -75,5 +82,13 @@ public class BooleanTestingSink implements MeasureDataSink {
 
 	public boolean nodeMeasureWritten(String metricName, TriplePosition pos) {
 		return nodeWrites.get(metricName).get(pos);
+	}
+
+
+	public void writeMappingMeasure(MappingMeasureDatum datum) {
+		mappingWrites.put(datum.getMetric(), true);
+	}
+	public boolean mappingMeasureWritten(String metricName) {
+		return mappingWrites.get(metricName);
 	}
 }
