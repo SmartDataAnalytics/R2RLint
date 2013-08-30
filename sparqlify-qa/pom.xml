@@ -46,14 +46,14 @@
 			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-iri</artifactId>
 		</dependency>
-        <dependency>
-        	<groupId>org.hdfgroup</groupId>
-        	<artifactId>hdf-java</artifactId>
-        </dependency>
 		<dependency>
-		  <groupId>org.apache.directory.studio</groupId>
-		  <artifactId>org.apache.commons.io</artifactId>
-		  <version>2.4</version>
+			<groupId>org.hdfgroup</groupId>
+			<artifactId>hdf-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.directory.studio</groupId>
+			<artifactId>org.apache.commons.io</artifactId>
+			<version>2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>xerces</groupId>
@@ -64,15 +64,15 @@
 			<artifactId>sparqlify-core</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>com.sun.net.httpserver</groupId>
-		    <artifactId>http</artifactId>
-		    <version>20070405</version>
-        </dependency>
-        <!-- dependency>
-            <groupId>com.github.ansell.pellet</groupId>
-            <artifactId>pellet-jena</artifactId>
-            <version>2.3.4-ansell</version>
-        </dependency-->
+			<groupId>com.sun.net.httpserver</groupId>
+			<artifactId>http</artifactId>
+			<version>20070405</version>
+		</dependency>
+		<!-- dependency>
+		<groupId>com.github.ansell.pellet</groupId>
+		<artifactId>pellet-jena</artifactId> 
+		<version>2.3.4-ansell</version>
+		</dependency -->
 	</dependencies>
 
 	<dependencyManagement>
