@@ -2,7 +2,9 @@ package org.aksw.sparqlify.qa.metrics.completeness;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpBase;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpQuery;
@@ -35,20 +37,29 @@ public class PropertyCompleteness extends DbMetric implements MappingMetric {
 			throws NotImplementedException {
 		for (ViewDefinition viewDef : viewDefs) {
 			SqlOpBase logicalTbl = (SqlOpBase) viewDef.getMapping().getSqlOp();
+			List<ViewDefinition> resViewDefs = new ArrayList<ViewDefinition>();
 			
 			if (logicalTbl instanceof SqlOpTable) {
 				/*
 				 * The whole table is considered which means a maximal
 				 * completeness.  
 				 */
-				if (threshold == 0) writeMappingMeasureToSink(1, viewDef);
+				if (threshold == 0) {
+					resViewDefs.add(viewDef);
+					writeMappingMeasureToSink(1, resViewDefs);
+				}
 
 			} else if (logicalTbl instanceof SqlOpQuery) {
 				float completeness = getTupleCompleteness((SqlOpQuery) logicalTbl);
+				
 				if (threshold == 0) {
-					writeMappingMeasureToSink(completeness, viewDef);
+					resViewDefs.add(viewDef);
+					
+					writeMappingMeasureToSink(completeness, resViewDefs);
+					
 				} else if (completeness < threshold) {
-					writeMappingMeasureToSink(completeness, viewDef);
+					resViewDefs.add(viewDef);
+					writeMappingMeasureToSink(completeness, resViewDefs);
 				}
 			} else {
 				// should not happen...

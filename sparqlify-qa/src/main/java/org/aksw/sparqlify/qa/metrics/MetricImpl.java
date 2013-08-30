@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics;
 
+import java.util.List;
 import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
@@ -92,10 +93,10 @@ public abstract class MetricImpl implements Metric {
 
 
 	// TODO: fix this first shot approach method signature
-	protected void writeMappingMeasureToSink(float val, ViewDefinition viewDef)
+	protected void writeMappingMeasureToSink(float val, List<ViewDefinition> viewDefs)
 			throws NotImplementedException {
 		
-		MeasureDatum datum = new MappingMeasureDatum(parentDimension, name, val, viewDef);
+		MeasureDatum datum = new MappingMeasureDatum(parentDimension, name, val, viewDefs);
 		sink.write(datum);
 	}
 
