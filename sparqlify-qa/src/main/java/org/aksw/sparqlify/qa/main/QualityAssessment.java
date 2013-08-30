@@ -136,12 +136,12 @@ public class QualityAssessment {
 		}
 	}
 	
-	private List<String> getClassNames(Class cls) {
+	private List<String> getClassNames(Class<? extends Metric> cls) {
 		List<String> classes = new ArrayList<String>();
 		
 		classes.add(cls.getName());
 		
-		Class superclass = cls.getSuperclass();
+		Class<?> superclass = cls.getSuperclass();
 		while (superclass != null) {
 			classes.add(superclass.getName());
 			superclass = superclass.getSuperclass();

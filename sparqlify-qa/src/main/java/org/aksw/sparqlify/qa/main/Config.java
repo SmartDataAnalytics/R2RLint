@@ -15,6 +15,7 @@ import org.aksw.sparqlify.qa.dimensions.Dimension;
 import org.aksw.sparqlify.qa.exceptions.DimensionUnknownException;
 import org.aksw.sparqlify.qa.exceptions.MetricUnknownException;
 import org.aksw.sparqlify.qa.metrics.Metric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.accuracy.ValidLanguageTag;
 import org.aksw.sparqlify.qa.metrics.accuracy.XSDDatatypeCompatibleLiterals;
 import org.aksw.sparqlify.qa.metrics.availability.DereferenceableForwardLinks;
@@ -32,7 +33,8 @@ import org.aksw.sparqlify.qa.metrics.understandability.SoundingUri;
 
 class DimensionFactory {
 	
-	private final static HashMap<String, Class> metricClasses = new HashMap<String, Class>() {
+	private final static HashMap<String, Class<? extends MetricImpl>> metricClasses =
+			new HashMap<String, Class<? extends MetricImpl>>() {
 		private static final long serialVersionUID = -8496214118714182820L;
 
 		{
@@ -67,7 +69,7 @@ class DimensionFactory {
 		
 		for (Pair<String, Float> metricInfo : metricsInfo) {
 			String name = (String) metricInfo.first;
-			Class metricClass = metricClasses.get(name);
+			Class<? extends MetricImpl> metricClass = metricClasses.get(name);
 			
 			if (metricClass == null) throw new MetricUnknownException();
 			
@@ -210,7 +212,7 @@ public class Config {
 					metricsInfo.add(new Pair<String, Float>(measureName, thresholdVal));
 				}
 			}
-			int a = 23;
+
 			Dimension dim = null;
 			try {
 				dim = DimensionFactory.get(dimName, metricsInfo);
