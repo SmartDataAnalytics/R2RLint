@@ -66,7 +66,7 @@ public class BooleanTestingSink implements MeasureDataSink {
 
 
 	private void writeTripleMeasure(TripleMeasureDatum datum) {
-		tripleWrites.put(datum.metric, true);
+		tripleWrites.put(datum.getMetric(), true);
 	}
 
 
@@ -76,7 +76,7 @@ public class BooleanTestingSink implements MeasureDataSink {
 
 
 	private void writeNodeMeasure(NodeMeasureDatum datum) {
-		nodeWrites.get(datum.metric).put(datum.pos, true);
+		nodeWrites.get(datum.getMetric()).put(datum.getTriplePosition(), true);
 	}
 
 
@@ -88,6 +88,8 @@ public class BooleanTestingSink implements MeasureDataSink {
 	public void writeMappingMeasure(MappingMeasureDatum datum) {
 		mappingWrites.put(datum.getMetric(), true);
 	}
+
+
 	public boolean mappingMeasureWritten(String metricName) {
 		return mappingWrites.get(metricName);
 	}

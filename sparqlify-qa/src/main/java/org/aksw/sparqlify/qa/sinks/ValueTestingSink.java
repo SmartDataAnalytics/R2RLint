@@ -38,7 +38,7 @@ public class ValueTestingSink implements MeasureDataSink {
 		} else if (interfaceNames.contains(DatasetMetric.class.getName())) {
 			datasetWrites.put(name, null);
 		} else if (interfaceNames.contains(MappingMetric.class.getName())) {
-			mappingWrites.put(name, null);
+			mappingWrites.put(name, (float) -1);
 		} else {
 			throw new NotImplementedException();
 		}
