@@ -3,18 +3,23 @@ package org.aksw.sparqlify.qa.metrics;
 import java.util.List;
 import java.util.Set;
 
+import org.aksw.commons.collections.Pair;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.sinks.DatasetMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.MappingMeasureDatum;
+import org.aksw.sparqlify.qa.sinks.MappingQuadMeasureDatum;
+import org.aksw.sparqlify.qa.sinks.MappingVarMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.MeasureDatum;
 import org.aksw.sparqlify.qa.sinks.NodeMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.TripleMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 
+import com.hp.hpl.jena.graph.Node_Variable;
 import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.sparql.core.Quad;
 
 public abstract class MetricImpl implements Metric {
 
@@ -97,6 +102,26 @@ public abstract class MetricImpl implements Metric {
 			throws NotImplementedException {
 		
 		MeasureDatum datum = new MappingMeasureDatum(parentDimension, name, val, viewDefs);
+		sink.write(datum);
+	}
+
+
+	protected void writeMappingVarMeasureToSink(float val,
+			List<Pair<Node_Variable, ViewDefinition>> nodeViewDefs)
+			throws NotImplementedException {
+		
+		MeasureDatum datum = new MappingVarMeasureDatum(parentDimension, name,
+				val, nodeViewDefs);
+		sink.write(datum);
+	}
+
+
+	protected void writeMappingQuadMeasureToSink(float val,
+			List<Pair<Quad, ViewDefinition>> quadViewDefs)
+			throws NotImplementedException {
+
+		MeasureDatum datum = new MappingQuadMeasureDatum(parentDimension, name,
+				val, quadViewDefs);
 		sink.write(datum);
 	}
 
