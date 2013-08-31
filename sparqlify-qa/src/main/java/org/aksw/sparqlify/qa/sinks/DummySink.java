@@ -1,8 +1,18 @@
 package org.aksw.sparqlify.qa.sinks;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.aksw.commons.collections.Pair;
+import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
+import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.hp.hpl.jena.graph.Node_Variable;
+import com.hp.hpl.jena.sparql.core.Quad;
+import com.hp.hpl.jena.sparql.core.Var;
 
 public class DummySink implements MeasureDataSink {
 	
@@ -26,12 +36,43 @@ public class DummySink implements MeasureDataSink {
 				datum.getMetric() + " wrote value " + datum.getValue() + "\n" +
 						"\tfor: ";
 		
-		if (datum.getClass().getName().equals(NodeMeasureDatum.class.getName())) {
+		if (datum instanceof NodeMeasureDatum) {
 			logLine += ((NodeMeasureDatum) datum).getTriplePosition().name() +
 					" position in " + ((NodeMeasureDatum) datum).getTriple();
 			
-		} else if (datum.getClass().getName().equals(TripleMeasureDatum.class.getName())) {
+		} else if (datum instanceof TripleMeasureDatum) {
 			logLine += ((TripleMeasureDatum) datum).getTriple();
+			
+		} else if (datum instanceof MappingQuadMeasureDatum) {
+			List<Pair<Quad, ViewDefinition>> quadViewDefs =
+					((MappingQuadMeasureDatum) datum).getQuadViewDefs();
+			
+			for (Pair<Quad, ViewDefinition> quadViewDef : quadViewDefs) {
+				logLine += quadViewDef.first + ", ";
+			}
+			int logLineLength = logLine.length(); 
+			logLine = logLine.substring(0, logLineLength-2);
+		
+		} else if(datum instanceof MappingVarMeasureDatum) {
+			
+			List<Pair<Node_Variable, ViewDefinition>> nodeViewDefs =
+					((MappingVarMeasureDatum) datum).getNodeViewDefs();
+			
+			for (Pair<Node_Variable, ViewDefinition> nodeViewDef : nodeViewDefs) {
+				logLine += nodeViewDef.first + ", ";
+			}
+			int logLineLength = logLine.length(); 
+			logLine = logLine.substring(0, logLineLength-2);
+			
+			Collection<RestrictedExpr> termConstructors = nodeViewDefs.get(0).second
+					.getMapping().getVarDefinition()
+					.getDefinitions(Var.alloc(nodeViewDefs.get(0).first));
+			
+			logLine += " --> ";
+			
+			for (RestrictedExpr termConstructor : termConstructors) {
+				logLine += termConstructor.getExpr().getVarsMentioned() + " ";
+			}
 			
 //		} else if (datum.getClass().getName().equals(DatasetMeasureDatum.class.getName())) {
 //			logLine += ???
