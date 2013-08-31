@@ -70,11 +70,9 @@ public class IntensionalConciseness extends MetricImpl implements MappingMetric 
 	public void assessMappings(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException {
 
-		ViewDefsInfos vdInfos = new ViewDefsInfos();
+		ViewDefsInfosIC vdInfos = new ViewDefsInfosIC();
+		vdInfos.read(viewDefs);
 		
-		for (ViewDefinition viewDef : viewDefs) {
-			vdInfos.read(viewDef);
-		}
 		
 		List<Pair<Float, List<ViewDefinition>>> redundantVDsOccurrences =
 				vdInfos.getRedundantVDOccurrences();
@@ -89,45 +87,60 @@ public class IntensionalConciseness extends MetricImpl implements MappingMetric 
 }
 
 
-class ViewDefsInfos {
+class ViewDefsInfosIC {
 	
-	//                                 term constructors
-	//         relation name             subject object
-	private HashMap<String, HashMap<Pair<String, String>, List<Pair<Quad, ViewDefinition>>>> data; 
+	//                                 term constructors                 view def
+	//         relation name             subject object                    name
+	private HashMap<String, HashMap<Pair<String, String>, List<Pair<Quad, String>>>> data;
+	private HashMap<String, ViewDefinition> viewDefsMap;
 
-	public ViewDefsInfos() {
-		data = new HashMap<String, HashMap<Pair<String, String>, List<Pair<Quad, ViewDefinition>>>>();
+
+	public ViewDefsInfosIC() {
+		data = new HashMap<String, HashMap<Pair<String, String>, List<Pair<Quad, String>>>>();
+		viewDefsMap = new HashMap<String, ViewDefinition>();
 		
 	}
 
 
-	void read(ViewDefinition viewDef) {
-		String relationName = readRelationName(viewDef);
-		HashMap<Pair<String, String>, List<Pair<Quad, ViewDefinition>>> termConstructorInfo = 
-				readTCInfos(viewDef);
-		if (!data.containsKey(relationName)) {
-			data.put(relationName, termConstructorInfo);
-		} else {
-			HashMap<Pair<String, String>, List<Pair<Quad, ViewDefinition>>> tcInfo = data.get(relationName);
+	void read(Collection<ViewDefinition> viewDefs) {
+		
+		
+		for (ViewDefinition viewDef : viewDefs){
 			
-			for (Pair<String, String> key : termConstructorInfo.keySet()) {
-				if (!tcInfo.containsKey(key)) {
-					tcInfo.put(key, termConstructorInfo.get(key));
-				} else {
-					
-					tcInfo.get(key).addAll(termConstructorInfo.get(key));
-				}
+			this.viewDefsMap.put(viewDef.getName(), viewDef);
+		
+			String relationName = readRelationName(viewDef);
+			HashMap<
+				Pair<String, String>,
+				List<Pair<Quad, String>>> termConstructorInfo = readTCInfos(viewDef);
+			
+			if (!data.containsKey(relationName)) {
+				data.put(relationName, termConstructorInfo);
 				
+			} else {
+				HashMap<
+					Pair<String, String>,
+					List<Pair<Quad, String>>> tcInfo = data.get(relationName);
+				
+				for (Pair<String, String> key : termConstructorInfo.keySet()) {
+					if (!tcInfo.containsKey(key)) {
+						tcInfo.put(key, termConstructorInfo.get(key));
+					} else {
+						
+						tcInfo.get(key).addAll(termConstructorInfo.get(key));
+					}
+					
+				}
 			}
 		}
 	}
 
 
-	private HashMap<Pair<String, String>, List<Pair<Quad, ViewDefinition>>> readTCInfos(
+	private HashMap<Pair<String, String>, List<Pair<Quad, String>>> readTCInfos(
 			ViewDefinition viewDef) {
 		
-		HashMap<Pair<String, String>, List<Pair<Quad, ViewDefinition>>> tcInfos =
-				new HashMap<Pair<String, String>, List<Pair<Quad, ViewDefinition>>>();
+		HashMap<Pair<String, String>, List<Pair<Quad, String>>> tcInfos =
+				new HashMap<Pair<String, String>, List<Pair<Quad, String>>>();
 		
 		
 		VarDefinition varDefs = viewDef.getMapping().getVarDefinition();
@@ -165,14 +178,15 @@ class ViewDefsInfos {
 			
 			Pair<String, String> termConstructors =
 					new Pair<String, String>(subjTCString, objTCString);
-			Pair<Quad, ViewDefinition> quadViewDef =
-					new Pair<Quad, ViewDefinition>(quadPattern, viewDef);
+			Pair<Quad, String> quadViewDefName =
+					new Pair<Quad, String>(quadPattern, viewDef.getName());
+			
 			if (tcInfos.containsKey(termConstructors)) {
-				tcInfos.get(termConstructors).add(quadViewDef);
+				tcInfos.get(termConstructors).add(quadViewDefName);
 			} else {
-				List<Pair<Quad, ViewDefinition>> tmp =
-						new ArrayList<Pair<Quad, ViewDefinition>>();
-				tmp.add(quadViewDef);
+				List<Pair<Quad, String>> tmp =
+						new ArrayList<Pair<Quad, String>>();
+				tmp.add(quadViewDefName);
 				
 				tcInfos.put(termConstructors, tmp);
 			}
@@ -181,24 +195,29 @@ class ViewDefsInfos {
 		return tcInfos;
 	}
 
-	public List<Pair<Float, List<ViewDefinition>>> getRedundantVDOccurrences() {
-		List<Pair<Float, List<ViewDefinition>>> res =
-				new ArrayList<Pair<Float, List<ViewDefinition>>>();
+
+	public List<Pair<Float, List<Pair<Quad, ViewDefinition>>>> getRedundantPredicateOccurrences() {
 		
-		for (String relKey : data.keySet()) {
-			HashMap<Pair<String, String>, List<Pair<Quad, ViewDefinition>>> relVal = data.get(relKey);
-			for (Pair<String, String> tcStrings : relVal.keySet()) {
-				List<Pair<Quad, ViewDefinition>> tcVal = relVal.get(tcStrings);
-				int size = tcVal.size(); 
+		List<Pair<Float, List<Pair<Quad, ViewDefinition>>>> res =
+				new ArrayList<Pair<Float, List<Pair<Quad, ViewDefinition>>>>();
+		
+		for (HashMap<Pair<String, String>, List<Pair<Quad, String>>> subjObjInfo : data.values()) {
+			
+			for (List<Pair<Quad, String>> quadViewDefNames : subjObjInfo.values()) {
+				
+				int size = quadViewDefNames.size();
+				
 				if (size > 1) {
 					float measure = 1 / (float) size;
-					List<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-					for (Pair<Quad, ViewDefinition> quadViewDef : tcVal) {
-//						if (!viewDefs.contains(quadViewDef.second)) {
-							viewDefs.add(quadViewDef.second);
-//						}
-					}
 					
+					List<ViewDefinition> viewDefs =
+							new ArrayList<ViewDefinition>();
+					
+					for (Pair<Quad, String> quadViewDefName : quadViewDefNames) {
+						
+						viewDefs.add(viewDefsMap.get(quadViewDefName.second));
+					
+					}
 					res.add(new Pair<Float, List<ViewDefinition>>(measure, viewDefs));
 				}
 			}

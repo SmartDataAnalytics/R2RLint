@@ -12,6 +12,7 @@ public class MappingMeasureDatum extends MeasureDatum {
 	public MappingMeasureDatum(String dimension, String metric, float value, 
 			List<ViewDefinition> viewDefs) {
 		
+		super();
 		this.dimension = dimension;
 		this.metric = metric;
 		this.value = value;

@@ -2,8 +2,10 @@ package org.aksw.sparqlify.qa.main;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -46,13 +48,16 @@ public class Run {
 	 * @throws TripleParseException 
 	 * @throws NotImplementedException 
 	 */
-	public static void main(String[] args) throws IOException, DimensionUnknownException, SQLException, RecognitionException, TripleParseException, NotImplementedException {
+	public static void main(String[] args) throws IOException,
+			DimensionUnknownException, SQLException, RecognitionException,
+			TripleParseException, NotImplementedException {
+		
 		// TODO: things to put in a config file:
 		String resDirPrefix = "src/main/resources/";
 		String configFilePath = resDirPrefix + "dimensions.properties";
 		String dumpFilePath = resDirPrefix + "dump.ttl";
 		String viewDefFilePath = resDirPrefix + "views.sparqlify";
-		String h5FilePath = resDirPrefix + "measure_data.h5";
+//		String h5FilePath = resDirPrefix + "measure_data.h5";
 		String typeAliasFilePath = "../../Sparqlify/sparqlify-core/src/" +
 				"main/resources/type-map.h2.tsv";
 		
@@ -106,7 +111,8 @@ public class Run {
 		// SqlTranslator sqlTranslator = SparqlifyUtils.createSqlRewriter();
 		
 		File file = new File(typeAliasFilePath);
-		Map<String, String> typeAlias = MapReader.readFile(file);
+		InputStreamReader reader = new FileReader(file);
+		Map<String, String> typeAlias = MapReader.read(reader);
 		
 
         File viewsFile = new File(viewDefFilePath);
