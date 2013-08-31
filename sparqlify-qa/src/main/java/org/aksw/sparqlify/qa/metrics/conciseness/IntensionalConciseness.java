@@ -74,13 +74,13 @@ public class IntensionalConciseness extends MetricImpl implements MappingMetric 
 		vdInfos.read(viewDefs);
 		
 		
-		List<Pair<Float, List<ViewDefinition>>> redundantVDsOccurrences =
-				vdInfos.getRedundantVDOccurrences();
+		List<Pair<Float, List<Pair<Quad, ViewDefinition>>>> redPredOccurrences =
+				vdInfos.getRedundantPredicateOccurrences();
 		
-		for (Pair<Float, List<ViewDefinition>> redundantVDsOccurrence : redundantVDsOccurrences) {
-			float val = redundantVDsOccurrence.first;
-			List<ViewDefinition> vDs = redundantVDsOccurrence.second;
-			writeMappingMeasureToSink(val, vDs);
+		for (Pair<Float, List<Pair<Quad, ViewDefinition>>> redPredOcc : redPredOccurrences) {
+			float val = redPredOcc.first;
+			List<Pair<Quad, ViewDefinition>> quadViewDefs = redPredOcc.second;
+			writeMappingQuadMeasureToSink(val, quadViewDefs);
 		}
 	}
 	
@@ -210,15 +210,17 @@ class ViewDefsInfosIC {
 				if (size > 1) {
 					float measure = 1 / (float) size;
 					
-					List<ViewDefinition> viewDefs =
-							new ArrayList<ViewDefinition>();
+					List<Pair<Quad, ViewDefinition>> quadViewDefs =
+							new ArrayList<Pair<Quad, ViewDefinition>>();
 					
 					for (Pair<Quad, String> quadViewDefName : quadViewDefNames) {
 						
-						viewDefs.add(viewDefsMap.get(quadViewDefName.second));
+						quadViewDefs.add(new Pair<Quad, ViewDefinition>(
+								quadViewDefName.first, viewDefsMap
+										.get(quadViewDefName.second)));
 					
 					}
-					res.add(new Pair<Float, List<ViewDefinition>>(measure, viewDefs));
+					res.add(new Pair<Float, List<Pair<Quad, ViewDefinition>>>(measure, quadViewDefs));
 				}
 			}
 		}

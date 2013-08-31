@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.aksw.commons.collections.Pair;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpBase;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpQuery;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpTable;
@@ -13,6 +14,8 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DbMetric;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
+
+import com.hp.hpl.jena.sparql.core.Quad;
 
 /**
  * This metric measures the property completeness giving a score of the
@@ -37,7 +40,8 @@ public class PropertyCompleteness extends DbMetric implements MappingMetric {
 			throws NotImplementedException {
 		for (ViewDefinition viewDef : viewDefs) {
 			SqlOpBase logicalTbl = (SqlOpBase) viewDef.getMapping().getSqlOp();
-			List<ViewDefinition> resViewDefs = new ArrayList<ViewDefinition>();
+			List<Pair<Quad, ViewDefinition>> quadViewDefs =
+					new ArrayList<Pair<Quad, ViewDefinition>>();
 			
 			if (logicalTbl instanceof SqlOpTable) {
 				/*
@@ -45,21 +49,21 @@ public class PropertyCompleteness extends DbMetric implements MappingMetric {
 				 * completeness.  
 				 */
 				if (threshold == 0) {
-					resViewDefs.add(viewDef);
-					writeMappingMeasureToSink(1, resViewDefs);
+					quadViewDefs.add(new Pair<Quad, ViewDefinition>(null, viewDef));
+					writeMappingQuadMeasureToSink(1, quadViewDefs);
 				}
 
 			} else if (logicalTbl instanceof SqlOpQuery) {
 				float completeness = getTupleCompleteness((SqlOpQuery) logicalTbl);
 				
 				if (threshold == 0) {
-					resViewDefs.add(viewDef);
+					quadViewDefs.add(new Pair<Quad, ViewDefinition>(null, viewDef));
 					
-					writeMappingMeasureToSink(completeness, resViewDefs);
+					writeMappingQuadMeasureToSink(completeness, quadViewDefs);
 					
 				} else if (completeness < threshold) {
-					resViewDefs.add(viewDef);
-					writeMappingMeasureToSink(completeness, resViewDefs);
+					quadViewDefs.add(new Pair<Quad, ViewDefinition>(null, viewDef));
+					writeMappingQuadMeasureToSink(completeness, quadViewDefs);
 				}
 			} else {
 				// should not happen...
