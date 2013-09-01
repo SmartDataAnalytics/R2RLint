@@ -25,6 +25,7 @@ import org.aksw.sparqlify.qa.metrics.completeness.PropertyCompleteness;
 import org.aksw.sparqlify.qa.metrics.completeness.SchemaCompleteness;
 import org.aksw.sparqlify.qa.metrics.conciseness.ExtensionalConciseness;
 import org.aksw.sparqlify.qa.metrics.conciseness.IntensionalConciseness;
+import org.aksw.sparqlify.qa.metrics.conciseness.NoDuplicateStatements;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
@@ -53,6 +54,7 @@ class DimensionFactory {
 			// conciseness
 			put(Config.metricExtensionalConciseness, ExtensionalConciseness.class);
 			put(Config.metricIntensionalConciseness, IntensionalConciseness.class);
+			put(Config.metricNoDuplicateStatements, NoDuplicateStatements.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
 			// representational conciseness
@@ -131,6 +133,7 @@ public class Config {
 	// <conciseness>
 	final static String metricIntensionalConciseness = "intensional_conciseness";
 	final static String metricExtensionalConciseness = "extensional_conciseness";
+	final static String metricNoDuplicateStatements = "no_duplicate_statements";
 	// </conciseness>
 	// <consistency></consistency>
 	// <interlinking></interlinking>
