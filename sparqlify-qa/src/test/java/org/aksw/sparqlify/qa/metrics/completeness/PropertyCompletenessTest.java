@@ -285,6 +285,13 @@ public class PropertyCompletenessTest {
 		
 		// without WHERE restrictions --> full completeness
 		deptView1 = vdf.create(
+				"Prefix ex: <http://ex.org/> " +
+				"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+				"Prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> " +
+				"Prefix foaf:<http://xmlns.com/foaf/0.1/> " +
+				"Prefix xsd:<http://www.w3.org/2001/XMLSchema#> " +
+				"Prefix owl:<http://www.w3.org/2002/07/owl#> " +
+				"Prefix spy:<http://aksw.org/sparqlify/> " +
 				"Create View departments As " +
 				"Construct { " +
 					"?dept a ex:Department. " +
@@ -307,6 +314,13 @@ public class PropertyCompletenessTest {
 		
 		// with sub-query, but without useful restriction --> full completeness
 		deptView2 = vdf.create(
+				"Prefix ex: <http://ex.org/> " +
+				"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+				"Prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> " +
+				"Prefix foaf:<http://xmlns.com/foaf/0.1/> " +
+				"Prefix xsd:<http://www.w3.org/2001/XMLSchema#> " +
+				"Prefix owl:<http://www.w3.org/2002/07/owl#> " +
+				"Prefix spy:<http://aksw.org/sparqlify/> " +
 				"Create View departments As " +
 				"Construct { " +
 					"?dept a ex:Department. " +
@@ -333,6 +347,13 @@ public class PropertyCompletenessTest {
 		
 		// inner WHERE restrictions --> no full completeness
 		deptView3 = vdf.create(
+				"Prefix ex: <http://ex.org/> " +
+				"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+				"Prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> " +
+				"Prefix foaf:<http://xmlns.com/foaf/0.1/> " +
+				"Prefix xsd:<http://www.w3.org/2001/XMLSchema#> " +
+				"Prefix owl:<http://www.w3.org/2002/07/owl#> " +
+				"Prefix spy:<http://aksw.org/sparqlify/> " +
 				"Create View departments As " +
 				"Construct { " +
 					"?dept a ex:Department. " +
@@ -359,6 +380,13 @@ public class PropertyCompletenessTest {
 		
 		// inner and outer WHERE restrictions --> less complete
 		deptView4 = vdf.create(
+				"Prefix ex: <http://ex.org/> " +
+				"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+				"Prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> " +
+				"Prefix foaf:<http://xmlns.com/foaf/0.1/> " +
+				"Prefix xsd:<http://www.w3.org/2001/XMLSchema#> " +
+				"Prefix owl:<http://www.w3.org/2002/07/owl#> " +
+				"Prefix spy:<http://aksw.org/sparqlify/> " +
 				"Create View departments As " +
 				"Construct { " +
 					"?dept a ex:Department. " +
