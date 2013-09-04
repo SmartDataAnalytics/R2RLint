@@ -68,6 +68,10 @@
 			<artifactId>http</artifactId>
 			<version>20070405</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
 		<!-- dependency>
 		<groupId>com.github.ansell.pellet</groupId>
 		<artifactId>pellet-jena</artifactId> 
