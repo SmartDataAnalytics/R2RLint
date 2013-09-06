@@ -1,27 +1,28 @@
 package org.aksw.sparqlify.qa.sinks;
 
-import java.util.List;
+import java.util.Set;
 
+import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 
 public class MappingMeasureDatum extends MeasureDatum {
 	
-	protected List<ViewDefinition> viewDefs;
+	protected Set<ViewQuad<ViewDefinition>> candidates;
 
 
 	public MappingMeasureDatum(String dimension, String metric, float value, 
-			List<ViewDefinition> viewDefs) {
+			Set<ViewQuad<ViewDefinition>> candidates) {
 		
 		super();
 		this.dimension = dimension;
 		this.metric = metric;
 		this.value = value;
-		this.viewDefs = viewDefs;
+		this.candidates = candidates;
 		
 	}
 
 
-	public List<ViewDefinition> getViewDefs() {
-		return viewDefs;
+	public Set<ViewQuad<ViewDefinition>> getViewDefs() {
+		return candidates;
 	}
 }
