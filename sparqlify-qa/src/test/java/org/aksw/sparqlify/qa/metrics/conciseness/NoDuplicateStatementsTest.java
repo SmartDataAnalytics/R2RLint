@@ -51,7 +51,7 @@ public class NoDuplicateStatementsTest {
 
 		metric.assessMappings(Arrays.asList(viewDef01()));
 		float expected = (float) -1;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -72,7 +72,7 @@ public class NoDuplicateStatementsTest {
 
 		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02()));
 		float expected = 1 - ( 1 / (float) 22);
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -93,7 +93,7 @@ public class NoDuplicateStatementsTest {
 
 		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02(), viewDef03()));
 		float expected = 1 - ( 2 / (float) 33);
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -114,7 +114,7 @@ public class NoDuplicateStatementsTest {
 
 		metric.assessMappings(Arrays.asList(viewDef01()));
 		float expected = 1 - ( 1 / (float) 10);
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -135,7 +135,7 @@ public class NoDuplicateStatementsTest {
 
 		metric.assessMappings(Arrays.asList(viewDef01()));
 		float expected = 1 - ( 2 / (float) 10);
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -160,7 +160,7 @@ public class NoDuplicateStatementsTest {
 		//                                       a              +  b
 		//                                  = 10 - 2 duplicates + 10
 		float expected = 1 - ( 1 / (float) 18);
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -181,7 +181,7 @@ public class NoDuplicateStatementsTest {
 
 		metric.assessMappings(Arrays.asList(viewDef04()));
 		float expected = 1 - ( 10 / (float) 20);
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 	
 	@Test
@@ -201,7 +201,7 @@ public class NoDuplicateStatementsTest {
 
 		metric.assessMappings(Arrays.asList(viewDef01(), viewDef05()));
 		float expected = 1 - ( 1 / (float) 20);
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 

@@ -207,7 +207,7 @@ public class InterlinkingCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 0/(float) 8;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -226,7 +226,7 @@ public class InterlinkingCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 0/(float) 8;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -245,7 +245,7 @@ public class InterlinkingCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 0/(float) 8;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -264,7 +264,7 @@ public class InterlinkingCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 0/(float) 8;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -283,7 +283,7 @@ public class InterlinkingCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 2/(float) 6;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -302,7 +302,7 @@ public class InterlinkingCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 2/(float) 6;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -321,7 +321,7 @@ public class InterlinkingCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 4/(float) 8;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -340,6 +340,6 @@ public class InterlinkingCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 3/(float) 7;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 }

@@ -47,7 +47,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -68,7 +68,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -90,7 +90,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -112,7 +112,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -134,7 +134,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -156,7 +156,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -178,7 +178,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -200,7 +200,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -222,7 +222,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -244,7 +244,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -266,7 +266,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -288,7 +288,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -310,7 +310,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -332,7 +332,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -354,7 +354,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -376,7 +376,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -398,7 +398,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -420,7 +420,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -442,7 +442,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -464,7 +464,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -486,7 +486,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -508,7 +508,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -530,7 +530,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -552,7 +552,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -574,7 +574,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -596,7 +596,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -618,7 +618,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -640,7 +640,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -662,7 +662,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -684,7 +684,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -706,7 +706,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -728,7 +728,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -750,7 +750,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -772,7 +772,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -794,7 +794,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -816,7 +816,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -838,7 +838,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -860,7 +860,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertTrue(sink.tripleMeasureWritten(metricName));
+		assertTrue(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -882,7 +882,7 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 
 	/*
@@ -905,6 +905,6 @@ public class NoProlixFeaturesTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
-		assertFalse(sink.tripleMeasureWritten(metricName));
+		assertFalse(sink.measureWritten(metricName));
 	}
 }

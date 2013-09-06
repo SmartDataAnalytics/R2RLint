@@ -54,7 +54,7 @@ public class PropertyCompletenessTest {
 		metric.assessMappings(Arrays.asList(employeeView));
 		
 		float expected = (float) 1.0;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -74,7 +74,7 @@ public class PropertyCompletenessTest {
 		metric.assessMappings(Arrays.asList(deptView1));
 		
 		float expected = (float) 1.0;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -94,7 +94,7 @@ public class PropertyCompletenessTest {
 		metric.assessMappings(Arrays.asList(deptView2));
 		
 		float expected = (float) 1.0;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -114,7 +114,7 @@ public class PropertyCompletenessTest {
 		metric.assessMappings(Arrays.asList(deptView3));
 		
 		float expected = (float) 7 / (float) 9;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -134,7 +134,7 @@ public class PropertyCompletenessTest {
 		metric.assessMappings(Arrays.asList(deptView4));
 		
 		float expected = (float) 5 / (float) 9;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 

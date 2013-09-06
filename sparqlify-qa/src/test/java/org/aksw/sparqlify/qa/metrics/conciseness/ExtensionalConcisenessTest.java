@@ -46,7 +46,7 @@ public class ExtensionalConcisenessTest {
 		metric.assessMappings(Arrays.asList(viewDef01));
 		
 		float expected = (float) -1;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -61,7 +61,7 @@ public class ExtensionalConcisenessTest {
 		metric.assessMappings(Arrays.asList(viewDef02));
 		
 		float expected = 1 / (float) 2;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -76,7 +76,7 @@ public class ExtensionalConcisenessTest {
 		metric.assessMappings(Arrays.asList(viewDef01, viewDef02));
 		
 		float expected = 1 / (float) 3;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -91,7 +91,7 @@ public class ExtensionalConcisenessTest {
 		metric.assessMappings(Arrays.asList(viewDef03));
 		
 		float expected = 1 / (float) 2;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -106,7 +106,7 @@ public class ExtensionalConcisenessTest {
 		metric.assessMappings(Arrays.asList(viewDef04));
 		
 		float expected = 1 / (float) 2;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -121,7 +121,7 @@ public class ExtensionalConcisenessTest {
 		metric.assessMappings(Arrays.asList(viewDef03, viewDef04));
 		
 		float expected = 1 / (float) 2;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 	@Test
@@ -135,7 +135,7 @@ public class ExtensionalConcisenessTest {
 		metric.assessMappings(Arrays.asList(viewDef01, viewDef02, viewDef05));
 		
 		float expected = 1 / (float) 4;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 

@@ -8,6 +8,6 @@ public interface MeasureDataSink {
 
 	public void initMeasure(String name, Class<? extends MetricImpl> class1, String parentDimension) throws NotImplementedException;
 	
-	public void write(MeasureDatum datum) throws NotImplementedException;
+	public void write(MeasureDatum datum);
 
 }

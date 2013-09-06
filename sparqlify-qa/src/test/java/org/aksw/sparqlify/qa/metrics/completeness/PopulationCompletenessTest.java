@@ -52,7 +52,7 @@ public class PopulationCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 16/(float) 13;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -71,7 +71,7 @@ public class PopulationCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 16/(float) 12;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -91,7 +91,7 @@ public class PopulationCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 16/(float) 18;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -111,7 +111,7 @@ public class PopulationCompletenessTest {
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 16/(float) 12;
-		assertEquals(expected, sink.datasetMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 

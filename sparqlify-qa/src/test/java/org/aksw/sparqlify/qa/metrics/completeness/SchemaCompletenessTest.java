@@ -49,7 +49,7 @@ public class SchemaCompletenessTest {
 		metric.assessMappings(Arrays.asList(employeeView1, deptView));
 		
 		float expected = 10/(float) 13;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -65,7 +65,7 @@ public class SchemaCompletenessTest {
 		metric.assessMappings(Arrays.asList(employeeView2, deptView));
 		
 		float expected = 21/(float) 13;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -81,7 +81,7 @@ public class SchemaCompletenessTest {
 		metric.assessMappings(Arrays.asList(employeeView2, deptView));
 		
 		float expected = 11/(float) 13;
-		assertEquals(expected, sink.mappingMeasureValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
