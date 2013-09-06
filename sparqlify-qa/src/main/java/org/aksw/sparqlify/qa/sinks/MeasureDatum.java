@@ -8,7 +8,6 @@ public abstract class MeasureDatum {
 	protected String metric;
 
 
-
 	public float getValue() {
 		return value;
 	}
