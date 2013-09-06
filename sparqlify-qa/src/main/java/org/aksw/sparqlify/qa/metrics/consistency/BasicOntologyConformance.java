@@ -32,10 +32,6 @@ import com.hp.hpl.jena.reasoner.Reasoner;
 import com.hp.hpl.jena.reasoner.ReasonerRegistry;
 import com.hp.hpl.jena.reasoner.ValidityReport;
 import com.hp.hpl.jena.reasoner.ValidityReport.Report;
-import com.hp.hpl.jena.reasoner.transitiveReasoner.TransitiveReasoner;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDFS;
-import com.hp.hpl.jena.vocabulary.ReasonerVocabulary;
 
 /**
  * This metric reports several ontology violations of a given dataset.
