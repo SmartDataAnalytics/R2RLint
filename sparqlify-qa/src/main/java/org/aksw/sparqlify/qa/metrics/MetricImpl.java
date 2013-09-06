@@ -16,6 +16,7 @@ import org.aksw.sparqlify.qa.sinks.MeasureDatum;
 import org.aksw.sparqlify.qa.sinks.NodeMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.TripleMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
+import org.aksw.sparqlify.qa.sinks.TriplesMeasureDatum;
 
 import com.hp.hpl.jena.graph.Node_Variable;
 import com.hp.hpl.jena.graph.Triple;
@@ -93,6 +94,28 @@ public abstract class MetricImpl implements Metric {
 	// TODO: fix this first shot approach method signature
 	protected void writeDatasetMeasureToSink(float val) throws NotImplementedException {
 		MeasureDatum datum = new DatasetMeasureDatum(parentDimension, name, val);
+		sink.write(datum);
+	}
+
+
+	// TODO: fix this first shot approach method signature
+	protected void writeTriplesMeasureToSink(float val,
+			List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> pinpointResult)
+			throws NotImplementedException {
+		
+		MeasureDatum datum = new TriplesMeasureDatum(parentDimension, name,
+				val, pinpointResult);
+		
+		sink.write(datum);
+	}
+
+
+	protected void writeTriplesMeasureToSink(String metricName, float val,
+			List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> pinpointResult) {
+		
+		MeasureDatum datum = new TriplesMeasureDatum(parentDimension,
+				metricName, val, pinpointResult);
+		
 		sink.write(datum);
 	}
 
