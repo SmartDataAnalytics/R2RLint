@@ -14,20 +14,18 @@ import org.aksw.sparqlify.qa.metrics.TripleMetric;
 public class BooleanTestingSink implements MeasureDataSink {
 
 	private HashMap<String, HashMap<TriplePosition, Boolean>> nodeWrites;
-	private HashMap<String, Boolean> tripleWrites;
-	private HashMap<String, Boolean> mappingWrites;
+	private HashMap<String, Boolean> writes;
 
 
 	public BooleanTestingSink() {
 		nodeWrites = new HashMap<String, HashMap<TriplePosition, Boolean>>();
-		tripleWrites = new HashMap<String, Boolean>();
-		mappingWrites = new HashMap<String, Boolean>();
+		writes = new HashMap<String, Boolean>();
 	}
 
 
 	@Override
 	public void initMeasure(String name, Class<? extends MetricImpl> cls,
-			String parentDimension) throws NotImplementedException {
+			String parentDimension) {
 		
 		List<String> interfaceNames = new ArrayList<String>();
 		
@@ -45,58 +43,28 @@ public class BooleanTestingSink implements MeasureDataSink {
 			
 			nodeWrites.put(name, posWrites);
 		
-		// if triple metric
-		} else if (interfaceNames.contains(TripleMetric.class.getName())) {
-			tripleWrites.put(name, false);
-			
-		// if mapping metric
-		} else if (interfaceNames.contains(MappingMetric.class.getName())) {
-			mappingWrites.put(name, false);
-			
 		// else
 		} else {
-			throw new NotImplementedException();
+			writes.put(name, false);
 		}
 	}
 
 
 	@Override
-	public void write(MeasureDatum datum) throws NotImplementedException {
+	public void write(MeasureDatum datum) {
 		
 		// if node measure datum
 		if (datum instanceof NodeMeasureDatum) {
 			writeNodeMeasure((NodeMeasureDatum) datum);
 			
-		// if triple measure datum
-		} else if (datum instanceof TripleMeasureDatum) {
-			writeTripleMeasure((TripleMeasureDatum) datum);
-		
-		// if mapping measure datum
-		} else if (datum instanceof MappingMeasureDatum) {
-			writeMappingMeasure(datum);
-		
-		// if mapping var measure datum
-		} else if(datum instanceof MappingVarMeasureDatum) {
-			writeMappingMeasure(datum);
-		
-		// if mapping quad measure datum
-		} else if (datum instanceof MappingQuadMeasureDatum) {
-			writeMappingMeasure(datum);
-		
-		// else
 		} else {
-			throw new NotImplementedException();
-		}
+			writes.put(datum.getMetric(), true);
+		} 
 	}
 
 
-	/* triple measure datum methods */
-	private void writeTripleMeasure(TripleMeasureDatum datum) {
-		tripleWrites.put(datum.getMetric(), true);
-	}
-
-	public boolean tripleMeasureWritten(String metricName) {
-		return tripleWrites.get(metricName);
+	public boolean measureWritten(String metricName) {
+		return writes.get(metricName);
 	}
 
 
@@ -107,15 +75,5 @@ public class BooleanTestingSink implements MeasureDataSink {
 
 	public boolean nodeMeasureWritten(String metricName, TriplePosition pos) {
 		return nodeWrites.get(metricName).get(pos);
-	}
-
-
-	/* mapping measure datum methods */
-	public void writeMappingMeasure(MeasureDatum datum) {
-		mappingWrites.put(datum.getMetric(), true);
-	}
-
-	public boolean mappingMeasureWritten(String metricName) {
-		return mappingWrites.get(metricName);
 	}
 }
