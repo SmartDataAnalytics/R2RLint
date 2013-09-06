@@ -113,57 +113,50 @@ public class Run {
 		File file = new File(typeAliasFilePath);
 		InputStreamReader reader = new FileReader(file);
 		Map<String, String> typeAlias = MapReader.read(reader);
-		
 
-        File viewsFile = new File(viewDefFilePath);
+		File viewsFile = new File(viewDefFilePath);
 
-        if (!viewsFile.exists()) {
-            loggerCount.error("File does not exist: " + viewDefFilePath);
+		if (!viewsFile.exists()) {
+			loggerCount.error("File does not exist: " + viewDefFilePath);
+		}
 
-        }
+		ConfigParser parser = new ConfigParser();
+		InputStream in = new FileInputStream(viewsFile);
+		org.aksw.sparqlify.config.syntax.Config views;
+		try {
+		    views = parser.parse(in, loggerCount);
+		} finally {
+		    in.close();
+		}
 
-        ConfigParser parser = new ConfigParser();
-        InputStream in = new FileInputStream(viewsFile);
-        org.aksw.sparqlify.config.syntax.Config views;
-        try {
-            views = parser.parse(in, loggerCount);
-        } finally {
-            in.close();
-        }
+		List<org.aksw.sparqlify.config.syntax.ViewDefinition> syntaxViewDefs =
+				views.getViewDefinitions();
 
-        List<org.aksw.sparqlify.config.syntax.ViewDefinition> syntaxViewDefs =
-                views.getViewDefinitions();
-
-        
 		SchemaProvider schemaProvider = new SchemaProviderImpl(conn,
 				typeSystem, typeAlias);
 
-        // since all we got until now are view definitions in a wrong format,
-        // we have to convert them using a so called syntax bridge
-        SyntaxBridge synBridge = new SyntaxBridge(schemaProvider);
-        // the target collection holding the view definitions in the right
-        //format
-        Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-        // conversion loop
-        for (org.aksw.sparqlify.config.syntax.ViewDefinition viewDef : syntaxViewDefs) {
-            viewDefs.add(synBridge.create(viewDef));
-        }
+		// since all we got until now are view definitions in a wrong format,
+		// we have to convert them using a so called syntax bridge
+		SyntaxBridge synBridge = new SyntaxBridge(schemaProvider);
+		// the target collection holding the view definitions in the right
+		//format
+		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
+		// conversion loop
+		for (org.aksw.sparqlify.config.syntax.ViewDefinition viewDef : syntaxViewDefs) {
+			viewDefs.add(synBridge.create(viewDef));
+		}
 		
-        
-        /*
-         * create measure data sink 
-         */
-//        MeasureDataSink sink = new H5Sink(h5FilePath);
-        MeasureDataSink sink = new DummySink();
-        
-        
-        
-        /*
-         * init quality assessment
-         */
+		/*
+		 * create measure data sink 
+		 */
+		MeasureDataSink sink = new DummySink();
+		
+		/*
+		 * init quality assessment
+		 */
 		QualityAssessment qa = new QualityAssessment(dataset, viewDefs, conn,
 				dimensions, sink);
-        
+		
 		qa.run();
 	}
 
