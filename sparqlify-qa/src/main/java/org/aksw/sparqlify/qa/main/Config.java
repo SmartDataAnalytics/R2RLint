@@ -26,6 +26,7 @@ import org.aksw.sparqlify.qa.metrics.completeness.SchemaCompleteness;
 import org.aksw.sparqlify.qa.metrics.conciseness.ExtensionalConciseness;
 import org.aksw.sparqlify.qa.metrics.conciseness.IntensionalConciseness;
 import org.aksw.sparqlify.qa.metrics.conciseness.NoDuplicateStatements;
+import org.aksw.sparqlify.qa.metrics.consistency.BasicOntologyConformance;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
@@ -55,6 +56,8 @@ class DimensionFactory {
 			put(Config.metricExtensionalConciseness, ExtensionalConciseness.class);
 			put(Config.metricIntensionalConciseness, IntensionalConciseness.class);
 			put(Config.metricNoDuplicateStatements, NoDuplicateStatements.class);
+			// consistency
+			put(Config.metricBasicOntologyConformance, BasicOntologyConformance.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
 			// representational conciseness
@@ -135,7 +138,9 @@ public class Config {
 	final static String metricExtensionalConciseness = "extensional_conciseness";
 	final static String metricNoDuplicateStatements = "no_duplicate_statements";
 	// </conciseness>
-	// <consistency></consistency>
+	// <consistency>
+	final static String metricBasicOntologyConformance = "basic_ontology_conformance";
+	// </consistency>
 	// <interlinking></interlinking>
 	// <interpretability></interpretability>
 	// <performance>
