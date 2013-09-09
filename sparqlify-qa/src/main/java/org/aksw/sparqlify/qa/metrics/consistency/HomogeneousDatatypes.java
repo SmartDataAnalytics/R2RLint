@@ -145,9 +145,6 @@ public class HomogeneousDatatypes extends PinpointMetric implements
 				}
 				
 				int numTriplesThreshold = (int) (numTriples * threshold);
-				System.out.println("biggest num: " + biggestNumTriples);
-				System.out.println("threshold: " + numTriplesThreshold);
-				System.out.println("-----");
 				if (biggestNumTriples >= numTriplesThreshold) {
 					// plan 1)
 					reportOutliers(numTriplesThreshold, dtypeMap.values());

@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
-import org.aksw.sparqlify.qa.metrics.TripleMetric;
 
 
 public class BooleanTestingSink implements MeasureDataSink {
