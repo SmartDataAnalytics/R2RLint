@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
 
@@ -40,6 +41,17 @@ public class BooleanTestingSink implements MeasureDataSink {
 			
 			nodeWrites.put(name, posWrites);
 		
+		} else if (interfaceNames.contains(DatasetMetric.class.getName())) {
+			// some DatasetMetrics use NodeMeasureDatum, some not
+			
+			HashMap<TriplePosition, Boolean> posWrites =
+					new HashMap<TriplePosition, Boolean>();
+			posWrites.put(TriplePosition.SUBJECT, false);
+			posWrites.put(TriplePosition.PREDICATE, false);
+			posWrites.put(TriplePosition.OBJECT, false);
+
+			nodeWrites.put(name, posWrites);
+			writes.put(name, false);
 		// else
 		} else {
 			writes.put(name, false);
