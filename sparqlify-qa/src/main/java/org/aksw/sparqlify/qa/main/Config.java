@@ -27,6 +27,7 @@ import org.aksw.sparqlify.qa.metrics.conciseness.ExtensionalConciseness;
 import org.aksw.sparqlify.qa.metrics.conciseness.IntensionalConciseness;
 import org.aksw.sparqlify.qa.metrics.conciseness.NoDuplicateStatements;
 import org.aksw.sparqlify.qa.metrics.consistency.BasicOntologyConformance;
+import org.aksw.sparqlify.qa.metrics.consistency.HomogeneousDatatypes;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
@@ -58,6 +59,7 @@ class DimensionFactory {
 			put(Config.metricNoDuplicateStatements, NoDuplicateStatements.class);
 			// consistency
 			put(Config.metricBasicOntologyConformance, BasicOntologyConformance.class);
+			put(Config.metricHomogeneousDatatypes, HomogeneousDatatypes.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
 			// representational conciseness
@@ -140,6 +142,7 @@ public class Config {
 	// </conciseness>
 	// <consistency>
 	final static String metricBasicOntologyConformance = "basic_ontology_conformance";
+	final static String metricHomogeneousDatatypes = "homogeneous_datatypes";
 	// </consistency>
 	// <interlinking></interlinking>
 	// <interpretability></interpretability>
