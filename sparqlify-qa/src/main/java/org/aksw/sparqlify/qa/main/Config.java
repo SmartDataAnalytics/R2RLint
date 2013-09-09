@@ -29,6 +29,7 @@ import org.aksw.sparqlify.qa.metrics.conciseness.NoDuplicateStatements;
 import org.aksw.sparqlify.qa.metrics.consistency.BasicOntologyConformance;
 import org.aksw.sparqlify.qa.metrics.consistency.DefinedClassesAndProperties;
 import org.aksw.sparqlify.qa.metrics.consistency.HomogeneousDatatypes;
+import org.aksw.sparqlify.qa.metrics.consistency.WellPlacedClassesAndProperties;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
@@ -62,6 +63,7 @@ class DimensionFactory {
 			put(Config.metricBasicOntologyConformance, BasicOntologyConformance.class);
 			put(Config.metricDefinedClassesAndProperties, DefinedClassesAndProperties.class);
 			put(Config.metricHomogeneousDatatypes, HomogeneousDatatypes.class);
+			put(Config.metricWellPlacedClassesAndProperties, WellPlacedClassesAndProperties.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
 			// representational conciseness
@@ -146,6 +148,7 @@ public class Config {
 	final static String metricBasicOntologyConformance = "basic_ontology_conformance";
 	final static String metricDefinedClassesAndProperties = "defined_classes_and_properties";
 	final static String metricHomogeneousDatatypes = "homogeneous_datatypes";
+	final static String metricWellPlacedClassesAndProperties = "well-placed_classes_and_properties";
 	// </consistency>
 	// <interlinking></interlinking>
 	// <interpretability></interpretability>
