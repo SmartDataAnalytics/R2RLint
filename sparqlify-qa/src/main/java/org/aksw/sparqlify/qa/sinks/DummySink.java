@@ -87,6 +87,15 @@ public class DummySink implements MeasureDataSink {
 			int logLineLength = logLine.length(); 
 			logLine = logLine.substring(0, logLineLength-2);
 
+		} else if (datum instanceof MappingMeasureDatum) {
+			Set<ViewQuad<ViewDefinition>> viewQuads = ((MappingMeasureDatum) datum)
+					.getViewDefs();
+			
+			for (ViewQuad<ViewDefinition> viewQuad : viewQuads) {
+				logLine += viewQuad.getQuad() + " vs. ";
+			}
+			int logLineLength = logLine.length(); 
+			logLine = logLine.substring(0, logLineLength-5);
 //		} else if (datum.getClass().getName().equals(DatasetMeasureDatum.class.getName())) {
 //			logLine += ???
 		}
