@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 
 import org.aksw.commons.jena.reader.NTripleIterator;
 
@@ -29,6 +30,7 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 	private Iterator<Triple> it;
 	// to be able to differentiate between "re-used" and own resources
 	private String prefix = null;
+	private List<String> usedPrefixes = null;
 
 
 	public SparqlifyDataset() {
@@ -57,6 +59,15 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 		return prefix;
 	}
 
+
+	public void setUsedPrefixes(List<String> prefixes) {
+		usedPrefixes = prefixes;
+	}
+
+
+	public List<String> getUsedPrefixes() {
+		return usedPrefixes;
+	}
 	@Override
 	public Iterator<Triple> iterator() {
 		return it;
