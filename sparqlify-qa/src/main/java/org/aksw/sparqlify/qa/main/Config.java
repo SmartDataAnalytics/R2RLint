@@ -32,6 +32,7 @@ import org.aksw.sparqlify.qa.metrics.consistency.HomogeneousDatatypes;
 import org.aksw.sparqlify.qa.metrics.consistency.NoBogusInverseFunctionalProperties;
 import org.aksw.sparqlify.qa.metrics.consistency.NoDeprecatedClassesOrProperties;
 import org.aksw.sparqlify.qa.metrics.consistency.WellPlacedClassesAndProperties;
+import org.aksw.sparqlify.qa.metrics.interlinking.ExternalSameAsLinks;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
@@ -68,6 +69,8 @@ class DimensionFactory {
 			put(Config.metricNoBogusInverseFunctionalProperty, NoBogusInverseFunctionalProperties.class);
 			put(Config.metricNoDeprecatedClassesAndProperties, NoDeprecatedClassesOrProperties.class);
 			put(Config.metricWellPlacedClassesAndProperties, WellPlacedClassesAndProperties.class);
+			// interlinking
+			put(Config.metricExternalSameAsLinks, ExternalSameAsLinks.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
 			// representational conciseness
@@ -156,7 +159,9 @@ public class Config {
 	final static String metricNoDeprecatedClassesAndProperties = "no_deprecated_classes_and_properties";
 	final static String metricWellPlacedClassesAndProperties = "well-placed_classes_and_properties";
 	// </consistency>
-	// <interlinking></interlinking>
+	// <interlinking>
+	final static String metricExternalSameAsLinks = "external_sameas_links";
+	// </interlinking>
 	// <interpretability></interpretability>
 	// <performance>
 	final static String metricNoHashUris = "no_hash_uris";
