@@ -29,6 +29,7 @@ import org.aksw.sparqlify.qa.metrics.conciseness.NoDuplicateStatements;
 import org.aksw.sparqlify.qa.metrics.consistency.BasicOntologyConformance;
 import org.aksw.sparqlify.qa.metrics.consistency.DefinedClassesAndProperties;
 import org.aksw.sparqlify.qa.metrics.consistency.HomogeneousDatatypes;
+import org.aksw.sparqlify.qa.metrics.consistency.NoAmbiguousMappings;
 import org.aksw.sparqlify.qa.metrics.consistency.NoBogusInverseFunctionalProperties;
 import org.aksw.sparqlify.qa.metrics.consistency.NoDeprecatedClassesOrProperties;
 import org.aksw.sparqlify.qa.metrics.consistency.WellPlacedClassesAndProperties;
@@ -66,6 +67,7 @@ class DimensionFactory {
 			put(Config.metricBasicOntologyConformance, BasicOntologyConformance.class);
 			put(Config.metricDefinedClassesAndProperties, DefinedClassesAndProperties.class);
 			put(Config.metricHomogeneousDatatypes, HomogeneousDatatypes.class);
+			put(Config.metricNoAmbiguousMappings, NoAmbiguousMappings.class);
 			put(Config.metricNoBogusInverseFunctionalProperty, NoBogusInverseFunctionalProperties.class);
 			put(Config.metricNoDeprecatedClassesAndProperties, NoDeprecatedClassesOrProperties.class);
 			put(Config.metricWellPlacedClassesAndProperties, WellPlacedClassesAndProperties.class);
@@ -155,6 +157,7 @@ public class Config {
 	final static String metricBasicOntologyConformance = "basic_ontology_conformance";
 	final static String metricDefinedClassesAndProperties = "defined_classes_and_properties";
 	final static String metricHomogeneousDatatypes = "homogeneous_datatypes";
+	final static String metricNoAmbiguousMappings = "no_ambiguous_mappings";
 	final static String metricNoBogusInverseFunctionalProperty = "no_bogus_inverse-functional_properties";
 	final static String metricNoDeprecatedClassesAndProperties = "no_deprecated_classes_and_properties";
 	final static String metricWellPlacedClassesAndProperties = "well-placed_classes_and_properties";
