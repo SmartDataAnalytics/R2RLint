@@ -1,59 +1,20 @@
 package org.aksw.sparqlify.qa.sinks;
 
-import java.util.Set;
-
-import org.aksw.sparqlify.core.algorithms.ViewQuad;
-import org.aksw.sparqlify.core.domain.input.ViewDefinition;
-
 import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
 
 public class NodeMeasureDatum extends MeasureDatum {
 	
-	protected TriplePosition pos;
-	protected Triple triple;
-	protected Set<ViewQuad<ViewDefinition>> viewQuads;
-
-	public NodeMeasureDatum(String dimension, String metric, float value,
-			TriplePosition pos, Triple triple,
-			Set<ViewQuad<ViewDefinition>> viewQuads) {
-		
+	private Node node;
+	
+	public NodeMeasureDatum(String dimension, String metric, float value, Node node) {
 		this.dimension = dimension;
 		this.metric = metric;
 		this.value = value;
-		this.pos = pos;
-		this.triple = triple;
-		this.viewQuads = viewQuads;
-		
-	}
-
-
-	public Set<ViewQuad<ViewDefinition>> getViewQuads() {
-		return viewQuads;
-	}
-
-
-	public TriplePosition getTriplePosition() {
-		return pos;
-	}
-
-
-	public Triple getTriple() {
-		return triple;
+		this.node = node;
 	}
 
 
 	public Node getNode() {
-		switch (pos) {
-		case SUBJECT:
-			return triple.getSubject();
-		case PREDICATE:
-			return triple.getPredicate();
-		case OBJECT:
-			return triple.getObject();
-
-		default:
-			return null;
-		}
+		return node;
 	}
 }

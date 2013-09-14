@@ -161,7 +161,7 @@ public class NoDeprecatedClassesOrProperties extends PinpointMetric implements
 			
 			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 					.getViewCandidates(statement.asTriple());
-			writeNodeMeasureToSink(0, TriplePosition.SUBJECT,
+			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
 					statement.asTriple(), viewQuads);
 		}
 		
@@ -174,7 +174,7 @@ public class NoDeprecatedClassesOrProperties extends PinpointMetric implements
 			
 			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 					.getViewCandidates(statement.asTriple());
-			writeNodeMeasureToSink(0, TriplePosition.PREDICATE,
+			writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE,
 					statement.asTriple(), viewQuads);
 		}
 		
@@ -187,7 +187,7 @@ public class NoDeprecatedClassesOrProperties extends PinpointMetric implements
 			
 			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 					.getViewCandidates(statement.asTriple());
-			writeNodeMeasureToSink(0, TriplePosition.OBJECT,
+			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
 					statement.asTriple(), viewQuads);
 			
 		}
@@ -216,7 +216,7 @@ public class NoDeprecatedClassesOrProperties extends PinpointMetric implements
 			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 					.getViewCandidates(statement.asTriple());
 						
-			writeNodeMeasureToSink(0, TriplePosition.OBJECT,
+			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
 					statement.asTriple(), viewQuads);
 		}
 		
@@ -230,7 +230,7 @@ public class NoDeprecatedClassesOrProperties extends PinpointMetric implements
 			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 					.getViewCandidates(statement.asTriple());
 			
-			writeNodeMeasureToSink(0, TriplePosition.SUBJECT,
+			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
 					statement.asTriple(), viewQuads);
 		}
 			
@@ -248,7 +248,7 @@ public class NoDeprecatedClassesOrProperties extends PinpointMetric implements
 			
 			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 					.getViewCandidates(statement.asTriple());
-			writeNodeMeasureToSink(0, TriplePosition.SUBJECT,
+			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
 					statement.asTriple(), viewQuads);
 		}
 		
@@ -262,7 +262,7 @@ public class NoDeprecatedClassesOrProperties extends PinpointMetric implements
 				
 				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 						.getViewCandidates(statement.asTriple());
-				writeNodeMeasureToSink(0, TriplePosition.PREDICATE,
+				writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE,
 						statement.asTriple(), viewQuads);
 			}
 		} catch (InvalidPropertyURIException e) { /* just ignore */ };
@@ -275,7 +275,7 @@ public class NoDeprecatedClassesOrProperties extends PinpointMetric implements
 			
 			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 					.getViewCandidates(statement.asTriple());
-			writeNodeMeasureToSink(0, TriplePosition.OBJECT,
+			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
 					statement.asTriple(), viewQuads);
 		}
 	}

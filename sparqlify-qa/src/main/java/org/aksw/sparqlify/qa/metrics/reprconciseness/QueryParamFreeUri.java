@@ -26,7 +26,7 @@ public class QueryParamFreeUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
 		}
 		
 		/* assess predicate */
@@ -37,7 +37,7 @@ public class QueryParamFreeUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
 		}
 
 		/* assess object */
@@ -48,7 +48,7 @@ public class QueryParamFreeUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
 		}
 	}
 	

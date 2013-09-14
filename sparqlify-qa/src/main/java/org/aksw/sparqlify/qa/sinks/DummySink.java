@@ -12,6 +12,7 @@ import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_Variable;
 import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.sparql.core.Quad;
@@ -39,9 +40,9 @@ public class DummySink implements MeasureDataSink {
 				datum.getMetric() + " wrote value " + datum.getValue() + "\n" +
 						"\tfor: ";
 		
-		if (datum instanceof NodeMeasureDatum) {
-			logLine += ((NodeMeasureDatum) datum).getTriplePosition().name() +
-					" position in " + ((NodeMeasureDatum) datum).getTriple();
+		if (datum instanceof NodeTripleMeasureDatum) {
+			logLine += ((NodeTripleMeasureDatum) datum).getTriplePosition().name() +
+					" position in " + ((NodeTripleMeasureDatum) datum).getTriple();
 			
 		} else if (datum instanceof TripleMeasureDatum) {
 			logLine += ((TripleMeasureDatum) datum).getTriple();
@@ -96,6 +97,11 @@ public class DummySink implements MeasureDataSink {
 			}
 			int logLineLength = logLine.length(); 
 			logLine = logLine.substring(0, logLineLength-5);
+			
+		} else if (datum instanceof NodeMeasureDatum) {
+			Node node = ((NodeMeasureDatum) datum).getNode();
+			
+			logLine += " " + node.toString();
 //		} else if (datum.getClass().getName().equals(DatasetMeasureDatum.class.getName())) {
 //			logLine += ???
 		}

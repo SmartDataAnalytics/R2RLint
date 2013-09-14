@@ -23,21 +23,21 @@ public class NoHashUris extends PinpointMetric implements NodeMetric {
 		if (subject.isURI() && isHashUri((Node_URI) subject)) {
 			viewQuads = pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
 		}
 		
 		Node predicate = triple.getPredicate();
 		if (isHashUri((Node_URI) predicate)) {
 			if (viewQuads == null) viewQuads = pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
 		}
 		
 		Node object = triple.getObject();
 		if (object.isURI() && isHashUri((Node_URI) object)) {
 			if (viewQuads == null) viewQuads = pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
 		}
 	}
 

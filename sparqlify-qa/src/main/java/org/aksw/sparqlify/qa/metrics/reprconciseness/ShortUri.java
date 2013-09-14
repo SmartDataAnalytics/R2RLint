@@ -22,7 +22,7 @@ public class ShortUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 						pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
 		}
 		
 		Node pred = triple.getPredicate();
@@ -30,7 +30,7 @@ public class ShortUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 					pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
 		}
 		
 		Node obj = triple.getObject();
@@ -38,7 +38,7 @@ public class ShortUri extends PinpointMetric implements NodeMetric {
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 					pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
 		}
 	}
 

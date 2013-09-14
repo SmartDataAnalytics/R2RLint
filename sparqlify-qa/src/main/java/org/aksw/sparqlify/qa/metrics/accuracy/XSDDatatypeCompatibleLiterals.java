@@ -37,7 +37,7 @@ public class XSDDatatypeCompatibleLiterals extends PinpointMetric implements
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 					pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
 		}
 	}
 

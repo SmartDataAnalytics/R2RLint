@@ -53,7 +53,7 @@ public class ValidLanguageTag extends PinpointMetric implements NodeMetric {
 					Set<ViewQuad<ViewDefinition>> viewQuads =
 							pinpointer.getViewCandidates(triple);
 					
-					writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple,
+					writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT, triple,
 							viewQuads);
 				}
 			}

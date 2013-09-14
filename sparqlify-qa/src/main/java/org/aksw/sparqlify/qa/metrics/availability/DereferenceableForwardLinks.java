@@ -42,7 +42,7 @@ public class DereferenceableForwardLinks extends PinpointMetric implements
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 					pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
 		}
 		
 		Node predicate = triple.getPredicate();
@@ -52,7 +52,7 @@ public class DereferenceableForwardLinks extends PinpointMetric implements
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 					pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
 		}
 		
 		Node object = triple.getObject();
@@ -60,7 +60,7 @@ public class DereferenceableForwardLinks extends PinpointMetric implements
 			Set<ViewQuad<ViewDefinition>> viewQuads =
 					pinpointer.getViewCandidates(triple);
 			
-			writeNodeMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
+			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
 		}
 	}
 

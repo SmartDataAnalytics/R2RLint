@@ -14,10 +14,12 @@ import org.aksw.sparqlify.qa.sinks.MappingVarMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.MeasureDatum;
 import org.aksw.sparqlify.qa.sinks.NodeMeasureDatum;
+import org.aksw.sparqlify.qa.sinks.NodeTripleMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.TripleMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.aksw.sparqlify.qa.sinks.TriplesMeasureDatum;
 
+import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_Variable;
 import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.sparql.core.Quad;
@@ -69,12 +71,20 @@ public abstract class MetricImpl implements Metric {
 
 
 	// TODO: fix this first shot approach method signature
-	protected void writeNodeMeasureToSink(float val, TriplePosition pos,
+	protected void writeNodeTripleMeasureToSink(float val, TriplePosition pos,
 			Triple triple, Set<ViewQuad<ViewDefinition>> viewQuads)
 			throws NotImplementedException {
 		
-		MeasureDatum datum = new NodeMeasureDatum(parentDimension, name, val,
+		MeasureDatum datum = new NodeTripleMeasureDatum(parentDimension, name, val,
 				pos, triple, viewQuads);
+		
+		sink.write(datum);
+	}
+
+
+	// TODO: fix this first shot approach method signature
+	protected void writeNodeMeasureToSink(float value, Node node) {
+		MeasureDatum datum = new NodeMeasureDatum(parentDimension, name, value, node);
 		
 		sink.write(datum);
 	}

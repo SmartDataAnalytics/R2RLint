@@ -63,8 +63,8 @@ public class BooleanTestingSink implements MeasureDataSink {
 	public void write(MeasureDatum datum) {
 		
 		// if node measure datum
-		if (datum instanceof NodeMeasureDatum) {
-			writeNodeMeasure((NodeMeasureDatum) datum);
+		if (datum instanceof NodeTripleMeasureDatum) {
+			writeNodeMeasure((NodeTripleMeasureDatum) datum);
 			
 		} else {
 			writes.put(datum.getMetric(), true);
@@ -78,7 +78,7 @@ public class BooleanTestingSink implements MeasureDataSink {
 
 
 	/* node measure datum methods */
-	private void writeNodeMeasure(NodeMeasureDatum datum) {
+	private void writeNodeMeasure(NodeTripleMeasureDatum datum) {
 		nodeWrites.get(datum.getMetric()).put(datum.getTriplePosition(), true);
 	}
 
