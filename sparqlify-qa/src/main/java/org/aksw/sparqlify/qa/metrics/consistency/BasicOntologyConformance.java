@@ -18,6 +18,7 @@ import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import com.hp.hpl.jena.datatypes.BaseDatatype;
 import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Node_Literal;
 import com.hp.hpl.jena.graph.Node_URI;
 import com.hp.hpl.jena.graph.Triple;
@@ -189,17 +190,14 @@ public class BasicOntologyConformance extends PinpointMetric implements
 
 	private List<Triple> getErroneousTriples(Report report) {
 		
-		switch (report.getType()) {
-		case "dtRange":
+		if (report.getType().equals("dtRange"))
 			return  parseDtRange(report);
-		case "\"conflict\"":
+		else if (report.getType().equals("\"conflict\""))
 			return parseConflict(report);
-		case "\"range check\"":
+		else if (report.getType().equals("\"range check\""))
 			return parseRangeCheck(report);
-		default:
+		else
 			return new ArrayList<Triple>();
-		}
-
 	}
 
 
@@ -263,9 +261,9 @@ public class BasicOntologyConformance extends PinpointMetric implements
 		String[] parts = description.split(separator);
 		if (parts[0].startsWith(disjDescStart)) {
 			report.type = disjointClassesConformance;
-			Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-			Node obj1 = Node.createURI(parts[1].trim());
-			Node obj2 = Node.createURI(parts[2].trim());
+			Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+			Node obj1 = NodeFactory.createURI(parts[1].trim());
+			Node obj2 = NodeFactory.createURI(parts[2].trim());
 			
 			Triple triple1 = new Triple(subj.asNode(), pred, obj1);
 			triples.add(triple1);
@@ -351,7 +349,7 @@ public class BasicOntologyConformance extends PinpointMetric implements
 		
 		String[] parts = description.split(separator);
 		
-		Node pred = Node.createURI(parts[1].trim());
+		Node pred = NodeFactory.createURI(parts[1].trim());
 		Node obj;
 		
 		if (parts[2].contains(dt)) {
@@ -366,11 +364,11 @@ public class BasicOntologyConformance extends PinpointMetric implements
 			}
 			String litDt = tLitParts[1].trim();
 			RDFDatatype dtype = new BaseDatatype(litDt);
-			obj = Node.createLiteral(litVal, dtype);
+			obj = NodeFactory.createLiteral(litVal, dtype);
 		
 		} else if (parts[2].contains(clnSlshSlsh)) {
 			// a uri
-			obj = Node.createURI(parts[2].trim());
+			obj = NodeFactory.createURI(parts[2].trim());
 			
 		} else if (parts[2].contains(at)) {
 			// plain literal with language tag
@@ -384,7 +382,7 @@ public class BasicOntologyConformance extends PinpointMetric implements
 			}
 			String litLang = pLitParts[1].trim();
 			
-			obj = Node.createLiteral(litVal, litLang, false);
+			obj = NodeFactory.createLiteral(litVal, litLang, false);
 			
 		} else {
 			// plain literal without language tag
@@ -395,7 +393,7 @@ public class BasicOntologyConformance extends PinpointMetric implements
 			if (litVal.endsWith("\"") || litVal.endsWith("'")) {
 				litVal = litVal.substring(0, litVal.length()-1);
 			}
-			obj = Node.createLiteral(litVal);
+			obj = NodeFactory.createLiteral(litVal);
 		}
 		Triple triple = new Triple(subj.asNode(), pred, obj);
 		

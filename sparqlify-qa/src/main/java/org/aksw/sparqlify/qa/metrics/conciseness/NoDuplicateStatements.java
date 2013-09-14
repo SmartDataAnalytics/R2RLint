@@ -352,8 +352,7 @@ public class NoDuplicateStatements extends DbMetric implements MappingMetric {
 		int sumCountEach = 0;
 		String queryStr = "";
 		
-		// needed since Vars FIXME
-		Set<String> colVarStrs = new TreeSet<>();
+		Set<String> colVarStrs = new TreeSet<String>();
 		
 		for (Pair<Quad, ViewDefinition> quadViewDef : quadViewDefs) {
 			String subQueryStr = "(";

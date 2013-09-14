@@ -14,7 +14,7 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
 import org.aksw.sparqlify.qa.metrics.PinpointMetric;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
-import org.openjena.riot.LangTag;
+import org.apache.jena.riot.web.LangTag;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_Literal;

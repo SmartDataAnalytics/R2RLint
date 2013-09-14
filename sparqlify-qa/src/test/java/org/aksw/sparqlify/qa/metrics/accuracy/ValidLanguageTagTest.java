@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
 public class ValidLanguageTagTest {
@@ -46,9 +47,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "de", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "de", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -67,9 +68,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "fr", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "fr", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -88,9 +89,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "ja", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "ja", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -109,9 +110,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "i-enochian", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "i-enochian", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -130,9 +131,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "zh-Hant", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "zh-Hant", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -151,9 +152,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "zh-Hans", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "zh-Hans", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -172,9 +173,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "sr-Cyrl", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "sr-Cyrl", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -193,9 +194,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "sr-Latn", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "sr-Latn", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -220,9 +221,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "zh-cmn-Hans-CN", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "zh-cmn-Hans-CN", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -241,9 +242,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "cmn-Hans-CN", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "cmn-Hans-CN", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -267,9 +268,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "zh-yue-HK", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "zh-yue-HK", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -288,9 +289,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "yue-HK", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "yue-HK", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -310,9 +311,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "zh-Hans-CN", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "zh-Hans-CN", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -331,9 +332,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "sr-Latn-RS", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "sr-Latn-RS", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -352,9 +353,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "sl-rozaj", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "sl-rozaj", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -375,9 +376,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "sl-rozaj-biske", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "sl-rozaj-biske", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -396,9 +397,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "sl-nedis", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "sl-nedis", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -420,9 +421,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "de-CH-1901", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "de-CH-1901", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -441,9 +442,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "sl-IT-nedis", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "sl-IT-nedis", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -463,9 +464,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "hy-Latn-IT-arevela", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "hy-Latn-IT-arevela", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -484,9 +485,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "de-DE", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "de-DE", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -505,9 +506,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "en-US", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "en-US", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -527,9 +528,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "es-419", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "es-419", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -548,9 +549,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "de-CH-x-phonebk", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "de-CH-x-phonebk", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -571,9 +572,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "az-Arab-x-AZE-derbend", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "az-Arab-x-AZE-derbend", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -592,9 +593,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "x-whatever", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "x-whatever", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -613,9 +614,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "qaa-Qaaa-QM-x-southern", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "qaa-Qaaa-QM-x-southern", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -634,9 +635,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "de-Qaaa", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "de-Qaaa", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -655,9 +656,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "sr-Latn-QM", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "sr-Latn-QM", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -676,9 +677,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "sr-Qaaa-RS", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "sr-Qaaa-RS", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -697,9 +698,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "en-US-u-islamcal", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "en-US-u-islamcal", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -718,9 +719,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "zh-CN-a-myext-x-private", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "zh-CN-a-myext-x-private", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -739,9 +740,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "en-a-myext-b-another", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "en-a-myext-b-another", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -760,9 +761,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "de-419-DE", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "de-419-DE", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -783,9 +784,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "a-DE", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "a-DE", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -807,9 +808,9 @@ public class ValidLanguageTagTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createLiteral("foo", "ar-a-aaa-b-bbb-a-ccc", false);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createLiteral("foo", "ar-a-aaa-b-bbb-a-ccc", false);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		

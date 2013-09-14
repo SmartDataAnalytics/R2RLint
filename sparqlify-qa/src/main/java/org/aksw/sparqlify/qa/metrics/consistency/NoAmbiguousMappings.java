@@ -14,7 +14,6 @@ import org.aksw.commons.collections.Pair;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOp;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpQuery;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpTable;
-import org.aksw.sparqlify.core.SparqlifyConstants;
 import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
@@ -185,9 +184,9 @@ public class NoAmbiguousMappings extends DbMetric implements MappingMetric {
 		
 			// skip plainLiteral and typedLiteral term constructors
 			ExprFunction func = expr.getFunction();
-			String funcIRI = func.getFunctionIRI();
-			if (funcIRI != SparqlifyConstants.plainLiteralLabel
-					&& funcIRI != SparqlifyConstants.typedLiteralLabel) {
+			// -1 = var, 0 = bNode, 1 = uri, 2 = plainLiteral, 3 = typedLiteral
+			double type = func.getArg(1).getConstant().getDouble();
+			if (type < 2) { 
 				
 				// get term constructor string serialization
 				String tcString = expr.toString();

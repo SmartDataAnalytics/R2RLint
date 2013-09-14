@@ -11,7 +11,7 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.PinpointMetric;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
 
-import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
 /**
@@ -39,25 +39,25 @@ public class NoBogusInverseFunctionalProperties extends PinpointMetric
 
 	private final List<Triple> blackList = new ArrayList<Triple>(Arrays.asList(
 			new Triple(
-					Node.createVariable("subject"),
-					Node.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum"),
-					Node.createLiteral("08445a31a78661b5c746feff39a9db6e4e2cc5cf")),
+					NodeFactory.createVariable("subject"),
+					NodeFactory.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum"),
+					NodeFactory.createLiteral("08445a31a78661b5c746feff39a9db6e4e2cc5cf")),
 			new Triple(
-					Node.createVariable("subject"),
-					Node.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum"),
-					Node.createLiteral("da39a33ee5e6b4b0d3255bfef95601890afd80709")),
+					NodeFactory.createVariable("subject"),
+					NodeFactory.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum"),
+					NodeFactory.createLiteral("da39a33ee5e6b4b0d3255bfef95601890afd80709")),
 			new Triple(
-					Node.createVariable("subject"),
-					Node.createURI("http://xmlns.com/foaf/0.1/homepage"),
-					Node.createURI("http://")),
+					NodeFactory.createVariable("subject"),
+					NodeFactory.createURI("http://xmlns.com/foaf/0.1/homepage"),
+					NodeFactory.createURI("http://")),
 			new Triple(
-					Node.createVariable("subject"),
-					Node.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum"),
-					Node.createLiteral("")),
+					NodeFactory.createVariable("subject"),
+					NodeFactory.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum"),
+					NodeFactory.createLiteral("")),
 			new Triple(
-					Node.createVariable("subject"),
-					Node.createURI("http://xmlns.com/foaf/0.1/isPrimaryTopicOf"),
-					Node.createURI("http://"))
+					NodeFactory.createVariable("subject"),
+					NodeFactory.createURI("http://xmlns.com/foaf/0.1/isPrimaryTopicOf"),
+					NodeFactory.createURI("http://"))
 		));
 		
 

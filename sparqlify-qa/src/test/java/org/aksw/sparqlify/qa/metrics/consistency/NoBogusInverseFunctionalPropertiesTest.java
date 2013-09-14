@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
 public class NoBogusInverseFunctionalPropertiesTest {
@@ -40,9 +41,9 @@ public class NoBogusInverseFunctionalPropertiesTest {
 		metric.registerMeasureDataSink(sink);
 		metric.registerPinpointer(pinpointer);
 		
-		Node subject = Node.createURI("http://ex.org/res/01");
-		Node predicate = Node.createURI("http://ex.org/pred01");
-		Node object = Node.createURI("http://ex.org/res/02");
+		Node subject = NodeFactory.createURI("http://ex.org/res/01");
+		Node predicate = NodeFactory.createURI("http://ex.org/pred01");
+		Node object = NodeFactory.createURI("http://ex.org/res/02");
 		Triple triple = new Triple(subject, predicate, object);
 		metric.assessTriple(triple);
 		
@@ -59,9 +60,9 @@ public class NoBogusInverseFunctionalPropertiesTest {
 		metric.registerMeasureDataSink(sink);
 		metric.registerPinpointer(pinpointer);
 		
-		Node subject = Node.createURI("http://ex.org/res/01");
-		Node predicate = Node.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum");
-		Node object = Node.createLiteral("08445a31a78661b5c746feff39a9db6e4e2cc5cf");
+		Node subject = NodeFactory.createURI("http://ex.org/res/01");
+		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum");
+		Node object = NodeFactory.createLiteral("08445a31a78661b5c746feff39a9db6e4e2cc5cf");
 		Triple triple = new Triple(subject, predicate, object);
 		metric.assessTriple(triple);
 		
@@ -78,9 +79,9 @@ public class NoBogusInverseFunctionalPropertiesTest {
 		metric.registerMeasureDataSink(sink);
 		metric.registerPinpointer(pinpointer);
 		
-		Node subject = Node.createURI("http://ex.org/res/02");
-		Node predicate = Node.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum");
-		Node object = Node.createLiteral("da39a33ee5e6b4b0d3255bfef95601890afd80709");
+		Node subject = NodeFactory.createURI("http://ex.org/res/02");
+		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum");
+		Node object = NodeFactory.createLiteral("da39a33ee5e6b4b0d3255bfef95601890afd80709");
 		Triple triple = new Triple(subject, predicate, object);
 		metric.assessTriple(triple);
 		
@@ -97,9 +98,9 @@ public class NoBogusInverseFunctionalPropertiesTest {
 		metric.registerMeasureDataSink(sink);
 		metric.registerPinpointer(pinpointer);
 		
-		Node subject = Node.createURI("http://ex.org/res/02");
-		Node predicate = Node.createURI("http://xmlns.com/foaf/0.1/homepage");
-		Node object = Node.createURI("http://");
+		Node subject = NodeFactory.createURI("http://ex.org/res/02");
+		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/homepage");
+		Node object = NodeFactory.createURI("http://");
 		Triple triple = new Triple(subject, predicate, object);
 		metric.assessTriple(triple);
 		
@@ -116,9 +117,9 @@ public class NoBogusInverseFunctionalPropertiesTest {
 		metric.registerMeasureDataSink(sink);
 		metric.registerPinpointer(pinpointer);
 		
-		Node subject = Node.createURI("http://ex.org/res/02");
-		Node predicate = Node.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum");
-		Node object = Node.createLiteral("");
+		Node subject = NodeFactory.createURI("http://ex.org/res/02");
+		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum");
+		Node object = NodeFactory.createLiteral("");
 		Triple triple = new Triple(subject, predicate, object);
 		metric.assessTriple(triple);
 		
@@ -135,9 +136,9 @@ public class NoBogusInverseFunctionalPropertiesTest {
 		metric.registerMeasureDataSink(sink);
 		metric.registerPinpointer(pinpointer);
 		
-		Node subject = Node.createURI("http://ex.org/res/02");
-		Node predicate = Node.createURI("http://xmlns.com/foaf/0.1/isPrimaryTopicOf");
-		Node object = Node.createURI("http://");
+		Node subject = NodeFactory.createURI("http://ex.org/res/02");
+		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/isPrimaryTopicOf");
+		Node object = NodeFactory.createURI("http://");
 		Triple triple = new Triple(subject, predicate, object);
 		metric.assessTriple(triple);
 		
