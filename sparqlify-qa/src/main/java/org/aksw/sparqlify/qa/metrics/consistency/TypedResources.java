@@ -20,8 +20,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
 /**
- * This metric should find all resources that are an individual but do not have
- * a class assigned.
+ * This metric should find all resources that do not have a class assigned.
  * 
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
