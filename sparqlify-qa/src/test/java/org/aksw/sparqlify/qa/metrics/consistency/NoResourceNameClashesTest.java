@@ -43,7 +43,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> .";
+			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -52,7 +52,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test01() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test01";
@@ -79,7 +79,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/res/01> <http://ex.org/Class01> <http://ex.org/res/02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -89,7 +89,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test02() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test02";
@@ -127,7 +127,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test03() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test03";
@@ -155,7 +155,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/Class01> <http://ex.org/prop01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -165,7 +165,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test04() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test04";
@@ -203,7 +203,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test05() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test05";
@@ -231,7 +231,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/Class01> <http://ex.org/prop01> <http://ex.org/res/01> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -241,7 +241,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test06() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test06";
@@ -270,7 +270,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/Class01> <http://ex.org/prop01> <http://ex.org/Class02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -280,7 +280,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test07() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test07";
@@ -318,7 +318,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test08() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test08";
@@ -356,7 +356,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test09() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test09";
@@ -393,7 +393,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test10() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test10";
@@ -428,7 +428,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test11() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test11";
@@ -457,7 +457,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/prop02> <http://ex.org/prop01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -467,7 +467,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test12() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test12";
@@ -496,7 +496,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/prop02> <http://ex.org/prop01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -506,7 +506,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test13() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test13";
@@ -534,7 +534,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/prop02> <http://ex.org/prop01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -544,7 +544,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test14() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test14";
@@ -572,7 +572,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/prop02> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#int> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -582,7 +582,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test15() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test15";
@@ -611,7 +611,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/prop02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -621,7 +621,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test16() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test16";
@@ -650,7 +650,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/prop02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -660,7 +660,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test17() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test17";
@@ -688,8 +688,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-//			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/prop02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -699,7 +698,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test18() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test18";
@@ -727,8 +726,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-//			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/2002/07/owl#inverseOf> <http://ex.org/prop02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -738,7 +736,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test19() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test19";
@@ -764,7 +762,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/res/01> <http://ex.org/res/02> <http://ex.org/sth> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -774,7 +772,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test20() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test20";
@@ -801,7 +799,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/res/01> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ex.org/Class02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -811,7 +809,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test21() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test21";
@@ -838,7 +836,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/Class02> <http://www.w3.org/2002/07/owl#equivalentClass> <http://ex.org/res/01> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -848,7 +846,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test22() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test22";
@@ -878,7 +876,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"_:23 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"_:23 <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ex.org/Class02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -888,7 +886,7 @@ public class NoResourceNameClashesTest {
 		return dataset;
 	}
 	
-//	@Test
+	@Test
 	public void test23() throws NotImplementedException {
 		NoResourceNameClashes metric = new NoResourceNameClashes();
 		String metricName = "test23";
@@ -914,7 +912,7 @@ public class NoResourceNameClashesTest {
 			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"_:23 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
 			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> ." +
+			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
 			"<http://ex.org/Class02> <http://www.w3.org/2002/07/owl#equivalentClass> _:23 .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
