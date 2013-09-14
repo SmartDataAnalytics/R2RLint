@@ -28,6 +28,9 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.shared.InvalidPropertyURIException;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
 
 /**
  * This metric reports resource name clashes. These clashes can be:
@@ -52,94 +55,43 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
  */
 public class NoResourceNameClashes extends PinpointMetric implements
 		DatasetMetric {
-	private final String rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-	private final String rdfs = "http://www.w3.org/2000/01/rdf-schema#";
-	private final String owl = "http://www.w3.org/2002/07/owl#";
-	
-	// classes
-	private final Resource rdfs_Property =
-			ResourceFactory.createResource("http://www.w3.org/2000/01/rdf-schema#Property");
-	
-	// rdf properties
-	private final Property rdf_type = ResourceFactory.createProperty(rdf + "type");
-	private final Property rdf_first = ResourceFactory.createProperty(rdf + "first");
-	private final Property rdf_rest = ResourceFactory.createProperty(rdf + "rest");
-	private final Property rdf_subject =
-			ResourceFactory.createProperty(rdf + "subject");
-	private final Property rdf_predicate =
-			ResourceFactory.createProperty(rdf + "predicate");
-	private final Property rdf_object =
-			ResourceFactory.createProperty(rdf + "object");
-	// rdfs properties
-	private final Property rdfs_subPropertyOf =
-			ResourceFactory.createProperty(rdfs + "subPropertyOf");
-	private final Property rdfs_domain =
-			ResourceFactory.createProperty(rdfs + "domain");
-	private final Property rdfs_range =
-			ResourceFactory.createProperty(rdfs + "range");
-	private final Property rdfs_subClassOf =
-			ResourceFactory.createProperty(rdfs + "subClassOf");
-	// owl properties
-	private final Property owl_equivalentProperty =
-			ResourceFactory.createProperty(owl + "equivalentProperty");
-	private final Property owl_inverseOf =
-			ResourceFactory.createProperty(owl + "inverseOf");
-	private final Property owl_disjointWith =
-			ResourceFactory.createProperty(owl + "disjointWith");
-	private final Property owl_equivalentClass =
-			ResourceFactory.createProperty(owl + "equivalentClass");
-	private final Property owl_intersectionOf =
-			ResourceFactory.createProperty(owl + "intersectionOf");
-	private final Property owl_maxCardinality =
-			ResourceFactory.createProperty(owl + "maxCardinality");
-	private final Property owl_minCardinality =
-			ResourceFactory.createProperty(owl + "minCardinality");
-	private final Property owl_cardinality =
-			ResourceFactory.createProperty(owl + "cardinality");
-	private final Property owl_oneOf = ResourceFactory.createProperty(owl + "oneOf");
-	private final Property owl_onProperty =
-			ResourceFactory.createProperty(owl + "onProperty");
-	private final Property owl_someValuesFrom =
-			ResourceFactory.createProperty(owl + "someValuesFrom");
-	private final Property owl_unionOf =
-			ResourceFactory.createProperty(owl + "unionOf");
-	
+
 	// whitelist for statements like <individual> <predicate> <given class> .
 	private final List<Property> indivPredicateClassWhitelist =
-			new ArrayList<Property>(Arrays.asList(rdf_type));
+			new ArrayList<Property>(Arrays.asList(RDF.type));
 	
 	// whitelist for statements like <given property> <predicate> <object> .
 	private final List<Property> propPredicateObjWhitelist =
-			new ArrayList<Property>(Arrays.asList(rdfs_subPropertyOf,
-					rdfs_domain, rdfs_range, owl_equivalentProperty,
-					owl_inverseOf, rdf_type));
+			new ArrayList<Property>(Arrays.asList(RDFS.subPropertyOf,
+					RDFS.domain, RDFS.range, OWL.equivalentProperty,
+					OWL.inverseOf, RDF.type));
 	
 	// whitelist for statements like <subject> <predicate> <given property> .
 	private final List<Property> subjPredicatePropWhitelist =
-			new ArrayList<Property>(Arrays.asList(rdfs_subPropertyOf,
-					owl_equivalentProperty, owl_inverseOf));
+			new ArrayList<Property>(Arrays.asList(RDFS.subPropertyOf,
+					OWL.equivalentProperty, OWL.inverseOf));
 	
 	// blacklist for properties that cannot be used together with an individual
 	// as subject
 	private final List<Property> indivPredicateObjBlacklist =
-			new ArrayList<Property>(Arrays.asList(rdf_first, rdf_rest,
-					rdf_subject, rdf_predicate, rdf_object, rdfs_subClassOf,
-					rdfs_subPropertyOf, rdfs_domain, rdfs_range,
-					owl_equivalentProperty, owl_inverseOf, owl_disjointWith,
-					owl_equivalentClass, owl_intersectionOf, owl_maxCardinality,
-					owl_minCardinality, owl_cardinality, owl_oneOf,
-					owl_onProperty, owl_someValuesFrom, owl_unionOf));
+			new ArrayList<Property>(Arrays.asList(RDF.first, RDF.rest,
+					RDF.subject, RDF.predicate, RDF.object, RDFS.subClassOf,
+					RDFS.subPropertyOf, RDFS.domain, RDFS.range,
+					OWL.equivalentProperty, OWL.inverseOf, OWL.disjointWith,
+					OWL.equivalentClass, OWL.intersectionOf, OWL.maxCardinality,
+					OWL.minCardinality, OWL.cardinality, OWL.oneOf,
+					OWL.onProperty, OWL.someValuesFrom, OWL.unionOf));
 	
 	// blacklist for properties that cannot be used together with an individual
 	// as object
 	private final List<Property> subjPredicateIndivBlacklist =
-			new ArrayList<Property>(Arrays.asList(rdf_type, rdf_first, rdf_rest,
-					rdf_subject, rdf_predicate, rdf_object, rdfs_subClassOf,
-					rdfs_subPropertyOf, rdfs_domain, rdfs_range,
-					owl_equivalentProperty, owl_inverseOf, owl_disjointWith,
-					owl_equivalentClass, owl_intersectionOf, owl_maxCardinality,
-					owl_minCardinality, owl_cardinality, owl_oneOf,
-					owl_onProperty, owl_someValuesFrom, owl_unionOf));
+			new ArrayList<Property>(Arrays.asList(RDF.type, RDF.first, RDF.rest,
+					RDF.subject, RDF.predicate, RDF.object, RDFS.subClassOf,
+					RDFS.subPropertyOf, RDFS.domain, RDFS.range,
+					OWL.equivalentProperty, OWL.inverseOf, OWL.disjointWith,
+					OWL.equivalentClass, OWL.intersectionOf, OWL.maxCardinality,
+					OWL.minCardinality, OWL.cardinality, OWL.oneOf,
+					OWL.onProperty, OWL.someValuesFrom, OWL.unionOf));
 	
 	Set<Set<ViewQuad<ViewDefinition>>> candidatesResults;
 	
@@ -262,7 +214,7 @@ public class NoResourceNameClashes extends PinpointMetric implements
 		while (statementsIt.hasNext())
 			properties.add(statementsIt.next().getPredicate());
 		
-		statementsIt = ontModel.listStatements(null, rdf_type, rdfs_Property);
+		statementsIt = ontModel.listStatements(null, RDF.type, RDF.Property);
 		
 		while (statementsIt.hasNext()) {
 			Resource subject = statementsIt.next().getSubject();
