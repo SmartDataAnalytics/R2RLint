@@ -9,7 +9,7 @@ import java.util.Set;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
 
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -25,7 +25,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class TypedResources extends PinpointMetric implements DatasetMetric {
+public class TypedResources extends MetricImpl implements DatasetMetric {
 
 	private Set<Resource> knownResources;
 	
