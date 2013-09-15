@@ -41,6 +41,7 @@ import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.ShortUri;
+import org.aksw.sparqlify.qa.metrics.reprconsistency.TermReUse;
 import org.aksw.sparqlify.qa.metrics.understandability.HttpUri;
 import org.aksw.sparqlify.qa.metrics.understandability.SoundingUri;
 
@@ -86,6 +87,8 @@ class DimensionFactory {
 			put(Config.metricNoProlixRdfFeatures, NoProlixFeatures.class);
 			put(Config.metricQueryParamFreeUri, QueryParamFreeUri.class);
 			put(Config.metricShortUris, ShortUri.class);
+			// representational consistency
+			put(Config.metricTermReUse, TermReUse.class);
 			// understandability
 			put(Config.metricHttpUris, HttpUri.class);
 			put(Config.metricSoundingUri, SoundingUri.class);
@@ -186,7 +189,9 @@ public class Config {
 	final static String metricNoProlixRdfFeatures = "no_prolix_rdf_features";
 	final static String metricQueryParamFreeUri = "query_parameter-free_uri";
 	// </representationalConciseness>
-	// <representationalConsistency></representationalConsistency>
+	// <representationalConsistency>
+	final static String metricTermReUse = "term_re-use";
+	// </representationalConsistency>
 	// <understandability>
 	final static String metricHttpUris = "http_uris";
 	final static String metricSoundingUri = "sounding_uri";
