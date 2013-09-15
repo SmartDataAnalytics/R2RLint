@@ -7,6 +7,7 @@ public class NodeMeasureDatum extends MeasureDatum {
 	private Node node;
 	
 	public NodeMeasureDatum(String dimension, String metric, float value, Node node) {
+		super();
 		this.dimension = dimension;
 		this.metric = metric;
 		this.value = value;
