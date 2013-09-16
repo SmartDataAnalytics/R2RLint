@@ -68,9 +68,11 @@ public class LabeledResources extends PinpointMetric implements DatasetMetric {
 			if (!seenResources.contains(subject)) {
 				
 				// subject is a local URI resource 
-				if ((subject.isURIResource() && subject.getURI().startsWith(dataset.getPrefix())) 
+				if (subject.isURIResource() && subject.getURI().startsWith(dataset.getPrefix()) 
 						// there is no statement <subj> rdfs:label "sth"
-						&& !dataset.listStatements(subject, RDFS.label, (RDFNode) null).hasNext()) {
+						&& !dataset.listStatements(subject, RDFS.label, (RDFNode) null).hasNext()
+						// there is no statement <subj> rdfs:comment "sth"
+						&& !dataset.listStatements(subject, RDFS.comment, (RDFNode) null).hasNext()) {
 					
 					Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 							.getViewCandidates(statement.asTriple());
@@ -86,7 +88,9 @@ public class LabeledResources extends PinpointMetric implements DatasetMetric {
 				// predicate is a local URI resource
 				if(predicate.getURI().startsWith(dataset.getPrefix())
 						// there is no statement <pred> rdfs:label "sth"
-						&& !dataset.listStatements(predicate.asResource(), RDFS.label, (RDFNode) null).hasNext()) {
+						&& !dataset.listStatements(predicate.asResource(), RDFS.label, (RDFNode) null).hasNext()
+						// there is no statement <pred> rdfs:comment "sth"
+						&& !dataset.listStatements(predicate.asResource(), RDFS.comment, (RDFNode) null).hasNext()) {
 					
 					Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 							.getViewCandidates(statement.asTriple());
@@ -104,8 +108,10 @@ public class LabeledResources extends PinpointMetric implements DatasetMetric {
 				
 				// object is a local resource...
 				if(object.asResource().getURI().startsWith(dataset.getPrefix())
-					// ...and there is no statement <obj> rdfs:label "sth"
-					&& !dataset.listStatements(object.asResource(), RDFS.label, (RDFNode) null).hasNext()) {
+					// ...and there is no statement <obj> rdfs:label "sth"...
+					&& !dataset.listStatements(object.asResource(), RDFS.label, (RDFNode) null).hasNext()
+					// ...and there is no statement <obj> rdfs:comment "sth"
+					&& !dataset.listStatements(object.asResource(), RDFS.comment, (RDFNode) null).hasNext()) {
 					
 					Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 							.getViewCandidates(statement.asTriple());
