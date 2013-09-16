@@ -22,6 +22,18 @@ import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
+/**
+ * This metric checks if a given resource has a certain ontological context,
+ * meaning that its role in an ontology is well defined.
+ * Such an ontoogical context is assigned via ontology properties like
+ * rdf:type, rdfs:subClassOf, owl:equivalentProperty, ... (see ontProperties
+ * list)
+ * 
+ * This metric considers only local resources.
+ * 
+ * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
+ *
+ */
 public class ResourceInterpretability extends PinpointMetric implements
 		DatasetMetric {
 
