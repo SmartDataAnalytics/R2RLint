@@ -49,6 +49,7 @@ public class TermReUse extends MetricImpl implements DatasetMetric {
 	long numLocalResources;
 
 	public TermReUse() {
+		super();
 		numExternalResources = 0;
 		numLocalResources = 0;
 	}
