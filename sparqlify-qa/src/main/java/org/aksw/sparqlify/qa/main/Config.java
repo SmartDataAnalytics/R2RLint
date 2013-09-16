@@ -42,6 +42,7 @@ import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.ShortUri;
 import org.aksw.sparqlify.qa.metrics.reprconsistency.TermReUse;
+import org.aksw.sparqlify.qa.metrics.reprconsistency.VocabularyReUse;
 import org.aksw.sparqlify.qa.metrics.understandability.HttpUri;
 import org.aksw.sparqlify.qa.metrics.understandability.SoundingUri;
 
@@ -89,6 +90,7 @@ class DimensionFactory {
 			put(Config.metricShortUris, ShortUri.class);
 			// representational consistency
 			put(Config.metricTermReUse, TermReUse.class);
+			put(Config.metricVocabularyReUse, VocabularyReUse.class);
 			// understandability
 			put(Config.metricHttpUris, HttpUri.class);
 			put(Config.metricSoundingUri, SoundingUri.class);
@@ -191,6 +193,7 @@ public class Config {
 	// </representationalConciseness>
 	// <representationalConsistency>
 	final static String metricTermReUse = "term_re-use";
+	final static String metricVocabularyReUse = "vocabulary_re-use";
 	// </representationalConsistency>
 	// <understandability>
 	final static String metricHttpUris = "http_uris";
