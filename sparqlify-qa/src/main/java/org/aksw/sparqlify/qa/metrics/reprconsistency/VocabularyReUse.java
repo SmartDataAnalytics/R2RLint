@@ -154,6 +154,7 @@ public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 
 
 	public VocabularyReUse() {
+		super();
 		numAll = 0;
 		numEstablishedReUsed = 0;
 		seenProperties = new ArrayList<Property>();
