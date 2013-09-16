@@ -44,6 +44,7 @@ import org.aksw.sparqlify.qa.metrics.reprconciseness.ShortUri;
 import org.aksw.sparqlify.qa.metrics.reprconsistency.TermReUse;
 import org.aksw.sparqlify.qa.metrics.reprconsistency.VocabularyReUse;
 import org.aksw.sparqlify.qa.metrics.understandability.HttpUri;
+import org.aksw.sparqlify.qa.metrics.understandability.LabeledResources;
 import org.aksw.sparqlify.qa.metrics.understandability.SoundingUri;
 
 
@@ -93,6 +94,7 @@ class DimensionFactory {
 			put(Config.metricVocabularyReUse, VocabularyReUse.class);
 			// understandability
 			put(Config.metricHttpUris, HttpUri.class);
+			put(Config.metricLabeledResources, LabeledResources.class);
 			put(Config.metricSoundingUri, SoundingUri.class);
 		}
 	};
@@ -197,6 +199,7 @@ public class Config {
 	// </representationalConsistency>
 	// <understandability>
 	final static String metricHttpUris = "http_uris";
+	final static String metricLabeledResources = "labeled_resources";
 	final static String metricSoundingUri = "sounding_uri";
 	// </understandability>
 	
