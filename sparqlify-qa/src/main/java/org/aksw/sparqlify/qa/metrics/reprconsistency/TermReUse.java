@@ -87,7 +87,7 @@ public class TermReUse extends MetricImpl implements DatasetMetric {
 		}
 		
 		float ratio = numExternalResources / (float) (numExternalResources + numLocalResources);
-		if (threshold == 0 || ratio >= threshold) {
+		if (threshold == 0 || ratio <= threshold) {
 			writeDatasetMeasureToSink(ratio);
 		}
 	}
