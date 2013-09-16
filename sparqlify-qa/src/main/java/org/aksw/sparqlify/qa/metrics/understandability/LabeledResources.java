@@ -12,7 +12,6 @@ import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.PinpointMetric;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 
-import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
@@ -36,13 +35,11 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 public class LabeledResources extends PinpointMetric implements DatasetMetric {
 	
 	List<Resource> seenResources;
-	List<Property> seenProperties;
 
 
 	public LabeledResources() {
 		super();
 		seenResources = new ArrayList<Resource>();
-		seenProperties = new ArrayList<Property>();
 	}
 
 
@@ -56,15 +53,11 @@ public class LabeledResources extends PinpointMetric implements DatasetMetric {
 			Statement statement = statementsIt.next();
 			
 			Resource subject = statement.getSubject();
-			Property predicate = statement.getPredicate();
+			Resource predicate = statement.getPredicate().asResource();
 			RDFNode object = statement.getObject();
 			
 			/* subject */
 			
-			// seenProperties would have to be checked here as well but this
-			// would require extra exception handling in case the URI of the
-			// given resource look to 'un-propertily' for Jena to build a
-			// property based on it
 			if (!seenResources.contains(subject)) {
 				
 				// subject is a local URI resource 
@@ -84,20 +77,20 @@ public class LabeledResources extends PinpointMetric implements DatasetMetric {
 			
 			/* predicate */
 			
-			if (!seenProperties.contains(predicate)) {
+			if (!seenResources.contains(predicate)) {
 				// predicate is a local URI resource
 				if(predicate.getURI().startsWith(dataset.getPrefix())
 						// there is no statement <pred> rdfs:label "sth"
-						&& !dataset.listStatements(predicate.asResource(), RDFS.label, (RDFNode) null).hasNext()
+						&& !dataset.listStatements(predicate, RDFS.label, (RDFNode) null).hasNext()
 						// there is no statement <pred> rdfs:comment "sth"
-						&& !dataset.listStatements(predicate.asResource(), RDFS.comment, (RDFNode) null).hasNext()) {
+						&& !dataset.listStatements(predicate, RDFS.comment, (RDFNode) null).hasNext()) {
 					
 					Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
 							.getViewCandidates(statement.asTriple());
 					writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE,
 							statement.asTriple(), viewQuads);
 				}
-				seenProperties.add(predicate);
+				seenResources.add(predicate);
 			}
 			
 			
