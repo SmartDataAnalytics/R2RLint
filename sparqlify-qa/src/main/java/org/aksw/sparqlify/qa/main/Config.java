@@ -37,6 +37,7 @@ import org.aksw.sparqlify.qa.metrics.consistency.NoResourceNameClashes;
 import org.aksw.sparqlify.qa.metrics.consistency.TypedResources;
 import org.aksw.sparqlify.qa.metrics.consistency.WellPlacedClassesAndProperties;
 import org.aksw.sparqlify.qa.metrics.interlinking.ExternalSameAsLinks;
+import org.aksw.sparqlify.qa.metrics.interpretability.AvoidBlankNodes;
 import org.aksw.sparqlify.qa.metrics.interpretability.ResourceInterpretability;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
@@ -85,6 +86,7 @@ class DimensionFactory {
 			// interlinking
 			put(Config.metricExternalSameAsLinks, ExternalSameAsLinks.class);
 			// interpretability
+			put(Config.metricAvoidBlankNodes, AvoidBlankNodes.class);
 			put(Config.metricResourceInterpretability, ResourceInterpretability.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
@@ -187,6 +189,7 @@ public class Config {
 	final static String metricExternalSameAsLinks = "external_sameas_links";
 	// </interlinking>
 	// <interpretability>
+	final static String metricAvoidBlankNodes = "avoid_blank_nodes";
 	final static String metricResourceInterpretability = "resource_interpretability";
 	// </interpretability>
 	// <performance>
