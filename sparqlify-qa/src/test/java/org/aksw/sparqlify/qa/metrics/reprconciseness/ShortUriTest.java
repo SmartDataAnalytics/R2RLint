@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
 public class ShortUriTest {
@@ -39,11 +40,11 @@ public class ShortUriTest {
 		metric.registerMeasureDataSink(sink);
 		
 		// too long
-		Node subj = Node.createURI("http://example.org/too/long/resource/identifier/aaa");
+		Node subj = NodeFactory.createURI("http://example.org/too/long/resource/identifier/aaa");
 		// too long
-		Node pred = Node.createURI("http://example.org/too/long/resource/identifier/aa");
+		Node pred = NodeFactory.createURI("http://example.org/too/long/resource/identifier/aa");
 		// should be ignored
-		Node obj = Node.createLiteral("foo");
+		Node obj = NodeFactory.createLiteral("foo");
 		
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
@@ -64,11 +65,11 @@ public class ShortUriTest {
 		metric.registerMeasureDataSink(sink);
 		
 		// should be ignored
-		Node subj = Node.createAnon();
+		Node subj = NodeFactory.createAnon();
 		// too long
-		Node pred = Node.createURI("http://example.org/too/long/resource/identifier/aa");
+		Node pred = NodeFactory.createURI("http://example.org/too/long/resource/identifier/aa");
 		// not too long
-		Node obj = Node.createURI("http://example.org/not/too/long/resource/id/aaaaa");
+		Node obj = NodeFactory.createURI("http://example.org/not/too/long/resource/id/aaaaa");
 		
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);

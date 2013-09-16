@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -127,9 +128,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://" + hostName + ":" + port + okPath);
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + okPath);
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -152,9 +153,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://" + hostName + ":" + port + okPath);
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://" + hostName + ":" + port + okPath);
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -177,9 +178,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://" + hostName + ":" + port + okPath);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://" + hostName + ":" + port + okPath);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -202,9 +203,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://" + hostName + ":" + port + redirectPath);
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + redirectPath);
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -227,9 +228,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://" + hostName + ":" + port + redirectPath);
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://" + hostName + ":" + port + redirectPath);
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -252,9 +253,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://" + hostName + ":" + port + redirectPath);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://" + hostName + ":" + port + redirectPath);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -277,9 +278,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://" + hostName + ":" + port + notFoundPath);
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + notFoundPath);
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -302,9 +303,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://" + hostName + ":" + port + notFoundPath);
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://" + hostName + ":" + port + notFoundPath);
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -327,9 +328,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://" + hostName + ":" + port + notFoundPath);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://" + hostName + ":" + port + notFoundPath);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -352,9 +353,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://" + hostName + ":" + port + serverErrPath);
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + serverErrPath);
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -377,9 +378,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://" + hostName + ":" + port + serverErrPath);
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://" + hostName + ":" + port + serverErrPath);
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -402,9 +403,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://" + hostName + ":" + port + serverErrPath);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://" + hostName + ":" + port + serverErrPath);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -427,9 +428,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://" + hostName + ":" + portNotServed + okPath);
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://" + hostName + ":" + portNotServed + okPath);
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -452,9 +453,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://" + hostName + ":" + portNotServed + okPath);
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://" + hostName + ":" + portNotServed + okPath);
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
@@ -477,9 +478,9 @@ public class DereferenceableForwardLinksTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/fooProp");
-		Node obj = Node.createURI("http://" + hostName + ":" + portNotServed + okPath);
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node obj = NodeFactory.createURI("http://" + hostName + ":" + portNotServed + okPath);
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		

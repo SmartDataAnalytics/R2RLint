@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
 public class NoProlixFeaturesTest {
@@ -41,9 +42,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://ex.org/Foo");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
@@ -62,9 +63,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/statement/foo");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject");
-		Node obj = Node.createURI("http://ex.org/things/sth");
+		Node subj = NodeFactory.createURI("http://ex.org/statement/foo");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject");
+		Node obj = NodeFactory.createURI("http://ex.org/things/sth");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
 		
@@ -83,9 +84,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -105,9 +106,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/properties/fooProp");
-		Node pred = Node.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject");
+		Node subj = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -127,9 +128,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/statement/foo");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate");
-		Node obj = Node.createURI("http://ex.org/things/sth");
+		Node subj = NodeFactory.createURI("http://ex.org/statement/foo");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate");
+		Node obj = NodeFactory.createURI("http://ex.org/things/sth");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -149,9 +150,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -171,9 +172,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/properties/fooProp");
-		Node pred = Node.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate");
+		Node subj = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -193,9 +194,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/statement/foo");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#object");
-		Node obj = Node.createURI("http://ex.org/things/sth");
+		Node subj = NodeFactory.createURI("http://ex.org/statement/foo");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#object");
+		Node obj = NodeFactory.createURI("http://ex.org/things/sth");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -215,9 +216,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#object");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#object");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -237,9 +238,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/properties/fooProp");
-		Node pred = Node.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#object");;
+		Node subj = NodeFactory.createURI("http://ex.org/properties/fooProp");
+		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#object");;
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -259,9 +260,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -281,9 +282,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/someProp");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/someProp");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -303,9 +304,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -325,9 +326,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/barContainer");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#_1");
-		Node obj = Node.createURI("http://ex.org/foo/first");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/barContainer");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#_1");
+		Node obj = NodeFactory.createURI("http://ex.org/foo/first");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -347,9 +348,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#_1");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#_1");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -369,9 +370,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/containerProperties/_1");
-		Node pred = Node.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#_1");
+		Node subj = NodeFactory.createURI("http://ex.org/containerProperties/_1");
+		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#_1");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -391,9 +392,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/member");
-		Node pred = Node.createURI("http://www.w3.org/2000/01/rdf-schema#member");
-		Node obj = Node.createURI("http://ex.org/foo/barContainer");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/member");
+		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#member");
+		Node obj = NodeFactory.createURI("http://ex.org/foo/barContainer");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -413,9 +414,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#member");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#member");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -435,9 +436,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/containerProperties/member");
-		Node pred = Node.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#member");
+		Node subj = NodeFactory.createURI("http://ex.org/containerProperties/member");
+		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
+		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#member");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -457,9 +458,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar/alternative");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar/alternative");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -479,9 +480,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -501,9 +502,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -523,9 +524,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar/dirtBag");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar/dirtBag");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -545,9 +546,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -567,9 +568,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -589,9 +590,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar/sequence");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar/sequence");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -611,9 +612,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -633,9 +634,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -655,9 +656,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar/container");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#Container");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar/container");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Container");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -677,9 +678,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#Container");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
+		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Container");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -699,9 +700,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#Container");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Container");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -721,9 +722,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/collection");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#first");
-		Node obj = Node.createURI("http://ex.org/foo/members/1");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/collection");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#first");
+		Node obj = NodeFactory.createURI("http://ex.org/foo/members/1");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -743,9 +744,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#first");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#first");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -765,9 +766,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/collectionProperties/foorst");
-		Node pred = Node.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#first");
+		Node subj = NodeFactory.createURI("http://ex.org/collectionProperties/foorst");
+		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#first");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -787,9 +788,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/collection");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest");
-		Node obj = Node.createURI("http://ex.org/foo/members/subCollection");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/collection");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest");
+		Node obj = NodeFactory.createURI("http://ex.org/foo/members/subCollection");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -809,9 +810,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -831,9 +832,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/collectionProperties/barst");
-		Node pred = Node.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest");
+		Node subj = NodeFactory.createURI("http://ex.org/collectionProperties/barst");
+		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -853,9 +854,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/fooLists/bar");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#List");
+		Node subj = NodeFactory.createURI("http://ex.org/fooLists/bar");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#List");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -875,9 +876,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://ex.org/foo/bar");
-		Node pred = Node.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#List");
+		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
+		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#List");
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -897,9 +898,9 @@ public class NoProlixFeaturesTest {
 		metric.registerPinpointer(pinpointer);
 		metric.registerMeasureDataSink(sink);
 		
-		Node subj = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#List");
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = Node.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#List");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
 
 		
 		Triple triple = new Triple(subj, pred, obj);

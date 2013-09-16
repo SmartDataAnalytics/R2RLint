@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
 public class SoundingUriTest {
@@ -42,11 +43,11 @@ public class SoundingUriTest {
 		metric.registerMeasureDataSink(sink);
 		
 		// not sounding
-		Node subj = Node.createURI("http://ex.org/1");
+		Node subj = NodeFactory.createURI("http://ex.org/1");
 		// pain threshold (sounding)
-		Node pred = Node.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 		// should be ignored
-		Node obj = Node.createLiteral("foo");
+		Node obj = NodeFactory.createLiteral("foo");
 		
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
@@ -67,11 +68,11 @@ public class SoundingUriTest {
 		metric.registerMeasureDataSink(sink);
 		
 		// not sounding
-		Node subj = Node.createURI("http://193.239.40.138/path/23");
+		Node subj = NodeFactory.createURI("http://193.239.40.138/path/23");
 		// sounding
-		Node pred = Node.createURI("http://ex.org/properties/hasValue");
+		Node pred = NodeFactory.createURI("http://ex.org/properties/hasValue");
 		// should be ignored
-		Node obj = Node.createLiteral("foo");
+		Node obj = NodeFactory.createLiteral("foo");
 		
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
@@ -92,11 +93,11 @@ public class SoundingUriTest {
 		metric.registerMeasureDataSink(sink);
 		
 		// sounding
-		Node subj = Node.createURI("http://example.org/sounding/resource/path");
+		Node subj = NodeFactory.createURI("http://example.org/sounding/resource/path");
 		// should fail
-		Node pred = Node.createURI("http://ex.org/prp/hsvl");
+		Node pred = NodeFactory.createURI("http://ex.org/prp/hsvl");
 		// should fail
-		Node obj = Node.createURI("http://193.239.40.138/path/23");
+		Node obj = NodeFactory.createURI("http://193.239.40.138/path/23");
 		
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
