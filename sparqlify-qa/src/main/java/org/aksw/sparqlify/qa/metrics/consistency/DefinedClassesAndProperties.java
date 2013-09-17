@@ -14,19 +14,15 @@ import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
 
 public class DefinedClassesAndProperties extends MetricImpl implements
 		DatasetMetric {
-
-	Property rdfType = ResourceFactory.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-	Resource owlClass = ResourceFactory.createResource("http://www.w3.org/2002/07/owl#Class");
-	Resource rdfsClass = ResourceFactory.createResource("http://www.w3.org/2000/01/rdf-schema#Class");
-	Resource rdfsProperty = ResourceFactory.createResource("http://www.w3.org/2000/01/rdf-schema#Property");
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
@@ -45,13 +41,13 @@ public class DefinedClassesAndProperties extends MetricImpl implements
 							dataset.getPrefix()))) {
 				
 				StmtIterator rdfsClsIt = dataset.listStatements(cls,
-						rdfType, rdfsClass);
-				StmtIterator owlClsIt = dataset.listStatements(cls, rdfType,
-						owlClass);
+						RDF.type, RDFS.Class);
+				StmtIterator owlClsIt = dataset.listStatements(cls, RDF.type,
+						OWL.Class);
 				
 				if (!rdfsClsIt.hasNext() && !owlClsIt.hasNext()) {
 					writeTripleMeasureToSink(0, new Triple(cls.asNode(),
-							rdfType.asNode(), rdfsClass.asNode()), null);
+							RDF.type.asNode(), RDFS.Class.asNode()), null);
 					reportedClasses.add(cls.getURI());
 				}
 				
@@ -70,11 +66,11 @@ public class DefinedClassesAndProperties extends MetricImpl implements
 							.startsWith(dataset.getPrefix()))) {
 		
 				StmtIterator propDefs =
-						dataset.listStatements(prop, rdfType, rdfsProperty);
+						dataset.listStatements(prop, RDF.type, RDF.Property);
 				
 				if (!propDefs.hasNext()) {
 					writeTripleMeasureToSink(0, new Triple(prop.asNode(),
-							rdfType.asNode(), rdfsProperty.asNode()), null);
+							RDF.type.asNode(), RDF.Property.asNode()), null);
 					reportedProperties.add(prop.getURI());
 				}
 			}
