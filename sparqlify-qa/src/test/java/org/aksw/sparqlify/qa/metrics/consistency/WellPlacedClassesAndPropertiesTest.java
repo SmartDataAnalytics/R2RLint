@@ -37,7 +37,7 @@ public class WellPlacedClassesAndPropertiesTest {
 	private SparqlifyDataset dataset01() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
@@ -136,7 +136,7 @@ public class WellPlacedClassesAndPropertiesTest {
 	private SparqlifyDataset dataset04() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\"^^<http://www.w3.org/2001/XMLSchema#string> . " +
 			"<http://ex.org/pred01> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> . ";
@@ -203,7 +203,7 @@ public class WellPlacedClassesAndPropertiesTest {
 	private SparqlifyDataset dataset06() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\"^^<http://www.w3.org/2001/XMLSchema#string> . " +
 			"<http://ex.org/pred01> <http://ex.org/pred02> \"Sth else\"^^<http://www.w3.org/2001/XMLSchema#string> . ";
@@ -273,7 +273,7 @@ public class WellPlacedClassesAndPropertiesTest {
 	private SparqlifyDataset dataset08() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\"^^<http://www.w3.org/2001/XMLSchema#string> . " +
 			"<http://ex.org/pred02> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://ex.org/pred01> . ";
@@ -340,7 +340,7 @@ public class WellPlacedClassesAndPropertiesTest {
 	private SparqlifyDataset dataset10() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\"^^<http://www.w3.org/2001/XMLSchema#string> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred02> <http://ex.org/pred01> . ";
@@ -373,7 +373,7 @@ public class WellPlacedClassesAndPropertiesTest {
 	 */
 	private SparqlifyDataset dataset11() {
 		String content = 
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/Cls01> \"Sth\"^^<http://www.w3.org/2001/XMLSchema#string> . ";
 		
@@ -406,7 +406,7 @@ public class WellPlacedClassesAndPropertiesTest {
 	private SparqlifyDataset dataset12() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/Cls01> \"Sth\"^^<http://www.w3.org/2001/XMLSchema#string> . ";
 		

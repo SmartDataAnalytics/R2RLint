@@ -165,7 +165,7 @@ public class DefinedClassesAndPropertiesTest {
 	 */
 	public SparqlifyDataset dataset01() {
 		String content = 
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
@@ -183,7 +183,7 @@ public class DefinedClassesAndPropertiesTest {
 	 */
 	public SparqlifyDataset dataset02() {
 		String content = 
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
@@ -218,7 +218,7 @@ public class DefinedClassesAndPropertiesTest {
 	 */
 	public SparqlifyDataset dataset04() {
 		String content = 
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		

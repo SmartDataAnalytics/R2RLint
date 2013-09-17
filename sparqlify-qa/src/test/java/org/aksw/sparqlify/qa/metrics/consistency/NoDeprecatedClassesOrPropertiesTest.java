@@ -48,7 +48,7 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	private SparqlifyDataset dataset01() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
@@ -82,7 +82,7 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	private SparqlifyDataset dataset02() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DeprecatedClass> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -116,7 +116,7 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	private SparqlifyDataset dataset03() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DeprecatedClass> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
@@ -152,7 +152,7 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	private SparqlifyDataset dataset04() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/2002/07/owl#DeprecatedClass> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -187,7 +187,7 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	private SparqlifyDataset dataset05() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/2002/07/owl#DeprecatedClass> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
@@ -224,7 +224,7 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
 			"<http://www.w3.org/2002/07/owl#DeprecatedClass> <http://www.w3.org/2002/07/owl#equivalentClass> <http://ex.org/Cls01> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -259,7 +259,7 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	private SparqlifyDataset dataset07() {
 		String content = 
 			"<http://www.w3.org/2002/07/owl#DeprecatedClass> <http://www.w3.org/2002/07/owl#equivalentClass> <http://ex.org/Cls01> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -619,7 +619,7 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	private SparqlifyDataset dataset17() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/pred01> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/2002/07/owl#deprecated> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean> ." +
 			"<http://ex.org/pred02> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://ex.org/pred01> . ";
@@ -692,7 +692,7 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	private SparqlifyDataset dataset19() {
 		String content = 
 			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Property> . " +
+			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
 			"<http://ex.org/pred01> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> . " +
 			"<http://ex.org/res/02> <http://ex.org/pred02> <http://ex.org/res/01> . " +
 			"<http://ex.org/res/01> <http://www.w3.org/2002/07/owl#deprecated> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean> ." +
