@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.aksw.commons.collections.Pair;
+import org.aksw.sparqlify.qa.dataset.amountofdata.AmountOfTriples;
+import org.aksw.sparqlify.qa.dataset.amountofdata.CoverageScope;
 import org.aksw.sparqlify.qa.dimensions.Dimension;
 import org.aksw.sparqlify.qa.exceptions.DimensionUnknownException;
 import org.aksw.sparqlify.qa.exceptions.MetricUnknownException;
@@ -60,6 +62,9 @@ class DimensionFactory {
 			// accuracy
 			put(Config.metricDatatypeCompatibleLiterals, XSDDatatypeCompatibleLiterals.class);
 			put(Config.metricValidLanguageTag, ValidLanguageTag.class);
+			// amount of data
+			put(Config.metricAmountOfTriples, AmountOfTriples.class);
+			put(Config.metricCoverageScope, CoverageScope.class);
 			// availability
 			put(Config.metricDereferenceableForwardLinks, DereferenceableForwardLinks.class);
 			// believability
@@ -156,7 +161,10 @@ public class Config {
 	final static String metricDatatypeCompatibleLiterals = "datatype-compatible_literals";
 	final static String metricValidLanguageTag = "valid_language_tag";
 	// </accuracy>
-	// <amountOfData></amountOfData>
+	// <amountOfData>
+	final static String metricAmountOfTriples = "amount_of_triples";
+	final static String metricCoverageScope = "coverage_scope";
+	// </amountOfData>
 	// <availability>
 	final static String metricDereferenceableForwardLinks = "dereferenceable_forward_links";
 	// </availability>
