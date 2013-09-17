@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.aksw.commons.collections.Pair;
-import org.aksw.sparqlify.qa.dataset.amountofdata.AmountOfTriples;
-import org.aksw.sparqlify.qa.dataset.amountofdata.CoverageScope;
 import org.aksw.sparqlify.qa.dimensions.Dimension;
 import org.aksw.sparqlify.qa.exceptions.DimensionUnknownException;
 import org.aksw.sparqlify.qa.exceptions.MetricUnknownException;
@@ -20,6 +18,9 @@ import org.aksw.sparqlify.qa.metrics.Metric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.accuracy.ValidLanguageTag;
 import org.aksw.sparqlify.qa.metrics.accuracy.XSDDatatypeCompatibleLiterals;
+import org.aksw.sparqlify.qa.metrics.amountofdata.AmountOfTriples;
+import org.aksw.sparqlify.qa.metrics.amountofdata.CoverageDetail;
+import org.aksw.sparqlify.qa.metrics.amountofdata.CoverageScope;
 import org.aksw.sparqlify.qa.metrics.availability.DereferenceableForwardLinks;
 import org.aksw.sparqlify.qa.metrics.believability.DatasetMetadata;
 import org.aksw.sparqlify.qa.metrics.completeness.InterlinkingCompleteness;
@@ -35,6 +36,7 @@ import org.aksw.sparqlify.qa.metrics.consistency.HomogeneousDatatypes;
 import org.aksw.sparqlify.qa.metrics.consistency.NoAmbiguousMappings;
 import org.aksw.sparqlify.qa.metrics.consistency.NoBogusInverseFunctionalProperties;
 import org.aksw.sparqlify.qa.metrics.consistency.NoDeprecatedClassesOrProperties;
+import org.aksw.sparqlify.qa.metrics.consistency.NoOntologyHighJacking;
 import org.aksw.sparqlify.qa.metrics.consistency.NoResourceNameClashes;
 import org.aksw.sparqlify.qa.metrics.consistency.TypedResources;
 import org.aksw.sparqlify.qa.metrics.consistency.WellPlacedClassesAndProperties;
@@ -64,6 +66,7 @@ class DimensionFactory {
 			put(Config.metricValidLanguageTag, ValidLanguageTag.class);
 			// amount of data
 			put(Config.metricAmountOfTriples, AmountOfTriples.class);
+			put(Config.metricCoverageDetail, CoverageDetail.class);
 			put(Config.metricCoverageScope, CoverageScope.class);
 			// availability
 			put(Config.metricDereferenceableForwardLinks, DereferenceableForwardLinks.class);
@@ -85,6 +88,7 @@ class DimensionFactory {
 			put(Config.metricNoAmbiguousMappings, NoAmbiguousMappings.class);
 			put(Config.metricNoBogusInverseFunctionalProperty, NoBogusInverseFunctionalProperties.class);
 			put(Config.metricNoDeprecatedClassesAndProperties, NoDeprecatedClassesOrProperties.class);
+			put(Config.metricNoOntologyHighjacking, NoOntologyHighJacking.class);
 			put(Config.metricNoResourceNameClashes, NoResourceNameClashes.class);
 			put(Config.metricTypedResources, TypedResources.class);
 			put(Config.metricWellPlacedClassesAndProperties, WellPlacedClassesAndProperties.class);
@@ -163,6 +167,7 @@ public class Config {
 	// </accuracy>
 	// <amountOfData>
 	final static String metricAmountOfTriples = "amount_of_triples";
+	final static String metricCoverageDetail = "coverage_detail";
 	final static String metricCoverageScope = "coverage_scope";
 	// </amountOfData>
 	// <availability>
@@ -189,6 +194,7 @@ public class Config {
 	final static String metricNoAmbiguousMappings = "no_ambiguous_mappings";
 	final static String metricNoBogusInverseFunctionalProperty = "no_bogus_inverse-functional_properties";
 	final static String metricNoDeprecatedClassesAndProperties = "no_deprecated_classes_and_properties";
+	final static String metricNoOntologyHighjacking = "no_ontology_hijacking";
 	final static String metricNoResourceNameClashes = "no_resource_name_clashes";
 	final static String metricTypedResources = "typed_resources";
 	final static String metricWellPlacedClassesAndProperties = "well-placed_classes_and_properties";
