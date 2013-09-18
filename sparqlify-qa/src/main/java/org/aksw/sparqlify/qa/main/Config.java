@@ -43,6 +43,7 @@ import org.aksw.sparqlify.qa.metrics.interlinking.ExternalSameAsLinks;
 import org.aksw.sparqlify.qa.metrics.interpretability.AvoidBlankNodes;
 import org.aksw.sparqlify.qa.metrics.interpretability.CorrectCollectionUse;
 import org.aksw.sparqlify.qa.metrics.interpretability.CorrectContainerUse;
+import org.aksw.sparqlify.qa.metrics.interpretability.CorrectReificationUse;
 import org.aksw.sparqlify.qa.metrics.interpretability.ResourceInterpretability;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
@@ -98,6 +99,7 @@ class DimensionFactory {
 			put(Config.metricAvoidBlankNodes, AvoidBlankNodes.class);
 			put(Config.metricCorrectCollectionUse, CorrectCollectionUse.class);
 			put(Config.metricCorrectContainerUse, CorrectContainerUse.class);
+			put(Config.metricCorrectReificationUse, CorrectReificationUse.class);
 			put(Config.metricResourceInterpretability, ResourceInterpretability.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
@@ -207,6 +209,7 @@ public class Config {
 	final static String metricAvoidBlankNodes = "avoid_blank_nodes";
 	final static String metricCorrectCollectionUse = "correct_collection_use";
 	final static String metricCorrectContainerUse = "correct_container_use";
+	final static String metricCorrectReificationUse = "correct_reification_use";
 	final static String metricResourceInterpretability = "resource_interpretability";
 	// </interpretability>
 	// <performance>
