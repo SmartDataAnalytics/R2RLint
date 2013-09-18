@@ -36,12 +36,12 @@ import org.aksw.sparqlify.qa.metrics.consistency.HomogeneousDatatypes;
 import org.aksw.sparqlify.qa.metrics.consistency.NoAmbiguousMappings;
 import org.aksw.sparqlify.qa.metrics.consistency.NoBogusInverseFunctionalProperties;
 import org.aksw.sparqlify.qa.metrics.consistency.NoDeprecatedClassesOrProperties;
-import org.aksw.sparqlify.qa.metrics.consistency.NoOntologyHighJacking;
 import org.aksw.sparqlify.qa.metrics.consistency.NoResourceNameClashes;
 import org.aksw.sparqlify.qa.metrics.consistency.TypedResources;
 import org.aksw.sparqlify.qa.metrics.consistency.WellPlacedClassesAndProperties;
 import org.aksw.sparqlify.qa.metrics.interlinking.ExternalSameAsLinks;
 import org.aksw.sparqlify.qa.metrics.interpretability.AvoidBlankNodes;
+import org.aksw.sparqlify.qa.metrics.interpretability.CorrectCollectionUse;
 import org.aksw.sparqlify.qa.metrics.interpretability.ResourceInterpretability;
 import org.aksw.sparqlify.qa.metrics.performance.NoHashUris;
 import org.aksw.sparqlify.qa.metrics.reprconciseness.NoProlixFeatures;
@@ -88,7 +88,6 @@ class DimensionFactory {
 			put(Config.metricNoAmbiguousMappings, NoAmbiguousMappings.class);
 			put(Config.metricNoBogusInverseFunctionalProperty, NoBogusInverseFunctionalProperties.class);
 			put(Config.metricNoDeprecatedClassesAndProperties, NoDeprecatedClassesOrProperties.class);
-			put(Config.metricNoOntologyHighjacking, NoOntologyHighJacking.class);
 			put(Config.metricNoResourceNameClashes, NoResourceNameClashes.class);
 			put(Config.metricTypedResources, TypedResources.class);
 			put(Config.metricWellPlacedClassesAndProperties, WellPlacedClassesAndProperties.class);
@@ -96,6 +95,7 @@ class DimensionFactory {
 			put(Config.metricExternalSameAsLinks, ExternalSameAsLinks.class);
 			// interpretability
 			put(Config.metricAvoidBlankNodes, AvoidBlankNodes.class);
+			put(Config.metricCorrectCollectionUse, CorrectCollectionUse.class);
 			put(Config.metricResourceInterpretability, ResourceInterpretability.class);
 			// performance
 			put(Config.metricNoHashUris, NoHashUris.class);
@@ -194,7 +194,6 @@ public class Config {
 	final static String metricNoAmbiguousMappings = "no_ambiguous_mappings";
 	final static String metricNoBogusInverseFunctionalProperty = "no_bogus_inverse-functional_properties";
 	final static String metricNoDeprecatedClassesAndProperties = "no_deprecated_classes_and_properties";
-	final static String metricNoOntologyHighjacking = "no_ontology_hijacking";
 	final static String metricNoResourceNameClashes = "no_resource_name_clashes";
 	final static String metricTypedResources = "typed_resources";
 	final static String metricWellPlacedClassesAndProperties = "well-placed_classes_and_properties";
@@ -204,6 +203,7 @@ public class Config {
 	// </interlinking>
 	// <interpretability>
 	final static String metricAvoidBlankNodes = "avoid_blank_nodes";
+	final static String metricCorrectCollectionUse = "correct_collection_use";
 	final static String metricResourceInterpretability = "resource_interpretability";
 	// </interpretability>
 	// <performance>
