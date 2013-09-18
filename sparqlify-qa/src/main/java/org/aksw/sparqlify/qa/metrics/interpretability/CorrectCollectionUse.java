@@ -72,7 +72,6 @@ public class CorrectCollectionUse extends PinpointMetric implements
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
 			throws NotImplementedException {
-		System.out.println("starting (" + name + ")");
 		/*
 		 * entry point: find statements like <sth> rdf:rest <sthElse> .
 		 * since this statement does not necessarily have to be the head of the
@@ -87,8 +86,6 @@ public class CorrectCollectionUse extends PinpointMetric implements
 			searchHeadwards(statement, dataset);
 			searchTailwards(statement, dataset);
 		}
-		
-		System.out.println(seenListNodes);
 	}
 
 
@@ -210,7 +207,7 @@ public class CorrectCollectionUse extends PinpointMetric implements
 	 */
 	private void goHeadwards(Resource subject, SparqlifyDataset dataset)
 			throws NotImplementedException {
-		System.out.println("went headwards");
+		
 		/*
 		 * make one step headwards (== find triple like "sth rdf:rest subject")
 		 * and check how many predecessor triples were found
@@ -328,7 +325,7 @@ public class CorrectCollectionUse extends PinpointMetric implements
 	 */
 	private void goTailwards(Resource resource, SparqlifyDataset dataset)
 			throws NotImplementedException {
-		System.out.println("went tailwards");
+		
 		/*
 		 * make one step tailwards (== find triple like "resource rdf:rest sth")
 		 * and check how many successor triples were found
