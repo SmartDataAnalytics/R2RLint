@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,9 @@ public class Run {
 		int databasePort = 5432;
 
 		String prefix = "http://ex.org/";
+		List<String> usedPrefixes = new ArrayList<String>(Arrays.asList(
+				"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+				"http://www.w3.org/2000/01/rdf-schema#"));
 		
 		Config confReader;
 		LoggerCount loggerCount = new LoggerCount(logger);
@@ -79,6 +83,7 @@ public class Run {
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		dataset.readFromDump(dumpFilePath);
 		dataset.setPrefix(prefix);
+		dataset.setUsedPrefixes(usedPrefixes);
 
 		
 		/*
