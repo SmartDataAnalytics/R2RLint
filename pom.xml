@@ -30,8 +30,8 @@
 <!-- 		<jetty-plugin.version>8.1.10.v20130312</jetty-plugin.version> -->
 
 
-		<jena-sparql-api.version>0.6.0-SNAPSHOT</jena-sparql-api.version>
-		<!-- DON'T TOUCH THESE VERSIONS OR KITTENS WILL DIE -->
+		<jena-sparql-api.version>2.10.0-16</jena-sparql-api.version>
+	 		<!-- DON'T TOUCH THESE VERSIONS OR KITTENS WILL DIE -->
 		<jersey.version>1.8</jersey.version>
 		<jersey-spring.version>1.12</jersey-spring.version>
 

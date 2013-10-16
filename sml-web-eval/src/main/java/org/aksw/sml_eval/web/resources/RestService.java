@@ -24,6 +24,7 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.aksw.commons.sparql.api.core.QueryExecutionFactory;
 import org.aksw.commons.util.MapReader;
+import org.aksw.commons.util.jdbc.Schema;
 import org.aksw.commons.util.slf4j.LoggerCount;
 import org.aksw.sml_eval.core.EvalSummary;
 import org.aksw.sml_eval.core.LangSummary;
@@ -45,7 +46,9 @@ import org.aksw.sparqlify.core.cast.TypeSystem;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.core.interfaces.CandidateViewSelector;
 import org.aksw.sparqlify.core.interfaces.OpMappingRewriter;
-import org.aksw.sparqlify.core.interfaces.SparqlSqlRewriter;
+import org.aksw.sparqlify.core.interfaces.SparqlSqlStringRewriter;
+import org.aksw.sparqlify.core.sparql.QueryExecutionFactoryEx;
+import org.aksw.sparqlify.core.sparql.QueryExecutionFactoryExWrapper;
 import org.aksw.sparqlify.core.sparql.QueryExecutionFactorySparqlifyDs;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
@@ -785,6 +788,9 @@ public class RestService {
 		conn.createStatement().executeUpdate(
 				"INSERT INTO person VALUES (1, 'Anne', 20)");
 
+		Schema schema = Schema.create(conn);
+		
+		
 		// Erstellen der Mappings
 		Map<String, String> typeAlias = MapReader
 				.readFromResource("/type-map.h2.tsv");
@@ -806,8 +812,9 @@ public class RestService {
 
 		// Initialisieren von Sparqlify
 
-		SparqlSqlRewriter rewriter = SparqlifyUtils.createTestRewriter(
-				candidateViewSelector, opMappingRewriter, typeSystem);
+
+		SparqlSqlStringRewriter rewriter = SparqlifyUtils.createTestRewriter(
+				candidateViewSelector, opMappingRewriter, typeSystem, schema);
 		QueryExecutionFactory qef = new QueryExecutionFactorySparqlifyDs(
 				rewriter, dataSource);
 
@@ -928,7 +935,9 @@ public class RestService {
 	{
 		QueryExecutionFactory qef = buildQueryExecutionFactory(req);
 		
-		return ProcessQuery.processQuery(queryString, format, qef);
+		QueryExecutionFactoryEx qefEx = new QueryExecutionFactoryExWrapper(qef);
+		
+		return ProcessQuery.processQuery(queryString, format, qefEx);
 	}
 
 	/*
