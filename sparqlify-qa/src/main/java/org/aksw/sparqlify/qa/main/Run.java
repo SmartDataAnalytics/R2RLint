@@ -57,14 +57,18 @@ public class Run {
 		String resDirPrefix = "src/main/resources/";
 		String configFilePath = resDirPrefix + "dimensions.properties";
 		String dumpFilePath = resDirPrefix + "dump.ttl";
+//		String dumpFilePath = "/mnt/tmp/lgd_dump.ttl";
 		String viewDefFilePath = resDirPrefix + "views.sparqlify";
+//		String viewDefFilePath = resDirPrefix + "LinkedGeoData-Triplify-IndividualViews.sparqlify";
 //		String h5FilePath = resDirPrefix + "measure_data.h5";
 		String typeAliasFilePath = "../../Sparqlify/sparqlify-core/src/" +
 				"main/resources/type-map.h2.tsv";
 		
 		String databaseName = "qa1";
+//		String databaseName = "ldg_bremen";
 		String databaseUser = "postgres";
 		String databasePassword = "postgres";
+//		String databaseHost = "10.23.0.3";
 		String databaseHost = "10.23.0.2";
 		int databasePort = 5432;
 
@@ -75,13 +79,15 @@ public class Run {
 		
 		Config confReader;
 		LoggerCount loggerCount = new LoggerCount(logger);
-		
-		
+
 		/*
 		 *  get Sparqlify dump
 		 */
 		SparqlifyDataset dataset = new SparqlifyDataset();
+//		SparqlGraph g = new SparqlGraph("http://localhost:8890/sparql", "http://linkedgeodata.org");
+//		SparqlifyDataset dataset = new SparqlifyDataset(g);
 		dataset.readFromDump(dumpFilePath);
+//		dataset.registerDump(dumpFilePath);
 		dataset.setPrefix(prefix);
 		dataset.setUsedPrefixes(usedPrefixes);
 
@@ -104,7 +110,6 @@ public class Run {
 		Connection conn = dataSource.getConnection();
 		// TODO: check if I need this
 		// Schema schema = Schema.create(conn);
-
 		
 		/*
 		 *  init sparqlify views

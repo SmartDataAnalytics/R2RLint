@@ -2,6 +2,7 @@ package org.aksw.sparqlify.qa.dataset;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import org.aksw.commons.jena.reader.NTripleIterator;
 
+import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.impl.ModelCom;
@@ -35,6 +37,11 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 
 	public SparqlifyDataset() {
 		super(GraphFactory.createDefaultGraph());
+	}
+
+
+	public SparqlifyDataset(Graph g) {
+		super(g);
 	}
 
 
@@ -71,5 +78,13 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 	@Override
 	public Iterator<Triple> iterator() {
 		return it;
+	}
+
+
+	public void registerDump(String dumpFilePath) throws FileNotFoundException {
+		File dumpFile = new File(dumpFilePath);
+		InputStream iteratorStream = new FileInputStream(dumpFile);
+		it = new NTripleIterator(iteratorStream, null, null);
+		
 	}
 }
