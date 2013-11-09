@@ -200,7 +200,6 @@ public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 		 *    get classes not explicitly defined; check if established, ...
 		 */
 		
-		
 		// 1)
 		OntModel ontModel = ModelFactory.createOntologyModel(
 				OntModelSpec.OWL_MEM_MINI_RULE_INF, dataset);

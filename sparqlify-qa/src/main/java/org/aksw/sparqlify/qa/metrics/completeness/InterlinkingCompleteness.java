@@ -151,8 +151,6 @@ public class InterlinkingCompleteness extends DbMetric implements DatasetMetric 
 	private int getNumResources(SparqlifyDataset dataset) {
 		int numResources = 0;
 		
-		System.out.println("subject instances: " + getCountResult(numSubjQueryStr, dataset));
-		System.out.println("object instances: " + getCountResult(numObjQueryStr, dataset));
 		numResources += getCountResult(numSubjQueryStr, dataset);
 		numResources += getCountResult(numObjQueryStr, dataset);
 		
