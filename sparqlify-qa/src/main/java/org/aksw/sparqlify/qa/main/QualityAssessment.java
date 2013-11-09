@@ -20,6 +20,8 @@ import org.aksw.sparqlify.qa.metrics.PinpointMetric;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.hp.hpl.jena.graph.Triple;
 
@@ -61,6 +63,8 @@ import com.hp.hpl.jena.graph.Triple;
  *
  */
 public class QualityAssessment {
+	
+	private static Logger logger = LoggerFactory.getLogger(QualityAssessment.class);
 	
 	private SparqlifyDataset dataset;
 	private List<Metric> datasetMetrics;
@@ -151,9 +155,13 @@ public class QualityAssessment {
 	}
 	
 	public void run() throws TripleParseException, NotImplementedException {
+		logger.info("run() called");
 		boolean runDatasetAssessment = datasetMetrics.size() > 0;
+		logger.info("runDatasetAssessment: " + runDatasetAssessment);
 		boolean runTripleAssessment = tripleMetrics.size() > 0;
+		logger.info("runTripleAssessment: " + runTripleAssessment);
 		boolean runNodeAssessment = nodeMetrics.size() > 0;
+		logger.info("runNodeAssessment: " + runNodeAssessment);
 		boolean runMappingAssessment = mappingMetrics.size() > 0;
 
 		if (runMappingAssessment) {
@@ -164,15 +172,28 @@ public class QualityAssessment {
 		}
 		if (runTripleAssessment || runNodeAssessment) {
 			
+			logger.info("starting triple assessment");
+			int counter = 0;
 			for (Triple triple : dataset) {
 				if (runTripleAssessment) assessTriple(triple);
 				if (runNodeAssessment) assessNodes(triple);
+				counter++;
+				
+				if (counter%1000 == 0) {
+					logger.info(counter + "triples processed");
+					logger.info(counter + "triples processed");
+					logger.info(counter + "triples processed");
+					logger.info(counter + "triples processed");
+					logger.info(counter + "triples processed");
+				}
 			}
+			logger.info("finished assessTriple()");
 		}
 	}
 	
 	
 	private void assessTriple(Triple triple) throws NotImplementedException {
+		
 		for (Metric metric : tripleMetrics) {
 			((TripleMetric) metric).assessTriple(triple);
 		}
@@ -187,15 +208,23 @@ public class QualityAssessment {
 	
 	
 	private void assessDataset() throws NotImplementedException {
+		logger.info("assessDataset() called");
 		for (Metric metric : datasetMetrics) {
+			logger.info("start assessment with metric " + metric.getName());
 			((DatasetMetric) metric).assessDataset(dataset);
+			logger.info("finished assessment with metric " + metric.getName());
 		}
+		logger.info("finished assessDataset()");
 	}
 	
 	
 	private void assessMappings() throws NotImplementedException {
+		logger.info("assessMappings() called");
 		for (Metric metric : mappingMetrics) {
+			logger.info("start assessment with metric " + metric.getName());
 			((MappingMetric) metric).assessMappings(viewDefs);
+			logger.info("finished assessment with metric " + metric.getName());
 		}
+		logger.info("finished assessMappings()");
 	}
 }
