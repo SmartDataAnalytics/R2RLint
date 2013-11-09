@@ -1,7 +1,6 @@
 package org.aksw.sparqlify.qa.metrics;
 
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 
 
 public interface Metric {
@@ -12,7 +11,7 @@ public interface Metric {
 	
 	public String getParentDimension();
 
-	public void registerMeasureDataSink(MeasureDataSink sink) throws NotImplementedException;
+	public void initMeasureDataSink() throws NotImplementedException;
 		
 	public void setName(String name);
 

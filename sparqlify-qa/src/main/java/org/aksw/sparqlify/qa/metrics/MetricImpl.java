@@ -18,6 +18,7 @@ import org.aksw.sparqlify.qa.sinks.NodeTripleMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.TripleMeasureDatum;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.aksw.sparqlify.qa.sinks.TriplesMeasureDatum;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_Variable;
@@ -30,6 +31,7 @@ public abstract class MetricImpl implements Metric {
 	protected String parentDimension;
 	protected String prefix = "";
 	protected float threshold = 0;
+	@Autowired
 	protected MeasureDataSink sink;
 
 
@@ -52,8 +54,7 @@ public abstract class MetricImpl implements Metric {
 
 
 	@Override
-	public void registerMeasureDataSink(MeasureDataSink sink) throws NotImplementedException {
-		this.sink = sink;
+	public void initMeasureDataSink() throws NotImplementedException {
 		sink.initMeasure(name, getClass(), parentDimension);
 	}
 

@@ -88,7 +88,7 @@ public class BasicOntologyConformance extends PinpointMetric implements
 
 
 	@Override
-	public void registerMeasureDataSink(MeasureDataSink sink) throws NotImplementedException {
+	public void initMeasureDataSink(MeasureDataSink sink) throws NotImplementedException {
 		this.sink = sink;
 		for (String metricName : supportedMetrics) {
 			sink.initMeasure(metricName, getClass(), parentDimension);
