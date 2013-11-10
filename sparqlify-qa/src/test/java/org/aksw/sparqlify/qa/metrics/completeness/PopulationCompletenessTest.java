@@ -2,9 +2,12 @@ package org.aksw.sparqlify.qa.metrics.completeness;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
@@ -32,12 +35,19 @@ public class PopulationCompletenessTest {
 	private Connection conn;
 	private String dumpFilePath = "src/test/resources/dump.ttl";
 	private SparqlifyDataset dataset;
-
+	
+	@PostConstruct
+	private void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
+	
+	@PreDestroy
+	private void cleanUp() throws SQLException {
+		conn.close();
+	}
 
 	@Before
-	public void setUp() throws Exception {
-		conn = rdb.getConnection();
-		
+	public void setUp() throws IOException {
 		dataset = new SparqlifyDataset();
 		dataset.readFromDump(dumpFilePath);
 	}

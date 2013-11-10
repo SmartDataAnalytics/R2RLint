@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import org.aksw.commons.collections.Pair;
@@ -47,8 +48,13 @@ public class PropertyCompleteness extends MetricImpl implements MappingMetric {
 	private final String whereStr = "where";
 	
 	@PostConstruct
-	public void init() throws SQLException {
+	private void init() throws SQLException {
 		conn = rdb.getConnection();
+	}
+	
+	@PreDestroy
+	private void cleanUp() throws SQLException {
+		conn.close();
 	}
 
 	@Override

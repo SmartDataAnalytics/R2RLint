@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpBase;
@@ -58,6 +59,11 @@ public class SchemaCompleteness extends MetricImpl implements MappingMetric {
 	@PostConstruct
 	private void init() throws SQLException {
 		conn = rdb.getConnection();
+	}
+	
+	@PreDestroy
+	private void cleanUp() throws SQLException {
+		conn.close();
 	}
 	
 	/**

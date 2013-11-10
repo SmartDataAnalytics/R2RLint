@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
@@ -60,6 +61,11 @@ public class PopulationCompleteness extends MetricImpl implements DatasetMetric 
 	@PostConstruct
 	private void init() throws SQLException {
 		conn = rdb.getConnection();
+	}
+	
+	@PreDestroy
+	private void cleanUp() throws SQLException {
+		conn.close();
 	}
 	
 	private final String numSubjQueryStr =

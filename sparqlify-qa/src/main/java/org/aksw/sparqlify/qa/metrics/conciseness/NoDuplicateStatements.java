@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import org.aksw.commons.collections.Pair;
@@ -85,6 +86,11 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 	@PostConstruct
 	private void init() throws SQLException {
 		conn = rdb.getConnection();
+	}
+	
+	@PreDestroy
+	private void cleanUp() throws SQLException {
+		conn.close();
 	}
 	
 	// For testing

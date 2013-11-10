@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import org.aksw.commons.util.MapReader;
@@ -50,6 +51,10 @@ public class NoDuplicateStatementsTest {
 		conn = rdb.getConnection();
 	}
 	
+	@PreDestroy
+	private void cleanUp() throws SQLException {
+		conn.close();
+	}
 	
 	/*
 	 * no duplications

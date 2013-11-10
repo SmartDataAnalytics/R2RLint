@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import org.aksw.commons.util.MapReader;
@@ -43,8 +44,13 @@ public class SchemaCompletenessTest {
 	private ViewDefinition deptView;
 
 	@PostConstruct
-	public void init() throws SQLException {
+	private void init() throws SQLException {
 		conn = rdb.getConnection();
+	}
+	
+	@PreDestroy
+	private void cleanUp() throws SQLException {
+		conn.close();
 	}
 	
 	@Before
