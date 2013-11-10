@@ -8,44 +8,57 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.aksw.commons.util.MapReader;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
-import org.h2.jdbcx.JdbcDataSource;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class NoDuplicateStatementsTest {
-	
-	private int dbNum = 1;
-	private ValueTestingSink sink;
-	private ViewDefinitionFactory vdf;
 
+	@Autowired
+	private DataSource rdb;
+	private Connection conn;
+	@Autowired
+	private MeasureDataSink sink;
+	@Autowired
+	private NoDuplicateStatements metric;
+	private ViewDefinitionFactory vdf;
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
 		Map<String, String> typeAlias = MapReader.read(
 				new File("src/test/resources/type-map.h2.tsv"));
 		vdf = SparqlifyUtils.createDummyViewDefinitionFactory(typeAlias);
 	}
 
-
+	@PostConstruct
+	private void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
+	
+	
 	/*
 	 * no duplications
 	 */
-	private Connection db1() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
+	private void initData01() throws SQLException {
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
+		
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE a (" +
 						"id integer NOT NULL, " +
@@ -62,8 +75,6 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(673, 'seven', 7);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(674, 'eight', 8);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(675, 'nine', 9);");
-		
-		return conn;
 	}
 
 	private ViewDefinition viewDef01() {
@@ -87,38 +98,28 @@ public class NoDuplicateStatementsTest {
 	}
 
 	@Test
-	public void test01() throws NotImplementedException {
-		NoDuplicateStatements metric = new NoDuplicateStatements();
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db1();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
 
+		initData01();
 		metric.assessMappings(Arrays.asList(viewDef01()));
+		metric.flushCaches();
 		float expected = (float) -1;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
 	/*
 	 * one duplication ('dup', 23) out of 22 entities
 	 */
-	private Connection db2() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
+	private void initData02() throws SQLException {
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
+		
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE a (" +
 						"id integer NOT NULL, " +
@@ -137,7 +138,6 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(675, 'nine', 9);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(676, 'dup', 23);");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
 		conn.createStatement().executeUpdate("CREATE TABLE b (" +
 				"id integer NOT NULL, " +
 				"word varchar(30), " +
@@ -154,8 +154,6 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(564, 'eighteen', 18);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(565, 'nineteen', 19);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(566, 'dup', 23);");
-		
-		return conn;
 	}
 	
 	private ViewDefinition viewDef02() {
@@ -179,38 +177,28 @@ public class NoDuplicateStatementsTest {
 	}
 	
 	@Test
-	public void test02() throws NotImplementedException {
-		NoDuplicateStatements metric = new NoDuplicateStatements();
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db2();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
 
+		initData02();
 		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02()));
+		metric.flushCaches();
 		float expected = 1 - ( 1 / (float) 22);
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
 	/*
 	 * two duplications ('dup', 23) out of 33 entities
 	 */
-	private Connection db3() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
+	private void initData03() throws SQLException {
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
+		
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE a (" +
 					"id integer NOT NULL, " +
@@ -229,7 +217,6 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(675, 'nine', 9);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(676, 'dup', 23);");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE b (" +
 					"id integer NOT NULL, " +
@@ -248,7 +235,6 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(514, 'nineteen', 19);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(515, 'dup', 23);");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE c (" +
 					"id integer NOT NULL, " +
@@ -266,7 +252,6 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO c VALUES(452, 'thirtyeight', 38);");
 		conn.createStatement().executeUpdate("INSERT INTO c VALUES(453, 'thirtynine', 39);");
 		conn.createStatement().executeUpdate("INSERT INTO c VALUES(454, 'dup', 23);");
-		return conn;
 	}
 
 	private ViewDefinition viewDef03() {
@@ -290,39 +275,28 @@ public class NoDuplicateStatementsTest {
 	}
 
 	@Test
-	public void test03() throws NotImplementedException {
-		NoDuplicateStatements metric = new NoDuplicateStatements();
+	public synchronized void test03() throws NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db3();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
-
+		metric.initMeasureDataSink();
+		
+		initData03();
 		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02(), viewDef03()));
+		metric.flushCaches();
 		float expected = 1 - ( 2 / (float) 33);
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
 	/*
 	 * one duplicate ('two', 2) out of 10 entities
 	 */
-	private Connection db4() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
-		
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
+	private void initData04() throws SQLException {
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
+		
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE a (" +
 					"id integer NOT NULL, " +
@@ -339,44 +313,31 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(673, 'seven', 7);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(674, 'eight', 8);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(675, 'nine', 9);");
-		
-		return conn;
 	}
 
 	@Test
-	public void test04() throws NotImplementedException {
-		NoDuplicateStatements metric = new NoDuplicateStatements();
+	public synchronized void test04() throws NotImplementedException, SQLException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db4();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
-
+		metric.initMeasureDataSink();
+		
+		initData04();
 		metric.assessMappings(Arrays.asList(viewDef01()));
+		metric.flushCaches();
 		float expected = 1 - ( 1 / (float) 10);
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
 	/*
 	 * two duplicates ('two', 2) out of 10 entities
 	 */
-	private Connection db5() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
-		
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
+	private void initData05() throws SQLException {
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
+		
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE a (" +
 					"id integer NOT NULL, " +
@@ -393,28 +354,20 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(673, 'two', 2);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(674, 'eight', 8);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(675, 'nine', 9);");
-		
-		return conn;
 	}
 
 	@Test
-	public void test05() throws NotImplementedException {
-		NoDuplicateStatements metric = new NoDuplicateStatements();
+	public synchronized void test05() throws NotImplementedException, SQLException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db5();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
-
+		metric.initMeasureDataSink();
+		
+		initData05();
 		metric.assessMappings(Arrays.asList(viewDef01()));
+		metric.flushCaches();
 		float expected = 1 - ( 2 / (float) 10);
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
@@ -430,16 +383,11 @@ public class NoDuplicateStatementsTest {
 	 * - database level duplicates reported once (one duplicate: a('two', 2),
 	 *   b('two',2))
 	 */
-	private Connection db6() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
-		
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
+	private void initData06() throws SQLException {
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
+		
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE a (" +
 					"id integer NOT NULL, " +
@@ -457,7 +405,6 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(674, 'eight', 8);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(675, 'nine', 9);");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE b (" +
 					"id integer NOT NULL, " +
@@ -474,32 +421,24 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(512, 'two', 2);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(513, 'eighteen', 18);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(514, 'nineteen', 19);");
-		
-		return conn;
 	}
 
 	@Test
-	public void test06() throws NotImplementedException {
-		NoDuplicateStatements metric = new NoDuplicateStatements();
+	public synchronized void test06() throws NotImplementedException, SQLException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db6();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
-
+		metric.initMeasureDataSink();
+		
+		initData06();
 		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02()));
+		metric.flushCaches();
 		// here first  2 duplicates are reported as above; afterwards the
 		// distinct values of a and b are checked --> just one duplicate
 		//                                       a              +  b
 		//                                  = 10 - 2 duplicates + 10
 		float expected = 1 - ( 1 / (float) 18);
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
@@ -528,23 +467,18 @@ public class NoDuplicateStatementsTest {
 	}
 
 	@Test
-	public void test07() throws NotImplementedException {
-		NoDuplicateStatements metric = new NoDuplicateStatements();
+	public synchronized void test07() throws NotImplementedException, SQLException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db1();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
-
+		metric.initMeasureDataSink();
+		
+		initData01();
 		metric.assessMappings(Arrays.asList(viewDef04()));
+		metric.flushCaches();
+		
 		float expected = 1 - ( 10 / (float) 20);
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
@@ -573,16 +507,10 @@ public class NoDuplicateStatementsTest {
 	 * 
 	 * 30 entities, 11 duplicates
 	 */
-	private Connection db7() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
-		
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
+	private void initData07() throws SQLException {
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
 		
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE a (" +
@@ -602,7 +530,6 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(674, 'eight', 8);");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(675, 'nine', 9);");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE b (" +
 					"id integer NOT NULL, " +
@@ -620,8 +547,6 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(563, 'eighteen', 18);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(564, 'nineteen', 19);");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
-		
 		conn.createStatement().executeUpdate(
 				"CREATE TABLE c (" +
 					"id integer NOT NULL, " +
@@ -638,9 +563,8 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO c VALUES(451, 2, true);");
 		conn.createStatement().executeUpdate("INSERT INTO c VALUES(452, 18, false);");
 		conn.createStatement().executeUpdate("INSERT INTO c VALUES(453, 19, true);");
-		
-		return conn;
 	}
+	
 	/*
 	 * viewDef01:
 	 * 
@@ -689,22 +613,16 @@ public class NoDuplicateStatementsTest {
 	}
 	
 	@Test
-	public void test08() throws NotImplementedException {
-		NoDuplicateStatements metric = new NoDuplicateStatements();
+	public synchronized void test08() throws NotImplementedException, SQLException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db7();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
-
+		metric.initMeasureDataSink();
+		
+		initData07();
 		metric.assessMappings(Arrays.asList(viewDef01(), viewDef05()));
+		metric.flushCaches();
 		float expected = 1 - ( 11 / (float) 30);
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 }

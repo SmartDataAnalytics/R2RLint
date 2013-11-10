@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.conciseness;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,6 +11,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.aksw.commons.collections.Pair;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOp;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpQuery;
@@ -18,8 +22,10 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.DbMetric;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Sets;
 import com.hp.hpl.jena.graph.Node;
@@ -54,7 +60,12 @@ import com.hp.hpl.jena.sparql.core.Var;
  *     - assessViewDefinitions  // duplicate candidates for every power set entry
  *     - assessQuads  // actual duplication checks for candidates from above
  */
-public class NoDuplicateStatements extends DbMetric implements MappingMetric {
+@Component
+public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
+	
+	@Autowired
+	private DataSource rdb;
+	private Connection conn;
 	
 	private boolean exhaustively = true;
 	
@@ -71,7 +82,18 @@ public class NoDuplicateStatements extends DbMetric implements MappingMetric {
 	
 	private String separator = "//";
 	
-
+	@PostConstruct
+	private void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
+	
+	// For testing
+	protected void flushCaches() {
+		distinctCounts = new HashMap<String, Integer>();
+		relationNames = new HashMap<String, String>();
+		viewDefMap = new HashMap<String, ViewDefinition>();		
+	}
+	
 	public NoDuplicateStatements() {
 		super();
 		distinctCounts = new HashMap<String, Integer>();
@@ -176,10 +198,16 @@ public class NoDuplicateStatements extends DbMetric implements MappingMetric {
 		// are used here and mapped back to the view definitions via the
 		/// viewDefMap created previously
 		Set<String> viewDefNames = viewDefMap.keySet();
-		Set<Set<String>> pSet = Sets.powerSet(viewDefNames);
-
-		for (Set<String> viewDefSubSet : pSet) {
-			assessViewDefinitions(viewDefSubSet);
+		
+		try {
+			Set<Set<String>> pSet = Sets.powerSet(viewDefNames);
+	
+			for (Set<String> viewDefSubSet : pSet) {
+				assessViewDefinitions(viewDefSubSet);
+			}
+		} catch (IllegalArgumentException e) {
+			// for cases like that:
+			// Exception in thread "main" java.lang.IllegalArgumentException: Too many elements to create power set: 36 > 30
 		}
 	}
 
