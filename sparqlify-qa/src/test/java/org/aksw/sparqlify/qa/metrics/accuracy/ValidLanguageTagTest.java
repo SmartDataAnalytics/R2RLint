@@ -24,7 +24,7 @@ import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:test_beans.xml"})
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class ValidLanguageTagTest {
 	
 	@Autowired

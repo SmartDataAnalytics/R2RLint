@@ -11,19 +11,24 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_URI;
 import com.hp.hpl.jena.graph.Triple;
 
-
-public class DereferenceableForwardLinks extends PinpointMetric implements
+@Component
+public class DereferenceableForwardLinks extends MetricImpl implements
 		NodeMetric {
 
 	private HashMap<String, Boolean> linkBroken;
+	@Autowired
+	Pinpointer pinpointer;
 
 
 	public DereferenceableForwardLinks() {

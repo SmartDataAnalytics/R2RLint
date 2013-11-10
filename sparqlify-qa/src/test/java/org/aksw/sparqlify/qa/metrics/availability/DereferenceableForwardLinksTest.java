@@ -12,10 +12,15 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
@@ -80,10 +85,17 @@ class Handler500 implements HttpHandler {
 }
 
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class DereferenceableForwardLinksTest {
 
-	BooleanTestingSink sink;
+	@Autowired
+	MeasureDataSink sink;
+	@Autowired
+	DereferenceableForwardLinks metric;
+	@Autowired
 	Pinpointer pinpointer;
+	
 	final static int port = 8080;
 	int portNotServed = 8081;
 	final static String hostName = "localhost";
@@ -96,9 +108,7 @@ public class DereferenceableForwardLinksTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
-		pinpointer = new Pinpointer(new ArrayList<ViewDefinition>());
-		
+		pinpointer.registerViewDefs(new ArrayList<ViewDefinition>());
 		server = HttpServer.create(new InetSocketAddress(port), 0);
 		server.createContext(okPath, new Handler200());
 		server.createContext(redirectPath, new Handler301());
@@ -119,14 +129,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI resolvable (subject)
 	 */
 	@Test
-	public void test01() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + okPath);
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -134,9 +142,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -144,14 +155,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI resolvable (predicate)
 	 */
 	@Test
-	public void test02() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://" + hostName + ":" + port + okPath);
@@ -159,9 +168,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -169,14 +181,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI resolvable (object)
 	 */
 	@Test
-	public void test03() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -184,9 +194,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -194,14 +207,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI redirect (subject)
 	 */
 	@Test
-	public void test04() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + redirectPath);
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -209,9 +220,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -219,14 +233,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI redirect (predicate)
 	 */
 	@Test
-	public void test05() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://" + hostName + ":" + port + redirectPath);
@@ -234,9 +246,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -244,14 +259,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI redirect (object)
 	 */
 	@Test
-	public void test06() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test06() throws NotImplementedException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -259,9 +272,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -269,14 +285,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI not found (subject)
 	 */
 	@Test
-	public void test07() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test07() throws NotImplementedException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + notFoundPath);
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -284,9 +298,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -294,14 +311,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI not found (predicate)
 	 */
 	@Test
-	public void test08() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test08() throws NotImplementedException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://" + hostName + ":" + port + notFoundPath);
@@ -309,9 +324,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -319,14 +337,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI not found (object)
 	 */
 	@Test
-	public void test09() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test09() throws NotImplementedException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -334,9 +350,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -344,14 +363,12 @@ public class DereferenceableForwardLinksTest {
 	 * server error URI (subject)
 	 */
 	@Test
-	public void test10() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test10() throws NotImplementedException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + serverErrPath);
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -359,9 +376,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -369,14 +389,12 @@ public class DereferenceableForwardLinksTest {
 	 * server error URI (predicate)
 	 */
 	@Test
-	public void test11() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test11() throws NotImplementedException {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://" + hostName + ":" + port + serverErrPath);
@@ -384,9 +402,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -394,14 +415,12 @@ public class DereferenceableForwardLinksTest {
 	 * server error URI (object)
 	 */
 	@Test
-	public void test12() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test12() throws NotImplementedException {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -409,9 +428,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -419,14 +441,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI not served (subject)
 	 */
 	@Test
-	public void test13() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test13() throws NotImplementedException {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + portNotServed + okPath);
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -434,9 +454,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -444,14 +467,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI not served (predicate)
 	 */
 	@Test
-	public void test14() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test14() throws NotImplementedException {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://" + hostName + ":" + portNotServed + okPath);
@@ -459,9 +480,12 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.SUBJECT));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.PREDICATE));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName,
+				TriplePosition.OBJECT));
 	}
 
 
@@ -469,14 +493,12 @@ public class DereferenceableForwardLinksTest {
 	 * URI redirect (subject)
 	 */
 	@Test
-	public void test15() throws NotImplementedException {
-		DereferenceableForwardLinks metric = new DereferenceableForwardLinks();
+	public synchronized void test15() throws NotImplementedException {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setPrefix("http://ex.org/");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -484,8 +506,8 @@ public class DereferenceableForwardLinksTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 }
