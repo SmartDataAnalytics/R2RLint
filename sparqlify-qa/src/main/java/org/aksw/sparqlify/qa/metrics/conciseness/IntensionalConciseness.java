@@ -15,6 +15,7 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.sparql.core.Quad;
@@ -24,7 +25,7 @@ import com.hp.hpl.jena.sparql.core.Var;
 
 
 /**
- * This metric measures how often redundant predicate are used. Redundant here
+ * This metric measures how often redundant predicates are used. Redundant here
  * means that for a given predicate there is at least another one that
  * expresses the same property but having a different name. One example could
  * be a property foo:height expressing the size of sth. and foo:size expressing
@@ -64,6 +65,7 @@ import com.hp.hpl.jena.sparql.core.Var;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
+@Component
 public class IntensionalConciseness extends MetricImpl implements MappingMetric {
 	
 	@Override

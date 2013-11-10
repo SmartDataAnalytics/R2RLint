@@ -1,7 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.conciseness;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,121 +10,36 @@ import java.util.Map;
 import org.aksw.commons.util.MapReader;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class IntensionalConcisenessTest {
 
-	ValueTestingSink valSink;
-	BooleanTestingSink boolSink;
+	@Autowired
+	private MeasureDataSink sink;
+	@Autowired
+	private IntensionalConciseness metric;
+	
 	ViewDefinition viewDef01;
 	ViewDefinition viewDef02;
 	ViewDefinition viewDef03;
 	ViewDefinition viewDef04;
 	ViewDefinition viewDef05;
 
-
 	@Before
 	public void setUp() throws Exception {
-		valSink = new ValueTestingSink();
-		boolSink = new BooleanTestingSink();
 		initViewDefinitions();
 	}
-
-
-	@Test
-	public void test01() throws NotImplementedException {
-		IntensionalConciseness metric = new IntensionalConciseness();
-		String metricName = "test01";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(boolSink);
-		
-		metric.assessMappings(Arrays.asList(viewDef01));
-		
-		assertFalse(boolSink.measureWritten(metricName));
-	}
-
-
-	@Test
-	public void test02() throws NotImplementedException {
-		IntensionalConciseness metric = new IntensionalConciseness();
-		String metricName = "test02";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(valSink);
-		
-		metric.assessMappings(Arrays.asList(viewDef02));
-		
-		float expected = 1 / (float) 2;
-		assertEquals(expected, valSink.writtenValue(metricName), 0);
-	}
-	
-
-
-	@Test
-	public void test03() throws NotImplementedException {
-		IntensionalConciseness metric = new IntensionalConciseness();
-		String metricName = "test03";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(valSink);
-		
-		metric.assessMappings(Arrays.asList(viewDef01, viewDef02));
-		
-		float expected = 1 / (float) 3;
-		assertEquals(expected, valSink.writtenValue(metricName), 0);
-	}
-
-	
-	@Test
-	public void test04() throws NotImplementedException {
-		IntensionalConciseness metric = new IntensionalConciseness();
-		String metricName = "test04";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(valSink);
-		
-		metric.assessMappings(Arrays.asList(viewDef03));
-		
-		float expected = 1 / (float) 3;
-		assertEquals(expected, valSink.writtenValue(metricName), 0);
-	}
-
-
-	@Test
-	public void test05() throws NotImplementedException {
-		IntensionalConciseness metric = new IntensionalConciseness();
-		String metricName = "test05";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(valSink);
-		
-		metric.assessMappings(Arrays.asList(viewDef04));
-		
-		float expected = 1 / (float) 3;
-		assertEquals(expected, valSink.writtenValue(metricName), 0);
-	}
-
-
-	@Test
-	public void test06() throws NotImplementedException {
-		IntensionalConciseness metric = new IntensionalConciseness();
-		String metricName = "test06";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(valSink);
-		
-		metric.assessMappings(Arrays.asList(viewDef05));
-		
-		float expected = 1 / (float) 3;
-		assertEquals(expected, valSink.writtenValue(metricName), 0);
-	}
-
 
 	private void initViewDefinitions() throws IOException {
 		Map<String, String> typeAlias = MapReader.read(
@@ -255,5 +169,90 @@ public class IntensionalConcisenessTest {
 					"?dttl = plainLiteral(?name, ?lang) " +
 				"From" +
 					" foo");
+	}
+	
+	
+	@Test
+	public synchronized void test01() throws NotImplementedException {
+		String metricName = "test01";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(viewDef01));
+		
+		float expected = (float) -1;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+	@Test
+	public synchronized void test02() throws NotImplementedException {
+		String metricName = "test02";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(viewDef02));
+		
+		float expected = 1 / (float) 2;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+	
+
+
+	@Test
+	public synchronized void test03() throws NotImplementedException {
+		String metricName = "test03";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(viewDef01, viewDef02));
+		
+		float expected = 1 / (float) 3;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+	
+	@Test
+	public synchronized void test04() throws NotImplementedException {
+		String metricName = "test04";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(viewDef03));
+		
+		float expected = 1 / (float) 3;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+	@Test
+	public synchronized void test05() throws NotImplementedException {
+		String metricName = "test05";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(viewDef04));
+		
+		float expected = 1 / (float) 3;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+	@Test
+	public synchronized void test06() throws NotImplementedException {
+		String metricName = "test06";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(viewDef05));
+		
+		float expected = 1 / (float) 3;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 }
