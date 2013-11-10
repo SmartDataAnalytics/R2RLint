@@ -10,153 +10,23 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class DefinedClassesAndPropertiesTest {
 	
-	ValueTestingSink sink;
+	@Autowired
+	private ValueTestingSink sink;
+	@Autowired
+	private DefinedClassesAndProperties metric;
 
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
-	}
-
-
-	/*
-	 * no violations, but no prefix set for dataset --> all not defined
-	 * properties are reported even if they are not local
-	 */
-	@Test
-	public void test01() throws NotImplementedException {
-		DefinedClassesAndProperties metric = new DefinedClassesAndProperties();
-		String metricName = "test01";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		
-		SparqlifyDataset dataset = dataset01();
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0;
-		assertEquals(
-				expected,
-				sink.writtenValue(metricName),
-				0);
-	}
-
-
-	/*
-	 * no violations
-	 */
-	@Test
-	public void test02() throws NotImplementedException {
-		DefinedClassesAndProperties metric = new DefinedClassesAndProperties();
-		String metricName = "test02";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		
-		SparqlifyDataset dataset = dataset01();
-		dataset.setPrefix("http://ex.org/");
-		metric.assessDataset(dataset);
-		
-		float expected = (float) -1;
-		assertEquals(
-				expected,
-				sink.writtenValue(metricName),
-				0);
-	}
-
-
-	/*
-	 * no violations, but no prefix set for dataset --> all not defined
-	 * properties are reported even if they are not local
-	 */
-	@Test
-	public void test03() throws NotImplementedException {
-		DefinedClassesAndProperties metric = new DefinedClassesAndProperties();
-		String metricName = "test03";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		
-		SparqlifyDataset dataset = dataset02();
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0;
-		assertEquals(
-				expected,
-				sink.writtenValue(metricName),
-				0);
-	}
-
-
-	/*
-	 * no violations
-	 */
-	@Test
-	public void test04() throws NotImplementedException {
-		DefinedClassesAndProperties metric = new DefinedClassesAndProperties();
-		String metricName = "test04";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		
-		SparqlifyDataset dataset = dataset02();
-		dataset.setPrefix("http://ex.org/");
-		metric.assessDataset(dataset);
-		
-		float expected = (float) -1;
-		assertEquals(
-				expected,
-				sink.writtenValue(metricName),
-				0);
-	}
-
-
-	/*
-	 * undefined property
-	 */
-	@Test
-	public void test05() throws NotImplementedException {
-		DefinedClassesAndProperties metric = new DefinedClassesAndProperties();
-		String metricName = "test05";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		
-		SparqlifyDataset dataset = dataset03();
-		dataset.setPrefix("http://ex.org/");
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0;
-		assertEquals(
-				expected,
-				sink.writtenValue(metricName),
-				0);
-	}
-
-
-	/*
-	 * undefined class
-	 */
-	@Test
-	public void test06() throws NotImplementedException {
-		DefinedClassesAndProperties metric = new DefinedClassesAndProperties();
-		String metricName = "test06";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		
-		SparqlifyDataset dataset = dataset04();
-		dataset.setPrefix("http://ex.org/");
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0;
-		assertEquals(
-				expected,
-				sink.writtenValue(metricName),
-				0);
 	}
 
 
@@ -176,8 +46,51 @@ public class DefinedClassesAndPropertiesTest {
 		
 		return dataset;
 	}
-
-
+	
+	/*
+	 * no violations, but no prefix set for dataset --> all not defined
+	 * properties are reported even if they are not local
+	 */
+	@Test
+	public synchronized void test01() throws NotImplementedException {
+		String metricName = "test01";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset01();
+		metric.assessDataset(dataset);
+		
+		float expected = (float) 0;
+		assertEquals(
+				expected,
+				sink.writtenValue(metricName),
+				0);
+	}
+	
+	
+	/*
+	 * no violations
+	 */
+	@Test
+	public synchronized void test02() throws NotImplementedException {
+		String metricName = "test02";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset01();
+		dataset.setPrefix("http://ex.org/");
+		metric.assessDataset(dataset);
+		
+		float expected = (float) -1;
+		assertEquals(
+				expected,
+				sink.writtenValue(metricName),
+				0);
+	}
+	
+	
 	/*
 	 * dataset with no violations (owl:Class, rdfs:Property)
 	 */
@@ -193,6 +106,49 @@ public class DefinedClassesAndPropertiesTest {
 		dataset.read(reader, null, "TTL");
 		
 		return dataset;
+	}
+	
+	/*
+	 * no violations, but no prefix set for dataset --> all not defined
+	 * properties are reported even if they are not local
+	 */
+	@Test
+	public synchronized void test03() throws NotImplementedException {
+		String metricName = "test03";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset02();
+		metric.assessDataset(dataset);
+		
+		float expected = (float) 0;
+		assertEquals(
+				expected,
+				sink.writtenValue(metricName),
+				0);
+	}
+
+
+	/*
+	 * no violations
+	 */
+	@Test
+	public synchronized void test04() throws NotImplementedException {
+		String metricName = "test04";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset02();
+		dataset.setPrefix("http://ex.org/");
+		metric.assessDataset(dataset);
+		
+		float expected = (float) -1;
+		assertEquals(
+				expected,
+				sink.writtenValue(metricName),
+				0);
 	}
 
 
@@ -211,8 +167,29 @@ public class DefinedClassesAndPropertiesTest {
 		
 		return dataset;
 	}
-
-
+	
+	/*
+	 * undefined property
+	 */
+	@Test
+	public synchronized void test05() throws NotImplementedException {
+		String metricName = "test05";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset03();
+		dataset.setPrefix("http://ex.org/");
+		metric.assessDataset(dataset);
+		
+		float expected = (float) 0;
+		assertEquals(
+				expected,
+				sink.writtenValue(metricName),
+				0);
+	}
+	
+	
 	/*
 	 * dataset with undefinded class
 	 */
@@ -227,5 +204,26 @@ public class DefinedClassesAndPropertiesTest {
 		dataset.read(reader, null, "TTL");
 		
 		return dataset;
+	}
+	
+	/*
+	 * undefined class
+	 */
+	@Test
+	public synchronized void test06() throws NotImplementedException {
+		String metricName = "test06";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset04();
+		dataset.setPrefix("http://ex.org/");
+		metric.assessDataset(dataset);
+		
+		float expected = (float) 0;
+		assertEquals(
+				expected,
+				sink.writtenValue(metricName),
+				0);
 	}
 }

@@ -7,6 +7,7 @@ import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.ontology.OntClass;
@@ -21,6 +22,7 @@ import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
+@Component
 public class DefinedClassesAndProperties extends MetricImpl implements
 		DatasetMetric {
 
