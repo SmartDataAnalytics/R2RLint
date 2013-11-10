@@ -12,8 +12,10 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
-import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.datatypes.BaseDatatype;
 import com.hp.hpl.jena.datatypes.RDFDatatype;
@@ -71,9 +73,12 @@ import com.hp.hpl.jena.reasoner.ValidityReport.Report;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class BasicOntologyConformance extends PinpointMetric implements
-		DatasetMetric {
+@Component
+public class BasicOntologyConformance extends MetricImpl implements DatasetMetric {
 
+	@Autowired
+	private Pinpointer pinpointer;
+	
 	final static String correctDtPropValue = "correct_datatype_property_value";
 	final static String correctObjPropValue = "correct_object_property_value";
 	final static String disjointClassesConformance = "disjoint_classes_conformance";
@@ -88,8 +93,7 @@ public class BasicOntologyConformance extends PinpointMetric implements
 
 
 	@Override
-	public void initMeasureDataSink(MeasureDataSink sink) throws NotImplementedException {
-		this.sink = sink;
+	public void initMeasureDataSink() throws NotImplementedException {
 		for (String metricName : supportedMetrics) {
 			sink.initMeasure(metricName, getClass(), parentDimension);
 		}

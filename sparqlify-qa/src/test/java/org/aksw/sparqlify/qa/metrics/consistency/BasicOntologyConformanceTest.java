@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -17,150 +18,38 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class BasicOntologyConformanceTest {
 
-	ValueTestingSink sink;
+	@Autowired
+	private ValueTestingSink sink;
+	@Autowired
+	private BasicOntologyConformance metric;
+	@Autowired
+	private Pinpointer pinpointer;
 	ViewDefinitionFactory vdf;
 
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
-		
 		Map<String, String> typeAlias = MapReader.read(
 				new File("src/test/resources/type-map.h2.tsv"));
 		vdf = SparqlifyUtils.createDummyViewDefinitionFactory(typeAlias);
+		// this pinpointer is the same as registered inside the metric, so
+		// initializing this.pinpointer also initializes also the pinpointer
+		// inside the metric
+		pinpointer.registerViewDefs(new ArrayList<ViewDefinition>());
 	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	/*
-	 * disjointClass
-	 */
-	@Test
-	public void test01() throws NotImplementedException {
-		BasicOntologyConformance metric = new BasicOntologyConformance();
-		String metricName = "test01";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Pinpointer pinpointer = new Pinpointer(viewDefs01());
-		metric.registerPinpointer(pinpointer);
-		
-		SparqlifyDataset dataset = dataset01();
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0;
-		assertEquals(
-				expected,
-				sink.writtenValue(BasicOntologyConformance.disjointClassesConformance),
-				0);
-	}
-
-
-	/*
-	 * rdfs:range
-	 */
-	@Test
-	public void test02() throws NotImplementedException {
-		BasicOntologyConformance metric = new BasicOntologyConformance();
-		String metricName = "test02";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Pinpointer pinpointer = new Pinpointer(viewDefs02());
-		metric.registerPinpointer(pinpointer);
-		
-		SparqlifyDataset dataset = dataset02();
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0;
-		assertEquals(
-				expected,
-				sink.writtenValue(BasicOntologyConformance.validRange),
-				0);
-	}
-
-
-	/*
-	 * rdfs:domain violation; reported as disjointClass violation
-	 */
-	@Test
-	public void test03() throws NotImplementedException {
-		BasicOntologyConformance metric = new BasicOntologyConformance();
-		String metricName = "test03";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Pinpointer pinpointer = new Pinpointer(viewDefs03());
-		metric.registerPinpointer(pinpointer);
-		
-		SparqlifyDataset dataset = dataset03();
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0;
-		assertEquals(
-				expected,
-				sink.writtenValue(BasicOntologyConformance.disjointClassesConformance),
-				0);
-	}
-
-
-	/*
-	 * owl:ObjectProperty violation
-	 */
-	@Test
-	public void test04() throws NotImplementedException {
-		BasicOntologyConformance metric = new BasicOntologyConformance();
-		String metricName = "test04";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Pinpointer pinpointer = new Pinpointer(viewDefs04());
-		metric.registerPinpointer(pinpointer);
-		
-		SparqlifyDataset dataset = dataset04();
-		metric.assessDataset(dataset);
-		
-		// this is just a warning --> 0.5 instead of 0
-		float expected = (float) 0.5;
-		assertEquals(
-				expected,
-				sink.writtenValue(BasicOntologyConformance.correctObjPropValue),
-				0);
-	}
-
-
-	/*
-	 * owl:DatatypeProperty violation
-	 */
-	@Test
-	public void test05() throws NotImplementedException {
-		BasicOntologyConformance metric = new BasicOntologyConformance();
-		String metricName = "test05";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Pinpointer pinpointer = new Pinpointer(viewDefs05());
-		metric.registerPinpointer(pinpointer);
-		
-		SparqlifyDataset dataset = dataset05();
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0;
-		assertEquals(
-				expected,
-				sink.writtenValue(BasicOntologyConformance.correctDtPropValue),
-				0);
-	}
-
-
+	
+	
 	/*
 	 * should violate distinct classes statement 
 	 */
@@ -178,7 +67,7 @@ public class BasicOntologyConformanceTest {
 		
 		return dataset;
 	}
-
+	
 	public Collection<ViewDefinition> viewDefs01() {
 		String viewDef01Str =
 			"Prefix ex: <http://ex.org/> " +
@@ -203,7 +92,27 @@ public class BasicOntologyConformanceTest {
 		
 		return Arrays.asList(viewDef01);
 	}
-
+	
+	/*
+	 * disjointClass
+	 */
+	@Test
+	public synchronized void test01() throws NotImplementedException {
+		String metricName = "test01";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		pinpointer.registerViewDefs(viewDefs01());
+		SparqlifyDataset dataset = dataset01();
+		metric.assessDataset(dataset);
+		
+		float expected = (float) 0;
+		assertEquals(
+				expected,
+				sink.writtenValue(BasicOntologyConformance.disjointClassesConformance),
+				0);
+	}
 
 	/*
 	 * should violate range restriction
@@ -219,7 +128,7 @@ public class BasicOntologyConformanceTest {
 		
 		return dataset;
 	}
-
+	
 	public Collection<ViewDefinition> viewDefs02() {
 		String viewDef02Str =
 			"Prefix ex: <http://ex.org/> " +
@@ -249,8 +158,29 @@ public class BasicOntologyConformanceTest {
 		
 		return Arrays.asList(viewDef02, viewDef03);
 	}
-
-
+	
+	/*
+	 * rdfs:range
+	 */
+	@Test
+	public synchronized void test02() throws NotImplementedException {
+		String metricName = "test02";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		pinpointer.registerViewDefs(viewDefs02());
+		SparqlifyDataset dataset = dataset02();
+		metric.assessDataset(dataset);
+		
+		float expected = (float) 0;
+		assertEquals(
+				expected,
+				sink.writtenValue(BasicOntologyConformance.validRange),
+				0);
+	}
+	
+	
 	/*
 	 * should violate domain restriction --> reported as disjointClass violation 
 	 */
@@ -298,6 +228,27 @@ public class BasicOntologyConformanceTest {
 		
 		return Arrays.asList(viewDef04, viewDef05);
 	}
+	
+	/*
+	 * rdfs:domain violation; reported as disjointClass violation
+	 */
+	@Test
+	public synchronized void test03() throws NotImplementedException {
+		String metricName = "test03";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		pinpointer.registerViewDefs(viewDefs03());
+		SparqlifyDataset dataset = dataset03();
+		metric.assessDataset(dataset);
+		
+		float expected = (float) 0;
+		assertEquals(
+				expected,
+				sink.writtenValue(BasicOntologyConformance.disjointClassesConformance),
+				0);
+	}
 
 
 	/*
@@ -314,7 +265,7 @@ public class BasicOntologyConformanceTest {
 		
 		return dataset;
 	}
-
+	
 	public Collection<ViewDefinition> viewDefs04() {
 		String viewDef06Str =
 			"Prefix ex: <http://ex.org/> " +
@@ -341,6 +292,28 @@ public class BasicOntologyConformanceTest {
 		ViewDefinition viewdef07 = vdf.create(viewDef07Str);
 		
 		return Arrays.asList(viewDef06, viewdef07);
+	}
+	
+	/*
+	 * owl:ObjectProperty violation
+	 */
+	@Test
+	public synchronized void test04() throws NotImplementedException {
+		String metricName = "test04";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		pinpointer.registerViewDefs(viewDefs04());
+		SparqlifyDataset dataset = dataset04();
+		metric.assessDataset(dataset);
+		
+		// this is just a warning --> 0.5 instead of 0
+		float expected = (float) 0.5;
+		assertEquals(
+				expected,
+				sink.writtenValue(BasicOntologyConformance.correctObjPropValue),
+				0);
 	}
 
 
@@ -378,6 +351,25 @@ public class BasicOntologyConformanceTest {
 		
 		return Arrays.asList(viewDef08);
 	}
+	
+	/*
+	 * owl:DatatypeProperty violation
+	 */
+	@Test
+	public synchronized void test05() throws NotImplementedException {
+		String metricName = "test05";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		pinpointer.registerViewDefs(viewDefs05());
+		SparqlifyDataset dataset = dataset05();
+		metric.assessDataset(dataset);
+		
+		float expected = (float) 0;
+		assertEquals(
+				expected,
+				sink.writtenValue(BasicOntologyConformance.correctDtPropValue),
+				0);
+	}
 }
-
-
