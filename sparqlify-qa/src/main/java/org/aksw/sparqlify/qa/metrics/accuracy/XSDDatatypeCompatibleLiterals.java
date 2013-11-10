@@ -5,9 +5,12 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_Literal;
@@ -22,9 +25,12 @@ import com.hp.hpl.jena.graph.Triple;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class XSDDatatypeCompatibleLiterals extends PinpointMetric implements
-		NodeMetric {
+@Component
+public class XSDDatatypeCompatibleLiterals extends MetricImpl implements NodeMetric {
 
+	@Autowired
+	Pinpointer pinpointer;
+	
 	@Override
 	public void assessNodes(Triple triple) throws NotImplementedException {
 		Node object = triple.getObject();
