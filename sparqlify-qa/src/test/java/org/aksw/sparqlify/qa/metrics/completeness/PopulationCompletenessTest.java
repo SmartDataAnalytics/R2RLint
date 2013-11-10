@@ -5,154 +5,54 @@ import static org.junit.Assert.assertEquals;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
-import org.h2.jdbcx.JdbcDataSource;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class PopulationCompletenessTest {
 
-	private Connection conn1;
-	private Connection conn2;
-	private Connection conn3;
-	private Connection conn4;
-	private ValueTestingSink sink;
+	@Autowired
+	private MeasureDataSink sink;
+	@Autowired
+	private DataSource rdb;
+	@Autowired
+	private PopulationCompleteness metric;
+	
+	private Connection conn;
 	private String dumpFilePath = "src/test/resources/dump.ttl";
 	private SparqlifyDataset dataset;
 
 
 	@Before
 	public void setUp() throws Exception {
-		initDBs();
-		initDB1Content(conn1);
-		initDB2Content(conn2);
-		initDB3Content(conn3);
-		initDB4Content(conn4);
+		conn = rdb.getConnection();
 		
-		sink = new ValueTestingSink();
 		dataset = new SparqlifyDataset();
 		dataset.readFromDump(dumpFilePath);
 	}
 
 
 	/*
-	 * dataset: 16 unique resources
-	 * DB: non-M:N, 4 + 9 = 13 entities
-	 */
-	@Test
-	public void test01() throws NotImplementedException {
-		PopulationCompleteness metric = new PopulationCompleteness();
-		String metricName = "test01";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn1);
-		
-		metric.assessDataset(dataset);
-		float expected = (float) 16/(float) 13;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	/*
-	 * dataset: 16 unique resources
-	 * DB: N:1, 4 + 8 = 12 entities
-	 */
-	@Test
-	public void test02() throws NotImplementedException {
-		PopulationCompleteness metric = new PopulationCompleteness();
-		String metricName = "test02";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn2);
-		
-		metric.assessDataset(dataset);
-		float expected = (float) 16/(float) 12;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	/*
-	 * dataset: 16 unique resources
-	 * DB: M:N relation holding tuples that can be considered as own entities;
-	 * 4 + 8 + 6 = 18 entities
-	 */
-	@Test
-	public void test03() throws NotImplementedException {
-		PopulationCompleteness metric = new PopulationCompleteness();
-		String metricName = "test03";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn3);
-		
-		metric.assessDataset(dataset);
-		float expected = (float) 16/(float) 18;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	/*
-	 * dataset: 16 unique resources
-	 * DB: real M:N relation holding tuples that should not be considered as
-	 * own entities; 4 + 8 = 12 entities
-	 */
-	@Test
-	public void test04() throws NotImplementedException {
-		PopulationCompleteness metric = new PopulationCompleteness();
-		String metricName = "test04";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn4);
-		
-		metric.assessDataset(dataset);
-		float expected = (float) 16/(float) 12;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	private void initDBs() throws SQLException {
-		// DB 1
-		JdbcDataSource ds1 = new JdbcDataSource();
-		ds1.setURL("jdbc:h2:mem:test1;MODE=PostgreSQL;DB_CLOSE_DELAY=-1");
-		ds1.setUser("test");
-		ds1.setPassword("test");
-		conn1 = ds1.getConnection();
-		
-		// DB 2
-		JdbcDataSource ds2 = new JdbcDataSource();
-		ds2.setURL("jdbc:h2:mem:test2;MODE=PostgreSQL;DB_CLOSE_DELAY=-1");
-		ds2.setUser("test");
-		ds2.setPassword("test");
-		conn2 = ds2.getConnection();
-		
-		// DB 3
-		JdbcDataSource ds3 = new JdbcDataSource();
-		ds3.setURL("jdbc:h2:mem:test3;MODE=PostgreSQL;DB_CLOSE_DELAY=-1");
-		ds3.setUser("test");
-		ds3.setPassword("test");
-		conn3 = ds3.getConnection();
-		
-		// DB 4
-		JdbcDataSource ds4 = new JdbcDataSource();
-		ds4.setURL("jdbc:h2:mem:test4;MODE=PostgreSQL;DB_CLOSE_DELAY=-1");
-		ds4.setUser("test");
-		ds4.setPassword("test");
-		conn4 = ds4.getConnection();
-	}
-
-	/*
 	 * initialize DB with no M:N relations
 	 * 
 	 * no. of entities: 4 + 9 = 13
 	 */
-	private void initDB1Content(Connection conn) throws SQLException {
+	private void initContent01(Connection conn) throws SQLException {
 		
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS ab;");
 		conn.createStatement().executeUpdate("CREATE TABLE a (" +
 				"id integer NOT NULL, " +
 				"name character varying(400) NOT NULL );");
@@ -163,7 +63,7 @@ public class PopulationCompletenessTest {
 				"name character varying(40) NOT NULL, " +
 				"date date NOT NULL, " +
 				"web_id character varying(355));");
-
+		
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(1, 'one');");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(2, 'two');");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(3, 'three');");
@@ -190,9 +90,26 @@ public class PopulationCompletenessTest {
 		
 		conn.createStatement().executeUpdate("ALTER TABLE a " +
 				"ADD CONSTRAINT a_pkey PRIMARY KEY (id);");
-
+		
 		conn.createStatement().executeUpdate("ALTER TABLE b " +
 				"ADD CONSTRAINT b_pkey PRIMARY KEY (id);");
+	}
+	
+	/*
+	 * dataset: 16 unique resources
+	 * DB: non-M:N, 4 + 9 = 13 entities
+	 */
+	@Test
+	public void test01() throws NotImplementedException, SQLException {
+		initContent01(conn);
+		String metricName = "test01";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessDataset(dataset);
+		float expected = (float) 16/(float) 13;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
@@ -201,21 +118,23 @@ public class PopulationCompletenessTest {
 	 * 
 	 * no. of entities: 4 + 8 = 12
 	 */
-	private void initDB2Content(Connection conn) throws SQLException {
-
+	private void initContent02(Connection conn) throws SQLException {
+		
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS ab;");
+		
 		conn.createStatement().executeUpdate("CREATE TABLE a (" +
 				"id integer NOT NULL, " +
 				"name character varying(400) NOT NULL );");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
 		conn.createStatement().executeUpdate("CREATE TABLE b (" +
 				"id integer NOT NULL, " +
 				"name character varying(40) NOT NULL, " +
 				"date date NOT NULL, " +
 				"web_id character varying(355)," +
 				"a_id integer);");
-
+		
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(1, 'one');");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(2, 'two');");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(3, 'three');");
@@ -240,12 +159,30 @@ public class PopulationCompletenessTest {
 		
 		conn.createStatement().executeUpdate("ALTER TABLE a " +
 				"ADD CONSTRAINT a_pkey PRIMARY KEY (id);");
-
+		
 		conn.createStatement().executeUpdate("ALTER TABLE b " +
 				"ADD CONSTRAINT b_pkey PRIMARY KEY (id);");
 		
 		conn.createStatement().executeUpdate("ALTER TABLE b " +
 				"ADD CONSTRAINT a_id_fkey FOREIGN KEY (a_id) REFERENCES a(id);");
+	}
+	
+	
+	/*
+	 * dataset: 16 unique resources
+	 * DB: N:1, 4 + 8 = 12 entities
+	 */
+	@Test
+	public void test02() throws NotImplementedException, SQLException {
+		initContent02(conn);
+		String metricName = "test02";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessDataset(dataset);
+		float expected = (float) 16/(float) 12;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
@@ -255,26 +192,27 @@ public class PopulationCompletenessTest {
 	 * 
 	 * no. of entities: 4 + 8 + 6 = 18
 	 */
-	private void initDB3Content(Connection conn) throws SQLException {
+	private void initContent03(Connection conn) throws SQLException {
 		
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS ab;");
+		
 		conn.createStatement().executeUpdate("CREATE TABLE a (" +
 				"id integer NOT NULL, " +
 				"name character varying(400) NOT NULL );");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
 		conn.createStatement().executeUpdate("CREATE TABLE b (" +
 				"id integer NOT NULL, " +
 				"name character varying(40) NOT NULL, " +
 				"date date NOT NULL, " +
 				"web_id character varying(355));");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS ab;");
 		conn.createStatement().executeUpdate("CREATE TABLE ab (" +
 				"a_id integer NOT NULL, " +
 				"b_id integer NOT NULL, " +
 				"date date NOT NULL );");
-
+		
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(1, 'one');");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(2, 'two');");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(3, 'three');");
@@ -312,7 +250,7 @@ public class PopulationCompletenessTest {
 		
 		conn.createStatement().executeUpdate("ALTER TABLE a " +
 				"ADD CONSTRAINT a_pkey PRIMARY KEY (id);");
-
+		
 		conn.createStatement().executeUpdate("ALTER TABLE b " +
 				"ADD CONSTRAINT b_pkey PRIMARY KEY (id);");
 		
@@ -325,6 +263,25 @@ public class PopulationCompletenessTest {
 		conn.createStatement().executeUpdate("ALTER TABLE ab " +
 				"ADD CONSTRAINT b_id_fkey FOREIGN KEY (b_id) REFERENCES b(id);");
 	}
+	
+	
+	/*
+	 * dataset: 16 unique resources
+	 * DB: M:N relation holding tuples that can be considered as own entities;
+	 * 4 + 8 + 6 = 18 entities
+	 */
+	@Test
+	public void test03() throws NotImplementedException, SQLException {
+		initContent03(conn);
+		String metricName = "test03";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessDataset(dataset);
+		float expected = (float) 16/(float) 18;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
 
 
 	/*
@@ -333,25 +290,26 @@ public class PopulationCompletenessTest {
 	 * 
 	 * no. of entities: 4 + 8 = 12
 	 */
-	private void initDB4Content(Connection conn) throws SQLException {
+	private void initContent04(Connection conn) throws SQLException {
 		
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS ab;");
+		
 		conn.createStatement().executeUpdate("CREATE TABLE a (" +
 				"id integer NOT NULL, " +
 				"name character varying(400) NOT NULL );");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
 		conn.createStatement().executeUpdate("CREATE TABLE b (" +
 				"id integer NOT NULL, " +
 				"name character varying(40) NOT NULL, " +
 				"date date NOT NULL, " +
 				"web_id character varying(355));");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS ab;");
 		conn.createStatement().executeUpdate("CREATE TABLE ab (" +
 				"a_id integer NOT NULL, " +
 				"b_id integer NOT NULL);");
-
+		
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(1, 'one');");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(2, 'two');");
 		conn.createStatement().executeUpdate("INSERT INTO a VALUES(3, 'three');");
@@ -382,7 +340,7 @@ public class PopulationCompletenessTest {
 		
 		conn.createStatement().executeUpdate("ALTER TABLE a " +
 				"ADD CONSTRAINT a_pkey PRIMARY KEY (id);");
-
+		
 		conn.createStatement().executeUpdate("ALTER TABLE b " +
 				"ADD CONSTRAINT b_pkey PRIMARY KEY (id);");
 		
@@ -394,5 +352,24 @@ public class PopulationCompletenessTest {
 		
 		conn.createStatement().executeUpdate("ALTER TABLE ab " +
 				"ADD CONSTRAINT b_id_fkey FOREIGN KEY (b_id) REFERENCES b(id);");
+	}
+	
+	
+	/*
+	 * dataset: 16 unique resources
+	 * DB: real M:N relation holding tuples that should not be considered as
+	 * own entities; 4 + 8 = 12 entities
+	 */
+	@Test
+	public void test04() throws NotImplementedException, SQLException {
+		initContent04(conn);
+		String metricName = "test04";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessDataset(dataset);
+		float expected = (float) 16/(float) 12;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 }

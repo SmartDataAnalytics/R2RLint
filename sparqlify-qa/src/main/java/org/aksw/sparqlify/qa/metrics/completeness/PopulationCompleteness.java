@@ -1,15 +1,21 @@
 package org.aksw.sparqlify.qa.metrics.completeness;
 
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointDbMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -44,9 +50,18 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class PopulationCompleteness extends PinpointDbMetric implements
-		DatasetMetric {
+@Component
+public class PopulationCompleteness extends MetricImpl implements DatasetMetric {
 
+	@Autowired
+	DataSource rdb;
+	Connection conn;
+	
+	@PostConstruct
+	private void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
+	
 	private final String numSubjQueryStr =
 			"Prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
 			
