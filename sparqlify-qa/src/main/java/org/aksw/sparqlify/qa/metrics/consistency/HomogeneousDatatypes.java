@@ -13,7 +13,10 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
@@ -35,9 +38,12 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * 
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  */
-public class HomogeneousDatatypes extends PinpointMetric implements
-		DatasetMetric {
-
+@Component
+public class HomogeneousDatatypes extends MetricImpl implements DatasetMetric {
+	
+	@Autowired
+	private Pinpointer pinpointer;
+	
 	/*
 	 *	{ 'ex:pred1': {
 	 *			'xsd:int': [
@@ -70,7 +76,11 @@ public class HomogeneousDatatypes extends PinpointMetric implements
 		conflictValue = value;
 	}
 
-
+	// for testing
+	protected void flushCaches() {
+		datatypes = new HashMap<String, HashMap<String, List<Triple>>>();
+	}
+	
 	public HomogeneousDatatypes() {
 		super();
 		datatypes = new HashMap<String, HashMap<String, List<Triple>>>();

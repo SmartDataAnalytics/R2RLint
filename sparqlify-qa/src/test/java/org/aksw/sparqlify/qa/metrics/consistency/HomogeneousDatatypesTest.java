@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -19,105 +20,33 @@ import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class HomogeneousDatatypesTest {
 
-	ValueTestingSink sink;
+	@Autowired
+	private ValueTestingSink sink;
+	@Autowired
+	private HomogeneousDatatypes metric;
+	@Autowired
+	private Pinpointer pinpointer;
+	
 	ViewDefinitionFactory vdf;
-
-
+	
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
-		
 		Map<String, String> typeAlias = MapReader.read(
 				new File("src/test/resources/type-map.h2.tsv"));
 		vdf = SparqlifyUtils.createDummyViewDefinitionFactory(typeAlias);
-		
-		
+		pinpointer.registerViewDefs(new ArrayList<ViewDefinition>());
 	}
-
-	/*
-	 * no inhomogeneity
-	 */
-	@Test
-	public void test01() throws NotImplementedException {
-		HomogeneousDatatypes metric = new HomogeneousDatatypes();
-		String metricName = "test01";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Pinpointer pinpointer = new Pinpointer(viewDefs01());
-		metric.registerPinpointer(pinpointer);
-		metric.setThreshold((float) 0.9);
-		metric.setOutlierValue((float) 0.5);
-		metric.setConflictValue(0);
-		
-		SparqlifyDataset dataset = dataset01();
-		metric.assessDataset(dataset);
-		
-		float expected = (float) -1;
-		assertEquals(
-				expected,
-				sink.writtenValue(metricName),
-				0);
-	}
-
-
-	/*
-	 * inhomogeneity (outlier)
-	 */
-	@Test
-	public void test02() throws NotImplementedException {
-		HomogeneousDatatypes metric = new HomogeneousDatatypes();
-		String metricName = "test02";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Pinpointer pinpointer = new Pinpointer(viewDefs02());
-		metric.registerPinpointer(pinpointer);
-		metric.setThreshold((float) 0.8);
-		metric.setOutlierValue((float) 0.5);
-		metric.setConflictValue(0);
-		
-		SparqlifyDataset dataset = dataset02();
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0.5;
-		assertEquals(
-				expected,
-				sink.writtenValue(metricName),
-				0);
-	}
-
-
-	/*
-	 * inhomogeneity (conflict)
-	 */
-	@Test
-	public void test03() throws NotImplementedException {
-		HomogeneousDatatypes metric = new HomogeneousDatatypes();
-		String metricName = "test02";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Pinpointer pinpointer = new Pinpointer(viewDefs02());
-		metric.registerPinpointer(pinpointer);
-		metric.setThreshold((float) 0.95);
-		metric.setOutlierValue((float) 0.5);
-		metric.setConflictValue(0);
-		
-		SparqlifyDataset dataset = dataset02();
-		metric.assessDataset(dataset);
-		
-		float expected = (float) 0.0;
-		assertEquals(
-				expected,
-				sink.writtenValue(metricName),
-				0);
-	}
-
-
+	
+	
 	/*
 	 * no inhomogeneity 
 	 */
@@ -136,6 +65,53 @@ public class HomogeneousDatatypesTest {
 		dataset.read(reader, null, "TTL");
 		
 		return dataset;
+	}
+
+	public Collection<ViewDefinition> viewDefs01() {
+		String viewDef01Str =
+			"Prefix ex: <http://ex.org/> " +
+			"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+			"Prefix owl: <http://www.w3.org/2002/07/owl#> " +
+			"Prefix xsd: <http://www.w3.org/2001/XMLSchema#> " +
+			"Create View view01 As " +
+				"Construct { " +
+					"?r ex:pred01 ?v . " +
+				"} " +
+				"With " +
+					"?r = uri(ex:res, '/', ?id) " +
+					"?v = typedLiteral(?foo, xsd:int) " +
+				"From " +
+					"A";
+		
+		ViewDefinition viewDef01 = vdf.create(viewDef01Str);
+		
+		return Arrays.asList(viewDef01);
+	}
+
+	/*
+	 * no inhomogeneity
+	 */
+	@Test
+	public synchronized void test01() throws NotImplementedException {
+		String metricName = "test01";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		pinpointer.registerViewDefs(viewDefs01());
+		metric.setThreshold((float) 0.9);
+		metric.setOutlierValue((float) 0.5);
+		metric.setConflictValue(0);
+		
+		SparqlifyDataset dataset = dataset01();
+		metric.assessDataset(dataset);
+		metric.flushCaches();
+		
+		float expected = (float) -1;
+		assertEquals(
+				expected,
+				sink.writtenValue(metricName),
+				0);
 	}
 
 
@@ -161,29 +137,6 @@ public class HomogeneousDatatypesTest {
 		
 		return dataset;
 	}
-
-
-	public Collection<ViewDefinition> viewDefs01() {
-		String viewDef01Str =
-			"Prefix ex: <http://ex.org/> " +
-			"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
-			"Prefix owl: <http://www.w3.org/2002/07/owl#> " +
-			"Prefix xsd: <http://www.w3.org/2001/XMLSchema#> " +
-			"Create View view01 As " +
-				"Construct { " +
-					"?r ex:pred01 ?v . " +
-				"} " +
-				"With " +
-					"?r = uri(ex:res, '/', ?id) " +
-					"?v = typedLiteral(?foo, xsd:int) " +
-				"From " +
-					"A";
-		
-		ViewDefinition viewDef01 = vdf.create(viewDef01Str);
-		
-		return Arrays.asList(viewDef01);
-	}
-
 
 	public Collection<ViewDefinition> viewDefs02() {
 		String viewDef01Str =
@@ -219,5 +172,58 @@ public class HomogeneousDatatypesTest {
 		ViewDefinition viewDef02 = vdf.create(viewDef02Str);
 		
 		return Arrays.asList(viewDef01, viewDef02);
+	}
+	
+	/*
+	 * inhomogeneity (outlier)
+	 */
+	@Test
+	public synchronized void test02() throws NotImplementedException {
+		String metricName = "test02";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+
+		pinpointer.registerViewDefs(viewDefs02());
+		metric.setThreshold((float) 0.8);
+		metric.setOutlierValue((float) 0.5);
+		metric.setConflictValue(0);
+		
+		SparqlifyDataset dataset = dataset02();
+		metric.assessDataset(dataset);
+		metric.flushCaches();
+		
+		float expected = (float) 0.5;
+		assertEquals(
+				expected,
+				sink.writtenValue(metricName),
+				0);
+	}
+
+
+	/*
+	 * inhomogeneity (conflict)
+	 */
+	@Test
+	public void test03() throws NotImplementedException {
+		String metricName = "test03";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		pinpointer.registerViewDefs(viewDefs02());
+		metric.setThreshold((float) 0.95);
+		metric.setOutlierValue((float) 0.5);
+		metric.setConflictValue(0);
+		
+		SparqlifyDataset dataset = dataset02();
+		metric.assessDataset(dataset);
+		metric.flushCaches();
+		
+		float expected = (float) 0.0;
+		assertEquals(
+				expected,
+				sink.writtenValue(metricName),
+				0);
 	}
 }
