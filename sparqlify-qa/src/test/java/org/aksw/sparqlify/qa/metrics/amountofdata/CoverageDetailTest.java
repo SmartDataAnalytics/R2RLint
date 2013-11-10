@@ -7,20 +7,34 @@ import java.io.StringReader;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class CoverageDetailTest {
 	
-	ValueTestingSink sink;
+	@Autowired
+	private ApplicationContext applicationContext;
+	
+	@Autowired
+	CoverageDetail metric;
+	
+	@Autowired
+	MeasureDataSink sink;
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
 	}
-
-
+	
+	
 	/*
 	 * 2 different properties / 3 triples
 	 */
@@ -38,18 +52,17 @@ public class CoverageDetailTest {
 	}
 
 	@Test
-	public void test01() throws NotImplementedException {
-		CoverageDetail metric = new CoverageDetail();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
 		
 		float expected = 2 / (float) 3;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
@@ -70,18 +83,17 @@ public class CoverageDetailTest {
 	}
 
 	@Test
-	public void test02() throws NotImplementedException {
-		CoverageDetail metric = new CoverageDetail();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
 		
 		float expected = 3 / (float) 3;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 
 
@@ -105,17 +117,16 @@ public class CoverageDetailTest {
 	}
 
 	@Test
-	public void test03() throws NotImplementedException {
-		CoverageDetail metric = new CoverageDetail();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
 		
 		float expected = 2 / (float) 6;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 }
