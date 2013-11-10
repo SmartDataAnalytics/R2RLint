@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.completeness;
 
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpBase;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpQuery;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpTable;
@@ -15,8 +19,10 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.DbMetric;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node_Variable;
 import com.hp.hpl.jena.sparql.core.Quad;
@@ -40,26 +46,29 @@ import com.hp.hpl.jena.sparql.core.Var;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class SchemaCompleteness extends DbMetric implements
-		MappingMetric {
+@Component
+public class SchemaCompleteness extends MetricImpl implements MappingMetric {
+	
+	@Autowired
+	private DataSource rdb;
+	private Connection conn;
 	
 	private boolean countVariablePredicates = true;
 	
+	@PostConstruct
+	private void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
 	
 	/**
-	 * Contructor mainly for testing purposes
+	 * mainly for testing purposes
 	 * 
 	 * @param countVariablePredicates: controls if all possible bindings of a
 	 *           variable predicate should be counted or if the variable
 	 *           predicate should only count once
 	 */
-	public SchemaCompleteness(boolean countVariablePredicates) {
+	public void setCountVariablePredicates(boolean countVariablePredicates) {
 		this.countVariablePredicates = countVariablePredicates;
-	}
-
-
-	public SchemaCompleteness() {
-		super();
 	}
 
 
@@ -190,6 +199,20 @@ public class SchemaCompleteness extends DbMetric implements
 		int selColStrLen = selectedColums.length();
 		String innerQuery = selectedColums.substring(0, selColStrLen - 2)
 				+ innerFromClause;
+		/*
+		 * quick fix:
+		 * In queries like 
+		 * SELECT DISTINCT sequence_id FROM (SELECT * FROM relation_members WHERE member_type = 'N')
+		 * there needs to be an alias postfixed, otherwise queries like the
+		 * following will result, which are invalid:
+		 * SELECT COUNT(*) AS count FROM ( SELECT DISTINCT sequence_id FROM (SELECT * FROM relation_members WHERE member_type = 'N')) foo;
+		 * 
+		 * The quick fix for now is to check if the query ends with a closing
+		 * parenthesis. If so, a dummy alias is appended.
+		 */
+		if (innerQuery.trim().endsWith(")")) {
+			innerQuery += " bar";
+		}
 		
 		String query = "SELECT COUNT(*) AS count FROM ( " + innerQuery +
 				") foo;";
@@ -206,5 +229,4 @@ public class SchemaCompleteness extends DbMetric implements
 		
 		return count;
 	}
-
 }

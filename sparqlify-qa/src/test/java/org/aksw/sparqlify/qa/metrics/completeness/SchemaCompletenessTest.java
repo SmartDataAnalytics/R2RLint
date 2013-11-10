@@ -9,90 +9,49 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.aksw.commons.util.MapReader;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
-import org.h2.jdbcx.JdbcDataSource;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class SchemaCompletenessTest {
 
+	@Autowired
+	private DataSource rdb;
 	private Connection conn;
-	private ValueTestingSink sink;
+	@Autowired
+	private SchemaCompleteness metric;
+	@Autowired
+	private MeasureDataSink sink;
+	
 	private ViewDefinition employeeView1;
 	private ViewDefinition employeeView2;
 	private ViewDefinition deptView;
 
-
+	@PostConstruct
+	public void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
+	
 	@Before
 	public void setUp() throws Exception {
-		initDB();
 		initDBContent(conn);
 		initViewDefinitions();
-		sink = new ValueTestingSink();
 	}
-
-
-	@Test
-	public void test01() throws NotImplementedException {
-		SchemaCompleteness metric = new SchemaCompleteness();
-		String metricName = "test01";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn);
-		
-		metric.assessMappings(Arrays.asList(employeeView1, deptView));
-		
-		float expected = 10/(float) 13;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	@Test
-	public void test02() throws NotImplementedException {
-		SchemaCompleteness metric = new SchemaCompleteness();
-		String metricName = "test01";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn);
-		
-		metric.assessMappings(Arrays.asList(employeeView2, deptView));
-		
-		float expected = 21/(float) 13;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	@Test
-	public void test03() throws NotImplementedException {
-		SchemaCompleteness metric = new SchemaCompleteness(false);
-		String metricName = "test01";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn);
-		
-		metric.assessMappings(Arrays.asList(employeeView2, deptView));
-		
-		float expected = 11/(float) 13;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	private void initDB() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1");
-		ds.setUser("test");
-		ds.setPassword("test");
-		conn = ds.getConnection();
-	}
-
 	
 	private void initDBContent(Connection conn) throws SQLException {
 		
@@ -183,7 +142,6 @@ public class SchemaCompletenessTest {
 		conn.createStatement().executeUpdate("ALTER TABLE employee " +
 				"ADD CONSTRAINT employees_dept_fkey FOREIGN KEY (dept) REFERENCES dept(id);");
 	}
-
 
 	private void initViewDefinitions() throws IOException {
 		Map<String, String> typeAlias = MapReader.read(
@@ -278,5 +236,52 @@ public class SchemaCompletenessTest {
 				"From" +
 					"[[ SELECT dept.id AS id, default_name, lang, name  FROM dept JOIN dept_translation ON dept.id=dept_translation.id ]]");
 	}
+	
+	
+	@Test
+	public synchronized void test01() throws NotImplementedException {
+		String metricName = "test01";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(employeeView1, deptView));
+		
+		float expected = 10/(float) 13;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+	@Test
+	public synchronized void test02() throws NotImplementedException {
+		String metricName = "test01";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(employeeView2, deptView));
+		
+		float expected = 21/(float) 13;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+	@Test
+	public void test03() throws NotImplementedException {
+		metric.setCountVariablePredicates(false);
+		String metricName = "test01";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(employeeView2, deptView));
+		metric.setCountVariablePredicates(true);
+		
+		float expected = 11/(float) 13;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+	
+
 	
 }
