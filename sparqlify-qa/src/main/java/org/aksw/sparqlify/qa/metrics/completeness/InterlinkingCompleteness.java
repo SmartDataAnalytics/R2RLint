@@ -3,7 +3,8 @@ package org.aksw.sparqlify.qa.metrics.completeness;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.DbMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -38,7 +39,9 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class InterlinkingCompleteness extends DbMetric implements DatasetMetric {
+@Component
+public class InterlinkingCompleteness extends MetricImpl implements DatasetMetric {
+
 
 	private String numInterlinksQueryStr;
 	private String numSubjQueryStr;
