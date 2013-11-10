@@ -1,10 +1,14 @@
 package org.aksw.sparqlify.qa.metrics.completeness;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
 import org.aksw.commons.collections.Pair;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpBase;
@@ -12,8 +16,10 @@ import org.aksw.sparqlify.algebra.sql.nodes.SqlOpQuery;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpTable;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.DbMetric;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.sparql.core.Quad;
 
@@ -31,9 +37,19 @@ import com.hp.hpl.jena.sparql.core.Quad;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class PropertyCompleteness extends DbMetric implements MappingMetric {
+@Component
+public class PropertyCompleteness extends MetricImpl implements MappingMetric {
+	
+	@Autowired
+	private DataSource rdb;
+	private Connection conn;
 	
 	private final String whereStr = "where";
+	
+	@PostConstruct
+	public void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
 
 	@Override
 	public void assessMappings(Collection<ViewDefinition> viewDefs)
@@ -106,20 +122,37 @@ public class PropertyCompleteness extends DbMetric implements MappingMetric {
 		 * - there is at least one WHERE clause
 		 * - the current WHERE restriction is the sub-string
 		 *   - starting at firstWhereIndex
-		 *   - ending at either the next closing brace ')' or at the string end 
+		 *   - ending at either the next outer closing parenthesis ')' or at the
+		 *     string end
 		 */
-		int nextClosingBraceindex = query.indexOf(")", firstWhereIndex);
 		
-		if (nextClosingBraceindex < 0 ) {
-			// the WHERE restriction ends with the string end
-			return query.substring(0, firstWhereIndex-1);
-		} else {
-			// the WHERE restriction ends with the next closing brace
-			String queryWoCurrentWhereClause =
-					query.substring(0, firstWhereIndex-1) +
-					query.substring(nextClosingBraceindex);
-			return buildUnrestrictedQuery(queryWoCurrentWhereClause);
+		/*
+		 * Determining the next outer parenthesis:
+		 * - start at the WHERE position and iterate over the characters
+		 *   following
+		 * - a parenthesis counter is used, initialized with 0 
+		 * - if a '(' is found the parenthesis counter is incremented
+		 * - if a ')' is found the parenthesis counter is decremented
+		 * - if the parenthesis counter becomes a negative number, we're under
+		 *   the outer closing parenthesis
+		 * - if the parenthesis counter didn't become negative, there is no
+		 *   outer closing parenthesis and the WHERE expression ends with the
+		 *   string end
+		 */
+		int parCounter = 0;
+		for (int i=firstWhereIndex; i<query.length(); i++) {
+			if (query.charAt(i) == '(') parCounter++;
+			else if(query.charAt(i) == ')') parCounter--;
+			else continue;
+			
+			if (parCounter<0) {
+				String queryWoCurrentWhereClause =
+						query.substring(0, firstWhereIndex-1) +
+						query.substring(i);
+				return buildUnrestrictedQuery(queryWoCurrentWhereClause);
+			}
 		}
+		return query.substring(0, firstWhereIndex-1);
 	}
 
 
@@ -129,6 +162,7 @@ public class PropertyCompleteness extends DbMetric implements MappingMetric {
 		try {
 			res = conn.createStatement().executeQuery(countQuery);
 		} catch (SQLException e) {
+			System.out.println(countQuery);
 			e.printStackTrace();
 		}
 		int numTuples = 0;

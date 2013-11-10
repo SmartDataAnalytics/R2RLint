@@ -1,6 +1,5 @@
 package org.aksw.sparqlify.qa.metrics.completeness;
 
-
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -10,142 +9,53 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.aksw.commons.util.MapReader;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class PropertyCompletenessTest {
+	
+	@Autowired
+	private DataSource rdb;
 	private Connection conn;
-	private ValueTestingSink sink;
+	@Autowired
+	private MeasureDataSink sink;
+	@Autowired
+	private PropertyCompleteness metric;
+	
 	private ViewDefinition employeeView;
 	private ViewDefinition deptView1;
 	private ViewDefinition deptView2;
 	private ViewDefinition deptView3;
 	private ViewDefinition deptView4;
 
+	
+	@PostConstruct
+	public void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
 
 	@Before
 	public void setUp() throws Exception {
-		initDB();
 		initDBContent(conn);
 		initViewDefinitions();
-		sink = new ValueTestingSink();
 	}
-
-
-	/*
-	 * using a table in view definition --> full completeness 
-	 */
-	@Test
-	public void test01() throws NotImplementedException {
-		PropertyCompleteness metric = new PropertyCompleteness();
-		String metricName = "test01";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn);
-		
-		metric.assessMappings(Arrays.asList(employeeView));
-		
-		float expected = (float) 1.0;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	/*
-	 * using an SQL query without WHERE clause in view definition --> full
-	 * completeness 
-	 */
-	@Test
-	public void test02() throws NotImplementedException {
-		PropertyCompleteness metric = new PropertyCompleteness();
-		String metricName = "test02";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn);
-		
-		metric.assessMappings(Arrays.asList(deptView1));
-		
-		float expected = (float) 1.0;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	/*
-	 * using an SQL query with WHERE clause with useless restrictions --> full
-	 * completeness
-	 */
-	@Test
-	public void test03() throws NotImplementedException {
-		PropertyCompleteness metric = new PropertyCompleteness();
-		String metricName = "test03";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn);
-		
-		metric.assessMappings(Arrays.asList(deptView2));
-		
-		float expected = (float) 1.0;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	/*
-	 * using an SQL query with one inner WHERE clause with restrictions
-	 * --> no full completeness
-	 */
-	@Test
-	public void test04() throws NotImplementedException {
-		PropertyCompleteness metric = new PropertyCompleteness();
-		String metricName = "test04";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn);
-		
-		metric.assessMappings(Arrays.asList(deptView3));
-		
-		float expected = (float) 7 / (float) 9;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	/*
-	 * using an SQL query with one inner and one outer WHERE clause with
-	 * restrictions --> even less complete
-	 */
-	@Test
-	public void test05() throws NotImplementedException {
-		PropertyCompleteness metric = new PropertyCompleteness();
-		String metricName = "test04";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerDbConnection(conn);
-		
-		metric.assessMappings(Arrays.asList(deptView4));
-		
-		float expected = (float) 5 / (float) 9;
-		assertEquals(expected, sink.writtenValue(metricName), 0);
-	}
-
-
-	private void initDB() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1");
-		ds.setUser("test");
-		ds.setPassword("test");
-		conn = ds.getConnection();
-	}
-
 
 	private void initDBContent(Connection conn) throws SQLException {
 		
@@ -236,8 +146,8 @@ public class PropertyCompletenessTest {
 		conn.createStatement().executeUpdate("ALTER TABLE employee " +
 				"ADD CONSTRAINT employees_dept_fkey FOREIGN KEY (dept) REFERENCES dept(id);");
 	}
-
-
+	
+	
 	private void initViewDefinitions() throws IOException {
 		Map<String, String> typeAlias = MapReader.read(
 				new File("src/test/resources/type-map.h2.tsv"));
@@ -412,4 +322,99 @@ public class PropertyCompletenessTest {
 						"max_dept.id=dept_translation.id " +
 					"WHERE max_dept.id != 2 ]]");
 	}
+	
+	
+	/*
+	 * using a table in view definition --> full completeness 
+	 */
+	@Test
+	public synchronized void test01() throws NotImplementedException {
+		String metricName = "test01";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(employeeView));
+		
+		float expected = (float) 1.0;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+	/*
+	 * using an SQL query without WHERE clause in view definition --> full
+	 * completeness 
+	 */
+	@Test
+	public synchronized void test02() throws NotImplementedException {
+		String metricName = "test02";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(deptView1));
+		
+		float expected = (float) 1.0;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+	/*
+	 * using an SQL query with WHERE clause with useless restrictions --> full
+	 * completeness
+	 */
+	@Test
+	public synchronized void test03() throws NotImplementedException {
+		String metricName = "test03";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(deptView2));
+		
+		float expected = (float) 1.0;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+	/*
+	 * using an SQL query with one inner WHERE clause with restrictions
+	 * --> no full completeness
+	 */
+	@Test
+	public synchronized void test04() throws NotImplementedException {
+		String metricName = "test04";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(deptView3));
+		
+		float expected = (float) 7 / (float) 9;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+	/*
+	 * using an SQL query with one inner and one outer WHERE clause with
+	 * restrictions --> even less complete
+	 */
+	@Test
+	public synchronized void test05() throws NotImplementedException {
+		String metricName = "test04";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		metric.assessMappings(Arrays.asList(deptView4));
+		
+		float expected = (float) 5 / (float) 9;
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+
+
+
+
+
+
 }
