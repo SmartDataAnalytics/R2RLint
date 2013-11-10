@@ -9,24 +9,39 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
+import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_beans.xml"})
 public class ValidLanguageTagTest {
-
-	BooleanTestingSink sink;
+	
+	@Autowired
+	private ApplicationContext applicationContext;
+	
+	@Autowired
+	ValidLanguageTag metric;
+	
+	@Autowired
+	MeasureDataSink sink;
+	
+	@Autowired
 	Pinpointer pinpointer;
-
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
-		pinpointer = new Pinpointer(new ArrayList<ViewDefinition>());
+		pinpointer.registerViewDefs(new ArrayList<ViewDefinition>());
 	}
 
 
@@ -39,13 +54,11 @@ public class ValidLanguageTagTest {
 	 * de (German)
 	 */
 	@Test
-	public void test01() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -53,20 +66,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * fr (French)
 	 */
 	@Test
-	public void test02() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -74,20 +85,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * ja (Japanese)
 	 */
 	@Test
-	public void test03() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -95,20 +104,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * i-enochian (example of a grandfathered tag)
 	 */
 	@Test
-	public void test04() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -116,20 +123,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * zh-Hant (Chinese written using the Traditional Chinese script)
 	 */
 	@Test
-	public void test05() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -137,20 +142,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * zh-Hans (Chinese written using the Simplified Chinese script)
 	 */
 	@Test
-	public void test06() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test06() throws NotImplementedException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -158,20 +161,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * sr-Cyrl (Serbian written using the Cyrillic script)
 	 */
 	@Test
-	public void test07() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test07() throws NotImplementedException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -179,20 +180,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * sr-Latn (Serbian written using the Latin script)
 	 */
 	@Test
-	public void test08() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test08() throws NotImplementedException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -200,7 +199,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -213,13 +212,11 @@ public class ValidLanguageTagTest {
 	 * China)
 	 */
 	@Test
-	public void test09() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test09() throws NotImplementedException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -227,20 +224,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * cmn-Hans-CN (Mandarin Chinese, Simplified script, as used in China)
 	 */
 	@Test
-	public void test10() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test10() throws NotImplementedException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -248,7 +243,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -260,13 +255,11 @@ public class ValidLanguageTagTest {
 	 * zh-yue-HK (Chinese, Cantonese, as used in Hong Kong SAR)
 	 */
 	@Test
-	public void test11() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test11() throws NotImplementedException {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -274,20 +267,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * yue-HK (Cantonese Chinese, as used in Hong Kong SAR)
 	 */
 	@Test
-	public void test12() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test12() throws NotImplementedException {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -295,7 +286,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -303,13 +294,11 @@ public class ValidLanguageTagTest {
 	 * mainland China)
 	 */
 	@Test
-	public void test13() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test13() throws NotImplementedException {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -317,20 +306,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * sr-Latn-RS (Serbian written using the Latin script as used in Serbia)
 	 */
 	@Test
-	public void test14() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test14() throws NotImplementedException {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -338,20 +325,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * sl-rozaj (Resian dialect of Slovenian)
 	 */
 	@Test
-	public void test15() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test15() throws NotImplementedException {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -359,7 +344,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -368,13 +353,11 @@ public class ValidLanguageTagTest {
 	 * FIXME: should not fail
 	 */
 	@Test
-	public void test16() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test16() throws NotImplementedException {
 		String metricName = "test16";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -382,20 +365,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * sl-nedis (Nadiza dialect of Slovenian)
 	 */
 	@Test
-	public void test17() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test17() throws NotImplementedException {
 		String metricName = "test17";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -403,7 +384,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -413,13 +394,11 @@ public class ValidLanguageTagTest {
 	 * FIXME: should not fail
 	 */
 	@Test
-	public void test18() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test18() throws NotImplementedException {
 		String metricName = "test18";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -427,20 +406,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * sl-IT-nedis (Slovenian as used in Italy, Nadiza dialect)
 	 */
 	@Test
-	public void test19() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test19() throws NotImplementedException {
 		String metricName = "test19";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -448,7 +425,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -456,13 +433,11 @@ public class ValidLanguageTagTest {
 	 * in Italy)
 	 */
 	@Test
-	public void test20() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test20() throws NotImplementedException {
 		String metricName = "test20";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -470,20 +445,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * de-DE (German for Germany)
 	 */
 	@Test
-	public void test21() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test21() throws NotImplementedException {
 		String metricName = "test21";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -491,20 +464,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * en-US (English as used in the United States)
 	 */
 	@Test
-	public void test22() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test22() throws NotImplementedException {
 		String metricName = "test22";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -512,7 +483,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -520,13 +491,11 @@ public class ValidLanguageTagTest {
 	 * region using the UN region code)
 	 */
 	@Test
-	public void test23() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test23() throws NotImplementedException {
 		String metricName = "test23";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -534,20 +503,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * de-CH-x-phonebk (private use subtags)
 	 */
 	@Test
-	public void test24() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test24() throws NotImplementedException {
 		String metricName = "test24";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -555,7 +522,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -564,13 +531,11 @@ public class ValidLanguageTagTest {
 	 * FIXME: should not fail
 	 */
 	@Test
-	public void test25() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test25() throws NotImplementedException {
 		String metricName = "test25";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -578,20 +543,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * x-whatever (private use using the singleton 'x')
 	 */
 	@Test
-	public void test26() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test26() throws NotImplementedException {
 		String metricName = "test26";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -599,20 +562,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * qaa-Qaaa-QM-x-southern (all private tags)
 	 */
 	@Test
-	public void test27() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test27() throws NotImplementedException {
 		String metricName = "test27";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -620,20 +581,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * de-Qaaa (German, with a private script)
 	 */
 	@Test
-	public void test28() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test28() throws NotImplementedException {
 		String metricName = "test28";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -641,20 +600,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * sr-Latn-QM (Serbian, Latin script, private region)
 	 */
 	@Test
-	public void test29() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test29() throws NotImplementedException {
 		String metricName = "test29";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -662,20 +619,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * sr-Qaaa-RS (Serbian, private script, for Serbia)
 	 */
 	@Test
-	public void test30() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test30() throws NotImplementedException {
 		String metricName = "test30";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -683,20 +638,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * en-US-u-islamcal (tags that use extensions)
 	 */
 	@Test
-	public void test31() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test31() throws NotImplementedException {
 		String metricName = "test31";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -704,20 +657,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * zh-CN-a-myext-x-private (tags that use extensions)
 	 */
 	@Test
-	public void test32() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test32() throws NotImplementedException {
 		String metricName = "test32";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -725,20 +676,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * en-a-myext-b-another (tags that use extensions)
 	 */
 	@Test
-	public void test33() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test33() throws NotImplementedException {
 		String metricName = "test33";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -746,20 +695,18 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
 	 * de-419-DE (invalid: two region tags)
 	 */
 	@Test
-	public void test34() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test34() throws NotImplementedException {
 		String metricName = "test34";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -767,7 +714,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -776,13 +723,11 @@ public class ValidLanguageTagTest {
 	 * are valid)
 	 */
 	@Test
-	public void test35() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test35() throws NotImplementedException {
 		String metricName = "test35";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -790,7 +735,7 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 	/*
@@ -800,13 +745,11 @@ public class ValidLanguageTagTest {
 	 * FIXME: should not fail
 	 */
 	@Test
-	public void test36() throws NotImplementedException {
-		ValidLanguageTag metric = new ValidLanguageTag();
+	public synchronized void test36() throws NotImplementedException {
 		String metricName = "test36";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -814,6 +757,6 @@ public class ValidLanguageTagTest {
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessNodes(triple);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertTrue(((BooleanTestingSink) sink).nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 }

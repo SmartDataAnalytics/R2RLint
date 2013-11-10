@@ -11,16 +11,23 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.apache.jena.riot.web.LangTag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_Literal;
 import com.hp.hpl.jena.graph.Triple;
 
-public class ValidLanguageTag extends PinpointMetric implements NodeMetric {
+@Component
+public class ValidLanguageTag extends MetricImpl implements NodeMetric {
+	
+	@Autowired
+	Pinpointer pinpointer;
 	
 	private String langTagFilePath = "src/main/resources/iana_lang_tags.txt";
 	private List<String> langTags;
@@ -37,7 +44,6 @@ public class ValidLanguageTag extends PinpointMetric implements NodeMetric {
 
 	@Override
 	public void assessNodes(Triple triple) throws NotImplementedException {
-		// TODO Auto-generated method stub
 		Node object = triple.getObject();
 		if (object.isLiteral()) {
 			
