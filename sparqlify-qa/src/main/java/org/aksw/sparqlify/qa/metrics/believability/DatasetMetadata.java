@@ -10,6 +10,7 @@ import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.vocabularies.SIOC;
 import org.aksw.sparqlify.qa.vocabularies.VoID;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
@@ -31,6 +32,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
+@Component
 public class DatasetMetadata extends MetricImpl implements DatasetMetric {
 	
 	float noDatasetStatementsValue = 0;
