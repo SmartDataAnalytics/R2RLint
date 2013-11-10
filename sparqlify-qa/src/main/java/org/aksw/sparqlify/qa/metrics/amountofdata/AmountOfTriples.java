@@ -4,7 +4,9 @@ import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class AmountOfTriples extends MetricImpl implements DatasetMetric {
 
 	@Override
@@ -31,7 +33,7 @@ public class AmountOfTriples extends MetricImpl implements DatasetMetric {
 		else if (numTriples < mediumHigh && numTriples >= mediumLow) val = (float) 0.5;
 		else if (numTriples < mediumLow  && numTriples >= low) val = (float) 0.25;
 		else val = 0;
-			
+		
 		writeDatasetMeasureToSink(val);
 	}
 
