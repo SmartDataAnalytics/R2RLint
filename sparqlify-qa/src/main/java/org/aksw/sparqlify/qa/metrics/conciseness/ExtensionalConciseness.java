@@ -19,6 +19,7 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_Variable;
@@ -36,6 +37,7 @@ import com.hp.hpl.jena.sparql.core.Var;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
+@Component
 public class ExtensionalConciseness extends MetricImpl implements MappingMetric {
 
 	@Override
