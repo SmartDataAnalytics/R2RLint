@@ -2,7 +2,7 @@ package org.aksw.sparqlify.qa.metrics;
 
 import java.sql.Connection;
 
-public class DbMetric extends MetricImpl implements Metric {
+public class DbMetric_rm extends MetricImpl implements Metric {
 	
 	protected Connection conn;
 
