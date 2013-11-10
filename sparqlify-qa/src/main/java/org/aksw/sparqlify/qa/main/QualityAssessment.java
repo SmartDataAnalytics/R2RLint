@@ -211,7 +211,7 @@ public class QualityAssessment {
 						Metric metric = (Metric) appContext.getBean(metricName);
 						String thresholdKey = key + ".threshold";
 						if (metricsSettings.containsKey(thresholdKey)) {
-							float threshold = (Float) metricsSettings.get(thresholdKey);
+							float threshold = Float.parseFloat((String) metricsSettings.get(thresholdKey));
 							metric.setThreshold(threshold);
 						}
 						metric.setName(metricName);
