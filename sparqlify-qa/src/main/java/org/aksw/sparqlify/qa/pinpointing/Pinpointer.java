@@ -10,6 +10,7 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.database.Clause;
 import org.aksw.sparqlify.database.NestedNormalForm;
 import org.aksw.sparqlify.restriction.RestrictionManagerImpl;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
@@ -19,6 +20,7 @@ import com.hp.hpl.jena.sparql.expr.E_Equals;
 import com.hp.hpl.jena.sparql.expr.ExprVar;
 import com.hp.hpl.jena.sparql.expr.NodeValue;
 
+@Component
 public class Pinpointer {
 
 //	private Collection<ViewDefinition> viewDefs;
@@ -30,7 +32,7 @@ public class Pinpointer {
 	 * - add caching
 	 */
 	
-	public Pinpointer(Collection<ViewDefinition> viewDefs) {
+	public void registerViewDefs(Collection<ViewDefinition> viewDefs) {
 //		this.viewDefs = viewDefs;
 		candidateSelector = new CandidateViewSelectorImpl();
 		for (ViewDefinition viewDef : viewDefs) {
