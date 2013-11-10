@@ -36,6 +36,7 @@ import org.aksw.sparqlify.qa.metrics.MappingMetric;
 import org.aksw.sparqlify.qa.metrics.Metric;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.antlr.runtime.RecognitionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,6 +113,9 @@ public class QualityAssessment {
 	@Autowired
 	private DataSource rdb;
 	
+	@Autowired
+	Pinpointer pinpointer;
+	
 	
 	public QualityAssessment() {
 		loggerCount = new LoggerCount(logger);
@@ -173,6 +177,8 @@ public class QualityAssessment {
 		for (org.aksw.sparqlify.config.syntax.ViewDefinition viewDef : syntaxViewDefs) {
 			viewDefs.add(synBridge.create(viewDef));
 		}
+		
+		pinpointer.registerViewDefs(viewDefs);
 	}
 	
 	

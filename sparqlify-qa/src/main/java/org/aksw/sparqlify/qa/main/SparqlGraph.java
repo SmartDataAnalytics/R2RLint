@@ -20,6 +20,7 @@ public class SparqlGraph extends GraphBase implements Graph {
 
 
 	private String serviceURI ;
+	@SuppressWarnings("unused")
 	private String graphIRI = null ;
 	private String queryStr;
 	
