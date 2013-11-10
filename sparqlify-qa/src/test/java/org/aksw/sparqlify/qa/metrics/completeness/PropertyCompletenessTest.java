@@ -19,7 +19,6 @@ import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
-import org.h2.jdbcx.JdbcDataSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
