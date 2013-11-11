@@ -9,10 +9,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.aksw.commons.jena.reader.NTripleIterator;
+import org.aksw.sparqlify.qa.main.SparqlGraph;
 
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.impl.ModelCom;
 import com.hp.hpl.jena.sparql.graph.GraphFactory;
 
@@ -33,7 +41,9 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 	// to be able to differentiate between "re-used" and own resources
 	private String prefix = null;
 	private List<String> usedPrefixes = null;
-
+	private boolean sparqlWrapping = false;
+	private long size = -1;
+	private boolean cachingEnabled = true;
 
 	public SparqlifyDataset() {
 		super(GraphFactory.createDefaultGraph());
@@ -42,6 +52,7 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 
 	public SparqlifyDataset(Graph g) {
 		super(g);
+		sparqlWrapping = true;
 	}
 
 
@@ -86,5 +97,30 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 		InputStream iteratorStream = new FileInputStream(dumpFile);
 		it = new NTripleIterator(iteratorStream, null, null);
 		
+	}
+	
+	@Override
+	public long size() {
+		if (sparqlWrapping) {
+			if (size < 0 || !cachingEnabled) {
+				Query query = QueryFactory.create("SELECT DISTINCT (count(*) AS ?count) {?s ?p ?o}");
+				QueryExecution qe = QueryExecutionFactory.sparqlService(((SparqlGraph) getGraph()).getServiceURI(), query);
+				ResultSet res = qe.execSelect();
+				RDFNode count = null;
+				while(res.hasNext())
+				{
+					QuerySolution sol = res.nextSolution();
+					count = sol.get("count").asLiteral();
+					
+				}
+				qe.close();
+				
+				return count.asLiteral().getLong();
+			} else {
+				return size;
+			}
+		} else {
+			return super.size();
+		}
 	}
 }

@@ -54,6 +54,9 @@ public class SparqlGraph extends GraphBase implements Graph {
 		}
 		qe.close(); 
 		return WrappedIterator.createNoRemove(triples.iterator()) ;
-
+	}
+	
+	public String getServiceURI() {
+		return serviceURI;
 	}
 }
