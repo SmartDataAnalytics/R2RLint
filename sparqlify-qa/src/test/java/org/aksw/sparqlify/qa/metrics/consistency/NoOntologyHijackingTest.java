@@ -15,23 +15,32 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-public class NoOntologyHighJackingTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
+public class NoOntologyHijackingTest {
 
 	private final float noViolation = -1;
 	private final float badSmell = (float) 0.5;
 	private final float error = 0;
 	
+	@Autowired
 	private ValueTestingSink sink;
+	@Autowired
 	private Pinpointer pinpointer;
+	@Autowired
+	private NoOntologyHijacking metric;
 
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
 		// initialize dummy pinpointer
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-		pinpointer = new Pinpointer(viewDefs);
+		pinpointer.registerViewDefs(viewDefs);
 	}
 
 
@@ -61,14 +70,11 @@ public class NoOntologyHighJackingTest {
 	}
 	
 	@Test
-	public void test01() throws NotImplementedException {
-		NoOntologyHighJacking metric = new NoOntologyHighJacking();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
@@ -104,14 +110,11 @@ public class NoOntologyHighJackingTest {
 	}
 	
 	@Test
-	public void test02() throws NotImplementedException {
-		NoOntologyHighJacking metric = new NoOntologyHighJacking();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
@@ -147,14 +150,11 @@ public class NoOntologyHighJackingTest {
 	}
 	
 	@Test
-	public void test03() throws NotImplementedException {
-		NoOntologyHighJacking metric = new NoOntologyHighJacking();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
@@ -190,14 +190,11 @@ public class NoOntologyHighJackingTest {
 	}
 	
 	@Test
-	public void test04() throws NotImplementedException {
-		NoOntologyHighJacking metric = new NoOntologyHighJacking();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset04();
 		metric.assessDataset(dataset);
@@ -234,14 +231,11 @@ public class NoOntologyHighJackingTest {
 	}
 	
 	@Test
-	public void test05() throws NotImplementedException {
-		NoOntologyHighJacking metric = new NoOntologyHighJacking();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset05();
 		metric.assessDataset(dataset);

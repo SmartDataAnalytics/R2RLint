@@ -10,7 +10,10 @@ import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.main.VocabularyLoader;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -44,9 +47,12 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class NoOntologyHighJacking extends PinpointMetric implements
-		DatasetMetric {
+@Component
+public class NoOntologyHijacking extends MetricImpl implements DatasetMetric {
 
+	@Autowired
+	private Pinpointer pinpointer;
+	
 	private final float badSmellValue = (float) 0.5;
 	private final float errorValue = 0;
 	
@@ -54,7 +60,7 @@ public class NoOntologyHighJacking extends PinpointMetric implements
 	// multiple instantiations
 	private VocabularyLoader vocabLoader;
 	
-	public NoOntologyHighJacking() {
+	public NoOntologyHijacking() {
 		super();
 		vocabLoader = new VocabularyLoader();
 	}
