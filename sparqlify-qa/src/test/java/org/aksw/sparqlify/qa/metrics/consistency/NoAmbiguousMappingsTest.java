@@ -9,6 +9,10 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.sql.DataSource;
+
 import org.aksw.commons.util.MapReader;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
@@ -18,18 +22,36 @@ import org.aksw.sparqlify.util.ViewDefinitionFactory;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class NoAmbiguousMappingsTest {
 	
-	int dbNum = 0;
-	
+	@Autowired
 	private BooleanTestingSink sink;
+	@Autowired
+	private DataSource rdb;
+	private Connection conn;
+	@Autowired
+	private NoAmbiguousMappings metric;
 	private ViewDefinitionFactory vdf;
-
+	
+	@PostConstruct
+	private void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
+	
+	@PreDestroy
+	private void cleanUp() throws SQLException {
+		conn.close();
+	}
+	
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
-		
 		Map<String, String> typeAlias = MapReader.read(
 				new File("src/test/resources/type-map.h2.tsv"));
 		vdf = SparqlifyUtils.createDummyViewDefinitionFactory(typeAlias);
@@ -46,31 +68,24 @@ public class NoAmbiguousMappingsTest {
 	 *   b2           [ uri(ex:b2, '/', ?b2)  ]
 	 *   b3           [ uri(ex:b3, '/', ?b3)  ]
 	 */
-	private Connection db01() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
-		
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS A;");
+	private void initData01() throws SQLException {
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
 		
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE A (" +
+				"CREATE TABLE a (" +
 					"a_id integer NOT NULL, " +
 					"a2 varchar(30) NOT NULL, " +
 					"a3 integer NOT NULL" +
 				");");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS B;");
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE B (" +
+				"CREATE TABLE b (" +
 					"b_id integer NOT NULL, " +
 					"b2 varchar(30) NOT NULL, " +
 					"b3 integer NOT NULL" +
 				");");
-		return conn;
 	}
 	
 	private ViewDefinition viewDef01() {
@@ -120,20 +135,14 @@ public class NoAmbiguousMappingsTest {
 	}
 
 	@Test
-	public void test01() throws NotImplementedException {
-		NoAmbiguousMappings metric = new NoAmbiguousMappings();
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db01();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
+		initData01();
 		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02()));
+		metric.cleanCaches();
 
 		assertFalse(sink.measureWritten(metricName));
 	}
@@ -150,31 +159,24 @@ public class NoAmbiguousMappingsTest {
 	 *   b2           [ uri(ex:b2, '/', ?b2 ) ]
 	 *   b3 --> A.a3  [ uri(ex:key, '/', ?b3) ]
 	 */
-	private Connection db02() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
+	private void initData02() throws SQLException {
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
 		
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS A;");
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE A (" +
+				"CREATE TABLE a (" +
 					"a_id integer NOT NULL, " +
 					"a2 varchar(30) NOT NULL, " +
 					"a3 integer NOT NULL" +
 				");");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS B;");
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE B (" +
+				"CREATE TABLE b (" +
 					"b_id integer NOT NULL, " +
 					"b2 varchar(30) NOT NULL, " +
 					"b3 integer NOT NULL REFERENCES A(a3)" +
 				");");
-		return conn;
 	}
 
 	private ViewDefinition viewDef03() {
@@ -223,20 +225,15 @@ public class NoAmbiguousMappingsTest {
 	}
 
 	@Test
-	public void test02() throws NotImplementedException {
-		NoAmbiguousMappings metric = new NoAmbiguousMappings();
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db02();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
+		
+		initData02();
 		metric.assessMappings(Arrays.asList(viewDef03(), viewDef04()));
+		metric.cleanCaches();
 
 		assertFalse(sink.measureWritten(metricName));
 	}
@@ -276,6 +273,7 @@ public class NoAmbiguousMappingsTest {
 		
 		return viewDef;
 	}
+	
 	private ViewDefinition viewDef06() {
 		ViewDefinition viewDef = vdf.create(
 			"Prefix ex: <http://ex.org/> " +
@@ -301,20 +299,15 @@ public class NoAmbiguousMappingsTest {
 	}
 
 	@Test
-	public void test03() throws NotImplementedException {
-		NoAmbiguousMappings metric = new NoAmbiguousMappings();
+	public synchronized void test03() throws NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db01();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
+		
+		initData01();
 		metric.assessMappings(Arrays.asList(viewDef05(), viewDef06()));
+		metric.cleanCaches();
 
 		assertFalse(sink.measureWritten(metricName));
 	}
@@ -332,20 +325,15 @@ public class NoAmbiguousMappingsTest {
 	 *   b3           [ uri(ex:key, '/', ?b3) ]
 	 */
 	@Test
-	public void test04() throws NotImplementedException {
-		NoAmbiguousMappings metric = new NoAmbiguousMappings();
+	public synchronized void test04() throws NotImplementedException, SQLException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db01();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
+		
+		initData01();
 		metric.assessMappings(Arrays.asList(viewDef03(), viewDef04()));
+		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
 	}
@@ -408,20 +396,15 @@ public class NoAmbiguousMappingsTest {
 	}
 
 	@Test
-	public void test05() throws NotImplementedException {
-		NoAmbiguousMappings metric = new NoAmbiguousMappings();
+	public synchronized void test05() throws NotImplementedException, SQLException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db01();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
+		
+		initData01();
 		metric.assessMappings(Arrays.asList(viewDef07(), viewDef08()));
+		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
 	}
@@ -439,19 +422,13 @@ public class NoAmbiguousMappingsTest {
 	 *   b3 --> A.a3  [ uri(ex:key2, '/', ?b3) ]
 	 */
 	@Test
-	public void test06() throws NotImplementedException {
-		NoAmbiguousMappings metric = new NoAmbiguousMappings();
+	public synchronized void test06() throws NotImplementedException, SQLException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db02();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
+		
+		initData02();
 		metric.assessMappings(Arrays.asList(viewDef07(), viewDef08()));
 
 		assertTrue(sink.measureWritten(metricName));
@@ -471,56 +448,43 @@ public class NoAmbiguousMappingsTest {
 	 * 
 	 * table C: not mapped
 	 */
-	private Connection db03() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
+	private void initData03() throws SQLException {
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
 		
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS A;");
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE A (" +
+				"CREATE TABLE a (" +
 					"a_id integer NOT NULL, " +
 					"a2 varchar(30) NOT NULL, " +
 					"a3 integer NOT NULL" +
 				");");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS C;");
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE C (" +
+				"CREATE TABLE c (" +
 					"c_id integer NOT NULL, " +
 					"c2 varchar(30) NOT NULL, " +
 					"c3 integer NOT NULL" +
 				");");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS B;");
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE B (" +
+				"CREATE TABLE b (" +
 					"b_id integer NOT NULL, " +
 					"b2 varchar(30) NOT NULL, " +
 					"b3 integer NOT NULL REFERENCES C(c3)" +
 				");");
-		return conn;
 	}
 
 	@Test
-	public void test07() throws NotImplementedException {
-		NoAmbiguousMappings metric = new NoAmbiguousMappings();
+	public synchronized void test07() throws NotImplementedException, SQLException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db03();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
+		
+		initData03();
 		metric.assessMappings(Arrays.asList(viewDef07(), viewDef08()));
+		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
 	}
@@ -539,56 +503,43 @@ public class NoAmbiguousMappingsTest {
 	 * 
 	 * table C: not mapped
 	 */
-	private Connection db04() throws SQLException {
-		JdbcDataSource ds = new JdbcDataSource();
-		ds.setURL("jdbc:h2:mem:test" + dbNum++ + ";MODE=PostgreSQL;" +
-				"DB_CLOSE_DELAY=-1");
+	private void initData04() throws SQLException {
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
 		
-		ds.setUser("test");
-		ds.setPassword("test");
-		Connection conn = ds.getConnection();
-		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS A;");
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE A (" +
+				"CREATE TABLE a (" +
 					"a_id integer NOT NULL, " +
 					"a2 varchar(30) NOT NULL, " +
 					"a3 integer NOT NULL" +
 				");");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS C;");
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE C (" +
+				"CREATE TABLE c (" +
 					"c_id integer NOT NULL, " +
 					"c2 varchar(30) NOT NULL, " +
 					"c3 integer NOT NULL" +
 				");");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS B;");
 		conn.createStatement().executeUpdate(
-				"CREATE TABLE B (" +
+				"CREATE TABLE b (" +
 					"b_id integer NOT NULL, " +
 					"b2 varchar(30) NOT NULL REFERENCES A(a2), " +
 					"b3 integer NOT NULL REFERENCES C(c3)" +
 				");");
-		return conn;
 	}
 	
 	@Test
-	public void test08() throws NotImplementedException {
-		NoAmbiguousMappings metric = new NoAmbiguousMappings();
+	public synchronized void test08() throws NotImplementedException, SQLException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		Connection conn = null;
-		try {
-			conn = db04();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		metric.registerDbConnection(conn);
+		metric.initMeasureDataSink();
+
+		initData04();
 		metric.assessMappings(Arrays.asList(viewDef07(), viewDef08()));
+		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
 	}

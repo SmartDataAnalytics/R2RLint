@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.consistency;
 
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +11,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.sql.DataSource;
+
 import org.aksw.commons.collections.Pair;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOp;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpQuery;
@@ -18,8 +23,10 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.DbMetric;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.sparql.core.Quad;
@@ -107,13 +114,31 @@ import com.hp.hpl.jena.sparql.expr.ExprFunction;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class NoAmbiguousMappings extends DbMetric implements MappingMetric {
+@Component
+public class NoAmbiguousMappings extends MetricImpl implements MappingMetric {
 
 	// term constructor map holding all normalized term constructors (column
 	// names removed) and where they can stem from (table, quad, viewDef)
 	HashMap<String, HashMap<String, List<Pair<Quad, ViewDefinition>>>> tcMap;
 
-
+	@Autowired
+	private DataSource rdb;
+	private Connection conn;
+	
+	@PostConstruct
+	private void init() throws SQLException {
+		conn = rdb.getConnection();
+	}
+	@PreDestroy
+	private void cleanUp() throws SQLException {
+		conn.close();
+	}
+	
+	// for testing
+	protected void cleanCaches() {
+		tcMap = new HashMap<String, HashMap<String, List<Pair<Quad, ViewDefinition>>>>();
+	}
+	
 	public NoAmbiguousMappings() {
 		super();
 		tcMap = new HashMap<String, HashMap<String, List<Pair<Quad, ViewDefinition>>>>();
