@@ -10,7 +10,10 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -47,9 +50,13 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class WellPlacedClassesAndProperties extends PinpointMetric implements
+@Component
+public class WellPlacedClassesAndProperties extends MetricImpl implements
 		DatasetMetric {
 
+	@Autowired
+	private Pinpointer pinpointer;
+	
 	private final List<String> propertyOnSubjPosWhitelist = new ArrayList<String>(
 			Arrays.asList(
 					"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
