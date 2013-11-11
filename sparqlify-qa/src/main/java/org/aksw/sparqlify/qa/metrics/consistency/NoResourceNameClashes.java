@@ -11,7 +11,10 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.ontology.DatatypeProperty;
 import com.hp.hpl.jena.ontology.Individual;
@@ -53,9 +56,12 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class NoResourceNameClashes extends PinpointMetric implements
-		DatasetMetric {
+@Component
+public class NoResourceNameClashes extends MetricImpl implements DatasetMetric {
 
+	@Autowired
+	private Pinpointer pinpointer;
+	
 	// whitelist for statements like <individual> <predicate> <given class> .
 	private final List<Property> indivPredicateClassWhitelist =
 			new ArrayList<Property>(Arrays.asList(RDF.type));
@@ -102,7 +108,17 @@ public class NoResourceNameClashes extends PinpointMetric implements
 	private Set<Property> datatypeProperties;
 	private Set<Property> objectProperties;
 
-
+	// for testing
+	protected void clearCaches() {
+		candidatesResults = new HashSet<Set<ViewQuad<ViewDefinition>>>();
+		classes = new HashSet<Resource>();
+		properties = new HashSet<Property>();
+		individuals = new HashSet<Resource>();
+		datatypeProperties = new HashSet<Property>();
+		objectProperties = new HashSet<Property>();
+	}
+	
+	
 	public NoResourceNameClashes() {
 		super();
 		candidatesResults = new HashSet<Set<ViewQuad<ViewDefinition>>>();
