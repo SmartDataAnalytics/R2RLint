@@ -19,13 +19,11 @@
 
   <bean
       id="rdb"
-      class="org.postgresql.ds.PGSimpleDataSource"
-      p:databaseName="${rdb.dbName}"
-      p:user="${rdb.user}"
-      p:password="${rdb.password}"
-      p:serverName="${rdb.host}"
-      p:portNumber="${rdb.port}" />
-  
+      class="org.h2.jdbcx.JdbcDataSource"
+      p:URL="jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1"
+      p:user="test"
+      p:password="test" />
+
   <!--
   <bean
       id="booleanTestingSink"
