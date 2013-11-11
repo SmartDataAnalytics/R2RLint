@@ -7,8 +7,11 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -22,8 +25,12 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.shared.InvalidPropertyURIException;
 
-public class NoDeprecatedClassesOrProperties extends PinpointMetric implements
+@Component
+public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 		DatasetMetric {
+	
+	@Autowired
+	private Pinpointer pinpointer;
 	
 	// prefixes
 	private final String rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";

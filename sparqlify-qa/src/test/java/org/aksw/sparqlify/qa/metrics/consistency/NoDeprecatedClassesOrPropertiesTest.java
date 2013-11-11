@@ -16,6 +16,10 @@ import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * TODO: This tests do not cover the case where the Jena reasoner adds
@@ -28,17 +32,22 @@ import org.junit.Test;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class NoDeprecatedClassesOrPropertiesTest {
 	
-	Pinpointer pinpointer;
-	BooleanTestingSink sink;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private BooleanTestingSink sink;
+	@Autowired
+	private NoDeprecatedClassesOrProperties metric;
 
 	@Before
 	public void setUp() throws Exception {
 		// dummy pinpointer
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-		pinpointer = new Pinpointer(viewDefs);
-		sink = new BooleanTestingSink();
+		pinpointer.registerViewDefs(viewDefs);
 	}
 
 
@@ -60,13 +69,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test01() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
@@ -93,13 +100,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test02() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
@@ -128,13 +133,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test03() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
@@ -163,13 +166,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test04() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset04();
 		metric.assessDataset(dataset);
@@ -199,13 +200,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test05() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset05();
 		metric.assessDataset(dataset);
@@ -235,13 +234,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test06() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test06() throws NotImplementedException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset06();
 		metric.assessDataset(dataset);
@@ -270,13 +267,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test07() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test07() throws NotImplementedException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset07();
 		metric.assessDataset(dataset);
@@ -306,13 +301,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test08() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test08() throws NotImplementedException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset08();
 		metric.assessDataset(dataset);
@@ -341,13 +334,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test09() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test09() throws NotImplementedException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset09();
 		metric.assessDataset(dataset);
@@ -377,13 +368,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test10() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test10() throws NotImplementedException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset10();
 		metric.assessDataset(dataset);
@@ -413,13 +402,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test11() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test11() throws NotImplementedException {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset11();
 		metric.assessDataset(dataset);
@@ -449,13 +436,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test12() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test12() throws NotImplementedException {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset12();
 		metric.assessDataset(dataset);
@@ -486,13 +471,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test13() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test13() throws NotImplementedException {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset13();
 		metric.assessDataset(dataset);
@@ -523,13 +506,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test14() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test14() throws NotImplementedException {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset14();
 		metric.assessDataset(dataset);
@@ -559,13 +540,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test15() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test15() throws NotImplementedException {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset15();
 		metric.assessDataset(dataset);
@@ -595,13 +574,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test16() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test16() throws NotImplementedException {
 		String metricName = "test16";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset16();
 		metric.assessDataset(dataset);
@@ -632,13 +609,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test17() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test17() throws NotImplementedException {
 		String metricName = "test17";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset17();
 		metric.assessDataset(dataset);
@@ -668,13 +643,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test18() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test18() throws NotImplementedException {
 		String metricName = "test18";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset18();
 		metric.assessDataset(dataset);
@@ -706,13 +679,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	@Test
-	public void test19() throws NotImplementedException {
-		NoDeprecatedClassesOrProperties metric = new NoDeprecatedClassesOrProperties();
+	public synchronized void test19() throws NotImplementedException {
 		String metricName = "test19";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset19();
 		metric.assessDataset(dataset);
