@@ -10,6 +10,7 @@ import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -25,6 +26,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
+@Component
 public class TypedResources extends MetricImpl implements DatasetMetric {
 
 	private Set<Resource> knownResources;
@@ -37,6 +39,11 @@ public class TypedResources extends MetricImpl implements DatasetMetric {
 			OWL.FunctionalProperty, OWL.FunctionalProperty, OWL.ObjectProperty,
 			OWL.Ontology, OWL.OntologyProperty, OWL.Restriction,
 			OWL.SymmetricProperty, OWL.TransitiveProperty));
+
+
+	protected void clearCaches() {
+		knownResources = new HashSet<Resource>();
+	}
 
 
 	public TypedResources() {

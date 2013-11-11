@@ -11,14 +11,22 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class TypedResourcesTest {
 	
-	BooleanTestingSink sink;
+	@Autowired
+	private BooleanTestingSink sink;
+	@Autowired
+	private TypedResources metric;
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
 	}
 
 
@@ -43,15 +51,15 @@ public class TypedResourcesTest {
 	}
 	
 	@Test
-	public void test01() throws NotImplementedException {
-		TypedResources metric = new TypedResources();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
+		metric.clearCaches();
 		
 		assertFalse(sink.measureWritten(metricName));
 	}
@@ -77,15 +85,15 @@ public class TypedResourcesTest {
 	}
 	
 	@Test
-	public void test02() throws NotImplementedException {
-		TypedResources metric = new TypedResources();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
+		metric.clearCaches();
 		
 		assertTrue(sink.measureWritten(metricName));
 	}
@@ -112,15 +120,15 @@ public class TypedResourcesTest {
 	}
 	
 	@Test
-	public void test03() throws NotImplementedException {
-		TypedResources metric = new TypedResources();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
+		metric.clearCaches();
 		
 		assertTrue(sink.measureWritten(metricName));
 	}
@@ -148,15 +156,15 @@ public class TypedResourcesTest {
 	}
 	
 	@Test
-	public void test04() throws NotImplementedException {
-		TypedResources metric = new TypedResources();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset04();
 		metric.assessDataset(dataset);
+		metric.clearCaches();
 		
 		assertFalse(sink.measureWritten(metricName));
 	}
@@ -185,15 +193,15 @@ public class TypedResourcesTest {
 	}
 	
 	@Test
-	public void test05() throws NotImplementedException {
-		TypedResources metric = new TypedResources();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset05();
 		metric.assessDataset(dataset);
+		metric.clearCaches();
 		
 		assertFalse(sink.measureWritten(metricName));
 	}
@@ -221,15 +229,15 @@ public class TypedResourcesTest {
 	}
 	
 	@Test
-	public void test06() throws NotImplementedException {
-		TypedResources metric = new TypedResources();
+	public synchronized void test06() throws NotImplementedException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset06();
 		metric.assessDataset(dataset);
+		metric.clearCaches();
 		
 		assertFalse(sink.measureWritten(metricName));
 	}
@@ -258,15 +266,15 @@ public class TypedResourcesTest {
 	}
 	
 	@Test
-	public void test07() throws NotImplementedException {
-		TypedResources metric = new TypedResources();
+	public synchronized void test07() throws NotImplementedException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset07();
 		metric.assessDataset(dataset);
+		metric.clearCaches();
 		
 		assertFalse(sink.measureWritten(metricName));
 	}
