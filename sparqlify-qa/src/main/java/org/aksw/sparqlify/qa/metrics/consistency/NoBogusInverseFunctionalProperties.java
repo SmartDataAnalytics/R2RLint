@@ -8,8 +8,11 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
@@ -34,9 +37,13 @@ import com.hp.hpl.jena.graph.Triple;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class NoBogusInverseFunctionalProperties extends PinpointMetric
+@Component
+public class NoBogusInverseFunctionalProperties extends MetricImpl
 		implements TripleMetric {
 
+	@Autowired
+	private Pinpointer pinpointer;
+	
 	private final List<Triple> blackList = new ArrayList<Triple>(Arrays.asList(
 			new Triple(
 					NodeFactory.createVariable("subject"),

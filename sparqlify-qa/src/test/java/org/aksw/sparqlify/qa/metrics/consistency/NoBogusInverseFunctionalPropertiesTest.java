@@ -12,34 +12,41 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class NoBogusInverseFunctionalPropertiesTest {
 
-	Pinpointer pinpointer;
-	BooleanTestingSink sink;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private BooleanTestingSink sink;
+	@Autowired
+	private NoBogusInverseFunctionalProperties metric;
 
 
 	@Before
 	public void setUp() throws Exception {
 		// dummy pinpointer
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-		pinpointer = new Pinpointer(viewDefs);
-		sink = new BooleanTestingSink();
+		pinpointer.registerViewDefs(viewDefs);
 	}
 
 
 	@Test
-	public void test01() throws NotImplementedException {
-		NoBogusInverseFunctionalProperties metric = new NoBogusInverseFunctionalProperties();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		Node subject = NodeFactory.createURI("http://ex.org/res/01");
 		Node predicate = NodeFactory.createURI("http://ex.org/pred01");
@@ -52,13 +59,11 @@ public class NoBogusInverseFunctionalPropertiesTest {
 
 
 	@Test
-	public void test02() throws NotImplementedException {
-		NoBogusInverseFunctionalProperties metric = new NoBogusInverseFunctionalProperties();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		Node subject = NodeFactory.createURI("http://ex.org/res/01");
 		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum");
@@ -71,13 +76,11 @@ public class NoBogusInverseFunctionalPropertiesTest {
 
 
 	@Test
-	public void test03() throws NotImplementedException {
-		NoBogusInverseFunctionalProperties metric = new NoBogusInverseFunctionalProperties();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		Node subject = NodeFactory.createURI("http://ex.org/res/02");
 		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum");
@@ -90,13 +93,11 @@ public class NoBogusInverseFunctionalPropertiesTest {
 
 
 	@Test
-	public void test04() throws NotImplementedException {
-		NoBogusInverseFunctionalProperties metric = new NoBogusInverseFunctionalProperties();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		Node subject = NodeFactory.createURI("http://ex.org/res/02");
 		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/homepage");
@@ -109,13 +110,11 @@ public class NoBogusInverseFunctionalPropertiesTest {
 
 
 	@Test
-	public void test05() throws NotImplementedException {
-		NoBogusInverseFunctionalProperties metric = new NoBogusInverseFunctionalProperties();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		Node subject = NodeFactory.createURI("http://ex.org/res/02");
 		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/mbox_sha1sum");
@@ -129,12 +128,10 @@ public class NoBogusInverseFunctionalPropertiesTest {
 
 	@Test
 	public void test06() throws NotImplementedException {
-		NoBogusInverseFunctionalProperties metric = new NoBogusInverseFunctionalProperties();
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
 		
 		Node subject = NodeFactory.createURI("http://ex.org/res/02");
 		Node predicate = NodeFactory.createURI("http://xmlns.com/foaf/0.1/isPrimaryTopicOf");
