@@ -11,6 +11,7 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.MappingMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_Variable;
@@ -26,6 +27,7 @@ import com.hp.hpl.jena.sparql.expr.Expr;
  * bNode(...) term constructor) only the view definitions have to be considered.
  * 
  */
+@Component
 public class AvoidBlankNodes extends MetricImpl implements MappingMetric{
 
 

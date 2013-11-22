@@ -15,16 +15,24 @@ import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class AvoidBlankNodesTest {
 	
-	BooleanTestingSink sink;
-	ViewDefinitionFactory vdf;
-	
+	private ViewDefinitionFactory vdf;
+	@Autowired
+	private BooleanTestingSink sink;
+	@Autowired
+	private AvoidBlankNodes metric;
 
+	
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
 		Map<String, String> typeAlias = MapReader.read(
 				new File("src/test/resources/type-map.h2.tsv"));
 		vdf = SparqlifyUtils.createDummyViewDefinitionFactory(typeAlias);
@@ -60,12 +68,11 @@ public class AvoidBlankNodesTest {
 	}
 
 	@Test
-	public void test01() throws NotImplementedException {
-		AvoidBlankNodes metric = new AvoidBlankNodes();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		metric.assessMappings(Arrays.asList(viewDef01()));
 
 		assertFalse(sink.measureWritten(metricName));
@@ -102,12 +109,11 @@ public class AvoidBlankNodesTest {
 	}
 
 	@Test
-	public void test02() throws NotImplementedException {
-		AvoidBlankNodes metric = new AvoidBlankNodes();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		metric.assessMappings(Arrays.asList(viewDef02()));
 
 		assertTrue(sink.measureWritten(metricName));
@@ -143,12 +149,11 @@ public class AvoidBlankNodesTest {
 	}
 
 	@Test
-	public void test03() throws NotImplementedException {
-		AvoidBlankNodes metric = new AvoidBlankNodes();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		metric.assessMappings(Arrays.asList(viewDef03()));
 
 		assertTrue(sink.measureWritten(metricName));
@@ -185,12 +190,11 @@ public class AvoidBlankNodesTest {
 	}
 
 	@Test
-	public void test04() throws NotImplementedException {
-		AvoidBlankNodes metric = new AvoidBlankNodes();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		metric.assessMappings(Arrays.asList(viewDef04()));
 
 		assertTrue(sink.measureWritten(metricName));
