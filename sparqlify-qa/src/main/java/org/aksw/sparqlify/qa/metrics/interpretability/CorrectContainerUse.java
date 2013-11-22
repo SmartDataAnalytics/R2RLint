@@ -11,7 +11,10 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
@@ -53,15 +56,18 @@ import com.hp.hpl.jena.vocabulary.RDF;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class CorrectContainerUse extends PinpointMetric implements
+@Component
+public class CorrectContainerUse extends MetricImpl implements
 		DatasetMetric {
 
-	float noTypeAssignedVal = (float) 0;
-	float multipleTypesAssignedVal = (float) 0;
-	float duplicateContMembPropsVal = (float) 0;
-	float noConsecutiveNumberingVal = (float) 0.5;
-	float leadingZeroVal = (float) 0;
-	float memberIsLiteralVal = 0;
+	@Autowired
+	private Pinpointer pinpointer;
+	private float noTypeAssignedVal = (float) 0;
+	private float multipleTypesAssignedVal = (float) 0;
+	private float duplicateContMembPropsVal = (float) 0;
+	private float noConsecutiveNumberingVal = (float) 0.5;
+	private float leadingZeroVal = (float) 0;
+	private float memberIsLiteralVal = 0;
 
 	// setter mainly used for testing
 	public void setNoTypeAssignedVal(float val) {

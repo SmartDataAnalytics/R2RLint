@@ -14,7 +14,13 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class CorrectContainerUseTest {
 	
 	float noTypeAssigned = (float) 0;
@@ -25,15 +31,26 @@ public class CorrectContainerUseTest {
 	float memberIsLiteral = (float) 0.5;
 	float noViolation = (float) -1;
 	
-	ValueTestingSink sink;
-	Pinpointer pinpointer;
+	@Autowired
+	private ValueTestingSink sink;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private CorrectContainerUse metric;
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
 		// initialize dummy pinpointer
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-		pinpointer = new Pinpointer(viewDefs);
+		pinpointer.registerViewDefs(viewDefs);
+		
+		// init values that are written in different error cases
+		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
+		metric.setLeadingZeroVal(leadingZero);
+		metric.setMemberIsLiteralVal(memberIsLiteral);
+		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
+		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
+		metric.setNoTypeAssignedVal(noTypeAssigned);
 	}
 
 
@@ -55,26 +72,18 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test01() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
 		
 		assertEquals(noViolation, sink.writtenValue(metricName), 0);
 	}
+	
 	
 	/*
 	 * container with no violation
@@ -104,20 +113,11 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test02() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
@@ -153,20 +153,11 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test03() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
@@ -204,20 +195,11 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test04() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset04();
 		metric.assessDataset(dataset);
@@ -255,20 +237,11 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test05() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset05();
 		metric.assessDataset(dataset);
@@ -305,20 +278,11 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test06() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test06() throws NotImplementedException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset06();
 		metric.assessDataset(dataset);
@@ -354,20 +318,11 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test07() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test07() throws NotImplementedException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset07();
 		metric.assessDataset(dataset);
@@ -402,20 +357,11 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test08() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test08() throws NotImplementedException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset08();
 		metric.assessDataset(dataset);
@@ -454,20 +400,11 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test09() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test09() throws NotImplementedException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset09();
 		metric.assessDataset(dataset);
@@ -504,20 +441,11 @@ public class CorrectContainerUseTest {
 	}
 	
 	@Test
-	public void test10() throws NotImplementedException {
-		CorrectContainerUse metric = new CorrectContainerUse();
+	public synchronized void test10() throws NotImplementedException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setDuplicateContMembPropsVal(duplicateContMembProps);
-		metric.setLeadingZeroVal(leadingZero);
-		metric.setMemberIsLiteralVal(memberIsLiteral);
-		metric.setMultipleTypesAssignedVal(multipleTypesAssigned);
-		metric.setNoConsecutiveNumberingVal(noConsecutiveNumbering);
-		metric.setNoTypeAssignedVal(noTypeAssigned);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset10();
 		metric.assessDataset(dataset);
