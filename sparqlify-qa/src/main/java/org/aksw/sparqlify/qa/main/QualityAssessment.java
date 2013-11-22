@@ -291,10 +291,6 @@ public class QualityAssessment {
 				
 				if (counter%1000 == 0) {
 					logger.info(counter + "triples processed");
-					logger.info(counter + "triples processed");
-					logger.info(counter + "triples processed");
-					logger.info(counter + "triples processed");
-					logger.info(counter + "triples processed");
 				}
 			}
 			logger.info("finished assessTriple()");
