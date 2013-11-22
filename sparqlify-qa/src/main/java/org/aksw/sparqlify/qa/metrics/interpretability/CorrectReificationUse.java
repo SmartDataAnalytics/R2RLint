@@ -11,7 +11,10 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
@@ -35,9 +38,12 @@ import com.hp.hpl.jena.vocabulary.RDF;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class CorrectReificationUse extends PinpointMetric implements
+@Component
+public class CorrectReificationUse extends MetricImpl implements
 		DatasetMetric {
 
+	@Autowired
+	private Pinpointer pinpointer;
 	private float noReificationTypeVal = (float) 0.5;
 	private float missingReificationPartVal = 0;
 	private float multipleReificationPartsVal = 0;
@@ -61,6 +67,10 @@ public class CorrectReificationUse extends PinpointMetric implements
 	private List<Property> reificationProperties = new ArrayList<Property>(
 			Arrays.asList(RDF.subject, RDF.predicate, RDF.object));
 
+	protected void clearCaches() {
+		seenReificationResources = new ArrayList<Resource>();
+	}
+	
 	public CorrectReificationUse() {
 		seenReificationResources = new ArrayList<Resource>();
 	}

@@ -14,7 +14,13 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class CorrectReificationUseTest {
 	
 	private float noReificationType = (float) 0;
@@ -23,16 +29,23 @@ public class CorrectReificationUseTest {
 	private float wrongValueType = (float) 0.3;
 	private float noViolation = -1;
 
-	ValueTestingSink sink;
-	Pinpointer pinpointer;
-
+	@Autowired
+	private ValueTestingSink sink;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private CorrectReificationUse metric;
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
 		// initialize dummy pinpointer
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-		pinpointer = new Pinpointer(viewDefs);
+		pinpointer.registerViewDefs(viewDefs);
+		// init values that are written in different error cases
+		metric.setMissingReificationPartVal(missingReificationPart);
+		metric.setMultipleReificationPartsVal(multipleReificationParts);
+		metric.setNoReificationTypeVal(noReificationType);
+		metric.setWrongValueTypeVal(wrongValueType);
 	}
 
 
@@ -54,18 +67,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test01() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
@@ -98,18 +105,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test02() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
@@ -141,18 +142,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test03() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
@@ -184,18 +179,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test04() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset04();
 		metric.assessDataset(dataset);
@@ -229,24 +218,20 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test05() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset05();
 		metric.assessDataset(dataset);
 		
 		assertEquals(multipleReificationParts, sink.writtenValue(metricName), 0);
 	}
+	
+	
 	/*
 	 * #06
 	 * 
@@ -270,18 +255,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test06() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test06() throws NotImplementedException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset06();
 		metric.assessDataset(dataset);
@@ -315,18 +294,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test07() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test07() throws NotImplementedException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset07();
 		metric.assessDataset(dataset);
@@ -359,26 +332,19 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test08() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test08() throws NotImplementedException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset08();
 		metric.assessDataset(dataset);
 		
 		assertEquals(missingReificationPart, sink.writtenValue(metricName), 0);
 	}
-
-
+	
 	
 	/*
 	 * #09
@@ -405,26 +371,19 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test09() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test09() throws NotImplementedException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset09();
 		metric.assessDataset(dataset);
 		
 		assertEquals(multipleReificationParts, sink.writtenValue(metricName), 0);
 	}
-
-
+	
 	
 	/*
 	 * #10
@@ -450,26 +409,20 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test10() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test10() throws NotImplementedException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset10();
 		metric.assessDataset(dataset);
 		
 		assertEquals(wrongValueType, sink.writtenValue(metricName), 0);
 	}
-
-
+	
+	
 	/*
 	 * #11
 	 * 
@@ -485,7 +438,7 @@ public class CorrectReificationUseTest {
 			"<http://ex.org/res/s01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <http://ex.org/res/01> ." +
 			"<http://ex.org/res/s01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> _:b23 ." +
 			"<http://ex.org/res/s01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> \"42\" .";
-
+		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
 		dataset.read(reader, null, "TTL");
@@ -494,18 +447,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test11() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test11() throws NotImplementedException {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset11();
 		metric.assessDataset(dataset);
@@ -538,18 +485,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test12() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test12() throws NotImplementedException {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset12();
 		metric.assessDataset(dataset);
@@ -579,24 +520,19 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test13() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test13() throws NotImplementedException {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset13();
 		metric.assessDataset(dataset);
 		
 		assertEquals(noViolation, sink.writtenValue(metricName), 0);
 	}
+	
 	
 	/*
 	 * #14
@@ -632,18 +568,11 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test14() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test14() throws NotImplementedException {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset14();
 		metric.assessDataset(dataset);
@@ -686,18 +615,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test15() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test15() throws NotImplementedException {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset15();
 		metric.assessDataset(dataset);
@@ -740,18 +663,12 @@ public class CorrectReificationUseTest {
 	}
 	
 	@Test
-	public void test16() throws NotImplementedException {
-		CorrectReificationUse metric = new CorrectReificationUse();
+	public synchronized void test16() throws NotImplementedException {
 		String metricName = "test16";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setMissingReificationPartVal(missingReificationPart);
-		metric.setMultipleReificationPartsVal(multipleReificationParts);
-		metric.setNoReificationTypeVal(noReificationType);
-		metric.setWrongValueTypeVal(wrongValueType);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset16();
 		metric.assessDataset(dataset);
