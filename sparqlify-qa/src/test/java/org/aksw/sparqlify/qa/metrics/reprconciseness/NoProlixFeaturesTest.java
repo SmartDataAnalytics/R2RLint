@@ -12,38 +12,46 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class NoProlixFeaturesTest {
 
-	BooleanTestingSink sink;
-	Pinpointer pinpointer;
+	@Autowired
+	private BooleanTestingSink sink;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private NoProlixFeatures metric;
 
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
-		pinpointer = new Pinpointer(new ArrayList<ViewDefinition>());
-		
+		pinpointer.registerViewDefs(new ArrayList<ViewDefinition>());
 	}
 
 	/*
 	 * no prolix features
 	 */
 	@Test
-	public void test01() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		Node pred = RDF.type.asNode();
 		Node obj = NodeFactory.createURI("http://ex.org/Foo");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -55,16 +63,14 @@ public class NoProlixFeaturesTest {
 	 * rdf:subject predicate
 	 */
 	@Test
-	public void test02() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/statement/foo");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject");
+		Node pred = RDF.subject.asNode();
 		Node obj = NodeFactory.createURI("http://ex.org/things/sth");
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -76,17 +82,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:subject subject)
 	 */
 	@Test
-	public void test03() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = RDF.subject.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Property.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -98,17 +102,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:subject object)
 	 */
 	@Test
-	public void test04() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/properties/fooProp");
-		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject");
+		Node pred = RDFS.subPropertyOf.asNode();
+		Node obj = RDF.subject.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -120,16 +122,14 @@ public class NoProlixFeaturesTest {
 	 * rdf:predicate predicate
 	 */
 	@Test
-	public void test05() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/statement/foo");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate");
+		Node pred = RDF.predicate.asNode();
 		Node obj = NodeFactory.createURI("http://ex.org/things/sth");
 
 		Triple triple = new Triple(subj, pred, obj);
@@ -142,17 +142,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:predicate subject)
 	 */
 	@Test
-	public void test06() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test06() throws NotImplementedException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = RDF.predicate.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Property.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -164,17 +162,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:predicate object)
 	 */
 	@Test
-	public void test07() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test07() throws NotImplementedException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/properties/fooProp");
-		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate");
+		Node pred = RDFS.subPropertyOf.asNode();
+		Node obj = RDF.predicate.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -186,16 +182,14 @@ public class NoProlixFeaturesTest {
 	 * rdf:object predicate
 	 */
 	@Test
-	public void test08() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test08() throws NotImplementedException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/statement/foo");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#object");
+		Node pred = RDF.object.asNode();
 		Node obj = NodeFactory.createURI("http://ex.org/things/sth");
 
 		Triple triple = new Triple(subj, pred, obj);
@@ -208,17 +202,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:object subject)
 	 */
 	@Test
-	public void test09() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test09() throws NotImplementedException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#object");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = RDF.object.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Property.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -230,17 +222,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:object object)
 	 */
 	@Test
-	public void test10() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test10() throws NotImplementedException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/properties/fooProp");
-		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#object");;
+		Node pred = RDFS.subPropertyOf.asNode();
+		Node obj = RDF.object.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -252,17 +242,15 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:Statement
 	 */
 	@Test
-	public void test11() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test11() throws NotImplementedException {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement");
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Statement.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -274,17 +262,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Statement object without rdftype)
 	 */
 	@Test
-	public void test12() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test12() throws NotImplementedException {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/someProp");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement");
+		Node obj = RDF.Statement.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -296,17 +282,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Statement subject)
 	 */
 	@Test
-	public void test13() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test13() throws NotImplementedException {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = RDF.Statement.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDFS.Class.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -318,16 +302,14 @@ public class NoProlixFeaturesTest {
 	 * rdf:_1 predicate
 	 */
 	@Test
-	public void test14() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test14() throws NotImplementedException {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/barContainer");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#_1");
+		Node pred = RDF.li(1).asNode();
 		Node obj = NodeFactory.createURI("http://ex.org/foo/first");
 
 		Triple triple = new Triple(subj, pred, obj);
@@ -340,17 +322,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:_1 subject)
 	 */
 	@Test
-	public void test15() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test15() throws NotImplementedException {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#_1");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = RDF.li(1).asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Property.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -362,17 +342,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:_1 object)
 	 */
 	@Test
-	public void test16() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test16() throws NotImplementedException {
 		String metricName = "test16";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/containerProperties/_1");
-		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#_1");
+		Node pred = RDFS.subPropertyOf.asNode();
+		Node obj = RDF.li(1).asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -384,16 +362,14 @@ public class NoProlixFeaturesTest {
 	 * rdfs:member predicate
 	 */
 	@Test
-	public void test17() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test17() throws NotImplementedException {
 		String metricName = "test17";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/member");
-		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#member");
+		Node pred = RDFS.member.asNode();
 		Node obj = NodeFactory.createURI("http://ex.org/foo/barContainer");
 
 		Triple triple = new Triple(subj, pred, obj);
@@ -406,17 +382,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdfs:member subject)
 	 */
 	@Test
-	public void test18() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test18() throws NotImplementedException {
 		String metricName = "test18";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#member");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = RDFS.member.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Property.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -428,17 +402,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdfs:member object)
 	 */
 	@Test
-	public void test19() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test19() throws NotImplementedException {
 		String metricName = "test19";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/containerProperties/member");
-		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#member");
+		Node pred = RDFS.subPropertyOf.asNode();
+		Node obj = RDFS.member.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -450,17 +422,15 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:Alt
 	 */
 	@Test
-	public void test20() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test20() throws NotImplementedException {
 		String metricName = "test20";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar/alternative");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt");
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Alt.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -472,17 +442,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Alt object without rdf:type)
 	 */
 	@Test
-	public void test21() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test21() throws NotImplementedException {
 		String metricName = "test21";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt");
+		Node obj = RDF.Alt.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -494,17 +462,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Alt subject)
 	 */
 	@Test
-	public void test22() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test22() throws NotImplementedException {
 		String metricName = "test22";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Alt");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = RDF.Alt.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDFS.Class.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -516,17 +482,15 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:Bag 
 	 */
 	@Test
-	public void test23() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test23() throws NotImplementedException {
 		String metricName = "test23";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar/dirtBag");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Bag.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -538,17 +502,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Bag object without rdf:type)
 	 */
 	@Test
-	public void test24() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test24() throws NotImplementedException {
 		String metricName = "test24";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");
+		Node obj = RDF.Bag.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -560,17 +522,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Bag subject)
 	 */
 	@Test
-	public void test25() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test25() throws NotImplementedException {
 		String metricName = "test25";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = RDF.Bag.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDFS.Class.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -582,17 +542,15 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:Seq
 	 */
 	@Test
-	public void test26() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test26() throws NotImplementedException {
 		String metricName = "test26";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar/sequence");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Seq.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -604,17 +562,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Seq object without rdf:type)
 	 */
 	@Test
-	public void test27() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test27() throws NotImplementedException {
 		String metricName = "test27";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
+		Node obj = RDF.Seq.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -626,17 +582,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Seq subject)
 	 */
 	@Test
-	public void test28() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test28() throws NotImplementedException {
 		String metricName = "test28";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = RDF.Seq.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDFS.Class.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -648,17 +602,15 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdfs:Container
 	 */
 	@Test
-	public void test29() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test29() throws NotImplementedException {
 		String metricName = "test29";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar/container");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Container");
+		Node pred = RDF.type.asNode();
+		Node obj = RDFS.Container.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -670,17 +622,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdfs:Container object without rdf:type)
 	 */
 	@Test
-	public void test30() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test30() throws NotImplementedException {
 		String metricName = "test30";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Container");
+		Node obj = RDFS.Container.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -692,17 +642,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdfs:Container subject)
 	 */
 	@Test
-	public void test31() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test31() throws NotImplementedException {
 		String metricName = "test31";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Container");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
+		Node subj = RDFS.Container.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDFS.Class.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -714,16 +662,14 @@ public class NoProlixFeaturesTest {
 	 * rdf:first predicate
 	 */
 	@Test
-	public void test32() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test32() throws NotImplementedException {
 		String metricName = "test32";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/collection");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#first");
+		Node pred = RDF.first.asNode();
 		Node obj = NodeFactory.createURI("http://ex.org/foo/members/1");
 
 		Triple triple = new Triple(subj, pred, obj);
@@ -736,17 +682,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:first subject)
 	 */
 	@Test
-	public void test33() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test33() throws NotImplementedException {
 		String metricName = "test33";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#first");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = RDF.first.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Property.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -758,17 +702,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:first object)
 	 */
 	@Test
-	public void test34() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test34() throws NotImplementedException {
 		String metricName = "test34";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/collectionProperties/foorst");
-		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#first");
+		Node pred = RDFS.subPropertyOf.asNode();
+		Node obj = RDF.first.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -780,16 +722,14 @@ public class NoProlixFeaturesTest {
 	 * rdf:rest predicate
 	 */
 	@Test
-	public void test35() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test35() throws NotImplementedException {
 		String metricName = "test35";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/collection");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest");
+		Node pred = RDF.rest.asNode();
 		Node obj = NodeFactory.createURI("http://ex.org/foo/members/subCollection");
 
 		Triple triple = new Triple(subj, pred, obj);
@@ -802,17 +742,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:rest subject)
 	 */
 	@Test
-	public void test36() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test36() throws NotImplementedException {
 		String metricName = "test36";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#Property");
+		Node subj = RDF.rest.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.Property.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -824,17 +762,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:rest object)
 	 */
 	@Test
-	public void test37() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test37() throws NotImplementedException {
 		String metricName = "test37";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/collectionProperties/barst");
-		Node pred = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest");
+		Node pred = RDFS.subPropertyOf.asNode();
+		Node obj = RDF.rest.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -846,17 +782,15 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:List
 	 */
 	@Test
-	public void test38() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test38() throws NotImplementedException {
 		String metricName = "test38";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/fooLists/bar");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#List");
+		Node pred = RDF.type.asNode();
+		Node obj = RDF.List.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -868,17 +802,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:List object without rdf:type)
 	 */
 	@Test
-	public void test39() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test39() throws NotImplementedException {
 		String metricName = "test39";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/evenBetterThan");
-		Node obj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#List");
+		Node obj = RDF.List.asNode();
 
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);
@@ -890,18 +822,15 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:List subject)
 	 */
 	@Test
-	public void test40() throws NotImplementedException {
-		NoProlixFeatures metric = new NoProlixFeatures();
+	public synchronized void test40() throws NotImplementedException {
 		String metricName = "test40";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
-		Node subj = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#List");
-		Node pred = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		Node obj = NodeFactory.createURI("http://www.w3.org/2000/01/rdf-schema#Class");
-
+		Node subj = RDF.List.asNode();
+		Node pred = RDF.type.asNode();
+		Node obj = RDFS.Class.asNode();
 		
 		Triple triple = new Triple(subj, pred, obj);
 		metric.assessTriple(triple);

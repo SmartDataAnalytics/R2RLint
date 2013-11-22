@@ -8,13 +8,17 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Node_URI;
 import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
 
 /**
  * This metric should find statements using RDF features that are more or less
@@ -52,39 +56,20 @@ import com.hp.hpl.jena.graph.Triple;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class NoProlixFeatures extends PinpointMetric implements TripleMetric {
+@Component
+public class NoProlixFeatures extends MetricImpl implements TripleMetric {
 
-	private String rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-	private String rdfs = "http://www.w3.org/2000/01/rdf-schema#";
+	@Autowired
+	private Pinpointer pinpointer;
 
-	// predicates to look for
-	private Node_URI rdf_type = (Node_URI) NodeFactory.createURI(rdf+"type");
-	private Node_URI rdf_subject = (Node_URI) NodeFactory.createURI(rdf+"subject");
-	private Node_URI rdf_predicate = (Node_URI) NodeFactory.createURI(rdf+"predicate");
-	private Node_URI rdf_object = (Node_URI) NodeFactory.createURI(rdf+"object");
+	List<Node> predicates = new ArrayList<Node>(Arrays.asList(
+			RDF.subject.asNode(), RDF.predicate.asNode(), RDF.object.asNode(),
+			RDF.li(1).asNode(), RDFS.member.asNode(), RDF.first.asNode(),
+			RDF.rest.asNode()));
 
-	private Node_URI rdf__1 = (Node_URI) NodeFactory.createURI(rdf+"_1");
-	private Node_URI rdfs_member = (Node_URI) NodeFactory.createURI(rdfs+"member");
-
-	private Node_URI rdf_first = (Node_URI) NodeFactory.createURI(rdf+"first");
-	private Node_URI rdf_rest = (Node_URI) NodeFactory.createURI(rdf+"rest");
-
-	List<Node_URI> predicates = new ArrayList<Node_URI>(Arrays.asList(
-			rdf_subject, rdf_predicate, rdf_object, rdf__1, rdfs_member, rdf_first,
-			rdf_rest));
-
-	// classes to look for
-	private Node rdf_Statement = NodeFactory.createURI(rdf+"Statement");
-
-	private Node rdf_Alt = NodeFactory.createURI(rdf+"Alt");
-	private Node rdf_Bag = NodeFactory.createURI(rdf+"Bag");
-	private Node rdf_Seq = NodeFactory.createURI(rdf+"Seq");
-	private Node rdf_Container = NodeFactory.createURI(rdfs+"Container");
-
-	private Node rdf_List = NodeFactory.createURI(rdf+"List");
-	
 	List<Node> classes = new ArrayList<Node>(Arrays.asList(
-			rdf_Statement, rdf_Alt, rdf_Bag, rdf_Seq, rdf_Container, rdf_List));
+			RDF.Statement.asNode(), RDF.Alt.asNode(), RDF.Bag.asNode(),
+			RDF.Seq.asNode(), RDFS.Container.asNode(), RDF.List.asNode()));
 
 
 	@Override
@@ -96,8 +81,8 @@ public class NoProlixFeatures extends PinpointMetric implements TripleMetric {
 
 
 	private void findPredicates(Triple triple) throws NotImplementedException {
-		for (Node_URI predicate : predicates) {
-			if (triple.getPredicate().equals(predicate)) {
+		for (Node predicate : predicates) {
+			if (triple.getPredicate().equals((Node_URI) predicate)) {
 				
 				Set<ViewQuad<ViewDefinition>> viewQuads =
 						pinpointer.getViewCandidates(triple);
@@ -111,7 +96,8 @@ public class NoProlixFeatures extends PinpointMetric implements TripleMetric {
 
 	private void findClasses(Triple triple) throws NotImplementedException {
 		for (Node cls : classes) {
-			if (triple.getObject().equals(cls) && triple.getPredicate().equals(rdf_type)) {
+			if (triple.getObject().equals(cls)
+					&& triple.getPredicate().equals(RDF.type.asNode())) {
 				
 				Set<ViewQuad<ViewDefinition>> viewQuads =
 						pinpointer.getViewCandidates(triple);
