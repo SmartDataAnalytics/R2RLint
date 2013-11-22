@@ -16,18 +16,27 @@ import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class LabeledResourcesTest {
 	
-	Pinpointer pinpointer;
-	BooleanTestingSink sink;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private BooleanTestingSink sink;
+	@Autowired
+	private LabeledResources metric;
 
 
 	@Before
 	public void setUp() throws Exception {
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-		pinpointer = new Pinpointer(viewDefs);
-		sink = new BooleanTestingSink();
+		pinpointer.registerViewDefs(viewDefs);
 	}
 
 
@@ -56,13 +65,12 @@ public class LabeledResourcesTest {
 	}
 	
 	@Test
-	public void test01() throws NotImplementedException {
-		LabeledResources metric = new LabeledResources();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
@@ -97,13 +105,12 @@ public class LabeledResourcesTest {
 	}
 	
 	@Test
-	public void test02() throws NotImplementedException {
-		LabeledResources metric = new LabeledResources();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
@@ -137,13 +144,12 @@ public class LabeledResourcesTest {
 	}
 	
 	@Test
-	public void test03() throws NotImplementedException {
-		LabeledResources metric = new LabeledResources();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
@@ -179,13 +185,12 @@ public class LabeledResourcesTest {
 	}
 	
 	@Test
-	public void test04() throws NotImplementedException {
-		LabeledResources metric = new LabeledResources();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset04();
 		metric.assessDataset(dataset);
@@ -221,13 +226,12 @@ public class LabeledResourcesTest {
 	}
 	
 	@Test
-	public void test05() throws NotImplementedException {
-		LabeledResources metric = new LabeledResources();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset05();
 		metric.assessDataset(dataset);
@@ -262,13 +266,12 @@ public class LabeledResourcesTest {
 	}
 	
 	@Test
-	public void test06() throws NotImplementedException {
-		LabeledResources metric = new LabeledResources();
+	public synchronized void test06() throws NotImplementedException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset06();
 		metric.assessDataset(dataset);
@@ -302,13 +305,12 @@ public class LabeledResourcesTest {
 	}
 	
 	@Test
-	public void test07() throws NotImplementedException {
-		LabeledResources metric = new LabeledResources();
+	public synchronized void test07() throws NotImplementedException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset07();
 		metric.assessDataset(dataset);
@@ -344,13 +346,12 @@ public class LabeledResourcesTest {
 	}
 	
 	@Test
-	public void test08() throws NotImplementedException {
-		LabeledResources metric = new LabeledResources();
+	public synchronized void test08() throws NotImplementedException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset08();
 		metric.assessDataset(dataset);
