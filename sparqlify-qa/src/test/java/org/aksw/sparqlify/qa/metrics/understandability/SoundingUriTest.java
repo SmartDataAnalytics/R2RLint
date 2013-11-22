@@ -8,39 +8,46 @@ import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.understandability.SoundingUri;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class SoundingUriTest {
 	
-	String wordlistFilePath = "src/main/resources/uwords_all.txt";
+	private String wordlistFilePath = "src/main/resources/uwords_all.txt";
+	@Autowired
 	BooleanTestingSink sink;
-	float threshold = (float) 0.095;
-	Pinpointer pinpointer;
+	private float threshold = (float) 0.095;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private SoundingUri metric;
 	
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
-		pinpointer = new Pinpointer(new ArrayList<ViewDefinition>());
+		pinpointer.registerViewDefs(new ArrayList<ViewDefinition>());
+		metric.setWordListFilePath(wordlistFilePath);
 	}
 
 	@Test
-	public void test01() throws IOException, NotImplementedException {
-		SoundingUri metric = new SoundingUri(wordlistFilePath);
+	public synchronized void test01() throws IOException, NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setThreshold(threshold);
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		// not sounding
 		Node subj = NodeFactory.createURI("http://ex.org/1");
@@ -58,14 +65,12 @@ public class SoundingUriTest {
 	}
 	
 	@Test
-	public void test02() throws IOException, NotImplementedException {
-		SoundingUri metric = new SoundingUri(wordlistFilePath);
+	public synchronized void test02() throws IOException, NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setThreshold(threshold);
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		// not sounding
 		Node subj = NodeFactory.createURI("http://193.239.40.138/path/23");
@@ -83,14 +88,12 @@ public class SoundingUriTest {
 	}
 	
 	@Test
-	public void test03() throws IOException, NotImplementedException {
-		SoundingUri metric = new SoundingUri(wordlistFilePath);
+	public synchronized void test03() throws IOException, NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.setThreshold(threshold);
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		// sounding
 		Node subj = NodeFactory.createURI("http://example.org/sounding/resource/path");

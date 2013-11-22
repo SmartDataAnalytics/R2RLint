@@ -9,9 +9,12 @@ import java.util.Set;
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Node_URI;
@@ -72,8 +75,12 @@ import com.hp.hpl.jena.graph.Triple;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class SoundingUri extends PinpointMetric implements NodeMetric {
+@Component
+public class SoundingUri extends MetricImpl implements NodeMetric {
 
+	@Autowired
+	private Pinpointer pinpointer;
+	
 	String wordlistFilePath = "src/main/resources/uwords_all.txt";
 	HashMap<String, Integer> trigramStats;
 	int numTrigrams;
@@ -90,15 +97,9 @@ public class SoundingUri extends PinpointMetric implements NodeMetric {
 		initTrigramStats(wordlistFilePath);
 	}
 	
-	
-	/**
-	 * constructor for testing
-	 * 
-	 * @param wordlistFilePath
-	 * @throws IOException
-	 */
-	public SoundingUri(String wordlistFilePath) throws IOException {
-		initTrigramStats(wordlistFilePath);
+	protected void setWordListFilePath(String wordListFilePath) throws IOException {
+		this.wordlistFilePath = wordListFilePath;
+		initTrigramStats(wordListFilePath);
 	}
 		
 		
