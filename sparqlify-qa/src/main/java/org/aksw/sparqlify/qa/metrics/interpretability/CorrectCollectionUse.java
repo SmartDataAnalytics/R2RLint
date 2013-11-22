@@ -10,8 +10,11 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
@@ -28,9 +31,12 @@ import com.hp.hpl.jena.vocabulary.RDF;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class CorrectCollectionUse extends PinpointMetric implements
+@Component
+public class CorrectCollectionUse extends MetricImpl implements
 		DatasetMetric {
 	
+	@Autowired
+	private Pinpointer pinpointer;
 	private float listNodeHasNoRdfFirstVal = 0;
 	private float listNodeHasMultipleRdfFirstStmntsVal = 0;
 	private float rdfRestIsLiteralVal = 0;
@@ -62,6 +68,10 @@ public class CorrectCollectionUse extends PinpointMetric implements
 	}
 	public void setNilHasSuccessorVal (float val) {
 		nilHasSuccessorVal = val;
+	}
+	
+	protected void clearCaches() {
+		seenListNodes = new ArrayList<Resource>();
 	}
 	
 	

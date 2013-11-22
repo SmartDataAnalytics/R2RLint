@@ -14,7 +14,13 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class CorrectCollectionUseTest {
 	
 	private float listNodeHasNoRdfFirst = 0;
@@ -26,16 +32,27 @@ public class CorrectCollectionUseTest {
 	private float nilHasSuccessor = (float) 0.6;
 	private float noViolation = -1;
 	
+	@Autowired
 	private ValueTestingSink sink;
+	@Autowired
 	private Pinpointer pinpointer;
+	@Autowired
+	private CorrectCollectionUse metric;
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
-		
 		// set up dummy pinpointer
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-		pinpointer = new Pinpointer(viewDefs);
+		pinpointer.registerViewDefs(viewDefs);
+		
+		// init values that are written in different error cases
+		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
+		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
+		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
+		metric.setMultiplePredecessorsVal(multiplePredecessors);
+		metric.setMultipleSuccessorsVal(multipleSuccessors);
+		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
+		metric.setNilHasSuccessorVal(nilHasSuccessor);
 	}
 
 
@@ -58,21 +75,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test01() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
@@ -109,21 +117,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test02() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
@@ -161,21 +160,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test03() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
@@ -215,20 +205,11 @@ public class CorrectCollectionUseTest {
 	
 	@Test
 	public void test04() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset04();
 		metric.assessDataset(dataset);
@@ -267,27 +248,20 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test05() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test05() throws NotImplementedException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset05();
 		metric.assessDataset(dataset);
 		
 		assertEquals(multiplePredecessors, sink.writtenValue(metricName), 0);
 	}
+	
+	
 	/*
 	 * list with multiple successors (headwards)
 	 */
@@ -319,21 +293,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test06() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test06() throws NotImplementedException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset06();
 		metric.assessDataset(dataset);
@@ -373,21 +338,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test07() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test07() throws NotImplementedException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset07();
 		metric.assessDataset(dataset);
@@ -423,21 +379,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test08() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test08() throws NotImplementedException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset08();
 		metric.assessDataset(dataset);
@@ -473,21 +420,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test09() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test09() throws NotImplementedException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset09();
 		metric.assessDataset(dataset);
@@ -525,21 +463,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test10() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test10() throws NotImplementedException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset10();
 		metric.assessDataset(dataset);
@@ -577,21 +506,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test11() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test11() throws NotImplementedException {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset11();
 		metric.assessDataset(dataset);
@@ -628,21 +548,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test12() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test12() throws NotImplementedException {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset12();
 		metric.assessDataset(dataset);
@@ -679,21 +590,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test13() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test13() throws NotImplementedException {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset13();
 		metric.assessDataset(dataset);
@@ -728,21 +630,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test14() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test14() throws NotImplementedException {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset14();
 		metric.assessDataset(dataset);
@@ -778,27 +671,20 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test15() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test15() throws NotImplementedException {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset15();
 		metric.assessDataset(dataset);
 		
 		assertEquals(listEndedWithoutRdfNil, sink.writtenValue(metricName), 0);
 	}
+	
+	
 	/*
 	 * rdf:nil node has successor (headwards)
 	 */
@@ -827,27 +713,20 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test16() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test16() throws NotImplementedException {
 		String metricName = "test16";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset16();
 		metric.assessDataset(dataset);
 		
 		assertEquals(nilHasSuccessor, sink.writtenValue(metricName), 0);
 	}
+	
+	
 	/*
 	 * rdf:nil node has successor (tailwards)
 	 */
@@ -876,21 +755,12 @@ public class CorrectCollectionUseTest {
 	}
 	
 	@Test
-	public void test17() throws NotImplementedException {
-		CorrectCollectionUse metric = new CorrectCollectionUse();
+	public synchronized void test17() throws NotImplementedException {
 		String metricName = "test17";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
-		// init values that are written in different error cases
-		metric.setListNodeHasNoRdfFirstVal(listNodeHasNoRdfFirst);
-		metric.setListNodeHasMultipleRdfFirstStmntsVal(listNodeHasMultipleRdfFirstStmnts);
-		metric.setRdfRestIsLiteralVal(rdfRestIsLiteral);
-		metric.setMultiplePredecessorsVal(multiplePredecessors);
-		metric.setMultipleSuccessorsVal(multipleSuccessors);
-		metric.setListEndedWithoutRdfNilVal(listEndedWithoutRdfNil);
-		metric.setNilHasSuccessorVal(nilHasSuccessor);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset17();
 		metric.assessDataset(dataset);
