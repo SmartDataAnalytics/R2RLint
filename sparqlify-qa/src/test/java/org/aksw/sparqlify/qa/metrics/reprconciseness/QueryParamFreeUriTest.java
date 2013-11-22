@@ -7,38 +7,44 @@ import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.reprconciseness.QueryParamFreeUri;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class QueryParamFreeUriTest {
 
-	BooleanTestingSink sink;
-	Pinpointer pinpointer;
+	@Autowired
+	private BooleanTestingSink sink;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private QueryParamFreeUri metric;
 
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
-		pinpointer = new Pinpointer(new ArrayList<ViewDefinition>());
+		pinpointer.registerViewDefs(new ArrayList<ViewDefinition>());
 	}
 
 
 	@Test
-	public void test01() throws NotImplementedException {
-		QueryParamFreeUri metric = new QueryParamFreeUri();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo?bar");
 		Node pred = NodeFactory.createURI("http://ex.org/foo");
@@ -54,13 +60,11 @@ public class QueryParamFreeUriTest {
 
 
 	@Test
-	public void test02() throws NotImplementedException {
-		QueryParamFreeUri metric = new QueryParamFreeUri();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo?bar#baz");
 		Node pred = NodeFactory.createURI("http://ex.org/foo/?bar#baz");
@@ -76,13 +80,11 @@ public class QueryParamFreeUriTest {
 
 
 	@Test
-	public void test03() throws NotImplementedException {
-		QueryParamFreeUri metric = new QueryParamFreeUri();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo#bar?baz");
 		Node pred = NodeFactory.createURI("http://ex.org/foo/#bar?baz");
