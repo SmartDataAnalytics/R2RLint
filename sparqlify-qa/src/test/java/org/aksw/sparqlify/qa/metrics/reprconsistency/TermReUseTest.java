@@ -10,15 +10,22 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_val_beans.xml"})
 public class TermReUseTest {
 
-	ValueTestingSink sink;
-
+	@Autowired
+	private ValueTestingSink sink;
+	@Autowired
+	private TermReUse metric;
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new ValueTestingSink();
 	}
 
 
@@ -48,12 +55,11 @@ public class TermReUseTest {
 	}
 	
 	@Test
-	public void test01() throws NotImplementedException {
-		TermReUse metric = new TermReUse();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
