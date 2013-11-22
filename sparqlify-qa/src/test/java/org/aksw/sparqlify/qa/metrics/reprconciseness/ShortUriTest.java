@@ -12,32 +12,39 @@ import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class ShortUriTest {
 
-	BooleanTestingSink sink;
-	float threshold = (float) 50;
-	Pinpointer pinpointer;
+	@Autowired
+	private BooleanTestingSink sink;
+	private float threshold = (float) 50;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private ShortUri metric;
 	
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
-		pinpointer = new Pinpointer(new ArrayList<ViewDefinition>());
+		pinpointer.registerViewDefs(new ArrayList<ViewDefinition>());
+		metric.setThreshold(threshold);
 	}
 
 	@Test
-	public void testAssessNodes1() throws NotImplementedException {
-		ShortUri metric = new ShortUri();
+	public synchronized void testAssessNodes1() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setThreshold(threshold);
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		// too long
 		Node subj = NodeFactory.createURI("http://example.org/too/long/resource/identifier/aaa");
@@ -55,14 +62,11 @@ public class ShortUriTest {
 	}
 
 	@Test
-	public void testAssessNodes2() throws NotImplementedException {
-		ShortUri metric = new ShortUri();
+	public synchronized void testAssessNodes2() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setThreshold(threshold);
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		// should be ignored
 		Node subj = NodeFactory.createAnon();
