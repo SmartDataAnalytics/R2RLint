@@ -12,21 +12,30 @@ import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class NoHashUrisTest {
 
-	BooleanTestingSink sink;
-	Pinpointer pinpointer;
+	@Autowired
+	private BooleanTestingSink sink;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private NoHashUris metric;
 
 
 	@Before
 	public void setUp() throws Exception {
-		sink = new BooleanTestingSink();
-		pinpointer = new Pinpointer(new ArrayList<ViewDefinition>());
+		pinpointer.registerViewDefs(new ArrayList<ViewDefinition>());
 	}
 
 
@@ -34,13 +43,11 @@ public class NoHashUrisTest {
 	 * no hash URIs
 	 */
 	@Test
-	public void test01() throws NotImplementedException {
-		NoHashUris metric = new NoHashUris();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -58,13 +65,11 @@ public class NoHashUrisTest {
 	 * hash URI on subject position
 	 */
 	@Test
-	public void test02() throws NotImplementedException {
-		NoHashUris metric = new NoHashUris();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo#bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
@@ -82,13 +87,11 @@ public class NoHashUrisTest {
 	 * hash URI on predicate position
 	 */
 	@Test
-	public void test03() throws NotImplementedException {
-		NoHashUris metric = new NoHashUris();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties#fooProp");
@@ -106,13 +109,11 @@ public class NoHashUrisTest {
 	 * hash URI on object position
 	 */
 	@Test
-	public void test04() throws NotImplementedException {
-		NoHashUris metric = new NoHashUris();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerPinpointer(pinpointer);
-		metric.registerMeasureDataSink(sink);
+		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
 		Node pred = NodeFactory.createURI("http://ex.org/properties/fooProp");
