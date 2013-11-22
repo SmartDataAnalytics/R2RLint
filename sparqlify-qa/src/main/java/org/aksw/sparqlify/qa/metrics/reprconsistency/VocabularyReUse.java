@@ -8,6 +8,7 @@ import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -41,6 +42,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
+@Component
 public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 	
 	private long numAll;
@@ -151,8 +153,15 @@ public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 			"http://www.ontologydesignpatterns.org/cp/owl/informationrealization.owl#",
 			"http://ontologi.es/giving#", "http://www.w3.org/2002/xforms/"
 			));
-
-
+	
+	protected void clearCaches() {
+		seenProperties = new ArrayList<Property>();
+		seenClasses = new ArrayList<Resource>();
+		numAll = 0;
+		numEstablishedReUsed = 0;
+	}
+	
+	
 	public VocabularyReUse() {
 		super();
 		numAll = 0;
