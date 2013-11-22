@@ -429,6 +429,7 @@ public class NoAmbiguousMappingsTest {
 		
 		initData02();
 		metric.assessMappings(Arrays.asList(viewDef07(), viewDef08()));
+		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
 	}
