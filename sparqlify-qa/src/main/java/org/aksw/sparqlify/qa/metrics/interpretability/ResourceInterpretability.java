@@ -10,8 +10,11 @@ import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.PinpointMetric;
+import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -34,9 +37,12 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
-public class ResourceInterpretability extends PinpointMetric implements
+@Component
+public class ResourceInterpretability extends MetricImpl implements
 		DatasetMetric {
 
+	@Autowired
+	private Pinpointer pinpointer;
 	List<Resource> seenResources;
 	List<Property> ontProperties = new ArrayList<Property>(Arrays.asList(
 			// rdf(s)
@@ -48,7 +54,11 @@ public class ResourceInterpretability extends PinpointMetric implements
 			OWL.oneOf, OWL.unionOf
 			));
 
-
+	protected void clearCaches() {
+		seenResources = new ArrayList<Resource>();
+	}
+	
+	
 	public ResourceInterpretability() {
 		super();
 		seenResources = new ArrayList<Resource>();

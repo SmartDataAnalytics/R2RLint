@@ -16,18 +16,27 @@ import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
 public class ResourceInterpretabilityTest {
 	
-	BooleanTestingSink sink;
-	Pinpointer pinpointer;
+	@Autowired
+	private BooleanTestingSink sink;
+	@Autowired
+	private Pinpointer pinpointer;
+	@Autowired
+	private ResourceInterpretability metric;
 
 	@Before
 	public void setUp() throws Exception {
 		// dummy pinpointer
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
-		pinpointer = new Pinpointer(viewDefs);
-		sink = new BooleanTestingSink();
+		pinpointer.registerViewDefs(viewDefs);
 	}
 
 
@@ -51,13 +60,12 @@ public class ResourceInterpretabilityTest {
 	}
 	
 	@Test
-	public void test01() throws NotImplementedException {
-		ResourceInterpretability metric = new ResourceInterpretability();
+	public synchronized void test01() throws NotImplementedException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
@@ -88,13 +96,12 @@ public class ResourceInterpretabilityTest {
 	}
 	
 	@Test
-	public void test02() throws NotImplementedException {
-		ResourceInterpretability metric = new ResourceInterpretability();
+	public synchronized void test02() throws NotImplementedException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
@@ -125,13 +132,12 @@ public class ResourceInterpretabilityTest {
 	}
 	
 	@Test
-	public void test03() throws NotImplementedException {
-		ResourceInterpretability metric = new ResourceInterpretability();
+	public synchronized void test03() throws NotImplementedException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
@@ -162,13 +168,12 @@ public class ResourceInterpretabilityTest {
 	}
 	
 	@Test
-	public void test04() throws NotImplementedException {
-		ResourceInterpretability metric = new ResourceInterpretability();
+	public synchronized void test04() throws NotImplementedException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.registerMeasureDataSink(sink);
-		metric.registerPinpointer(pinpointer);
+		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset04();
 		metric.assessDataset(dataset);
