@@ -20,16 +20,20 @@ import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@TransactionConfiguration(defaultRollback = true)
 @ContextConfiguration(locations={"classpath:test_val_beans.xml"})
-public class SchemaCompletenessTest {
+public class SchemaCompletenessTest extends AbstractTransactionalJUnit4SpringContextTests{
 
 	@Autowired
 	private DataSource rdb;
@@ -59,20 +63,28 @@ public class SchemaCompletenessTest {
 		initViewDefinitions();
 	}
 	
+	@After
+	public void tearDown() throws SQLException {
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS dept;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS dept_translation");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS employee");
+	}
+	
 	private void initDBContent(Connection conn) throws SQLException {
 		
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS dept;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS dept_translation");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS employee");
+		
 		conn.createStatement().executeUpdate("CREATE TABLE dept (" +
 				"id integer NOT NULL, " +
 				"default_name character varying(400) NOT NULL );");
 		
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS dept_translation");
 		conn.createStatement().executeUpdate("CREATE TABLE dept_translation (" +
 				"id integer NOT NULL, " +
 				"lang character varying(3) NOT NULL, " +
 				"name character varying(400) NOT NULL);");
-
-		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS employee");
+		
 		conn.createStatement().executeUpdate("CREATE TABLE employee (" +
 				"id integer NOT NULL, " +
 				"firstname character varying(40), " +

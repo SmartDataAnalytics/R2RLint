@@ -7,13 +7,11 @@ import java.io.StringReader;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,13 +20,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class CoverageDetailTest {
 	
 	@Autowired
-	private ApplicationContext applicationContext;
+	private CoverageDetail metric;
 	
 	@Autowired
-	CoverageDetail metric;
-	
-	@Autowired
-	MeasureDataSink sink;
+	private ValueTestingSink sink;
 
 	@Before
 	public void setUp() throws Exception {
@@ -57,12 +52,13 @@ public class CoverageDetailTest {
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
 		
 		float expected = 2 / (float) 3;
-		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -88,12 +84,13 @@ public class CoverageDetailTest {
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
 		
 		float expected = 3 / (float) 3;
-		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 
 
@@ -122,11 +119,12 @@ public class CoverageDetailTest {
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset03();
 		metric.assessDataset(dataset);
 		
 		float expected = 2 / (float) 6;
-		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+		assertEquals(expected, sink.writtenValue(metricName), 0);
 	}
 }

@@ -28,6 +28,11 @@ public class CoverageDetail extends MetricImpl implements DatasetMetric {
 	long numProperties;
 	long numTriples;
 
+	protected void clearCaches() {
+		seenProperties = new ArrayList<Property>();
+		numProperties = 0;
+		numTriples = 0;
+	}
 
 	public CoverageDetail() {
 		super();

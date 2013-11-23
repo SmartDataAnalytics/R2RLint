@@ -71,6 +71,7 @@ public class VocabularyReUseTest {
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset01();
 		metric.assessDataset(dataset);
@@ -114,6 +115,7 @@ public class VocabularyReUseTest {
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
+		metric.clearCaches();
 		
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);

@@ -14,6 +14,7 @@ import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,6 +53,12 @@ public class PopulationCompletenessTest {
 		dataset.readFromDump(dumpFilePath);
 	}
 
+	@After
+	public void tearDown() throws SQLException {
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS ab;");
+	}
 
 	/*
 	 * initialize DB with no M:N relations

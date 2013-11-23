@@ -19,6 +19,7 @@ import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,6 +45,13 @@ public class NoDuplicateStatementsTest {
 		Map<String, String> typeAlias = MapReader.read(
 				new File("src/test/resources/type-map.h2.tsv"));
 		vdf = SparqlifyUtils.createDummyViewDefinitionFactory(typeAlias);
+	}
+	
+	@After
+	public void tearDown() throws SQLException {
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS a;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS b;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS c;");
 	}
 
 	@PostConstruct

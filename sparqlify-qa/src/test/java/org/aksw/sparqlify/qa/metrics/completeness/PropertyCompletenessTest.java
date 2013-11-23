@@ -20,6 +20,7 @@ import org.aksw.sparqlify.qa.sinks.MeasureDataSink;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,6 +61,13 @@ public class PropertyCompletenessTest {
 	public void setUp() throws Exception {
 		initDBContent(conn);
 		initViewDefinitions();
+	}
+	
+	@After
+	public void tearDown() throws SQLException {
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS dept;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS dept_translation;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS employee;");
 	}
 
 	private void initDBContent(Connection conn) throws SQLException {
