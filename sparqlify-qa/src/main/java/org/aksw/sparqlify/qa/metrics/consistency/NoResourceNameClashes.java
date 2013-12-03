@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.consistency;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -132,7 +133,7 @@ public class NoResourceNameClashes extends MetricImpl implements DatasetMetric {
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		OntModel ontModel = ModelFactory.createOntologyModel(
 				OntModelSpec.RDFS_MEM_TRANS_INF, dataset);

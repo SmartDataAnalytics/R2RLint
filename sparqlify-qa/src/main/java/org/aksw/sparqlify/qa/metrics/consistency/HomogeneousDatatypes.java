@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.consistency;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -89,7 +90,7 @@ public class HomogeneousDatatypes extends MetricImpl implements DatasetMetric {
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		StmtIterator statementIt = dataset.listStatements();
 		while (statementIt.hasNext()) {
@@ -169,7 +170,7 @@ public class HomogeneousDatatypes extends MetricImpl implements DatasetMetric {
 
 	private void reportOutliers(int numTriplesThreshold,
 			Collection<List<Triple>> dtypeMapVals)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		for (List<Triple> triples : dtypeMapVals) {
 			if (triples.size() < numTriplesThreshold) {
@@ -193,7 +194,7 @@ public class HomogeneousDatatypes extends MetricImpl implements DatasetMetric {
 
 
 	private void reportConflicts(Collection<List<Triple>> dtypeMapVals)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		Set<ViewQuad<ViewDefinition>> candidates =
 				new HashSet<ViewQuad<ViewDefinition>>();

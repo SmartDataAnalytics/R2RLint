@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.interpretability;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -92,7 +93,7 @@ public class CorrectContainerUse extends MetricImpl implements
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		checkTypeConsNumberingUriAndDuplictates(dataset);
 		ckeckLeadingZeros(dataset);
@@ -100,7 +101,7 @@ public class CorrectContainerUse extends MetricImpl implements
 
 
 	private void checkTypeConsNumberingUriAndDuplictates(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		StmtIterator rdf_1StatementsIt =
 				dataset.listStatements(null, RDF.li(1), (RDFNode) null);
@@ -119,7 +120,7 @@ public class CorrectContainerUse extends MetricImpl implements
 
 	private void checkConsecutiveNumberingAndUri(Statement statement, int num,
 			StmtIterator succIt, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		Resource subject = statement.getSubject();
 		Property predicate = statement.getPredicate();
@@ -166,7 +167,7 @@ public class CorrectContainerUse extends MetricImpl implements
 
 
 	private void checkIfTyped(Resource subject, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		// get all type statements for the considered resource ('subject')
 		StmtIterator typeStmntsIt =
@@ -208,7 +209,7 @@ public class CorrectContainerUse extends MetricImpl implements
 
 
 	private void ckeckLeadingZeros(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		String queryStr =
 			"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
@@ -242,7 +243,9 @@ public class CorrectContainerUse extends MetricImpl implements
 
 
 	private void reportStatements(float val, List<Statement> statements,
-			SparqlifyDataset dataset) throws NotImplementedException {
+			SparqlifyDataset dataset) throws NotImplementedException,
+			SQLException {
+		
 		List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> res =
 				new ArrayList<Pair<Triple,Set<ViewQuad<ViewDefinition>>>>();
 		

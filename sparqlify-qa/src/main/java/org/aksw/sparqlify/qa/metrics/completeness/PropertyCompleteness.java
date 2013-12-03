@@ -59,7 +59,7 @@ public class PropertyCompleteness extends MetricImpl implements MappingMetric {
 
 	@Override
 	public void assessMappings(Collection<ViewDefinition> viewDefs)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		for (ViewDefinition viewDef : viewDefs) {
 			SqlOpBase logicalTbl = (SqlOpBase) viewDef.getMapping().getSqlOp();
 			List<Pair<Quad, ViewDefinition>> quadViewDefs =

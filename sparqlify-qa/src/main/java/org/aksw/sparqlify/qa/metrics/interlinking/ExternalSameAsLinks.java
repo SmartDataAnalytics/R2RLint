@@ -1,5 +1,7 @@
 package org.aksw.sparqlify.qa.metrics.interlinking;
 
+import java.sql.SQLException;
+
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
@@ -21,7 +23,7 @@ public class ExternalSameAsLinks extends MetricImpl implements DatasetMetric {
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		StmtIterator sameAsIt = dataset.listStatements(null, owl_sameAs, (RDFNode) null);
 		

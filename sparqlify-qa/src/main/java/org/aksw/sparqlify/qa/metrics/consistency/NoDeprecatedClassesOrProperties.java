@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.consistency;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
@@ -52,7 +53,7 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		OntModel ontModel = ModelFactory.createOntologyModel(
 				OntModelSpec.OWL_LITE_MEM_TRANS_INF, dataset);
@@ -156,8 +157,10 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 	 * @param dataset
 	 *         the Jena model to look for statements using the deprecated class
 	 * @throws NotImplementedException
+	 * @throws SQLException 
 	 */
-	private void reportProperty(Property property, SparqlifyDataset dataset) throws NotImplementedException {
+	private void reportProperty(Property property, SparqlifyDataset dataset)
+			throws NotImplementedException, SQLException {
 		
 		// property on subject position
 		StmtIterator deprPropOnSubjPosIt = dataset.listStatements(property,
@@ -210,9 +213,10 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 	 * @param dataset
 	 *         the Jena model to look for statements using the deprecated class
 	 * @throws NotImplementedException
+	 * @throws SQLException 
 	 */
 	private void reportClass(RDFNode cls, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		// class on object position
 		StmtIterator deprClsOnObjPosIt = dataset.listStatements(null, null, cls);
@@ -245,7 +249,7 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 
 
 	private void reportResource(Resource resource, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		// resource on subject position
 		StmtIterator resOnSubjPosIt = dataset.listStatements(resource, null,

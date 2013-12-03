@@ -2,6 +2,7 @@ package org.aksw.sparqlify.qa.metrics.reprconciseness;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
@@ -40,7 +41,7 @@ public class ShortUriTest {
 	}
 
 	@Test
-	public synchronized void testAssessNodes1() throws NotImplementedException {
+	public synchronized void testAssessNodes1() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -62,7 +63,7 @@ public class ShortUriTest {
 	}
 
 	@Test
-	public synchronized void testAssessNodes2() throws NotImplementedException {
+	public synchronized void testAssessNodes2() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");

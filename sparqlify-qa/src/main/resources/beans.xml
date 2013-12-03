@@ -17,6 +17,7 @@
       p:ignoreResourceNotFound="true" 
       p:ignoreUnresolvablePlaceholders="true" />
 
+  <!--  databases  -->
   <bean
       id="rdb"
       class="org.postgresql.ds.PGSimpleDataSource"
@@ -25,7 +26,17 @@
       p:password="${rdb.password}"
       p:serverName="${rdb.host}"
       p:portNumber="${rdb.port}" />
+
+  <bean
+      id="resDb"
+      class="org.postgresql.ds.PGSimpleDataSource"
+      p:databaseName="${rdbSink.dbName}"
+      p:user="${rdbSink.user}"
+      p:password="${rdbSink.password}"
+      p:serverName="${rdbSink.host}"
+      p:portNumber="${rdbSink.port}" />
       
+  <!--  assessment application  -->
   <bean
       id="app"
       class="org.aksw.sparqlify.qa.main.QualityAssessment"
@@ -39,29 +50,15 @@
       p:datasetUsedPrefixes="${dataset.usedPrefixes}"
       />
   
-  <bean
+  <!--  sinks -->
+  <!--bean
       id="dummySink"
-      class="org.aksw.sparqlify.qa.sinks.DummySink" />
-  <!--
-  <bean
-      id="datasource"
-      class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-      p:driverClassName="org.postgresql.Driver"
-      p:url="jdbc:postgresql://10.23.0.2./qa1"
-      p:username="postgres"
-      p:password="postgres" />
-  -->
-  <!--
-  <bean
-      id="test"
-      class="org.aksw.sparqlify.qa.metrics.consistency.NoAmbiguousMappings"
-      p:rdb-ref="rdb" />
-  -->
-  <!--
-  <bean
-      class="org.springframework.jdbc.datasource.SimpleConnectionHandle"
+      class="org.aksw.sparqlify.qa.sinks.DummySink" /-->
       
-      c:dataSource-ref="rdb" />
-  -->
+  <bean
+      id="rdbSink"
+      class="org.aksw.sparqlify.qa.sinks.RdbSink" />
+  
+
   
 </beans>

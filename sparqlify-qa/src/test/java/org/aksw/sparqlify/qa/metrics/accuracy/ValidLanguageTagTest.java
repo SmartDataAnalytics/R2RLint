@@ -3,6 +3,7 @@ package org.aksw.sparqlify.qa.metrics.accuracy;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
@@ -54,7 +55,7 @@ public class ValidLanguageTagTest {
 	 * de (German)
 	 */
 	@Test
-	public synchronized void test01() throws NotImplementedException {
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -73,7 +74,7 @@ public class ValidLanguageTagTest {
 	 * fr (French)
 	 */
 	@Test
-	public synchronized void test02() throws NotImplementedException {
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -92,7 +93,7 @@ public class ValidLanguageTagTest {
 	 * ja (Japanese)
 	 */
 	@Test
-	public synchronized void test03() throws NotImplementedException {
+	public synchronized void test03() throws NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -111,7 +112,7 @@ public class ValidLanguageTagTest {
 	 * i-enochian (example of a grandfathered tag)
 	 */
 	@Test
-	public synchronized void test04() throws NotImplementedException {
+	public synchronized void test04() throws NotImplementedException, SQLException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -130,7 +131,7 @@ public class ValidLanguageTagTest {
 	 * zh-Hant (Chinese written using the Traditional Chinese script)
 	 */
 	@Test
-	public synchronized void test05() throws NotImplementedException {
+	public synchronized void test05() throws NotImplementedException, SQLException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -149,7 +150,7 @@ public class ValidLanguageTagTest {
 	 * zh-Hans (Chinese written using the Simplified Chinese script)
 	 */
 	@Test
-	public synchronized void test06() throws NotImplementedException {
+	public synchronized void test06() throws NotImplementedException, SQLException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -168,7 +169,7 @@ public class ValidLanguageTagTest {
 	 * sr-Cyrl (Serbian written using the Cyrillic script)
 	 */
 	@Test
-	public synchronized void test07() throws NotImplementedException {
+	public synchronized void test07() throws NotImplementedException, SQLException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -187,7 +188,7 @@ public class ValidLanguageTagTest {
 	 * sr-Latn (Serbian written using the Latin script)
 	 */
 	@Test
-	public synchronized void test08() throws NotImplementedException {
+	public synchronized void test08() throws NotImplementedException, SQLException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -212,7 +213,7 @@ public class ValidLanguageTagTest {
 	 * China)
 	 */
 	@Test
-	public synchronized void test09() throws NotImplementedException {
+	public synchronized void test09() throws NotImplementedException, SQLException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -231,7 +232,7 @@ public class ValidLanguageTagTest {
 	 * cmn-Hans-CN (Mandarin Chinese, Simplified script, as used in China)
 	 */
 	@Test
-	public synchronized void test10() throws NotImplementedException {
+	public synchronized void test10() throws NotImplementedException, SQLException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -255,7 +256,7 @@ public class ValidLanguageTagTest {
 	 * zh-yue-HK (Chinese, Cantonese, as used in Hong Kong SAR)
 	 */
 	@Test
-	public synchronized void test11() throws NotImplementedException {
+	public synchronized void test11() throws NotImplementedException, SQLException {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -274,7 +275,7 @@ public class ValidLanguageTagTest {
 	 * yue-HK (Cantonese Chinese, as used in Hong Kong SAR)
 	 */
 	@Test
-	public synchronized void test12() throws NotImplementedException {
+	public synchronized void test12() throws NotImplementedException, SQLException {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -294,7 +295,7 @@ public class ValidLanguageTagTest {
 	 * mainland China)
 	 */
 	@Test
-	public synchronized void test13() throws NotImplementedException {
+	public synchronized void test13() throws NotImplementedException, SQLException {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -313,7 +314,7 @@ public class ValidLanguageTagTest {
 	 * sr-Latn-RS (Serbian written using the Latin script as used in Serbia)
 	 */
 	@Test
-	public synchronized void test14() throws NotImplementedException {
+	public synchronized void test14() throws NotImplementedException, SQLException {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -332,7 +333,7 @@ public class ValidLanguageTagTest {
 	 * sl-rozaj (Resian dialect of Slovenian)
 	 */
 	@Test
-	public synchronized void test15() throws NotImplementedException {
+	public synchronized void test15() throws NotImplementedException, SQLException {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -353,7 +354,7 @@ public class ValidLanguageTagTest {
 	 * FIXME: should not fail
 	 */
 	@Test
-	public synchronized void test16() throws NotImplementedException {
+	public synchronized void test16() throws NotImplementedException, SQLException {
 		String metricName = "test16";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -372,7 +373,7 @@ public class ValidLanguageTagTest {
 	 * sl-nedis (Nadiza dialect of Slovenian)
 	 */
 	@Test
-	public synchronized void test17() throws NotImplementedException {
+	public synchronized void test17() throws NotImplementedException, SQLException {
 		String metricName = "test17";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -394,7 +395,7 @@ public class ValidLanguageTagTest {
 	 * FIXME: should not fail
 	 */
 	@Test
-	public synchronized void test18() throws NotImplementedException {
+	public synchronized void test18() throws NotImplementedException, SQLException {
 		String metricName = "test18";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -413,7 +414,7 @@ public class ValidLanguageTagTest {
 	 * sl-IT-nedis (Slovenian as used in Italy, Nadiza dialect)
 	 */
 	@Test
-	public synchronized void test19() throws NotImplementedException {
+	public synchronized void test19() throws NotImplementedException, SQLException {
 		String metricName = "test19";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -433,7 +434,7 @@ public class ValidLanguageTagTest {
 	 * in Italy)
 	 */
 	@Test
-	public synchronized void test20() throws NotImplementedException {
+	public synchronized void test20() throws NotImplementedException, SQLException {
 		String metricName = "test20";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -452,7 +453,7 @@ public class ValidLanguageTagTest {
 	 * de-DE (German for Germany)
 	 */
 	@Test
-	public synchronized void test21() throws NotImplementedException {
+	public synchronized void test21() throws NotImplementedException, SQLException {
 		String metricName = "test21";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -471,7 +472,7 @@ public class ValidLanguageTagTest {
 	 * en-US (English as used in the United States)
 	 */
 	@Test
-	public synchronized void test22() throws NotImplementedException {
+	public synchronized void test22() throws NotImplementedException, SQLException {
 		String metricName = "test22";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -491,7 +492,7 @@ public class ValidLanguageTagTest {
 	 * region using the UN region code)
 	 */
 	@Test
-	public synchronized void test23() throws NotImplementedException {
+	public synchronized void test23() throws NotImplementedException, SQLException {
 		String metricName = "test23";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -510,7 +511,7 @@ public class ValidLanguageTagTest {
 	 * de-CH-x-phonebk (private use subtags)
 	 */
 	@Test
-	public synchronized void test24() throws NotImplementedException {
+	public synchronized void test24() throws NotImplementedException, SQLException {
 		String metricName = "test24";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -531,7 +532,7 @@ public class ValidLanguageTagTest {
 	 * FIXME: should not fail
 	 */
 	@Test
-	public synchronized void test25() throws NotImplementedException {
+	public synchronized void test25() throws NotImplementedException, SQLException {
 		String metricName = "test25";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -550,7 +551,7 @@ public class ValidLanguageTagTest {
 	 * x-whatever (private use using the singleton 'x')
 	 */
 	@Test
-	public synchronized void test26() throws NotImplementedException {
+	public synchronized void test26() throws NotImplementedException, SQLException {
 		String metricName = "test26";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -569,7 +570,7 @@ public class ValidLanguageTagTest {
 	 * qaa-Qaaa-QM-x-southern (all private tags)
 	 */
 	@Test
-	public synchronized void test27() throws NotImplementedException {
+	public synchronized void test27() throws NotImplementedException, SQLException {
 		String metricName = "test27";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -588,7 +589,7 @@ public class ValidLanguageTagTest {
 	 * de-Qaaa (German, with a private script)
 	 */
 	@Test
-	public synchronized void test28() throws NotImplementedException {
+	public synchronized void test28() throws NotImplementedException, SQLException {
 		String metricName = "test28";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -607,7 +608,7 @@ public class ValidLanguageTagTest {
 	 * sr-Latn-QM (Serbian, Latin script, private region)
 	 */
 	@Test
-	public synchronized void test29() throws NotImplementedException {
+	public synchronized void test29() throws NotImplementedException, SQLException {
 		String metricName = "test29";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -626,7 +627,7 @@ public class ValidLanguageTagTest {
 	 * sr-Qaaa-RS (Serbian, private script, for Serbia)
 	 */
 	@Test
-	public synchronized void test30() throws NotImplementedException {
+	public synchronized void test30() throws NotImplementedException, SQLException {
 		String metricName = "test30";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -645,7 +646,7 @@ public class ValidLanguageTagTest {
 	 * en-US-u-islamcal (tags that use extensions)
 	 */
 	@Test
-	public synchronized void test31() throws NotImplementedException {
+	public synchronized void test31() throws NotImplementedException, SQLException {
 		String metricName = "test31";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -664,7 +665,7 @@ public class ValidLanguageTagTest {
 	 * zh-CN-a-myext-x-private (tags that use extensions)
 	 */
 	@Test
-	public synchronized void test32() throws NotImplementedException {
+	public synchronized void test32() throws NotImplementedException, SQLException {
 		String metricName = "test32";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -683,7 +684,7 @@ public class ValidLanguageTagTest {
 	 * en-a-myext-b-another (tags that use extensions)
 	 */
 	@Test
-	public synchronized void test33() throws NotImplementedException {
+	public synchronized void test33() throws NotImplementedException, SQLException {
 		String metricName = "test33";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -702,7 +703,7 @@ public class ValidLanguageTagTest {
 	 * de-419-DE (invalid: two region tags)
 	 */
 	@Test
-	public synchronized void test34() throws NotImplementedException {
+	public synchronized void test34() throws NotImplementedException, SQLException {
 		String metricName = "test34";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -723,7 +724,7 @@ public class ValidLanguageTagTest {
 	 * are valid)
 	 */
 	@Test
-	public synchronized void test35() throws NotImplementedException {
+	public synchronized void test35() throws NotImplementedException, SQLException {
 		String metricName = "test35";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -745,7 +746,7 @@ public class ValidLanguageTagTest {
 	 * FIXME: should not fail
 	 */
 	@Test
-	public synchronized void test36() throws NotImplementedException {
+	public synchronized void test36() throws NotImplementedException, SQLException {
 		String metricName = "test36";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");

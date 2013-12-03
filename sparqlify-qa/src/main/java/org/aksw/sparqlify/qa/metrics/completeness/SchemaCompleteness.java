@@ -80,7 +80,7 @@ public class SchemaCompleteness extends MetricImpl implements MappingMetric {
 
 	@Override
 	public void assessMappings(Collection<ViewDefinition> viewDefs)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		int numColumns = getNumColumns();
 		int numMappingPattens = getNumMappingPatterns(viewDefs);

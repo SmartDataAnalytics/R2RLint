@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.interpretability;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +79,7 @@ public class CorrectReificationUse extends MetricImpl implements
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		for (Property reifProp : reificationProperties) {
 			StmtIterator reifStmntsIt = dataset.listStatements(null, reifProp,
@@ -98,7 +99,7 @@ public class CorrectReificationUse extends MetricImpl implements
 
 
 	private void checkIfTyped(Resource reificationResource,
-			SparqlifyDataset dataset) throws NotImplementedException {
+			SparqlifyDataset dataset) throws NotImplementedException, SQLException {
 		
 		StmtIterator typeStmntsIt = dataset.listStatements(reificationResource,
 				RDF.type, (RDFNode) null);
@@ -124,7 +125,8 @@ public class CorrectReificationUse extends MetricImpl implements
 
 
 	private void checkReificationParts(Resource reificationResource,
-			SparqlifyDataset dataset) throws NotImplementedException {
+			SparqlifyDataset dataset) throws NotImplementedException,
+			SQLException {
 		
 		StmtIterator subjPartsIt = dataset.listStatements(reificationResource,
 				RDF.subject, (RDFNode) null);
@@ -143,10 +145,11 @@ public class CorrectReificationUse extends MetricImpl implements
 	 * - if there is exactly one rdf:subject part of the reification statement
 	 * - for all rdf:subject parts of the reification statement if the value
 	 *   is a resource
+	 * @throws SQLException 
 	 */
 	private void checkSubjectPart(Resource reificationResource,
 			StmtIterator subjPartsIt, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		List<Statement> subjParts = subjPartsIt.toList();
 		
@@ -185,10 +188,11 @@ public class CorrectReificationUse extends MetricImpl implements
 	 * - if there is exactly one rdf:predicate part of the reification statement
 	 * - for all rdf:predicate parts of the reification statement if the value
 	 *   is a URI resource
+	 * @throws SQLException 
 	 */
 	private void checkPredicatePart(Resource reificationResource,
 			StmtIterator predPartsIt, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		List<Statement> predParts = predPartsIt.toList();
 		
@@ -224,10 +228,11 @@ public class CorrectReificationUse extends MetricImpl implements
 	/**
 	 * This method checks
 	 * - if there is exactly one rdf:object part of the reification statement
+	 * @throws SQLException 
 	 */
 	private void checkObjectPart(Resource reificationResource,
 			StmtIterator objPartsIt, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		List<Statement> objParts = objPartsIt.toList();
 		
@@ -250,7 +255,7 @@ public class CorrectReificationUse extends MetricImpl implements
 
 
 	private void reportStatements(float val, List<Statement> statements,
-			SparqlifyDataset dataset) throws NotImplementedException {
+			SparqlifyDataset dataset) throws NotImplementedException, SQLException {
 		List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> res =
 				new ArrayList<Pair<Triple,Set<ViewQuad<ViewDefinition>>>>();
 		

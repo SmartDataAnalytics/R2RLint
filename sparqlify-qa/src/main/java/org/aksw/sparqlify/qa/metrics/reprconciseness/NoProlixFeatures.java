@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.reprconciseness;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -73,14 +74,16 @@ public class NoProlixFeatures extends MetricImpl implements TripleMetric {
 
 
 	@Override
-	public void assessTriple(Triple triple) throws NotImplementedException {
+	public void assessTriple(Triple triple) throws NotImplementedException,
+			SQLException {
 		findPredicates(triple);
 		findClasses(triple);
 		
 	}
 
 
-	private void findPredicates(Triple triple) throws NotImplementedException {
+	private void findPredicates(Triple triple) throws NotImplementedException,
+			SQLException {
 		for (Node predicate : predicates) {
 			if (triple.getPredicate().equals((Node_URI) predicate)) {
 				
@@ -94,7 +97,9 @@ public class NoProlixFeatures extends MetricImpl implements TripleMetric {
 	}
 
 
-	private void findClasses(Triple triple) throws NotImplementedException {
+	private void findClasses(Triple triple) throws NotImplementedException,
+			SQLException {
+		
 		for (Node cls : classes) {
 			if (triple.getObject().equals(cls)
 					&& triple.getPredicate().equals(RDF.type.asNode())) {

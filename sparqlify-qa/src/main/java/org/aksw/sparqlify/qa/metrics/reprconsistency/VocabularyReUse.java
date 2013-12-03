@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.reprconsistency;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -173,7 +174,7 @@ public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		/*
 		 * check all properties

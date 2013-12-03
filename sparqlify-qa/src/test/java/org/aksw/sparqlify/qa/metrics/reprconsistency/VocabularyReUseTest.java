@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.sql.SQLException;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
@@ -66,7 +67,7 @@ public class VocabularyReUseTest {
 	}
 	
 	@Test
-	public synchronized void test01() throws NotImplementedException {
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -110,7 +111,7 @@ public class VocabularyReUseTest {
 	}
 	
 	@Test
-	public synchronized void test02() throws NotImplementedException {
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");

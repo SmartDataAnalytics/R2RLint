@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.believability;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,7 +71,7 @@ public class DatasetMetadata extends MetricImpl implements DatasetMetric {
 	
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		// get all defined datasets
 		StmtIterator datasetIt = dataset.listStatements(null, RDF.type, VoID.Dataset);

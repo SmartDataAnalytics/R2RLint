@@ -3,6 +3,7 @@ package org.aksw.sparqlify.qa.metrics.completeness;
 import static org.junit.Assert.assertEquals;
 
 import java.io.StringReader;
+import java.sql.SQLException;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
@@ -46,7 +47,7 @@ public class InterlinkingCompletenessTest {
 "<http://ex.org/sthElse/02> <http://ex.org/properties/bar> <http://ex.org/sthCompletelyDifferent/23> .";
 
 	@Test
-	public void test01() throws NotImplementedException {
+	public void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -84,7 +85,7 @@ public class InterlinkingCompletenessTest {
 "<http://ex.org/sthElse/02> <http://ex.org/properties/bar> <http://ex.org/sthCompletelyDifferent/23> .";
 
 	@Test
-	public void test02() throws NotImplementedException {
+	public void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -123,7 +124,7 @@ public class InterlinkingCompletenessTest {
 "<http://ex.org/sthElse/02> <http://ex.org/properties/bar> <http://ex.org/sthCompletelyDifferent/23> .";
 
 	@Test
-	public void test03() throws NotImplementedException {
+	public void test03() throws NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -162,7 +163,7 @@ public class InterlinkingCompletenessTest {
 "<http://ex.org/sthElse/02> <http://ex.org/properties/bar> <http://ex.org/sthCompletelyDifferent/23> .";
 
 	@Test
-	public void test04() throws NotImplementedException {
+	public void test04() throws NotImplementedException, SQLException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -201,7 +202,7 @@ public class InterlinkingCompletenessTest {
 "<http://ex.org/sthElse/02> <http://ex.org/properties/bar> <http://ex.org/sthCompletelyDifferent/23> .";
 
 	@Test
-	public void test05() throws NotImplementedException {
+	public void test05() throws NotImplementedException, SQLException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -240,7 +241,7 @@ public class InterlinkingCompletenessTest {
 "<http://ex.org/sthElse/02> <http://ex.org/properties/bar> <http://ex.org/sthCompletelyDifferent/23> .";
 
 	@Test
-	public void test06() throws NotImplementedException {
+	public void test06() throws NotImplementedException, SQLException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -281,7 +282,7 @@ public class InterlinkingCompletenessTest {
 "<http://ex.org/sthElse/02> <http://ex.org/properties/bar> <http://ex.org/sthCompletelyDifferent/23> .";
 
 	@Test
-	public void test07() throws NotImplementedException {
+	public void test07() throws NotImplementedException, SQLException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -322,7 +323,7 @@ public class InterlinkingCompletenessTest {
 "<http://ex.org/sthElse/02> <http://ex.org/properties/bar> <http://ex.org/sthCompletelyDifferent/42> .";
 
 	@Test
-	public void test08() throws NotImplementedException {
+	public void test08() throws NotImplementedException, SQLException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");

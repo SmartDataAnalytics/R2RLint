@@ -264,7 +264,7 @@ public class QualityAssessment {
 	}
 	
 	
-	private void run() throws TripleParseException, NotImplementedException {
+	private void run() throws TripleParseException, NotImplementedException, SQLException {
 		logger.info("run() called");
 		boolean runDatasetAssessment = datasetMetrics.size() > 0;
 		logger.info("runDatasetAssessment: " + runDatasetAssessment);
@@ -298,7 +298,7 @@ public class QualityAssessment {
 	}
 	
 	
-	private void assessTriple(Triple triple) throws NotImplementedException {
+	private void assessTriple(Triple triple) throws NotImplementedException, SQLException {
 		
 		for (Metric metric : tripleMetrics) {
 			((TripleMetric) metric).assessTriple(triple);
@@ -306,14 +306,14 @@ public class QualityAssessment {
 	}
 	
 	
-	private void assessNodes(Triple triple) throws NotImplementedException {
+	private void assessNodes(Triple triple) throws NotImplementedException, SQLException {
 		for (Metric metric : nodeMetrics) {
 			((NodeMetric) metric).assessNodes(triple);
 		}
 	}
 	
 	
-	private void assessDataset() throws NotImplementedException {
+	private void assessDataset() throws NotImplementedException, SQLException {
 		logger.info("assessDataset() called");
 		for (Metric metric : datasetMetrics) {
 			logger.info("start assessment with metric " + metric.getName());
@@ -324,7 +324,7 @@ public class QualityAssessment {
 	}
 	
 	
-	private void assessMappings() throws NotImplementedException {
+	private void assessMappings() throws NotImplementedException, SQLException {
 		logger.info("assessMappings() called");
 		for (Metric metric : mappingMetrics) {
 			logger.info("start assessment with metric " + metric.getName());

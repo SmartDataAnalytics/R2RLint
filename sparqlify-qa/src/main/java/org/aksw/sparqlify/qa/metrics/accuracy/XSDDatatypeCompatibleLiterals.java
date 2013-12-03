@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.accuracy;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
@@ -32,7 +33,7 @@ public class XSDDatatypeCompatibleLiterals extends MetricImpl implements NodeMet
 	Pinpointer pinpointer;
 	
 	@Override
-	public void assessNodes(Triple triple) throws NotImplementedException {
+	public void assessNodes(Triple triple) throws NotImplementedException, SQLException {
 		Node object = triple.getObject();
 		
 		if (object.isLiteral()

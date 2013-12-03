@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +44,7 @@ public class ValidLanguageTag extends MetricImpl implements NodeMetric {
 	}
 
 	@Override
-	public void assessNodes(Triple triple) throws NotImplementedException {
+	public void assessNodes(Triple triple) throws NotImplementedException, SQLException {
 		Node object = triple.getObject();
 		if (object.isLiteral()) {
 			

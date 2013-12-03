@@ -110,7 +110,7 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 
 	@Override
 	public void assessMappings(Collection<ViewDefinition> viewDefs)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		for (ViewDefinition viewDef : viewDefs) {
 			// 1) checked if there are duplicates created by one quad pattern
@@ -130,9 +130,10 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 	 * @param viewDef
 	 *         the considered view definition
 	 * @throws NotImplementedException
+	 * @throws SQLException
 	 */
 	private void assessViewDefinition(ViewDefinition viewDef)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		String relation = readRelation(viewDef);
 		
@@ -195,9 +196,10 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 	 * @param viewDefs
 	 *         collection of view definitions
 	 * @throws NotImplementedException
+	 * @throws SQLException
 	 */
 	private void exhaustivelyAssessViewDefinitions(
-			Collection<ViewDefinition> viewDefs) throws NotImplementedException {
+			Collection<ViewDefinition> viewDefs) throws NotImplementedException, SQLException {
 		
 		// since ViewDefinition cannot be cast to java.lang.Comparable (and so
 		// there cannot be a Set of ViewDefinitions) the view definition names
@@ -224,8 +226,10 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 	 * - distinctCounts hash map
 	 * - viewDefMap hash map
 	 * and would do nothing otherwise (or break).
+	 * 
+	 * @throws SQLException
 	 */
-	private void assessViewDefinitions(Set<String> viewDefNames) throws NotImplementedException {
+	private void assessViewDefinitions(Set<String> viewDefNames) throws NotImplementedException, SQLException {
 		
 		HashMap<String, List<Pair<Quad, ViewDefinition>>> patterns =
 				new HashMap<String, List<Pair<Quad, ViewDefinition>>>();
@@ -380,8 +384,9 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 	 * 
 	 * @param quadViewDefs
 	 * @throws NotImplementedException
+	 * @throws SQLException
 	 */
-	private void assessQuads(List<Pair<Quad, ViewDefinition>> quadViewDefs) throws NotImplementedException {
+	private void assessQuads(List<Pair<Quad, ViewDefinition>> quadViewDefs) throws NotImplementedException, SQLException {
 		
 		int sumCountEach = 0;
 		String queryStr = "";

@@ -1,5 +1,7 @@
 package org.aksw.sparqlify.qa.metrics.completeness;
 
+import java.sql.SQLException;
+
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
@@ -50,7 +52,7 @@ public class InterlinkingCompleteness extends MetricImpl implements DatasetMetri
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 	
 		numSubjQueryStr =
 				"Prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +

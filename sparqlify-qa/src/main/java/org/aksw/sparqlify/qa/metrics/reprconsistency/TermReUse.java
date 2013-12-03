@@ -1,5 +1,7 @@
 package org.aksw.sparqlify.qa.metrics.reprconsistency;
 
+import java.sql.SQLException;
+
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
@@ -59,7 +61,7 @@ public class TermReUse extends MetricImpl implements DatasetMetric {
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		StmtIterator statementsIt = dataset.listStatements(null, null, (RDFNode) null);
 		

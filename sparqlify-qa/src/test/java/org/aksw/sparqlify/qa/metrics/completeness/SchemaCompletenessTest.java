@@ -257,7 +257,7 @@ public class SchemaCompletenessTest extends AbstractTransactionalJUnit4SpringCon
 	
 	
 	@Test
-	public synchronized void test01() throws NotImplementedException {
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -271,7 +271,7 @@ public class SchemaCompletenessTest extends AbstractTransactionalJUnit4SpringCon
 
 
 	@Test
-	public synchronized void test02() throws NotImplementedException {
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -285,7 +285,7 @@ public class SchemaCompletenessTest extends AbstractTransactionalJUnit4SpringCon
 
 
 	@Test
-	public void test03() throws NotImplementedException {
+	public void test03() throws NotImplementedException, SQLException {
 		metric.setCountVariablePredicates(false);
 		String metricName = "test01";
 		metric.setName(metricName);

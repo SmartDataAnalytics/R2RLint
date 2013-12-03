@@ -91,7 +91,7 @@ public class PopulationCompleteness extends MetricImpl implements DatasetMetric 
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 	
 		int numDbEntities = getNumDbEntities(); 
 		int numResources = getNumResources(dataset);

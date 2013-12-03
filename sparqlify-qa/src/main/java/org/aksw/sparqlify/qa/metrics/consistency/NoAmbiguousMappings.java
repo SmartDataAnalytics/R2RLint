@@ -147,7 +147,7 @@ public class NoAmbiguousMappings extends MetricImpl implements MappingMetric {
 
 	@Override
 	public void assessMappings(Collection<ViewDefinition> viewDefs)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		// gather term constructor informations
 		for (ViewDefinition viewDef : viewDefs) {
@@ -164,7 +164,7 @@ public class NoAmbiguousMappings extends MetricImpl implements MappingMetric {
 
 	private void reportAmbiguousMappings(
 			HashMap<String, List<Pair<Quad, ViewDefinition>>> relationMap)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		List<Pair<Quad, ViewDefinition>> quadViewDefs =
 				new ArrayList<Pair<Quad, ViewDefinition>>();

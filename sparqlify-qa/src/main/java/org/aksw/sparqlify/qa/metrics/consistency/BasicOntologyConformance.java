@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.consistency;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -102,7 +103,7 @@ public class BasicOntologyConformance extends MetricImpl implements DatasetMetri
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		Reasoner reasoner = ReasonerRegistry.getOWLMicroReasoner();
 		InfModel infModel = ModelFactory.createInfModel(reasoner, dataset);

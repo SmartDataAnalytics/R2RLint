@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.understandability;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
@@ -144,7 +145,7 @@ public class HttpUri extends MetricImpl implements NodeMetric {
 
 
 	@Override
-	public void assessNodes(Triple triple) throws NotImplementedException {
+	public void assessNodes(Triple triple) throws NotImplementedException, SQLException {
 		
 		/* assess subject */
 		Node subj = triple.getSubject();

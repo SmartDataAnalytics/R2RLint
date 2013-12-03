@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +75,7 @@ public abstract class MetricImpl implements Metric {
 	// TODO: fix this first shot approach method signature
 	protected void writeNodeTripleMeasureToSink(float val, TriplePosition pos,
 			Triple triple, Set<ViewQuad<ViewDefinition>> viewQuads)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		MeasureDatum datum = new NodeTripleMeasureDatum(parentDimension, name, val,
 				pos, triple, viewQuads);
@@ -84,7 +85,7 @@ public abstract class MetricImpl implements Metric {
 
 
 	// TODO: fix this first shot approach method signature
-	protected void writeNodeMeasureToSink(float value, Node node) {
+	protected void writeNodeMeasureToSink(float value, Node node) throws SQLException {
 		MeasureDatum datum = new NodeMeasureDatum(parentDimension, name, value, node);
 		
 		sink.write(datum);
@@ -93,7 +94,7 @@ public abstract class MetricImpl implements Metric {
 
 	protected void writeTripleMeasureToSink(float val, Triple triple,
 			Set<ViewQuad<ViewDefinition>> viewQuads)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		MeasureDatum datum = new TripleMeasureDatum(parentDimension, name, val,
 				triple, viewQuads);
@@ -103,7 +104,7 @@ public abstract class MetricImpl implements Metric {
 
 
 	// TODO: fix this first shot approach method signature
-	protected void writeDatasetMeasureToSink(float val) throws NotImplementedException {
+	protected void writeDatasetMeasureToSink(float val) throws NotImplementedException, SQLException {
 		MeasureDatum datum = new DatasetMeasureDatum(parentDimension, name, val);
 		sink.write(datum);
 	}
@@ -112,7 +113,7 @@ public abstract class MetricImpl implements Metric {
 	// TODO: fix this first shot approach method signature
 	protected void writeTriplesMeasureToSink(float val,
 			List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> pinpointResult)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		MeasureDatum datum = new TriplesMeasureDatum(parentDimension, name,
 				val, pinpointResult);
@@ -122,7 +123,7 @@ public abstract class MetricImpl implements Metric {
 
 
 	protected void writeTriplesMeasureToSink(String metricName, float val,
-			List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> pinpointResult) {
+			List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> pinpointResult) throws SQLException {
 		
 		MeasureDatum datum = new TriplesMeasureDatum(parentDimension,
 				metricName, val, pinpointResult);
@@ -133,7 +134,7 @@ public abstract class MetricImpl implements Metric {
 
 	// TODO: fix this first shot approach method signature
 	protected void writeMappingMeasureToSink(float val, Set<ViewQuad<ViewDefinition>> candidates)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		MeasureDatum datum = new MappingMeasureDatum(parentDimension, name, val, candidates);
 		sink.write(datum);
@@ -142,7 +143,7 @@ public abstract class MetricImpl implements Metric {
 
 	protected void writeMappingVarMeasureToSink(float val,
 			List<Pair<Node_Variable, ViewDefinition>> nodeViewDefs)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		MeasureDatum datum = new MappingVarMeasureDatum(parentDimension, name,
 				val, nodeViewDefs);
@@ -152,7 +153,7 @@ public abstract class MetricImpl implements Metric {
 
 	protected void writeMappingQuadMeasureToSink(float val,
 			List<Pair<Quad, ViewDefinition>> quadViewDefs)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		MeasureDatum datum = new MappingQuadMeasureDatum(parentDimension, name,
 				val, quadViewDefs);

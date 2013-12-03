@@ -3,6 +3,7 @@ package org.aksw.sparqlify.qa.metrics.performance;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
@@ -43,7 +44,7 @@ public class NoHashUrisTest {
 	 * no hash URIs
 	 */
 	@Test
-	public synchronized void test01() throws NotImplementedException {
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -65,7 +66,7 @@ public class NoHashUrisTest {
 	 * hash URI on subject position
 	 */
 	@Test
-	public synchronized void test02() throws NotImplementedException {
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -87,7 +88,7 @@ public class NoHashUrisTest {
 	 * hash URI on predicate position
 	 */
 	@Test
-	public synchronized void test03() throws NotImplementedException {
+	public synchronized void test03() throws NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -109,7 +110,7 @@ public class NoHashUrisTest {
 	 * hash URI on object position
 	 */
 	@Test
-	public synchronized void test04() throws NotImplementedException {
+	public synchronized void test04() throws NotImplementedException, SQLException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");

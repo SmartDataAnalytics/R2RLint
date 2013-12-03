@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.interpretability;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -81,7 +82,7 @@ public class CorrectCollectionUse extends MetricImpl implements
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		/*
 		 * entry point: find statements like <sth> rdf:rest <sthElse> .
 		 * since this statement does not necessarily have to be the head of the
@@ -120,9 +121,10 @@ public class CorrectCollectionUse extends MetricImpl implements
 	 * @param dataset
 	 *         The SparqlifyDataset under assessment
 	 * @throws NotImplementedException
+	 * @throws SQLException 
 	 */
 	private void searchHeadwards(Statement statement, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		Resource subject = statement.getSubject();
 		
@@ -159,9 +161,10 @@ public class CorrectCollectionUse extends MetricImpl implements
 	 * @param dataset
 	 *         The Sparqlify dataset under assessment
 	 * @throws NotImplementedException
+	 * @throws SQLException 
 	 */
 	private void checkRdfFirst(Resource listNode,
-			SparqlifyDataset dataset) throws NotImplementedException {
+			SparqlifyDataset dataset) throws NotImplementedException, SQLException {
 		
 		StmtIterator nodeRdfFirstStatetementsIt = dataset.listStatements(
 				listNode, RDF.first, (RDFNode) null);
@@ -186,7 +189,7 @@ public class CorrectCollectionUse extends MetricImpl implements
 	
 	
 	private void checkForMultipleSuccessors(Resource listNode,
-			SparqlifyDataset dataset) throws NotImplementedException {
+			SparqlifyDataset dataset) throws NotImplementedException, SQLException {
 		
 		StmtIterator nodeRdfRestStatementsIt =
 				dataset.listStatements(listNode, RDF.rest, (RDFNode) null);
@@ -214,9 +217,10 @@ public class CorrectCollectionUse extends MetricImpl implements
 	 * @param subject
 	 * @param dataset
 	 * @throws NotImplementedException
+	 * @throws SQLException 
 	 */
 	private void goHeadwards(Resource subject, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		/*
 		 * make one step headwards (== find triple like "sth rdf:rest subject")
@@ -267,9 +271,10 @@ public class CorrectCollectionUse extends MetricImpl implements
 	 * @param statement
 	 * @param dataset
 	 * @throws NotImplementedException
+	 * @throws SQLException 
 	 */
 	private void searchTailwards(Statement statement, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		RDFNode object = statement.getObject();
 		
@@ -300,7 +305,7 @@ public class CorrectCollectionUse extends MetricImpl implements
 
 
 	private void checkForMultiplePredecessors(Resource listNode,
-			SparqlifyDataset dataset) throws NotImplementedException {
+			SparqlifyDataset dataset) throws NotImplementedException, SQLException {
 		
 		// check if listNode is used as rdf:rest more than once
 		StmtIterator rdfRestNodeStmntsIt =
@@ -332,9 +337,10 @@ public class CorrectCollectionUse extends MetricImpl implements
 	 * @param resource
 	 * @param dataset
 	 * @throws NotImplementedException
+	 * @throws SQLException 
 	 */
 	private void goTailwards(Resource resource, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		/*
 		 * make one step tailwards (== find triple like "resource rdf:rest sth")
@@ -371,7 +377,7 @@ public class CorrectCollectionUse extends MetricImpl implements
 
 
 	private void reportStatements(List<Statement> statements, float value)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> pinpointResults =
 				new ArrayList<Pair<Triple,Set<ViewQuad<ViewDefinition>>>>();

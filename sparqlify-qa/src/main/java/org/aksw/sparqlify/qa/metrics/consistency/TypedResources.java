@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.consistency;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -53,7 +54,7 @@ public class TypedResources extends MetricImpl implements DatasetMetric {
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		StmtIterator statementsIt = dataset.listStatements();
 		
@@ -74,7 +75,9 @@ public class TypedResources extends MetricImpl implements DatasetMetric {
 		}
 	}
 	
-	private void checkIfTyped(Resource res, SparqlifyDataset dataset) {
+	private void checkIfTyped(Resource res, SparqlifyDataset dataset)
+			throws SQLException {
+		
 		boolean resourceTyped = false;
 		
 		knownResources.add(res);

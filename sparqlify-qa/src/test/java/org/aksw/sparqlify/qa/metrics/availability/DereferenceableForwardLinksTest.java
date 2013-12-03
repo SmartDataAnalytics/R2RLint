@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
@@ -129,7 +130,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI resolvable (subject)
 	 */
 	@Test
-	public synchronized void test01() throws NotImplementedException {
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -155,7 +156,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI resolvable (predicate)
 	 */
 	@Test
-	public synchronized void test02() throws NotImplementedException {
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -181,7 +182,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI resolvable (object)
 	 */
 	@Test
-	public synchronized void test03() throws NotImplementedException {
+	public synchronized void test03() throws NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -207,7 +208,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI redirect (subject)
 	 */
 	@Test
-	public synchronized void test04() throws NotImplementedException {
+	public synchronized void test04() throws NotImplementedException, SQLException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -233,7 +234,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI redirect (predicate)
 	 */
 	@Test
-	public synchronized void test05() throws NotImplementedException {
+	public synchronized void test05() throws NotImplementedException, SQLException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -259,7 +260,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI redirect (object)
 	 */
 	@Test
-	public synchronized void test06() throws NotImplementedException {
+	public synchronized void test06() throws NotImplementedException, SQLException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -285,7 +286,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI not found (subject)
 	 */
 	@Test
-	public synchronized void test07() throws NotImplementedException {
+	public synchronized void test07() throws NotImplementedException, SQLException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -311,7 +312,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI not found (predicate)
 	 */
 	@Test
-	public synchronized void test08() throws NotImplementedException {
+	public synchronized void test08() throws NotImplementedException, SQLException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -337,7 +338,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI not found (object)
 	 */
 	@Test
-	public synchronized void test09() throws NotImplementedException {
+	public synchronized void test09() throws NotImplementedException, SQLException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -363,7 +364,7 @@ public class DereferenceableForwardLinksTest {
 	 * server error URI (subject)
 	 */
 	@Test
-	public synchronized void test10() throws NotImplementedException {
+	public synchronized void test10() throws NotImplementedException, SQLException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -389,7 +390,7 @@ public class DereferenceableForwardLinksTest {
 	 * server error URI (predicate)
 	 */
 	@Test
-	public synchronized void test11() throws NotImplementedException {
+	public synchronized void test11() throws NotImplementedException, SQLException {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -415,7 +416,7 @@ public class DereferenceableForwardLinksTest {
 	 * server error URI (object)
 	 */
 	@Test
-	public synchronized void test12() throws NotImplementedException {
+	public synchronized void test12() throws NotImplementedException, SQLException {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -441,7 +442,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI not served (subject)
 	 */
 	@Test
-	public synchronized void test13() throws NotImplementedException {
+	public synchronized void test13() throws NotImplementedException, SQLException {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -467,7 +468,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI not served (predicate)
 	 */
 	@Test
-	public synchronized void test14() throws NotImplementedException {
+	public synchronized void test14() throws NotImplementedException, SQLException {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -493,7 +494,7 @@ public class DereferenceableForwardLinksTest {
 	 * URI redirect (subject)
 	 */
 	@Test
-	public synchronized void test15() throws NotImplementedException {
+	public synchronized void test15() throws NotImplementedException, SQLException {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");

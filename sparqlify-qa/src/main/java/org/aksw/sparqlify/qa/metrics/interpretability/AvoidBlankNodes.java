@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.interpretability;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +34,7 @@ public class AvoidBlankNodes extends MetricImpl implements MappingMetric{
 
 	@Override
 	public void assessMappings(Collection<ViewDefinition> viewDefs)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		for (ViewDefinition viewDef : viewDefs) {
 			
@@ -103,7 +104,7 @@ public class AvoidBlankNodes extends MetricImpl implements MappingMetric{
 
 
 	private void write(Node_Variable node, ViewDefinition viewDef)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		List<Pair<Node_Variable, ViewDefinition>> nodeViewDefs =
 				new ArrayList<Pair<Node_Variable, ViewDefinition>>();

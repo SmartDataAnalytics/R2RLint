@@ -1,6 +1,7 @@
 package org.aksw.sparqlify.qa.metrics.consistency;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Set;
 
@@ -66,7 +67,7 @@ public class NoOntologyHijacking extends MetricImpl implements DatasetMetric {
 	}
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		Model vocabularies = null;
 		Collection<String> usedPrefixes = dataset.getUsedPrefixes();

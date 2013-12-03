@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.reprconciseness;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 import org.aksw.sparqlify.core.algorithms.ViewQuad;
@@ -23,7 +24,7 @@ public class QueryParamFreeUri extends MetricImpl implements NodeMetric {
 	private Pinpointer pinpointer;
 	
 	@Override
-	public void assessNodes(Triple triple) throws NotImplementedException {
+	public void assessNodes(Triple triple) throws NotImplementedException, SQLException {
 		/* assess subject */
 		Node subj = triple.getSubject();
 		

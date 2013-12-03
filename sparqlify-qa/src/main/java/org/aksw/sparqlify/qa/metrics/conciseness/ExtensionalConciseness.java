@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.conciseness;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,7 +43,7 @@ public class ExtensionalConciseness extends MetricImpl implements MappingMetric 
 
 	@Override
 	public void assessMappings(Collection<ViewDefinition> viewDefs)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		ViewDefsInfosEC vdInfos = new ViewDefsInfosEC();
 		

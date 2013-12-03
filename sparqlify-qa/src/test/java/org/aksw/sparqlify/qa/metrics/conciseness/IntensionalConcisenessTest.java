@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -173,7 +174,7 @@ public class IntensionalConcisenessTest {
 	
 	
 	@Test
-	public synchronized void test01() throws NotImplementedException {
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -187,7 +188,7 @@ public class IntensionalConcisenessTest {
 
 
 	@Test
-	public synchronized void test02() throws NotImplementedException {
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -202,7 +203,7 @@ public class IntensionalConcisenessTest {
 
 
 	@Test
-	public synchronized void test03() throws NotImplementedException {
+	public synchronized void test03() throws NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -216,7 +217,7 @@ public class IntensionalConcisenessTest {
 
 	
 	@Test
-	public synchronized void test04() throws NotImplementedException {
+	public synchronized void test04() throws NotImplementedException, SQLException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -230,7 +231,7 @@ public class IntensionalConcisenessTest {
 
 
 	@Test
-	public synchronized void test05() throws NotImplementedException {
+	public synchronized void test05() throws NotImplementedException, SQLException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -244,7 +245,7 @@ public class IntensionalConcisenessTest {
 
 
 	@Test
-	public synchronized void test06() throws NotImplementedException {
+	public synchronized void test06() throws NotImplementedException, SQLException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");

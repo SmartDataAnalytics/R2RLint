@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -97,7 +98,7 @@ public class BasicOntologyConformanceTest {
 	 * disjointClass
 	 */
 	@Test
-	public synchronized void test01() throws NotImplementedException {
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -163,7 +164,7 @@ public class BasicOntologyConformanceTest {
 	 * rdfs:range
 	 */
 	@Test
-	public synchronized void test02() throws NotImplementedException {
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -233,7 +234,7 @@ public class BasicOntologyConformanceTest {
 	 * rdfs:domain violation; reported as disjointClass violation
 	 */
 	@Test
-	public synchronized void test03() throws NotImplementedException {
+	public synchronized void test03() throws NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -298,7 +299,7 @@ public class BasicOntologyConformanceTest {
 	 * owl:ObjectProperty violation
 	 */
 	@Test
-	public synchronized void test04() throws NotImplementedException {
+	public synchronized void test04() throws NotImplementedException, SQLException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -356,7 +357,7 @@ public class BasicOntologyConformanceTest {
 	 * owl:DatatypeProperty violation
 	 */
 	@Test
-	public synchronized void test05() throws NotImplementedException {
+	public synchronized void test05() throws NotImplementedException, SQLException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");

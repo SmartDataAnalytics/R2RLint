@@ -3,6 +3,7 @@ package org.aksw.sparqlify.qa.metrics.understandability;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -150,7 +151,8 @@ public class SoundingUri extends MetricImpl implements NodeMetric {
 	
 	
 	@Override
-	public void assessNodes(Triple triple) throws NotImplementedException {
+	public void assessNodes(Triple triple) throws NotImplementedException,
+			SQLException {
 		/* assess subject */
 		Node subj = triple.getSubject();
 		

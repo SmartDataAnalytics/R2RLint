@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.interpretability;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +67,7 @@ public class ResourceInterpretability extends MetricImpl implements
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		StmtIterator statementsIt = dataset.listStatements();
 		
@@ -108,7 +109,7 @@ public class ResourceInterpretability extends MetricImpl implements
 
 	private void checkResourceInterpretability(Resource resource,
 			TriplePosition pos, Statement statement, SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		boolean ontPropStatementFound = false;
 		

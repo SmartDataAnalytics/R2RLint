@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.amountofdata;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class CoverageDetail extends MetricImpl implements DatasetMetric {
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 		
 		numTriples = dataset.size();
 		StmtIterator statementsIt = dataset.listStatements();

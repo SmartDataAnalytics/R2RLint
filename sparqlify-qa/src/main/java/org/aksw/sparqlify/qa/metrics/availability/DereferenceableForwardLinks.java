@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public class DereferenceableForwardLinks extends MetricImpl implements
 
 
 	@Override
-	public void assessNodes(Triple triple) throws NotImplementedException {
+	public void assessNodes(Triple triple) throws NotImplementedException, SQLException {
 		// FIXME: make this threaded
 		
 		Node subject = triple.getSubject();

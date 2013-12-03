@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.consistency;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,7 +70,7 @@ public class NoBogusInverseFunctionalProperties extends MetricImpl
 		
 
 	@Override
-	public void assessTriple(Triple triple) throws NotImplementedException {
+	public void assessTriple(Triple triple) throws NotImplementedException, SQLException {
 		
 		for (Triple blackListPattern : blackList) {
 			if (!blackListPattern.getSubject().isVariable()

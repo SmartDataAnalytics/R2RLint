@@ -1,5 +1,6 @@
 package org.aksw.sparqlify.qa.metrics.understandability;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -56,7 +57,7 @@ public class LabeledResources extends MetricImpl implements DatasetMetric {
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException {
+			throws NotImplementedException, SQLException {
 
 		StmtIterator statementsIt = dataset.listStatements();
 		

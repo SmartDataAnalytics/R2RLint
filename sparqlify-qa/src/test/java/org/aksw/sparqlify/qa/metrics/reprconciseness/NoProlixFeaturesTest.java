@@ -3,6 +3,7 @@ package org.aksw.sparqlify.qa.metrics.reprconciseness;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
@@ -44,7 +45,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix features
 	 */
 	@Test
-	public synchronized void test01() throws NotImplementedException {
+	public synchronized void test01() throws NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -63,7 +64,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:subject predicate
 	 */
 	@Test
-	public synchronized void test02() throws NotImplementedException {
+	public synchronized void test02() throws NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -82,7 +83,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:subject subject)
 	 */
 	@Test
-	public synchronized void test03() throws NotImplementedException {
+	public synchronized void test03() throws NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -102,7 +103,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:subject object)
 	 */
 	@Test
-	public synchronized void test04() throws NotImplementedException {
+	public synchronized void test04() throws NotImplementedException, SQLException {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -122,7 +123,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:predicate predicate
 	 */
 	@Test
-	public synchronized void test05() throws NotImplementedException {
+	public synchronized void test05() throws NotImplementedException, SQLException {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -142,7 +143,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:predicate subject)
 	 */
 	@Test
-	public synchronized void test06() throws NotImplementedException {
+	public synchronized void test06() throws NotImplementedException, SQLException {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -162,7 +163,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:predicate object)
 	 */
 	@Test
-	public synchronized void test07() throws NotImplementedException {
+	public synchronized void test07() throws NotImplementedException, SQLException {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -182,7 +183,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:object predicate
 	 */
 	@Test
-	public synchronized void test08() throws NotImplementedException {
+	public synchronized void test08() throws NotImplementedException, SQLException {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -202,7 +203,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:object subject)
 	 */
 	@Test
-	public synchronized void test09() throws NotImplementedException {
+	public synchronized void test09() throws NotImplementedException, SQLException {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -222,7 +223,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:object object)
 	 */
 	@Test
-	public synchronized void test10() throws NotImplementedException {
+	public synchronized void test10() throws NotImplementedException, SQLException {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -242,7 +243,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:Statement
 	 */
 	@Test
-	public synchronized void test11() throws NotImplementedException {
+	public synchronized void test11() throws NotImplementedException, SQLException {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -262,7 +263,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Statement object without rdftype)
 	 */
 	@Test
-	public synchronized void test12() throws NotImplementedException {
+	public synchronized void test12() throws NotImplementedException, SQLException {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -282,7 +283,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Statement subject)
 	 */
 	@Test
-	public synchronized void test13() throws NotImplementedException {
+	public synchronized void test13() throws NotImplementedException, SQLException {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -302,7 +303,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:_1 predicate
 	 */
 	@Test
-	public synchronized void test14() throws NotImplementedException {
+	public synchronized void test14() throws NotImplementedException, SQLException {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -322,7 +323,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:_1 subject)
 	 */
 	@Test
-	public synchronized void test15() throws NotImplementedException {
+	public synchronized void test15() throws NotImplementedException, SQLException {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -342,7 +343,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:_1 object)
 	 */
 	@Test
-	public synchronized void test16() throws NotImplementedException {
+	public synchronized void test16() throws NotImplementedException, SQLException {
 		String metricName = "test16";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -362,7 +363,7 @@ public class NoProlixFeaturesTest {
 	 * rdfs:member predicate
 	 */
 	@Test
-	public synchronized void test17() throws NotImplementedException {
+	public synchronized void test17() throws NotImplementedException, SQLException {
 		String metricName = "test17";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -382,7 +383,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdfs:member subject)
 	 */
 	@Test
-	public synchronized void test18() throws NotImplementedException {
+	public synchronized void test18() throws NotImplementedException, SQLException {
 		String metricName = "test18";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -402,7 +403,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdfs:member object)
 	 */
 	@Test
-	public synchronized void test19() throws NotImplementedException {
+	public synchronized void test19() throws NotImplementedException, SQLException {
 		String metricName = "test19";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -422,7 +423,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:Alt
 	 */
 	@Test
-	public synchronized void test20() throws NotImplementedException {
+	public synchronized void test20() throws NotImplementedException, SQLException {
 		String metricName = "test20";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -442,7 +443,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Alt object without rdf:type)
 	 */
 	@Test
-	public synchronized void test21() throws NotImplementedException {
+	public synchronized void test21() throws NotImplementedException, SQLException {
 		String metricName = "test21";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -462,7 +463,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Alt subject)
 	 */
 	@Test
-	public synchronized void test22() throws NotImplementedException {
+	public synchronized void test22() throws NotImplementedException, SQLException {
 		String metricName = "test22";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -482,7 +483,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:Bag 
 	 */
 	@Test
-	public synchronized void test23() throws NotImplementedException {
+	public synchronized void test23() throws NotImplementedException, SQLException {
 		String metricName = "test23";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -502,7 +503,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Bag object without rdf:type)
 	 */
 	@Test
-	public synchronized void test24() throws NotImplementedException {
+	public synchronized void test24() throws NotImplementedException, SQLException {
 		String metricName = "test24";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -522,7 +523,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Bag subject)
 	 */
 	@Test
-	public synchronized void test25() throws NotImplementedException {
+	public synchronized void test25() throws NotImplementedException, SQLException {
 		String metricName = "test25";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -542,7 +543,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:Seq
 	 */
 	@Test
-	public synchronized void test26() throws NotImplementedException {
+	public synchronized void test26() throws NotImplementedException, SQLException {
 		String metricName = "test26";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -562,7 +563,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Seq object without rdf:type)
 	 */
 	@Test
-	public synchronized void test27() throws NotImplementedException {
+	public synchronized void test27() throws NotImplementedException, SQLException {
 		String metricName = "test27";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -582,7 +583,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:Seq subject)
 	 */
 	@Test
-	public synchronized void test28() throws NotImplementedException {
+	public synchronized void test28() throws NotImplementedException, SQLException {
 		String metricName = "test28";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -602,7 +603,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdfs:Container
 	 */
 	@Test
-	public synchronized void test29() throws NotImplementedException {
+	public synchronized void test29() throws NotImplementedException, SQLException {
 		String metricName = "test29";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -622,7 +623,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdfs:Container object without rdf:type)
 	 */
 	@Test
-	public synchronized void test30() throws NotImplementedException {
+	public synchronized void test30() throws NotImplementedException, SQLException {
 		String metricName = "test30";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -642,7 +643,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdfs:Container subject)
 	 */
 	@Test
-	public synchronized void test31() throws NotImplementedException {
+	public synchronized void test31() throws NotImplementedException, SQLException {
 		String metricName = "test31";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -662,7 +663,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:first predicate
 	 */
 	@Test
-	public synchronized void test32() throws NotImplementedException {
+	public synchronized void test32() throws NotImplementedException, SQLException {
 		String metricName = "test32";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -682,7 +683,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:first subject)
 	 */
 	@Test
-	public synchronized void test33() throws NotImplementedException {
+	public synchronized void test33() throws NotImplementedException, SQLException {
 		String metricName = "test33";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -702,7 +703,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:first object)
 	 */
 	@Test
-	public synchronized void test34() throws NotImplementedException {
+	public synchronized void test34() throws NotImplementedException, SQLException {
 		String metricName = "test34";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -722,7 +723,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:rest predicate
 	 */
 	@Test
-	public synchronized void test35() throws NotImplementedException {
+	public synchronized void test35() throws NotImplementedException, SQLException {
 		String metricName = "test35";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -742,7 +743,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:rest subject)
 	 */
 	@Test
-	public synchronized void test36() throws NotImplementedException {
+	public synchronized void test36() throws NotImplementedException, SQLException {
 		String metricName = "test36";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -762,7 +763,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:rest object)
 	 */
 	@Test
-	public synchronized void test37() throws NotImplementedException {
+	public synchronized void test37() throws NotImplementedException, SQLException {
 		String metricName = "test37";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -782,7 +783,7 @@ public class NoProlixFeaturesTest {
 	 * rdf:type rdf:List
 	 */
 	@Test
-	public synchronized void test38() throws NotImplementedException {
+	public synchronized void test38() throws NotImplementedException, SQLException {
 		String metricName = "test38";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -802,7 +803,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:List object without rdf:type)
 	 */
 	@Test
-	public synchronized void test39() throws NotImplementedException {
+	public synchronized void test39() throws NotImplementedException, SQLException {
 		String metricName = "test39";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -822,7 +823,7 @@ public class NoProlixFeaturesTest {
 	 * no prolix feature (rdf:List subject)
 	 */
 	@Test
-	public synchronized void test40() throws NotImplementedException {
+	public synchronized void test40() throws NotImplementedException, SQLException {
 		String metricName = "test40";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");

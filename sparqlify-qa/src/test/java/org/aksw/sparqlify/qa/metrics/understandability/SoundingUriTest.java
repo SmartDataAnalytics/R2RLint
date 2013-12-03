@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
@@ -42,7 +43,7 @@ public class SoundingUriTest {
 	}
 
 	@Test
-	public synchronized void test01() throws IOException, NotImplementedException {
+	public synchronized void test01() throws IOException, NotImplementedException, SQLException {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -65,7 +66,7 @@ public class SoundingUriTest {
 	}
 	
 	@Test
-	public synchronized void test02() throws IOException, NotImplementedException {
+	public synchronized void test02() throws IOException, NotImplementedException, SQLException {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
@@ -88,7 +89,7 @@ public class SoundingUriTest {
 	}
 	
 	@Test
-	public synchronized void test03() throws IOException, NotImplementedException {
+	public synchronized void test03() throws IOException, NotImplementedException, SQLException {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
