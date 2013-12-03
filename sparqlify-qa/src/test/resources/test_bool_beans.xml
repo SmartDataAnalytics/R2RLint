@@ -18,7 +18,7 @@
       p:ignoreUnresolvablePlaceholders="true" />
 
   <bean
-      id="rdb"
+      id="rdbSink"
       class="org.h2.jdbcx.JdbcDataSource"
       p:URL="jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1"
       p:user="test"
@@ -27,9 +27,4 @@
   <bean
       id="booleanTestingSink"
       class="org.aksw.sparqlify.qa.sinks.BooleanTestingSink" />
-  <!--
-  <bean
-      id="valueTestingSink"
-      class="org.aksw.sparqlify.qa.sinks.ValueTestingSink" />
-  -->
 </beans>
