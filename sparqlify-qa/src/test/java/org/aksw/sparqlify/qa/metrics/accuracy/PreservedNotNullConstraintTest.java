@@ -55,7 +55,7 @@ public class PreservedNotNullConstraintTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		initDBContent(conn);
+		initDBContent();
 		Map<String, String> typeAlias = MapReader.read(
 				new File("src/test/resources/type-map.h2.tsv"));
 		vdf = SparqlifyUtils.createDummyViewDefinitionFactory(typeAlias);
@@ -67,7 +67,7 @@ public class PreservedNotNullConstraintTest {
 	}
 	
 	
-	private void initDBContent(Connection conn) throws SQLException {
+	private void initDBContent() throws SQLException {
 		
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS test;");
 		conn.createStatement().executeUpdate("CREATE TABLE test ("
