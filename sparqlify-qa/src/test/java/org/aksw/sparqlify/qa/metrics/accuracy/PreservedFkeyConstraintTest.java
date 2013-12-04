@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
-public class NoLostFkeyConstraintTest {
+public class PreservedFkeyConstraintTest {
 
 	@Autowired
 	private BooleanTestingSink sink;
@@ -39,7 +39,7 @@ public class NoLostFkeyConstraintTest {
 	private ViewDefinitionFactory vdf;
 	
 	@Autowired
-	private NoLostFkeyConstraint metric;
+	private PreservedFkeyConstraint metric;
 	
 	
 	@PostConstruct

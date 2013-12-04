@@ -34,7 +34,7 @@ import com.hp.hpl.jena.sparql.core.Quad;
 import com.hp.hpl.jena.sparql.core.Var;
 
 @Component
-public class NoLostFkeyConstraint extends MetricImpl implements MappingMetric {
+public class PreservedFkeyConstraint extends MetricImpl implements MappingMetric {
 
 	@Autowired
 	DataSource rdb;
