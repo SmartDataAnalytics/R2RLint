@@ -63,6 +63,7 @@ public class PreservedFunctionalAttributesTest {
 	@After
 	public void tearDown() throws Exception {
 		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS test1;");
+		conn.createStatement().executeUpdate("DROP TABLE IF EXISTS test2;");
 	}
 
 	private void initDBContent() throws SQLException {
