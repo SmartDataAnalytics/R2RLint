@@ -52,9 +52,9 @@ class Handler301 implements HttpHandler {
 	public void handle(HttpExchange e) throws IOException {
 		
 		e.getResponseHeaders().add("Location", "http://" +
-				DereferenceableForwardLinksTest.hostName + ":" +
-				DereferenceableForwardLinksTest.port +
-				DereferenceableForwardLinksTest.okPath);
+				DereferenceableUrisTest.hostName + ":" +
+				DereferenceableUrisTest.port +
+				DereferenceableUrisTest.okPath);
 		e.sendResponseHeaders(301, 0);
         OutputStream out = e.getResponseBody();
         out.close();
@@ -88,12 +88,12 @@ class Handler500 implements HttpHandler {
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
-public class DereferenceableForwardLinksTest {
+public class DereferenceableUrisTest {
 
 	@Autowired
 	MeasureDataSink sink;
 	@Autowired
-	DereferenceableForwardLinks metric;
+	DereferenceableUris metric;
 	@Autowired
 	Pinpointer pinpointer;
 	

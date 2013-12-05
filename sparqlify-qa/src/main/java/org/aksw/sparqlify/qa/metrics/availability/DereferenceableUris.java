@@ -24,7 +24,7 @@ import com.hp.hpl.jena.graph.Node_URI;
 import com.hp.hpl.jena.graph.Triple;
 
 @Component
-public class DereferenceableForwardLinks extends MetricImpl implements
+public class DereferenceableUris extends MetricImpl implements
 		NodeMetric {
 
 	private HashMap<String, Boolean> linkBroken;
@@ -32,7 +32,7 @@ public class DereferenceableForwardLinks extends MetricImpl implements
 	Pinpointer pinpointer;
 
 
-	public DereferenceableForwardLinks() {
+	public DereferenceableUris() {
 		linkBroken = new HashMap<String, Boolean>();
 	}
 
