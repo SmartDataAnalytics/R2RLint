@@ -14,12 +14,6 @@ public class H5Sink implements MeasureDataSink {
 		// TODO Auto-generated method stub
 		
 	}
-
-	
-	private void createOrOpenFile(String h5FilePath) {
-		// TODO: implement
-	}
-
 	
 	@Override
 	public void initMeasure(String name, Class<? extends MetricImpl> cls, String parentDimension) {

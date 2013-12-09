@@ -249,7 +249,7 @@ public class QualityAssessment {
 			SparqlGraph g = new SparqlGraph(datasetServiceUri, datasetGraphIri);
 			dataset = new SparqlifyDataset(g);
 			// dump is only used for iteration and hence does not have to fit
-			// in the availabla RAM
+			// in the available RAM
 			dataset.registerDump(datasetDumpFilePath);
 		} else {
 			/*
