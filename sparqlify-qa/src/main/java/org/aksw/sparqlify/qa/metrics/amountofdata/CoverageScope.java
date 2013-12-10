@@ -8,13 +8,12 @@ import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.stereotype.Component;
 
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
 
 /**
  * This metric should calculate the coverage of a dataset referring to the
@@ -65,16 +64,32 @@ public class CoverageScope extends MetricImpl implements DatasetMetric {
 		long numTriples = dataset.size();
 		long numInstances = 0;
 		
-		StmtIterator typeStatementsIt = dataset.listStatements(null, RDF.type,
-				(RDFNode) null);
-		
-		while (typeStatementsIt.hasNext()) {
-			Statement statement = typeStatementsIt.next();
-			RDFNode object = statement.getObject();
+		Query query = QueryFactory.create(
+				"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
+				
+				+ "SELECT (count(*) AS ?count) { "
+					+ "SELECT distinct ?s {"
+						+ " { ?s a ?o . ?o a rdfs:Class }"
+						+ " UNION { ?s a ?o . ?o a owl:Class }"
+					+ "}"
+				+ "}");
 			
-			if (object.isURIResource() && isClass(object.asResource(), dataset))
-				numInstances++;
+		QueryExecution qe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri() != null) {
+			qe = QueryExecutionFactory.sparqlService(dataset.getSparqlServiceUri(), query);
+		} else {
+			qe = QueryExecutionFactory.create(query, dataset);
 		}
+		
+		ResultSet res = qe.execSelect();
+		while(res.hasNext())
+		{
+			QuerySolution resNode = res.nextSolution();
+			numInstances = resNode.getLiteral("count").asLiteral().getLong();
+		}
+		qe.close(); 
 		
 		float val;
 		if (numTriples == 0) val = 0;
@@ -82,21 +97,4 @@ public class CoverageScope extends MetricImpl implements DatasetMetric {
 
 		writeDatasetMeasureToSink(val);
 	}
-
-	/**
-	 * This method checks if a given resource is a class, i.e. if there is a
-	 * statement 
-	 *   resource rdf:type rdfs:Class
-	 * or
-	 *   resource rdf:type owl:Class
-	 */
-	private boolean isClass(Resource res, SparqlifyDataset dataset) {
-		
-		if (dataset.listStatements(res, RDF.type, RDFS.Class).hasNext()
-				|| dataset.listStatements(res, RDF.type, OWL.Class).hasNext())
-			return true;
-		
-		else return false;
-	}
-
 }
