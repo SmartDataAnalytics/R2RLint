@@ -72,7 +72,6 @@ public class CoverageDetail extends MetricImpl implements DatasetMetric {
 		
 		ResultSet res = qe.execSelect();
 		
-		long count = 0;
 		while(res.hasNext())
 		{
 			QuerySolution solution = res.nextSolution();
@@ -81,10 +80,6 @@ public class CoverageDetail extends MetricImpl implements DatasetMetric {
 			if (!seenProperties.contains(predicate)) {
 				numProperties++;
 				seenProperties.add(predicate);
-			}
-			count++;
-			if (count%1000==0) {
-				System.out.println(count);
 			}
 		}
 		qe.close(); 
