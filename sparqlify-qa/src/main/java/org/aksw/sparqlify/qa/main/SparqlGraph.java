@@ -24,7 +24,6 @@ public class SparqlGraph extends GraphBase implements Graph {
 
 
 	private String serviceURI ;
-	@SuppressWarnings("unused")
 	private String graphIRI = null ;
 	private long tripleSliceSize = 10000;
 	
@@ -36,6 +35,14 @@ public class SparqlGraph extends GraphBase implements Graph {
 	public SparqlGraph(String serviceURI) {
 		this.serviceURI = serviceURI ;
 		this.graphIRI = null ;
+	}
+	
+	public String getServiceUri() {
+		return serviceURI;
+	}
+	
+	public String getGraphIri() {
+		return graphIRI;
 	}
 	
 	@Override
@@ -74,7 +81,7 @@ public class SparqlGraph extends GraphBase implements Graph {
 		query.setQuerySelectType(); 
 		query.setQueryResultStar(true);
 		query.setQueryPattern(element);
-		query.setDistinct(true);
+//		query.setDistinct(true);
 		
 		boolean resNotEmpty = true;
 		query.setLimit(tripleSliceSize);
@@ -117,9 +124,5 @@ public class SparqlGraph extends GraphBase implements Graph {
 			qe.close();
 		}
 		return WrappedIterator.createNoRemove(triples.iterator()) ;
-	}
-	
-	public String getServiceURI() {
-		return serviceURI;
 	}
 }

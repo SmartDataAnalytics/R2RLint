@@ -55,6 +55,21 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 		sparqlWrapping = true;
 	}
 
+	public boolean isSparqlService() {
+		return sparqlWrapping;
+	}
+	
+	public String getSparqlServiceUri() {
+		if (sparqlWrapping) {
+			return ((SparqlGraph) getGraph()).getServiceUri();
+		} else return null;
+	}
+	
+	public String getGraphIri() {
+		if (sparqlWrapping) {
+			return ((SparqlGraph) getGraph()).getGraphIri();
+		} else return null;
+	}
 
 	public void readFromDump(String dumpFilePath) throws IOException {
 		
@@ -104,7 +119,7 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 		if (sparqlWrapping) {
 			if (size < 0 || !cachingEnabled) {
 				Query query = QueryFactory.create("SELECT DISTINCT (count(*) AS ?count) {?s ?p ?o}");
-				QueryExecution qe = QueryExecutionFactory.sparqlService(((SparqlGraph) getGraph()).getServiceURI(), query);
+				QueryExecution qe = QueryExecutionFactory.sparqlService(((SparqlGraph) getGraph()).getServiceUri(), query);
 				ResultSet res = qe.execSelect();
 				RDFNode count = null;
 				while(res.hasNext())
