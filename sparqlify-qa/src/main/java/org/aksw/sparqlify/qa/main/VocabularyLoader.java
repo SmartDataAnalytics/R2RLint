@@ -24,9 +24,17 @@ public class VocabularyLoader {
 				put("http://www.w3.org/2000/01/rdf-schema#",
 						new Pair<String, String>("rdf-schema.rdf", "RDF/XML"));
 				put("http://www.w3.org/2002/07/owl#",
-						new Pair<String, String>("owl.ttl", "TTL"));
+						new Pair<String, String>("owl.rdf", "RDF/XML"));
 				put("http://xmlns.com/foaf/0.1/",
 						new Pair<String, String>("foaf.rdf", "RDF/XML"));
+				put("http://geovocab.org/geometry#",
+						new Pair<String, String>("geometry.rdf", "RDF/XML"));
+				put("http://geovocab.org/spatial#",
+						new Pair<String, String>("spatial.rdf", "RDF/XML"));
+				put("http://purl.org/dc/terms/",
+						new Pair<String, String>("dcterms.rdf", "RDF/XML"));
+				put("http://purl.org/dc/elements/1.1/",
+						new Pair<String, String>("dcelements.rdf", "RDF/XML"));
 			}};
 	
 	private final HashMap<String, String> knownPrefixes =
@@ -37,6 +45,10 @@ public class VocabularyLoader {
 				put("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
 				put("owl", "http://www.w3.org/2002/07/owl#");
 				put("foaf", "http://xmlns.com/foaf/0.1/");
+				put("ngeo", "http://geovocab.org/geometry#");
+				put("spatial", "http://geovocab.org/spatial#");
+				put("dcterms", "http://purl.org/dc/terms/");
+				put("dc", "http://purl.org/dc/elements/1.1/");
 			}};
 	
 	// model cache for already loaded vocabularies; key is the whole namespace
