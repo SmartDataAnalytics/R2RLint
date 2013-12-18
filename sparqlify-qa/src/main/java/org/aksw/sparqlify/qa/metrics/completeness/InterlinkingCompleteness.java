@@ -166,8 +166,13 @@ public class InterlinkingCompleteness extends MetricImpl implements DatasetMetri
 	private int getCountResult(String queryStr, SparqlifyDataset dataset) {
 		int count = 0;
 		Query query = QueryFactory.create(queryStr);
-		
-		QueryExecution qe = QueryExecutionFactory.create(query, dataset);
+		QueryExecution qe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri() != null) {
+			qe = QueryExecutionFactory.sparqlService(dataset.getSparqlServiceUri(), query);
+		} else {
+			qe = QueryExecutionFactory.create(query, dataset);
+		}
+//		QueryExecution qe = QueryExecutionFactory.create(query, dataset);
 		ResultSet res = qe.execSelect();
 		
 		while(res.hasNext())
