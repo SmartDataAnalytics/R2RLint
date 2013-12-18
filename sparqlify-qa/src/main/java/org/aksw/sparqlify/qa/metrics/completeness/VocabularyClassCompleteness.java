@@ -13,6 +13,7 @@ import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
@@ -48,6 +49,7 @@ public class VocabularyClassCompleteness extends MetricImpl implements DatasetMe
 				vocabulary = vocabLoader.getVocabulary(prefix);
 				assessVocabClassCompleteness(vocabulary, prefix, dataset);
 			} catch (FileNotFoundException e) {
+				// TODO: log error
 				continue;
 			}
 		}
@@ -62,12 +64,7 @@ public class VocabularyClassCompleteness extends MetricImpl implements DatasetMe
 		} else {
 			vocabUri = vocabulary.getNsPrefixURI(prefix);
 		}
-		System.out.println(vocabUri);
 		Set<Node> datasetClasses = getClasses(dataset);
-		// TODO: remove this -- this is just for debugging
-		for (Node cls : datasetClasses) {
-			System.out.println(cls);
-		}
 		
 		Set<Node> vocabularyClasses = getClasses(vocabulary);
 		Set<Node> vocabNSClasses = new HashSet<Node>();
@@ -76,11 +73,9 @@ public class VocabularyClassCompleteness extends MetricImpl implements DatasetMe
 		for (Node cls : vocabularyClasses) {
 			if (cls.isURI() && cls.getURI().startsWith(vocabUri)) {
 				vocabNSClasses.add(cls);
-				System.out.println(cls);
 			}
 		}
 		
-		System.out.println(vocabNSClasses.size());
 		int numVClasses = vocabNSClasses.size();
 		int numUsedVClasses = 0;
 		
@@ -93,7 +88,7 @@ public class VocabularyClassCompleteness extends MetricImpl implements DatasetMe
 			
 			float val = numUsedVClasses / (float) numVClasses;
 			if (threshold == 0 || val < threshold) {
-				writeDatasetMeasureToSink(val);
+				writeNodeMeasureToSink(val, NodeFactory.createURI(vocabUri));
 			}
 		}
 	}
