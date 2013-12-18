@@ -125,7 +125,16 @@ public class VocabularyClassCompleteness extends MetricImpl implements DatasetMe
 					+ "UNION {[] a ?cls} }";
 		Query query = QueryFactory.create(queryStr);
 		
-		QueryExecution qe = QueryExecutionFactory.create(query, dataset);
+		QueryExecution qe;
+		if (dataset instanceof SparqlifyDataset
+				&& ((SparqlifyDataset) dataset).isSparqlService()
+				&& ((SparqlifyDataset) dataset).getSparqlServiceUri() != null) {
+			String serviceUri = ((SparqlifyDataset) dataset).getSparqlServiceUri();
+			qe = QueryExecutionFactory.createServiceRequest(serviceUri, query);
+		} else {
+			qe = QueryExecutionFactory.create(query, dataset);
+		}
+		
 		ResultSet res = qe.execSelect();
 		
 		while(res.hasNext()) {
