@@ -3,11 +3,12 @@ package org.aksw.sparqlify.qa.metrics.interpretability;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
@@ -24,20 +25,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
-public class ResourceInterpretabilityTest {
+public class OWLOntologyDeclarationsTest {
 	
 	@Autowired
 	private BooleanTestingSink sink;
 	@Autowired
 	private Pinpointer pinpointer;
 	@Autowired
-	private ResourceInterpretability metric;
+	private OWLOntologyDeclarations metric;
+	
+	private List<String> prefixes;
 
 	@Before
 	public void setUp() throws Exception {
 		// dummy pinpointer
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
 		pinpointer.registerViewDefs(viewDefs);
+		prefixes = Arrays.asList("http://ex.org/");
 	}
 
 
@@ -53,9 +57,9 @@ public class ResourceInterpretabilityTest {
 			"_:23 <http://ex.org/prop01> \"42\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		dataset.setPrefix("http://ex.org");
+		dataset.read(new StringReader(content), null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.setPrefixes(prefixes);
 		
 		return dataset;
 	}
@@ -89,9 +93,9 @@ public class ResourceInterpretabilityTest {
 			"_:23 <http://ex.org/prop01> \"42\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		dataset.setPrefix("http://ex.org");
+		dataset.read(new StringReader(content), null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.setPrefixes(prefixes);
 		
 		return dataset;
 	}
@@ -125,9 +129,9 @@ public class ResourceInterpretabilityTest {
 			"_:23 <http://ex.org/prop01> \"42\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		dataset.setPrefix("http://ex.org");
+		dataset.read(new StringReader(content), null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.setPrefixes(prefixes);
 		
 		return dataset;
 	}
@@ -161,9 +165,9 @@ public class ResourceInterpretabilityTest {
 			"_:23 <http://ex.org/prop01> <http://ex.org/res/02> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		dataset.setPrefix("http://ex.org");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
+		dataset.setPrefixes(prefixes);
 		
 		return dataset;
 	}
