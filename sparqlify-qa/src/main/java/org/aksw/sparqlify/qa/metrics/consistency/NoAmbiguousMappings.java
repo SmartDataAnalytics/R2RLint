@@ -23,7 +23,7 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -115,7 +115,7 @@ import com.hp.hpl.jena.sparql.expr.ExprFunction;
  *
  */
 @Component
-public class NoAmbiguousMappings extends MetricImpl implements MappingMetric {
+public class NoAmbiguousMappings extends MetricImpl implements ViewMetric {
 
 	// term constructor map holding all normalized term constructors (column
 	// names removed) and where they can stem from (table, quad, viewDef)
@@ -146,7 +146,7 @@ public class NoAmbiguousMappings extends MetricImpl implements MappingMetric {
 
 
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs)
+	public void assessViews(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException, SQLException {
 		
 		// gather term constructor informations

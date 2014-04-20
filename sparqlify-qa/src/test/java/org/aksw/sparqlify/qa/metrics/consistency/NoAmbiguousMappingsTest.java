@@ -148,7 +148,7 @@ public class NoAmbiguousMappingsTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		initData01();
-		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02()));
+		metric.assessViews(Arrays.asList(viewDef01(), viewDef02()));
 		metric.cleanCaches();
 
 		assertFalse(sink.measureWritten(metricName));
@@ -239,7 +239,7 @@ public class NoAmbiguousMappingsTest {
 		metric.initMeasureDataSink();
 		
 		initData02();
-		metric.assessMappings(Arrays.asList(viewDef03(), viewDef04()));
+		metric.assessViews(Arrays.asList(viewDef03(), viewDef04()));
 		metric.cleanCaches();
 
 		assertFalse(sink.measureWritten(metricName));
@@ -313,7 +313,7 @@ public class NoAmbiguousMappingsTest {
 		metric.initMeasureDataSink();
 		
 		initData01();
-		metric.assessMappings(Arrays.asList(viewDef05(), viewDef06()));
+		metric.assessViews(Arrays.asList(viewDef05(), viewDef06()));
 		metric.cleanCaches();
 
 		assertFalse(sink.measureWritten(metricName));
@@ -339,7 +339,7 @@ public class NoAmbiguousMappingsTest {
 		metric.initMeasureDataSink();
 		
 		initData01();
-		metric.assessMappings(Arrays.asList(viewDef03(), viewDef04()));
+		metric.assessViews(Arrays.asList(viewDef03(), viewDef04()));
 		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
@@ -410,7 +410,7 @@ public class NoAmbiguousMappingsTest {
 		metric.initMeasureDataSink();
 		
 		initData01();
-		metric.assessMappings(Arrays.asList(viewDef07(), viewDef08()));
+		metric.assessViews(Arrays.asList(viewDef07(), viewDef08()));
 		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
@@ -436,7 +436,7 @@ public class NoAmbiguousMappingsTest {
 		metric.initMeasureDataSink();
 		
 		initData02();
-		metric.assessMappings(Arrays.asList(viewDef07(), viewDef08()));
+		metric.assessViews(Arrays.asList(viewDef07(), viewDef08()));
 		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
@@ -491,7 +491,7 @@ public class NoAmbiguousMappingsTest {
 		metric.initMeasureDataSink();
 		
 		initData03();
-		metric.assessMappings(Arrays.asList(viewDef07(), viewDef08()));
+		metric.assessViews(Arrays.asList(viewDef07(), viewDef08()));
 		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
@@ -546,7 +546,7 @@ public class NoAmbiguousMappingsTest {
 		metric.initMeasureDataSink();
 
 		initData04();
-		metric.assessMappings(Arrays.asList(viewDef07(), viewDef08()));
+		metric.assessViews(Arrays.asList(viewDef07(), viewDef08()));
 		metric.cleanCaches();
 
 		assertTrue(sink.measureWritten(metricName));
