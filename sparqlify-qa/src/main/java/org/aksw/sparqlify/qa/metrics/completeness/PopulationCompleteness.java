@@ -45,6 +45,8 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  * - resources on predicate position are not considered
  * - resources on object position are not considered if it is assigned via an
  *   rdf:type predicate
+ * - two resources, explicitly stated to be the same (via owl:sameAs) are not
+ *   counted twice
  * - all remaining (non-literal) resources are counted
  * 
  * 
@@ -79,21 +81,21 @@ public class PopulationCompleteness extends MetricImpl implements DatasetMetric 
 	
 	private final String numObjQueryStr =
 			"Prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+			"Prefix owl:<http://www.w3.org/2002/07/owl#> " +
 			
 			"SELECT (COUNT(*) AS ?count) {" +
 				"SELECT DISTINCT ?o {" +
 					"?s ?p ?o. " +
 					"OPTIONAL{?o ?p2 ?o2}. " +
-					"FILTER(isURI(?o) && !BOUND(?o2) && !isBlank(?o) && ?p != rdf:type)" +
+					"FILTER(isURI(?o) && !BOUND(?o2) && !isBlank(?o) && ?p != rdf:type && ?p != owl:sameAs)" +
 				"}" +
 			"}";
-
-
+	
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
 			throws NotImplementedException, SQLException {
 	
-		int numDbEntities = getNumDbEntities(); 
+		int numDbEntities = getNumDbEntities();
 		int numResources = getNumResources(dataset);
 		float ratio = (float) numResources / (float) numDbEntities;
 		
@@ -215,8 +217,11 @@ public class PopulationCompleteness extends MetricImpl implements DatasetMetric 
 	private int getNumResources(SparqlifyDataset dataset) {
 		int numResources = 0;
 		
-		numResources += getCountResult(numSubjQueryStr, dataset);
-		numResources += getCountResult(numObjQueryStr, dataset);
+		int numSubjs = getCountResult(numSubjQueryStr, dataset);
+		numResources += numSubjs;
+		
+		int numObjs = getCountResult(numObjQueryStr, dataset);
+		numResources += numObjs;
 		
 		return numResources;
 	}
@@ -226,7 +231,12 @@ public class PopulationCompleteness extends MetricImpl implements DatasetMetric 
 		int count = 0;
 		Query query = QueryFactory.create(queryStr);
 		
-		QueryExecution qe = QueryExecutionFactory.create(query, dataset);
+		QueryExecution qe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri() != null) {
+			qe = QueryExecutionFactory.sparqlService(dataset.getSparqlServiceUri(), query);
+		} else {
+			qe = QueryExecutionFactory.create(query, dataset);
+		}
 		ResultSet res = qe.execSelect();
 		
 		while(res.hasNext())

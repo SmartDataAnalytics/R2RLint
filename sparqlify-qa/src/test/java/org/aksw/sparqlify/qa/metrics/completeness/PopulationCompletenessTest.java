@@ -2,6 +2,7 @@ package org.aksw.sparqlify.qa.metrics.completeness;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -50,7 +51,7 @@ public class PopulationCompletenessTest {
 	@Before
 	public void setUp() throws IOException {
 		dataset = new SparqlifyDataset();
-		dataset.readFromDump(dumpFilePath);
+		dataset.read(new FileReader(dumpFilePath), null, "TTL");
 	}
 
 	@After
