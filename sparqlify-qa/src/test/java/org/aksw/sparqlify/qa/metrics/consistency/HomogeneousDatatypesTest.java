@@ -62,8 +62,8 @@ public class HomogeneousDatatypesTest {
 			"<http://ex.org/res/07> <http://ex.org/pred01> \"99\"^^<http://www.w3.org/2001/XMLSchema#int> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		StringReader strRead = new StringReader(content);
+		dataset.registerDump(strRead);
 		
 		return dataset;
 	}
@@ -104,8 +104,7 @@ public class HomogeneousDatatypesTest {
 		metric.setOutlierValue((float) 0.5);
 		metric.setConflictValue(0);
 		
-		SparqlifyDataset dataset = dataset01();
-		metric.assessDataset(dataset);
+		metric.assessDataset(dataset01());
 		metric.flushCaches();
 		
 		float expected = (float) -1;
@@ -133,8 +132,8 @@ public class HomogeneousDatatypesTest {
 			"<http://ex.org/res/07> <http://ex.org/pred01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		Reader strRead = new StringReader(content);
+		dataset.registerDump(strRead);
 		
 		return dataset;
 	}

@@ -16,13 +16,12 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 
 /**
@@ -41,6 +40,8 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  */
 @Component
 public class HomogeneousDatatypes extends MetricImpl implements DatasetMetric {
+	
+	private Logger logger = LoggerFactory.getLogger(HomogeneousDatatypes.class);
 	
 	@Autowired
 	private Pinpointer pinpointer;
@@ -91,17 +92,16 @@ public class HomogeneousDatatypes extends MetricImpl implements DatasetMetric {
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
 			throws NotImplementedException, SQLException {
-
-		StmtIterator statementIt = dataset.listStatements();
-		while (statementIt.hasNext()) {
-			Statement statement = statementIt.next();
-			if (statement.getObject().isLiteral()) {
-				Node subjectNode = statement.getSubject().asNode();
-				Node predicateNode = statement.getPredicate().asNode();
-				String predicateStr = statement.getPredicate().getURI();
-				Node objectNode = statement.getObject().asNode();
-				String dtype= statement.getObject().asLiteral().getDatatypeURI();
-				Triple triple = new Triple(subjectNode, predicateNode, objectNode);
+		
+		int count = 0;
+		for (Triple triple : dataset) {
+			count++;
+			if (count % 10000 == 0) {
+				logger.debug(count + "triples assessed for homogeneus datatypes");
+			}
+			if (triple.getObject().isLiteral()) {
+				String predicateStr = triple.getPredicate().getURI();
+				String dtype= triple.getObject().getLiteralDatatypeURI();
 				
 				if (datatypes.containsKey(predicateStr)) {
 					if (datatypes.get(predicateStr).containsKey(dtype)) {
@@ -168,8 +168,7 @@ public class HomogeneousDatatypes extends MetricImpl implements DatasetMetric {
 	}
 
 
-	private void reportOutliers(int numTriplesThreshold,
-			Collection<List<Triple>> dtypeMapVals)
+	private void reportOutliers(int numTriplesThreshold, Collection<List<Triple>> dtypeMapVals)
 			throws NotImplementedException, SQLException {
 		
 		for (List<Triple> triples : dtypeMapVals) {
