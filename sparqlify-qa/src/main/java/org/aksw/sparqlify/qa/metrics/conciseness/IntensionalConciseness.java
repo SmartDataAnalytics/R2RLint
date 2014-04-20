@@ -14,7 +14,7 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.stereotype.Component;
 
@@ -67,10 +67,10 @@ import com.hp.hpl.jena.sparql.core.Var;
  *
  */
 @Component
-public class IntensionalConciseness extends MetricImpl implements MappingMetric {
+public class IntensionalConciseness extends MetricImpl implements ViewMetric {
 	
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs)
+	public void assessViews(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException, SQLException {
 
 		ViewDefsInfosIC vdInfos = new ViewDefsInfosIC();
