@@ -1,6 +1,7 @@
 package org.aksw.sparqlify.qa.metrics;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,11 +31,14 @@ public abstract class MetricImpl implements Metric {
 
 	protected String name;
 	protected String parentDimension;
-	protected String prefix = "";
+	protected List<String> prefixes;
 	protected float threshold = 0;
 	@Autowired
 	protected MeasureDataSink sink;
 
+	public MetricImpl() {
+		prefixes = new ArrayList<String>();
+	}
 
 	@Override
 	public String getParentDimension() {
@@ -161,8 +165,8 @@ public abstract class MetricImpl implements Metric {
 	}
 
 
-	public void setPrefixes(String prefix) {
-		this.prefix = prefix;
+	public void setPrefixes(List<String> prefixes) {
+		this.prefixes = prefixes;
 	}
 
 }

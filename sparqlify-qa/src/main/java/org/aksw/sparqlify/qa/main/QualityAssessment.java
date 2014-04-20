@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -32,10 +31,10 @@ import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.exceptions.TripleParseException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.Metric;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.antlr.runtime.RecognitionException;
 import org.slf4j.Logger;
@@ -359,12 +358,18 @@ public class QualityAssessment {
 	}
 	
 	public void setDatasetUsedPrefixes(String csPrefixes) {
-		datasetUsedPrefixes = new ArrayList<String>(Arrays.asList(csPrefixes
-				.split(",")));
+		List<String> dsUsedPrefixes = new ArrayList<String>();
+		for (String prefix : csPrefixes.split(",")) {
+			if (!prefix.startsWith("$")) dsUsedPrefixes.add(prefix.trim());
+		}
+		datasetUsedPrefixes = dsUsedPrefixes;
 	}
 	
 	public void setDatasetPrefixes(String prefixes) {
-		datasetPrefixes = new ArrayList<String>(Arrays.asList(
-				prefixes.split(",")));
+		List<String> dsPrefixes = new ArrayList<String>();
+		for (String prefix : prefixes.split(",")) {
+			if (!prefix.startsWith("$")) dsPrefixes.add(prefix.trim());
+		}
+		datasetPrefixes = dsPrefixes;
 	}
 }

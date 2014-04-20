@@ -46,7 +46,7 @@
       p:datasetServiceUri="${dataset.serviceUri}"
       p:datasetGraphIri="${dataset.graphIri}"
       p:datasetDumpFilePath="${dataset.dumpFilePath}"
-      p:datasetPrefix="${dataset.prefix}"
+      p:datasetPrefixes="${dataset.prefixes}"
       p:datasetUsedPrefixes="${dataset.usedPrefixes}"
       />
   
