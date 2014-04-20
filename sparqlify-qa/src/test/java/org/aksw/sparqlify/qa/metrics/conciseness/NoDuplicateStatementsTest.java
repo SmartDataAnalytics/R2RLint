@@ -118,8 +118,8 @@ public class NoDuplicateStatementsTest {
 		metric.initMeasureDataSink();
 
 		initData01();
-		metric.assessMappings(Arrays.asList(viewDef01()));
 		metric.flushCaches();
+		metric.assessViews(Arrays.asList(viewDef01()));
 		float expected = (float) -1;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
@@ -197,8 +197,8 @@ public class NoDuplicateStatementsTest {
 		metric.initMeasureDataSink();
 
 		initData02();
-		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02()));
 		metric.flushCaches();
+		metric.assessViews(Arrays.asList(viewDef01(), viewDef02()));
 		float expected = 1 - ( 1 / (float) 22);
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
@@ -295,8 +295,8 @@ public class NoDuplicateStatementsTest {
 		metric.initMeasureDataSink();
 		
 		initData03();
-		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02(), viewDef03()));
 		metric.flushCaches();
+		metric.assessViews(Arrays.asList(viewDef01(), viewDef02(), viewDef03()));
 		float expected = 1 - ( 2 / (float) 33);
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
@@ -336,8 +336,8 @@ public class NoDuplicateStatementsTest {
 		metric.initMeasureDataSink();
 		
 		initData04();
-		metric.assessMappings(Arrays.asList(viewDef01()));
 		metric.flushCaches();
+		metric.assessViews(Arrays.asList(viewDef01()));
 		float expected = 1 - ( 1 / (float) 10);
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
@@ -377,8 +377,8 @@ public class NoDuplicateStatementsTest {
 		metric.initMeasureDataSink();
 		
 		initData05();
-		metric.assessMappings(Arrays.asList(viewDef01()));
 		metric.flushCaches();
+		metric.assessViews(Arrays.asList(viewDef01()));
 		float expected = 1 - ( 2 / (float) 10);
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
@@ -444,8 +444,8 @@ public class NoDuplicateStatementsTest {
 		metric.initMeasureDataSink();
 		
 		initData06();
-		metric.assessMappings(Arrays.asList(viewDef01(), viewDef02()));
 		metric.flushCaches();
+		metric.assessViews(Arrays.asList(viewDef01(), viewDef02()));
 		// here first  2 duplicates are reported as above; afterwards the
 		// distinct values of a and b are checked --> just one duplicate
 		//                                       a              +  b
@@ -487,8 +487,8 @@ public class NoDuplicateStatementsTest {
 		metric.initMeasureDataSink();
 		
 		initData01();
-		metric.assessMappings(Arrays.asList(viewDef04()));
 		metric.flushCaches();
+		metric.assessViews(Arrays.asList(viewDef04()));
 		
 		float expected = 1 - ( 10 / (float) 20);
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -556,7 +556,7 @@ public class NoDuplicateStatementsTest {
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(559, 'fourteen', 14);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(560, 'fifteen', 15);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(561, 'sixteen', 16);");
-		conn.createStatement().executeUpdate("INSERT INTO b VALUES(562, 'two', 2);");
+		conn.createStatement().executeUpdate("INSERT INTO b VALUES(668, 'two', 2);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(563, 'eighteen', 18);");
 		conn.createStatement().executeUpdate("INSERT INTO b VALUES(564, 'nineteen', 19);");
 		
@@ -604,16 +604,15 @@ public class NoDuplicateStatementsTest {
 			
 			"Create View view5 As " +
 				"Construct { " +
-					"?n a ex:Sth . " +
 					"?n rdfs:label ?l . " +
 					"?n rdfs:label ?l . " +
 				"} " +
 				"With " +
-					"?n = uri(ex:number, '/', ?num) " +
+					"?n = uri(ex:number, '/', ?numval) " +
 					"?l = plainLiteral(?word) " +
 				"From " +
 					"[[" +
-						"SELECT C.num AS num, B.word AS word, C.checked " +
+						"SELECT C.num AS numval, B.word AS word, C.checked " +
 						"FROM " +
 							"B " +
 						"JOIN " +
@@ -633,8 +632,90 @@ public class NoDuplicateStatementsTest {
 		metric.initMeasureDataSink();
 		
 		initData07();
-		metric.assessMappings(Arrays.asList(viewDef01(), viewDef05()));
 		metric.flushCaches();
+		metric.assessViews(Arrays.asList(viewDef01(), viewDef05()));
+		float expected = 1 - ( 11 / (float) 30);
+		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
+	}
+	
+	
+	/*
+	 * viewDef01:
+	 * 
+	 *  Prefix ex: <http://ex.org/>
+	 *  Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	 *  Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+	 *  
+	 *  Create View view1 As
+	 *  	Construct {
+	 *  		?n a ex:Sth .
+	 *  		?n rdfs:label ?l .
+	 *  	}
+	 *  	With
+	 *  		?n = uri(ex:number, '/', ?num)
+	 *  		?l = plainLiteral(?word)
+	 *  	From
+	 *  		A
+	 */
+	private ViewDefinition viewDef06() {
+		ViewDefinition viewDef = vdf.create(
+				"Prefix ex: <http://ex.org/> " +
+				"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+				"Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
+				
+				"Create View view1 As " +
+					"Construct { " +
+						"?n a ex:Sth . " +
+						"?n rdfs:label ?l . " +
+					"} " +
+					"With " +
+						"?n = uri(ex:number, '/', ?id, '-', ?num) " +
+						"?l = plainLiteral(?word) " +
+					"From " +
+						"A"
+		);
+		
+		return viewDef;
+	}
+	
+	private ViewDefinition viewDef07() {
+		ViewDefinition viewDef = vdf.create(
+			"Prefix ex: <http://ex.org/> " +
+			"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+			"Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
+			
+			"Create View view5 As " +
+				"Construct { " +
+					"?n rdfs:label ?l . " +
+					"?n rdfs:label ?l . " +
+				"} " +
+				"With " +
+					"?n = uri(ex:number, '/', ?id, '-', ?numval) " +
+					"?l = plainLiteral(?word) " +
+				"From " +
+					"[[" +
+						"SELECT B.id AS id, C.num AS numval, B.word AS word " +
+						"FROM " +
+							"B " +
+						"JOIN " +
+							"C " +
+						"ON B.num = C.num" +
+					"]]"
+		);
+		
+		return viewDef;
+	}
+	
+	@Test
+	public synchronized void test09() throws NotImplementedException, SQLException {
+		String metricName = "test09";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		initData07();
+		metric.flushCaches();
+		metric.assessViews(Arrays.asList(viewDef06(), viewDef07()));
 		float expected = 1 - ( 11 / (float) 30);
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}

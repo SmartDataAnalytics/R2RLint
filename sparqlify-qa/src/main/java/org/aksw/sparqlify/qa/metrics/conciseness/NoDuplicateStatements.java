@@ -23,7 +23,7 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,11 +62,12 @@ import com.hp.hpl.jena.sparql.core.Var;
  *     - assessQuads  // actual duplication checks for candidates from above
  */
 @Component
-public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
+public class NoDuplicateStatements extends MetricImpl implements ViewMetric {
 	
 	@Autowired
 	private DataSource rdb;
 	private Connection conn;
+	private String colAliasPrefix = "column";
 	
 	private boolean exhaustively = true;
 	
@@ -109,7 +110,7 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 
 
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs)
+	public void assessViews(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException, SQLException {
 
 		for (ViewDefinition viewDef : viewDefs) {
@@ -201,10 +202,13 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 	private void exhaustivelyAssessViewDefinitions(
 			Collection<ViewDefinition> viewDefs) throws NotImplementedException, SQLException {
 		
+		// TODO: may be the workaround described below is not necessary if a
+		// tree map is used (or hashmap -- don't know)
+		
 		// since ViewDefinition cannot be cast to java.lang.Comparable (and so
 		// there cannot be a Set of ViewDefinitions) the view definition names
 		// are used here and mapped back to the view definitions via the
-		/// viewDefMap created previously
+		// viewDefMap created previously
 		Set<String> viewDefNames = viewDefMap.keySet();
 		
 		try {
@@ -265,7 +269,17 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 					String varTermConstructor = "";
 					// dummy loop since there should only one restriction
 					for (RestrictedExpr varRestr : varRestrs) {
+						// e.g. http://aksw.org/sparqlify/rdfTerm("1"^^xsd:decimal, concat(<http://musicbrainz.org/area>, "/", str(?gid), "#_"), "", "")
 						varTermConstructor = varRestr.getExpr().toString() + " ";
+						
+						Set<Var> varsMentioned = varRestr.getExpr().getVarsMentioned();
+						
+						// normalize term constructor string (remove concrete variable
+						// names with placeholders)
+						for (Var colVar : varsMentioned) {
+							String colVarName = colVar.getVarName().toLowerCase();
+							varTermConstructor = varTermConstructor.replaceAll("\\?" + colVarName, "VAR");
+						}
 					}
 					key += varTermConstructor;
 				}
@@ -281,6 +295,15 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 					// dummy loop since there should only one restriction
 					for (RestrictedExpr varRestr : varRestrs) {
 						varTermConstructor = varRestr.getExpr().toString() + " ";
+						
+						Set<Var> varsMentioned = varRestr.getExpr().getVarsMentioned();
+						
+						// normalize term constructor string (remove concrete variable
+						// names with placeholders)
+						for (Var colVar : varsMentioned) {
+							String colVarName = colVar.getVarName().toLowerCase();
+							varTermConstructor = varTermConstructor.replaceAll("\\?" + colVarName, "VAR");
+						}
 					}
 					key += varTermConstructor;
 				}
@@ -296,6 +319,15 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 					// dummy loop since there should only one restriction
 					for (RestrictedExpr varRestr : varRestrs) {
 						varTermConstructor = varRestr.getExpr().toString() + " ";
+						
+						Set<Var> varsMentioned = varRestr.getExpr().getVarsMentioned();
+						
+						// normalize term constructor string (remove concrete variable
+						// names with placeholders)
+						for (Var colVar : varsMentioned) {
+							String colVarName = colVar.getVarName().toLowerCase();
+							varTermConstructor = varTermConstructor.replaceAll("\\?" + colVarName, "VAR");
+						}
 					}
 					key += varTermConstructor;
 					
@@ -405,51 +437,40 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 			String key = viewDef.getName() + separator + quad.toString();
 			sumCountEach += distinctCounts.get(key);
 			
-			/*
-			 * this is for the first time running into this loop:
-			 * Since all quads of quadViewDefs share the same signature, the
-			 * set of column variables involved is also the same for all quads.
-			 * So the colVars set of the column variable names of this concrete
-			 * case do not have to be computed every time, but can rather be
-			 * re-used form the first comutation
-			 */
-			if (colVarStrs.isEmpty()) {
-			
-				/* subject columns (if subject is variable) */
-				Node subject = quad.getSubject();
-				if (subject.isVariable()) {
-					Collection<RestrictedExpr> termConstructors = varDefs
-							.getDefinitions(Var.alloc((Node_Variable) subject));
-					
-					for (RestrictedExpr tc : termConstructors) {
-						Set<Var> vars = tc.getExpr().getVarsMentioned();
-						colVarStrs = vars2Strs(vars);
-					}
-				}
-			
-				/* predicate columns (if predicate is variable) */
-				Node predicate = quad.getPredicate();
-				if (predicate.isVariable()) {
-					Collection<RestrictedExpr> termConstructors = varDefs
-							.getDefinitions(Var.alloc((Node_Variable) predicate));
+			/* subject columns (if subject is variable) */
+			Node subject = quad.getSubject();
+			if (subject.isVariable()) {
+				Collection<RestrictedExpr> termConstructors = varDefs
+						.getDefinitions(Var.alloc((Node_Variable) subject));
 				
-					for (RestrictedExpr tc : termConstructors) {
-						Set<Var> vars = tc.getExpr().getVarsMentioned();
-						colVarStrs.addAll(vars2Strs(vars));
-					}
+				for (RestrictedExpr tc : termConstructors) {
+					Set<Var> vars = tc.getExpr().getVarsMentioned();
+					colVarStrs = vars2Strs(vars);
 				}
+			}
+		
+			/* predicate columns (if predicate is variable) */
+			Node predicate = quad.getPredicate();
+			if (predicate.isVariable()) {
+				Collection<RestrictedExpr> termConstructors = varDefs
+						.getDefinitions(Var.alloc((Node_Variable) predicate));
 			
-				/* object columns (if object is variable) */
-				Node object = quad.getPredicate();
-				if (object.isVariable()) {
-					Collection<RestrictedExpr> termConstructors = varDefs
-							.getDefinitions(Var.alloc((Node_Variable) object));
+				for (RestrictedExpr tc : termConstructors) {
+					Set<Var> vars = tc.getExpr().getVarsMentioned();
+					colVarStrs.addAll(vars2Strs(vars));
+				}
+			}
+		
+			/* object columns (if object is variable) */
+			Node object = quad.getPredicate();
+			if (object.isVariable()) {
+				Collection<RestrictedExpr> termConstructors = varDefs
+						.getDefinitions(Var.alloc((Node_Variable) object));
+			
+				for (RestrictedExpr tc : termConstructors) {
+					Set<Var> colVars = tc.getExpr().getVarsMentioned();
 				
-					for (RestrictedExpr tc : termConstructors) {
-						Set<Var> colVars = tc.getExpr().getVarsMentioned();
-					
-						colVarStrs.addAll(vars2Strs(colVars));
-					}
+					colVarStrs.addAll(vars2Strs(colVars));
 				}
 			}
 			
@@ -468,7 +489,7 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 		// cut off last trailing "UNION"
 		int strLength = queryStr.length();
 		int cutOffLength = " UNION ".length();
-		queryStr = "SELECT DISTINCT " + colsString(colVarStrs) + " FROM (" +
+		queryStr = "SELECT DISTINCT " + aliasColsString(colVarStrs) + " FROM (" +
 				queryStr.substring(0, strLength - cutOffLength) + ") foo";
 		
 		// wrap in another SELECT count(*)
@@ -569,15 +590,26 @@ public class NoDuplicateStatements extends MetricImpl implements MappingMetric {
 				"FROM (" + relation + ") AS inner_query " +
 				"WHERE " + colsNotNullString(referencedColumns) +
 			") AS outer_query";
-		
 		return query;
 	}
 
+	private String aliasColsString(Set<String> colVarStrs) {
+		String colsStr = "";
+		for (int i=0; i<colVarStrs.size(); i++) {
+			colsStr += colAliasPrefix + i + ", ";
+		}
 
+		int strLen = colsStr.length();
+		// assuming that columns will never be empty
+		return colsStr.substring(0, strLen - 2);
+	}
+	
 	private String colsString(Set<String> colVarStrs) {
 		String colsStr = "";
+		int colCounter = 0;
 		for (String colVarStr : colVarStrs) {
-			colsStr += colVarStr + ", ";
+			colsStr += colVarStr + " AS " + colAliasPrefix + colCounter + ", ";
+			colCounter++;
 		}
 
 		int strLen = colsStr.length();
