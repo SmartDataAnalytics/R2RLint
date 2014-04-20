@@ -71,7 +71,7 @@ public class VocabularyPropertyCompleteness extends MetricImpl implements
 		
 		// filter classes found, that are from a 'foreign' namespace
 		for (Node prop : vocabularyProperties) {
-			if (prop.getURI().startsWith(vocabUri)) {
+			if (prop.isURI() && prop.getURI().startsWith(vocabUri)) {
 				vocabNSProperties.add(prop);
 			}
 		}
