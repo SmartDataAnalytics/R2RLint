@@ -1,10 +1,13 @@
-package org.aksw.sparqlify.qa.metrics.consistency;
+package org.aksw.sparqlify.qa.metrics.interpretability;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
@@ -25,6 +28,7 @@ public class DefinedClassesAndPropertiesTest {
 	@Autowired
 	private DefinedClassesAndProperties metric;
 
+	private List<String> prefixes = new ArrayList<String>(Arrays.asList("http://ex.org"));
 
 	@Before
 	public void setUp() throws Exception {
@@ -49,8 +53,8 @@ public class DefinedClassesAndPropertiesTest {
 	}
 	
 	/*
-	 * no violations, but no prefix set for dataset --> all not defined
-	 * properties are reported even if they are not local
+	 * no violations, but no prefix set for dataset --> all resources are
+	 * considered as external
 	 */
 	@Test
 	public synchronized void test01() throws NotImplementedException, SQLException {
@@ -59,10 +63,9 @@ public class DefinedClassesAndPropertiesTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		SparqlifyDataset dataset = dataset01();
-		metric.assessDataset(dataset);
+		metric.assessDataset(dataset01());
 		
-		float expected = (float) 0;
+		float expected = (float) -1;
 		assertEquals(
 				expected,
 				sink.writtenValue(metricName),
@@ -81,7 +84,7 @@ public class DefinedClassesAndPropertiesTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset01();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = (float) -1;
@@ -103,15 +106,15 @@ public class DefinedClassesAndPropertiesTest {
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
+		StringReader reader = new StringReader(content);
 		dataset.read(reader, null, "TTL");
 		
 		return dataset;
 	}
 	
 	/*
-	 * no violations, but no prefix set for dataset --> all not defined
-	 * properties are reported even if they are not local
+	 * no violations and no prefix set for dataset --> all resources are
+	 * considered as external --> no violations
 	 */
 	@Test
 	public synchronized void test03() throws NotImplementedException, SQLException {
@@ -123,7 +126,7 @@ public class DefinedClassesAndPropertiesTest {
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
 		
-		float expected = (float) 0;
+		float expected = (float) -1;
 		assertEquals(
 				expected,
 				sink.writtenValue(metricName),
@@ -142,7 +145,7 @@ public class DefinedClassesAndPropertiesTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset02();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = (float) -1;
@@ -163,7 +166,7 @@ public class DefinedClassesAndPropertiesTest {
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
+		StringReader reader = new StringReader(content);
 		dataset.read(reader, null, "TTL");
 		
 		return dataset;
@@ -180,7 +183,7 @@ public class DefinedClassesAndPropertiesTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset03();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = (float) 0;
@@ -218,7 +221,7 @@ public class DefinedClassesAndPropertiesTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset04();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = (float) 0;
