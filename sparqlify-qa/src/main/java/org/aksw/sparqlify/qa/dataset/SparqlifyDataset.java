@@ -49,6 +49,7 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 
 	public SparqlifyDataset() {
 		super(GraphFactory.createDefaultGraph());
+		prefixes = new ArrayList<String>();
 	}
 
 
@@ -74,6 +75,9 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 		} else return null;
 	}
 	
+	/*
+	 * TODO: seems to exactly the same as registerDump
+	 */
 	public void readFromDump(String dumpFilePath) throws IOException {
 		
 		File dumpFile = new File(dumpFilePath);
@@ -109,7 +113,6 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 		File dumpFile = new File(dumpFilePath);
 		InputStream iteratorStream = new FileInputStream(dumpFile);
 		it = new NTripleIterator(iteratorStream, null, null);
-		
 	}
 	
 	/**
