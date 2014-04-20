@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -109,6 +110,14 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 		InputStream iteratorStream = new FileInputStream(dumpFile);
 		it = new NTripleIterator(iteratorStream, null, null);
 		
+	}
+	
+	/**
+	 * 
+	 * @param reader A reader for turtle input
+	 */
+	public void registerDump(Reader reader) {
+		it = new NTripleIterator(reader, null, null);
 	}
 	
 	@Override
