@@ -16,6 +16,8 @@ import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +29,9 @@ import com.hp.hpl.jena.graph.Triple;
 public class DereferenceableUris extends MetricImpl implements
 		NodeMetric {
 
+	private static Logger logger = LoggerFactory.getLogger(DereferenceableUris.class);
 	private HashMap<String, Boolean> linkBroken;
+
 	@Autowired
 	Pinpointer pinpointer;
 
@@ -40,33 +44,67 @@ public class DereferenceableUris extends MetricImpl implements
 	@Override
 	public void assessNodes(Triple triple) throws NotImplementedException, SQLException {
 		// FIXME: make this threaded
+		logger.debug("assessing " + triple);
 		
+		// check subject, if local and not a blank node
 		Node subject = triple.getSubject();
-		if (subject.isURI() && !((Node_URI) subject).getURI().startsWith(prefix)
-				&& isBroken((Node_URI) subject)) {
+		if (subject.isURI()){
+			boolean isLocal = false;
+			// check all local prefixes
+			for (String prefix : prefixes) {
+				if (((Node_URI) subject).getURI().startsWith(prefix)) {
+					isLocal = true;
+					break;
+				}
+			}
 			
-			Set<ViewQuad<ViewDefinition>> viewQuads =
-					pinpointer.getViewCandidates(triple);
-			
-			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
+			if (!isLocal && isBroken((Node_URI) subject)) {
+				Set<ViewQuad<ViewDefinition>> viewQuads =
+						pinpointer.getViewCandidates(triple);
+				
+				writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT, triple, viewQuads);
+			}
 		}
 		
+		// check predicate if local
 		Node predicate = triple.getPredicate();
-		if (!((Node_URI) predicate).getURI().startsWith(prefix)
-				&& isBroken((Node_URI) predicate)) {
+		{
+			boolean isLocal = false;
 			
-			Set<ViewQuad<ViewDefinition>> viewQuads =
-					pinpointer.getViewCandidates(triple);
-			
-			writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
+			// check all local prefixes
+			for (String prefix : prefixes) {
+				if (((Node_URI) predicate).getURI().startsWith(prefix)) {
+					isLocal = true;
+					break;
+				}
+			}
+			if (!isLocal && isBroken((Node_URI) predicate)) {
+				
+				Set<ViewQuad<ViewDefinition>> viewQuads =
+						pinpointer.getViewCandidates(triple);
+				
+				writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE, triple, viewQuads);
+			}
 		}
 		
+		// check object if URI and local
 		Node object = triple.getObject();
-		if (object.isURI() && !((Node_URI) object).getURI().startsWith(prefix) && isBroken((Node_URI) object)) {
-			Set<ViewQuad<ViewDefinition>> viewQuads =
-					pinpointer.getViewCandidates(triple);
-			
-			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
+		
+		if (object.isURI()) {
+			boolean isLocal = false;
+			// check all local prefixes
+			for (String prefix : prefixes) {
+				if (((Node_URI) object).getURI().startsWith(prefix)) {
+					isLocal = true;
+				}
+			}
+			if (!isLocal && isBroken((Node_URI) object)) {
+				
+				Set<ViewQuad<ViewDefinition>> viewQuads =
+						pinpointer.getViewCandidates(triple);
+				
+				writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT, triple, viewQuads);
+			}
 		}
 	}
 
@@ -74,14 +112,13 @@ public class DereferenceableUris extends MetricImpl implements
 	private boolean isBroken(Node_URI node) {
 		
 		Boolean broken = linkBroken.get(node.getURI());
-		
 		if (broken != null) {
 			return broken;
 		} else {
 			URL extUrl;
 			try {
-				// FIXME: 
 				extUrl = new URL(node.getURI());
+				logger.debug("Trying to retrieve " + extUrl);
 			} catch (MalformedURLException e) {
 				linkBroken.put(node.getURI(), true);
 				return true;
@@ -93,13 +130,25 @@ public class DereferenceableUris extends MetricImpl implements
 				urlConn = (HttpURLConnection) extUrl.openConnection();
 			} catch (IOException e) {
 				linkBroken.put(node.getURI(), true);
+				logger.debug("Got IO Exception");
+				logger.debug("###### Done #####");
+				return true;
+			} catch (Exception e) {
+				// added to handle
+				// Exception in thread "main" java.lang.ClassCastException: sun.net.www.protocol.file.FileURLConnection cannot be cast to java.net.HttpURLConnection
+				// for URIs like file:/x/y/z
+				linkBroken.put(node.getURI(), true);
+				logger.debug("Got general Exception");
+				logger.debug("###### Done #####");
 				return true;
 			}
 			
 			try {
-				urlConn.setRequestMethod("GET");
+				urlConn.setRequestMethod("HEAD");
 			} catch (ProtocolException e) {
 				linkBroken.put(node.getURI(), true);
+				logger.debug("Got protocol error");
+				logger.debug("###### Done #####");
 				return true;
 			}
 			
@@ -110,14 +159,20 @@ public class DereferenceableUris extends MetricImpl implements
 				responseCode = urlConn.getResponseCode();
 			} catch (IOException e) {
 				linkBroken.put(node.getURI(), true);
+				logger.debug("Could not get response Code");
+				logger.debug("###### Done #####");
 				return true;
 			}
 
 			if (responseCode >= 200 && responseCode < 400) {
 				linkBroken.put(node.getURI(), false);
+				logger.debug("-- SUCCESS --");
+				logger.debug("###### Done #####");
 				return false;
 			} else {
 				linkBroken.put(node.getURI(), true);
+				logger.debug("Bad response code");
+				logger.debug("###### Done #####");
 				return true;
 			}
 		}

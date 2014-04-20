@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
@@ -38,10 +40,10 @@ class Handler200 implements HttpHandler {
 		String response =
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
 				"<empty/>";
-        e.sendResponseHeaders(301, response.length());
-        OutputStream os = e.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
+		e.sendResponseHeaders(301, response.length());
+		OutputStream os = e.getResponseBody();
+		os.write(response.getBytes());
+		os.close();
 	}
 }
 
@@ -56,8 +58,8 @@ class Handler301 implements HttpHandler {
 				DereferenceableUrisTest.port +
 				DereferenceableUrisTest.okPath);
 		e.sendResponseHeaders(301, 0);
-        OutputStream out = e.getResponseBody();
-        out.close();
+		OutputStream out = e.getResponseBody();
+		out.close();
 	}
 }
 
@@ -68,8 +70,8 @@ class Handler404 implements HttpHandler {
 	public void handle(HttpExchange e) throws IOException {
 
 		e.sendResponseHeaders(404, 0);
-        OutputStream out = e.getResponseBody();
-        out.close();
+		OutputStream out = e.getResponseBody();
+		out.close();
 	}
 }
 
@@ -80,8 +82,8 @@ class Handler500 implements HttpHandler {
 	public void handle(HttpExchange e) throws IOException {
 
 		e.sendResponseHeaders(500, 0);
-        OutputStream out = e.getResponseBody();
-        out.close();
+		OutputStream out = e.getResponseBody();
+		out.close();
 	}
 }
 
@@ -106,6 +108,7 @@ public class DereferenceableUrisTest {
 	final static String serverErrPath = "/serv_err";
 	HttpServer server;
 
+	List<String> prefixes;
 
 	@Before
 	public void setUp() throws Exception {
@@ -117,6 +120,8 @@ public class DereferenceableUrisTest {
 		server.createContext(serverErrPath, new Handler500());
 		server.setExecutor(null);
 		server.start();
+		
+		prefixes = new ArrayList<String>(Arrays.asList("http://ex.org/"));
 	}
 
 
@@ -134,7 +139,8 @@ public class DereferenceableUrisTest {
 		String metricName = "test01";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + okPath);
@@ -160,7 +166,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test02";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
@@ -186,7 +192,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test03";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
@@ -212,7 +218,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test04";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + redirectPath);
@@ -238,7 +244,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test05";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
@@ -264,7 +270,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test06";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
@@ -290,7 +296,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test07";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + notFoundPath);
@@ -316,7 +322,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test08";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
@@ -342,7 +348,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test09";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
@@ -368,7 +374,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test10";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + port + serverErrPath);
@@ -394,7 +400,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test11";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
@@ -420,7 +426,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test12";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
@@ -446,7 +452,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test13";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://" + hostName + ":" + portNotServed + okPath);
@@ -472,7 +478,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test14";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
@@ -498,7 +504,7 @@ public class DereferenceableUrisTest {
 		String metricName = "test15";
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
-		metric.setPrefix("http://ex.org/");
+		metric.setPrefixes(prefixes);
 		metric.initMeasureDataSink();
 		
 		Node subj = NodeFactory.createURI("http://ex.org/foo/bar");
