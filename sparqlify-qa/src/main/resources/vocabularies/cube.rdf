@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:qb="http://purl.org/linked-data/cube#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:scovo="http://purl.org/NET/scovo#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:void="http://rdfs.org/ns/void#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <rdf:Description rdf:nodeID="genid1">
+    <foaf:mbox>richard@cyganiak.de</foaf:mbox>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid2">
+    <foaf:mbox>jeni@jenitennison.com</foaf:mbox>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid3">
+    <foaf:mbox>arofan.gregory@earthlink.net</foaf:mbox>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid4">
+    <foaf:mbox>ian@epimorphics.com</foaf:mbox>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid5">
+    <foaf:mbox>dave@epimorphics.com</foaf:mbox>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <owl:versionInfo>0.2</owl:versionInfo>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <rdfs:label>The data cube vocabulary</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <rdfs:comment>This vocabulary allows multi-dimensional data, such as statistics, to be published in RDF. It is based on the core information model from SDMX (and thus also DDI).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2010-07-12</dcterms:created>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2010-11-27</dcterms:modified>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-03-02</dcterms:modified>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-07-26</dcterms:modified>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:title>Vocabulary for multi-dimensional (e.g. statistical) data publishing</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:license rdf:resource="http://www.opendatacommons.org/licenses/pddl/1.0/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:contributor rdf:nodeID="genid1"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:contributor rdf:nodeID="genid2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:contributor rdf:nodeID="genid3"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:contributor rdf:nodeID="genid4"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube">
+    <dcterms:contributor rdf:nodeID="genid5"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataSet">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataSet">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataSet">
+    <rdfs:label xml:lang="en">Data set</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataSet">
+    <rdfs:comment xml:lang="en">Represents a collection of observations, possibly organized into various slices, conforming to some common dimensional structure.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataSet">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#Attachable"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataSet">
+    <owl:equivalentClass rdf:resource="http://purl.org/NET/scovo#Dataset"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataSet">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Observation">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Observation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Observation">
+    <rdfs:label xml:lang="en">Observation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Observation">
+    <rdfs:comment xml:lang="en">A single observation in the cube, may have one or more associated measured values</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Observation">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#Attachable"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Observation">
+    <owl:equivalentClass rdf:resource="http://purl.org/NET/scovo#Item"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Observation">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dataSet">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dataSet">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dataSet">
+    <rdfs:label xml:lang="en">data set</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dataSet">
+    <rdfs:comment xml:lang="en">indicates the data set of which this observation is a part</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dataSet">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#Observation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dataSet">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#DataSet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dataSet">
+    <owl:equivalentProperty rdf:resource="http://purl.org/NET/scovo#dataset"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dataSet">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observation">
+    <rdfs:label xml:lang="en">observation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observation">
+    <rdfs:comment xml:lang="en">indicates a observation contained within this slice of the data set</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observation">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#ObservationGroup"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observation">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#Observation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observation">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ObservationGroup">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ObservationGroup">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ObservationGroup">
+    <rdfs:label xml:lang="en">Observation Group</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ObservationGroup">
+    <rdfs:comment xml:lang="en">A, possibly arbitrary, group of observations.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ObservationGroup">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observationGroup">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observationGroup">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observationGroup">
+    <rdfs:label xml:lang="en">observation group</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observationGroup">
+    <rdfs:comment xml:lang="en">Indicates a group of observations. The domain of this property is left open so that a group may be attached to different resources and need not be restricted to a single DataSet</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observationGroup">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#ObservationGroup"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#observationGroup">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Slice">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Slice">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Slice">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ObservationGroup"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Slice">
+    <rdfs:label xml:lang="en">Slice</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Slice">
+    <rdfs:comment xml:lang="en">Denotes a subset of a DataSet defined by fixing a subset of the dimensional values, component properties on the Slice</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Slice">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#Attachable"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Slice">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#slice">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#slice">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#slice">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/linked-data/cube#observationGroup"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#slice">
+    <rdfs:label xml:lang="en">slice</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#slice">
+    <rdfs:comment xml:lang="en">Indicates a subset of a DataSet defined by fixing a subset of the dimensional values</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#slice">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#DataSet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#slice">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#Slice"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#slice">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Attachable">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Attachable">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Attachable">
+    <rdfs:label xml:lang="en">Attachable (abstract)</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Attachable">
+    <rdfs:comment xml:lang="en">Abstract superclass for everything that can have attributes and dimensions</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#Attachable">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentProperty">
+    <rdfs:label xml:lang="en">Component property (abstract)</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentProperty">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentProperty">
+    <rdfs:comment xml:lang="en">Abstract super-property of all properties representing dimensions, attributes or measures</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentProperty">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DimensionProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DimensionProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DimensionProperty">
+    <rdfs:label xml:lang="en">Dimension property</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DimensionProperty">
+    <rdfs:comment xml:lang="en">The class of components which represent the dimensions of the cube</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DimensionProperty">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ComponentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DimensionProperty">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DimensionProperty">
+    <owl:disjointWith rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DimensionProperty">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#AttributeProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#AttributeProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#AttributeProperty">
+    <rdfs:label xml:lang="en">Attribute property</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#AttributeProperty">
+    <rdfs:comment xml:lang="en">The class of components which represent attributes of observations in the cube, e.g. unit of measurement</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#AttributeProperty">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ComponentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#AttributeProperty">
+    <owl:disjointWith rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#AttributeProperty">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#MeasureProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#MeasureProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#MeasureProperty">
+    <rdfs:label xml:lang="en">Measure property</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#MeasureProperty">
+    <rdfs:comment xml:lang="en">The class of components which represent the measured value of the phenomenon being observed</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#MeasureProperty">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ComponentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#MeasureProperty">
+    <owl:disjointWith rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#MeasureProperty">
+    <owl:disjointWith rdf:resource="http://purl.org/linked-data/cube#DimensionProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#MeasureProperty">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#CodedProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#CodedProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#CodedProperty">
+    <rdfs:label xml:lang="en">Coded property</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#CodedProperty">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ComponentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#CodedProperty">
+    <rdfs:comment xml:lang="en">Superclass of all coded ComponentProperties</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#CodedProperty">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureType">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#DimensionProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureType">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureType">
+    <rdfs:label xml:lang="en">measure type</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureType">
+    <rdfs:comment xml:lang="en">Generic measure dimension, the value of this dimension indicates which measure (from the set of measures in the DSD) is being given by the obsValue (or other primary measure)</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureType">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureType">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataStructureDefinition">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataStructureDefinition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataStructureDefinition">
+    <rdfs:label xml:lang="en">Data structure definition</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataStructureDefinition">
+    <rdfs:comment xml:lang="en">Defines the structure of a DataSet or slice</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataStructureDefinition">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ComponentSet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#DataStructureDefinition">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#structure">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#structure">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#structure">
+    <rdfs:label xml:lang="en">structure</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#structure">
+    <rdfs:comment xml:lang="en">indicates the structure to which this data set conforms</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#structure">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#DataSet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#structure">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#DataStructureDefinition"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#structure">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#component">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#component">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#component">
+    <rdfs:label xml:lang="en">component specification</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#component">
+    <rdfs:comment xml:lang="en">indicates a component specification which is included in the structure of the dataset</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#component">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#DataStructureDefinition"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#component">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#ComponentSpecification"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#component">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSpecification">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSpecification">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSpecification">
+    <rdfs:label xml:lang="en">Component specification</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSpecification">
+    <rdfs:comment xml:lang="en">Used to define properties of a component (attribute, dimension etc) which are specific to its usage in a DSD.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSpecification">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ComponentSet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSpecification">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSet">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSet">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSet">
+    <rdfs:label xml:lang="en">Component set</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSet">
+    <rdfs:comment xml:lang="en">Abstract class of things which reference one or more ComponentProperties</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSet">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#ComponentSpecification">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ComponentSet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#SliceKey">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ComponentSet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentProperty">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentProperty">
+    <rdfs:label xml:lang="en">component</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentProperty">
+    <rdfs:comment xml:lang="en">indicates a ComponentProperty (i.e. attribute/dimension) expected on a DataSet, or a dimension fixed in a SliceKey</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentProperty">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#ComponentSet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentProperty">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#ComponentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentProperty">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#order">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#order">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#order">
+    <rdfs:label xml:lang="en">order</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#order">
+    <rdfs:comment xml:lang="en">indicates a priority order for the components of sets with this structure, used to guide presentations - lower order numbers come before higher numbers, un-numbered components come last</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#order">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#ComponentSpecification"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#order">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#order">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentRequired">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentRequired">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentRequired">
+    <rdfs:label xml:lang="en">component required</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentRequired">
+    <rdfs:comment xml:lang="en">Indicates whether a component property is required (true) or optional (false) in the context of a DSD. Only applicable
+    to components correspond to an attribute. Defaults to false (optional).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentRequired">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#ComponentSpecification"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentRequired">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentRequired">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentAttachment">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentAttachment">
+    <rdfs:label xml:lang="en">component attachment</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentAttachment">
+    <rdfs:comment xml:lang="en">Indicates the level at which the component property should be attached, this might an qb:DataSet, qb:Slice or qb:Observation, or a qb:MeasureProperty.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentAttachment">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#ComponentSpecification"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentAttachment">
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#componentAttachment">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dimension">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dimension">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dimension">
+    <rdfs:label xml:lang="en">dimension</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dimension">
+    <rdfs:comment xml:lang="en">An alternative to qb:componentProperty which makes explicit that the component is a dimension</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dimension">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/linked-data/cube#componentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dimension">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#DimensionProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#dimension">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measure">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measure">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measure">
+    <rdfs:label xml:lang="en">measure</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measure">
+    <rdfs:comment xml:lang="en">An alternative to qb:componentProperty which makes explicit that the component is a measure</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measure">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/linked-data/cube#componentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measure">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measure">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#attribute">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#attribute">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#attribute">
+    <rdfs:label xml:lang="en">attribute</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#attribute">
+    <rdfs:comment xml:lang="en">An alternative to qb:componentProperty which makes explicit that the component is a attribute</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#attribute">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/linked-data/cube#componentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#attribute">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#attribute">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureDimension">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureDimension">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureDimension">
+    <rdfs:label xml:lang="en">measure dimension</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureDimension">
+    <rdfs:comment xml:lang="en">An alternative to qb:componentProperty which makes explicit that the component is a measure dimension</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureDimension">
+    <rdfs:subPropertyOf rdf:resource="http://purl.org/linked-data/cube#componentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureDimension">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#DimensionProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#measureDimension">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#SliceKey">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#SliceKey">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#SliceKey">
+    <rdfs:label xml:lang="en">Slice key</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#SliceKey">
+    <rdfs:comment xml:lang="en">Denotes a subset of the component properties of a DataSet which are fixed in the corresponding slices</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#SliceKey">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#ComponentSet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#SliceKey">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceStructure">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceStructure">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceStructure">
+    <rdfs:label xml:lang="en">slice structure</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceStructure">
+    <rdfs:comment xml:lang="en">indicates the sub-key corresponding to this slice</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceStructure">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#Slice"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceStructure">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#SliceKey"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceStructure">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceKey">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceKey">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceKey">
+    <rdfs:label xml:lang="en">slice key</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceKey">
+    <rdfs:comment xml:lang="en">indicates a slice key which is used for slices in this dataset</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceKey">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#DataStructureDefinition"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceKey">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/cube#SliceKey"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#sliceKey">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#concept">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#concept">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#concept">
+    <rdfs:label xml:lang="en">concept</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#concept">
+    <rdfs:comment xml:lang="en">gives the concept which is being measured or indicated by a ComponentProperty</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#concept">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#ComponentProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#concept">
+    <rdfs:range rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#concept">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid6">
+    <rdf:first rdf:resource="http://purl.org/linked-data/cube#HierarchicalCodeList"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid6">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid7">
+    <rdf:first rdf:resource="http://www.w3.org/2004/02/skos/core#Collection"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid7">
+    <rdf:rest rdf:nodeID="genid6"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid8">
+    <rdf:first rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid8">
+    <rdf:rest rdf:nodeID="genid7"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="genid9">
+    <owl:unionOf rdf:nodeID="genid8"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#codeList">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#codeList">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#codeList">
+    <rdfs:label xml:lang="en">code list</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#codeList">
+    <rdfs:comment xml:lang="en">gives the code list associated with a CodedProperty</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#codeList">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#codeList">
+    <rdfs:range rdf:nodeID="genid9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#codeList">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#HierarchicalCodeList">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#HierarchicalCodeList">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#HierarchicalCodeList">
+    <rdfs:subClassOf rdf:resource="http://purl.org/linked-data/cube#CodeList"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#HierarchicalCodeList">
+    <rdfs:label xml:lang="en">Hierarchical Code List</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#HierarchicalCodeList">
+    <rdfs:comment xml:lang="en">Represents a generalized hierarchy of concepts which can be used for coding. The hierarchy is defined by one or more roots together with a property which relates concepts in the hierarchy to thier child concept .  The same concepts may be members of multiple hierarchies provided that different qb:parentChildProperty values are used for each hierarchy.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#HierarchicalCodeList">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#hierarchyRoot">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#hierarchyRoot">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#hierarchyRoot">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#HierarchicalCodeList"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#hierarchyRoot">
+    <rdfs:comment xml:lang="en">Specifies a root of the hierarchy. A hierarchy may have multiple roots but must have at least one.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#hierarchyRoot">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#parentChildProperty">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#parentChildProperty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#parentChildProperty">
+    <rdfs:label xml:lang="en">parent-child property</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#parentChildProperty">
+    <rdfs:domain rdf:resource="http://purl.org/linked-data/cube#HierarchicalCodeList"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#parentChildProperty">
+    <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#parentChildProperty">
+    <rdfs:comment xml:lang="en">Specifies a property which relates a parent concept in the hierarchy to a child concept.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/cube#parentChildProperty">
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/linked-data/cube"/>
+  </rdf:Description>
+</rdf:RDF>
