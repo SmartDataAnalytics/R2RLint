@@ -17,7 +17,7 @@ import org.aksw.sparqlify.algebra.sql.nodes.SqlOpQuery;
 import org.aksw.sparqlify.algebra.sql.nodes.SqlOpTable;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,7 +39,7 @@ import com.hp.hpl.jena.sparql.core.Quad;
  *
  */
 @Component
-public class PropertyCompleteness extends MetricImpl implements MappingMetric {
+public class PropertyCompleteness extends MetricImpl implements ViewMetric {
 	
 	@Autowired
 	private DataSource rdb;
@@ -58,7 +58,7 @@ public class PropertyCompleteness extends MetricImpl implements MappingMetric {
 	}
 
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs)
+	public void assessViews(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException, SQLException {
 		for (ViewDefinition viewDef : viewDefs) {
 			SqlOpBase logicalTbl = (SqlOpBase) viewDef.getMapping().getSqlOp();
@@ -95,7 +95,7 @@ public class PropertyCompleteness extends MetricImpl implements MappingMetric {
 
 
 	private float getTupleCompleteness(SqlOpQuery query) {
-		final String queryStr = query.getQueryString().toLowerCase();
+		final String queryStr = lower(query.getQueryString());
 		int whereIndex = queryStr.indexOf(whereStr);
 		
 		// query contains no WHERE clause which means that there is no
@@ -181,5 +181,34 @@ public class PropertyCompleteness extends MetricImpl implements MappingMetric {
 		}
 		
 		return numTuples;
+	}
+	
+	/*
+	 * applies toLower to all characters that are not quoted
+	 */
+	private String lower(String input) {
+		int firstDQuoteIdx = input.indexOf('"');
+		if (firstDQuoteIdx >= 0) {
+			int scndDQuoteIdx = input.indexOf('"', firstDQuoteIdx + 1);
+			if (scndDQuoteIdx >= 0) {
+				return input.substring(0, firstDQuoteIdx).toLowerCase() +
+						input.substring(firstDQuoteIdx, scndDQuoteIdx) + 
+						lower(input.substring(scndDQuoteIdx, input.length()));
+			} else {
+				return input.substring(0, firstDQuoteIdx).toLowerCase() +
+						input.substring(firstDQuoteIdx, input.length());
+			}
+		}
+		int firstQuoteIdx = input.indexOf('\'');
+		if (firstQuoteIdx >= 0) {
+			int scndQuoteIdx = input.indexOf('\'', firstQuoteIdx + 1);
+			if (scndQuoteIdx >= 0) {
+				return input.substring(0, firstQuoteIdx).toLowerCase() +
+						input.substring(firstQuoteIdx, scndQuoteIdx) + 
+						lower(input.substring(scndQuoteIdx, input.length()));
+			}
+		}
+		
+		return input.toLowerCase();
 	}
 }

@@ -347,7 +347,7 @@ public class PropertyCompletenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(employeeView));
+		metric.assessViews(Arrays.asList(employeeView));
 		
 		float expected = (float) 1.0;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -365,7 +365,7 @@ public class PropertyCompletenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(deptView1));
+		metric.assessViews(Arrays.asList(deptView1));
 		
 		float expected = (float) 1.0;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -383,7 +383,7 @@ public class PropertyCompletenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(deptView2));
+		metric.assessViews(Arrays.asList(deptView2));
 		
 		float expected = (float) 1.0;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -401,7 +401,7 @@ public class PropertyCompletenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(deptView3));
+		metric.assessViews(Arrays.asList(deptView3));
 		
 		float expected = (float) 7 / (float) 9;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -419,7 +419,7 @@ public class PropertyCompletenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(deptView4));
+		metric.assessViews(Arrays.asList(deptView4));
 		
 		float expected = (float) 5 / (float) 9;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
