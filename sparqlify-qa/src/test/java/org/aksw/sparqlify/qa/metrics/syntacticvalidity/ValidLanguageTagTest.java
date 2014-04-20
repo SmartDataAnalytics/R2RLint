@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.accuracy;
+package org.aksw.sparqlify.qa.metrics.syntacticvalidity;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.syntacticvalidity.ValidLanguageTag;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.aksw.sparqlify.qa.sinks.MeasureDataSink;

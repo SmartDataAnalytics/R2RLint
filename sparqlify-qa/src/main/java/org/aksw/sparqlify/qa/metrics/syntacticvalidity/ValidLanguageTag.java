@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.accuracy;
+package org.aksw.sparqlify.qa.metrics.syntacticvalidity;
 
 import java.io.BufferedReader;
 import java.io.File;
