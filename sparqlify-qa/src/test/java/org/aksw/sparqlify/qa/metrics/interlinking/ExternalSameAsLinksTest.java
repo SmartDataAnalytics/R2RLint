@@ -5,6 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
@@ -24,6 +27,8 @@ public class ExternalSameAsLinksTest {
 	private ValueTestingSink sink;
 	@Autowired
 	private ExternalSameAsLinks metric;
+	private List<String> prefixes = new ArrayList<String>(
+			Arrays.asList("http://ex.org/"));
 
 	@Before
 	public void setUp() throws Exception {
@@ -56,7 +61,7 @@ public class ExternalSameAsLinksTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset01();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = (float) 0;
@@ -90,7 +95,7 @@ public class ExternalSameAsLinksTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset02();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = 0 / (float) 5;
@@ -124,7 +129,7 @@ public class ExternalSameAsLinksTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset03();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = 1 / (float) 5;
@@ -158,7 +163,7 @@ public class ExternalSameAsLinksTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset04();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = 1 / (float) 5;
@@ -192,7 +197,7 @@ public class ExternalSameAsLinksTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset05();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = 0 / (float) 5;
@@ -227,7 +232,7 @@ public class ExternalSameAsLinksTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset06();
-		dataset.setPrefix("http://ex.org/");
+		dataset.setPrefixes(prefixes);
 		metric.assessDataset(dataset);
 		
 		float expected = 2 / (float) 6;
