@@ -161,7 +161,7 @@ public abstract class MetricImpl implements Metric {
 	}
 
 
-	public void setPrefix(String prefix) {
+	public void setPrefixes(String prefix) {
 		this.prefix = prefix;
 	}
 

@@ -1,5 +1,7 @@
 package org.aksw.sparqlify.qa.metrics;
 
+import java.util.List;
+
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 
 
@@ -17,5 +19,5 @@ public interface Metric {
 
 	public String getName();
 	
-	public void setPrefix(String domain);
+	public void setPrefixes(List<String> domain);
 }
