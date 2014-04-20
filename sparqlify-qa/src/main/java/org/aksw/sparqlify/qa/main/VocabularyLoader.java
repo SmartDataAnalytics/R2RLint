@@ -8,12 +8,15 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.aksw.commons.collections.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 public class VocabularyLoader {
 	
+	private Logger logger = LoggerFactory.getLogger(VocabularyLoader.class);
 	private final String pathPrefix = "src/main/resources/vocabularies/";
 	private final HashMap<String, Pair<String, String>> knownVocabularies =
 			new HashMap<String, Pair<String, String>>(){
@@ -35,6 +38,28 @@ public class VocabularyLoader {
 						new Pair<String, String>("dcterms.rdf", "RDF/XML"));
 				put("http://purl.org/dc/elements/1.1/",
 						new Pair<String, String>("dcelements.rdf", "RDF/XML"));
+				put("http://www.opengis.net/ont/geosparql#",
+						new Pair<String, String>("geosparql_vocab_all.rdf", "RDF/XML"));
+				put("http://www.w3.org/2003/01/geo/wgs84_pos#",
+						new Pair<String, String>("wgs84_pos", "RDF/XML"));
+				put("http://www.w3.org/2004/02/skos/core#",
+						new Pair<String, String>("core", "RDF/XML"));
+				put("http://purl.org/NET/c4dm/event.owl#",
+						new Pair<String, String>("event.rdf", "RDF/XML"));
+				put("http://purl.org/ontology/mo/",
+						new Pair<String, String>("mo.rdf","RDF/XML"));
+				put("http://open.vocab.org/terms/",
+						new Pair<String, String>("terms.rdf", "RDF/XML"));
+				put("http://purl.org/linked-data/cube#",
+						new Pair<String, String>("cube.rdf", "RDF/XML"));
+				put("http://purl.org/linked-data/sdmx/2009/attribute#",
+						new Pair<String, String>("sdmx-attribute.rdf", "RDF/XML"));
+				put("http://purl.org/linked-data/sdmx/2009/concept#",
+						new Pair<String, String>("sdmx-concept.rdf", "RDF/XML"));
+				put("http://purl.org/linked-data/sdmx/2009/dimension#",
+						new Pair<String, String>("sdmx-dimension.rdf", "RDF/XML"));
+				put("http://purl.org/linked-data/sdmx/2009/measure#",
+						new Pair<String, String>("sdmx-measure", "RDF/XML"));
 			}};
 	
 	private final HashMap<String, String> knownPrefixes =
@@ -49,6 +74,17 @@ public class VocabularyLoader {
 				put("spatial", "http://geovocab.org/spatial#");
 				put("dcterms", "http://purl.org/dc/terms/");
 				put("dc", "http://purl.org/dc/elements/1.1/");
+				put("ogc", "http://www.opengis.net/ont/geosparql#");
+				put("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
+				put("skos", "http://www.w3.org/2004/02/skos/core#");
+				put("event", "http://purl.org/NET/c4dm/event.owl#");
+				put("mo", "http://purl.org/ontology/mo/");
+				put("terms", "http://open.vocab.org/terms/");
+				put("cube", "http://purl.org/linked-data/cube#");
+				put("sdmx-attribute", "http://purl.org/linked-data/sdmx/2009/attribute#");
+				put("sdmx-concept", "http://purl.org/linked-data/sdmx/2009/concept#");
+				put("sdmx-dimension", "http://purl.org/linked-data/sdmx/2009/dimension#");
+				put("sdmx-measure", "http://purl.org/linked-data/sdmx/2009/measure#");
 			}};
 	
 	// model cache for already loaded vocabularies; key is the whole namespace
@@ -74,6 +110,8 @@ public class VocabularyLoader {
 
 
 	private Model loadVocabulary(String namespace) throws FileNotFoundException {
+		if (knownVocabularies.get(namespace) == null) return null;
+		
 		String filePath = pathPrefix + knownVocabularies.get(namespace).first;
 		String type = knownVocabularies.get(namespace).second;
 		File file = new File(filePath);
@@ -108,7 +146,8 @@ public class VocabularyLoader {
 			} catch (FileNotFoundException e) {
 				continue;
 			}
-			vocabs.add(vocab);
+			if (vocab != null) vocabs.add(vocab);
+			else logger.warn("Could not load " + prefixOrNamespace + "!!!!!");
 		}
 		
 		return vocabs;
