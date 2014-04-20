@@ -32,6 +32,7 @@ import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.sparql.core.Quad;
 
 /**
+ * TODO: check if the prepared statements make sense performance-wise
  * 
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
@@ -71,6 +72,7 @@ public class RdbSink implements MeasureDataSink {
 		conn = sinkDb.getConnection();
 		initDb();
 		assessmentId = RandomUtils.nextLong();
+//		assessmentId = 666;
 	}
 	@PreDestroy
 	private void cleanUp() throws SQLException {
@@ -122,7 +124,7 @@ public class RdbSink implements MeasureDataSink {
 					"position varchar(20), " +
 					"subject varchar(300) , " +
 					"predicate varchar(300), " +
-					"object varchar(300) " +
+					"object varchar(3000) " +
 				");");
 		
 		// quad pattern table
@@ -156,7 +158,7 @@ public class RdbSink implements MeasureDataSink {
 				"CREATE TABLE IF NOT EXISTS " + viewDefTbl + " (" +
 					"id bigint PRIMARY KEY, " +
 					"name varchar(200), " +
-					"mapping_sql_op varchar(500), " +
+					"mapping_sql_op varchar(3000), " +
 					"mapping_definitions varchar(3000) " +
 				");");
 		
@@ -519,23 +521,30 @@ public class RdbSink implements MeasureDataSink {
 		long measureDatumId = getNextId();
 		writeMeasureDatum(measureDatumId, dimensionName, metricName, value);
 		
-		for (ViewQuad<ViewDefinition> viewQuad : datum.getViewQuads()) {
-			// write quad pattern
-			Quad quadPattern = viewQuad.getQuad();
-			long quadPatternId = writeQuadPattern(quadPattern);
-			
-			// write view definition
-			ViewDefinition viewDef = (ViewDefinition) viewQuad.getView();
-			long viewDefId = writeViewDef(viewDef);
-			
-			// write measure datum quad pattern n:m
-			writeMeasureDatum2quadPattern(measureDatumId, quadPatternId);
-			
-			// write measure datum view definition n:m
-			writeMeasureDatum2viewDef(measureDatumId, viewDefId);
-			
-			// write view definitoin quad pattern n_m
-			writeViewDef2quadPattern(viewDefId, quadPatternId);
+		Triple triple = datum.getTriple();
+		long tripleId = writeTriple(triple);
+		writeMeasureDatum2triple(measureDatumId, tripleId);
+		
+		
+		if (datum.getViewQuads() != null) {
+			for (ViewQuad<ViewDefinition> viewQuad : datum.getViewQuads()) {
+				// write quad pattern
+				Quad quadPattern = viewQuad.getQuad();
+				long quadPatternId = writeQuadPattern(quadPattern);
+				
+				// write view definition
+				ViewDefinition viewDef = (ViewDefinition) viewQuad.getView();
+				long viewDefId = writeViewDef(viewDef);
+				
+				// write measure datum quad pattern n:m
+				writeMeasureDatum2quadPattern(measureDatumId, quadPatternId);
+				
+				// write measure datum view definition n:m
+				writeMeasureDatum2viewDef(measureDatumId, viewDefId);
+				
+				// write view definitoin quad pattern n_m
+				writeViewDef2quadPattern(viewDefId, quadPatternId);
+			}
 		}
 	}
 	
@@ -1016,7 +1025,7 @@ public class RdbSink implements MeasureDataSink {
 		// check if entry exists
 		PreparedStatement trpl2vdQStmnt = conn.prepareStatement(
 				"SELECT triple_id FROM " + trpl2viewDefTbl + " " +
-				"WHERE triple_id=? AND view_definition_id AND assessment_id=?;");
+				"WHERE triple_id=? AND view_definition_id=? AND assessment_id=?;");
 		trpl2vdQStmnt.setLong(1, tripleId);
 		trpl2vdQStmnt.setLong(2, viewDefId);
 		trpl2vdQStmnt.setLong(3, assessmentId);
