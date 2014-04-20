@@ -3,6 +3,9 @@ package org.aksw.sparqlify.qa.main;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
@@ -22,7 +25,7 @@ import com.hp.hpl.jena.util.iterator.WrappedIterator;
 
 public class SparqlGraph extends GraphBase implements Graph {
 
-
+	private Logger logger = LoggerFactory.getLogger(SparqlGraph.class);
 	private String serviceURI ;
 	private String graphIRI = null ;
 	private long tripleSliceSize = 10000;
@@ -91,6 +94,7 @@ public class SparqlGraph extends GraphBase implements Graph {
 			long offset = tripleSliceSize * offsetCounter++;
 			query.setOffset(offset);
 			QueryExecution qe = QueryExecutionFactory.sparqlService(serviceURI, query);
+			logger.debug(query.serialize());
 	
 			ResultSet res = qe.execSelect();
 			if (!res.hasNext()) resNotEmpty = false;
