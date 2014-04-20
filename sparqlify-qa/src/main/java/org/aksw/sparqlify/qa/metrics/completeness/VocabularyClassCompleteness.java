@@ -10,6 +10,8 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.main.VocabularyLoader;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.hp.hpl.jena.graph.Node;
@@ -31,6 +33,7 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 @Component
 public class VocabularyClassCompleteness extends MetricImpl implements DatasetMetric {
 
+	private Logger logger = LoggerFactory.getLogger(VocabularyClassCompleteness.class);
 	private VocabularyLoader vocabLoader;
 	
 	public VocabularyClassCompleteness() {
@@ -47,6 +50,10 @@ public class VocabularyClassCompleteness extends MetricImpl implements DatasetMe
 			Model vocabulary;
 			try {
 				vocabulary = vocabLoader.getVocabulary(prefix);
+				if (vocabulary == null) {
+					logger.warn("Could not load " + prefix + "!!! Skipping....");
+					continue;
+				}
 				assessVocabClassCompleteness(vocabulary, prefix, dataset);
 			} catch (FileNotFoundException e) {
 				// TODO: log error
