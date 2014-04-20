@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.accuracy;
+package org.aksw.sparqlify.qa.metrics.syntacticvalidity;
 
 import java.sql.SQLException;
 import java.util.Set;
@@ -35,7 +35,6 @@ public class XSDDatatypeCompatibleLiterals extends MetricImpl implements NodeMet
 	@Override
 	public void assessNodes(Triple triple) throws NotImplementedException, SQLException {
 		Node object = triple.getObject();
-		
 		if (object.isLiteral()
 				&& ((Node_Literal) object).getLiteralDatatype() != null
 				&& !((Node_Literal) object).getLiteralDatatype().isValid(
