@@ -3,6 +3,7 @@ package org.aksw.sparqlify.qa.metrics.consistency;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,18 +17,17 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntModelSpec;
-import com.hp.hpl.jena.ontology.OntProperty;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
 
 /**
  * This metric should find resources that are
@@ -59,100 +59,268 @@ public class WellPlacedClassesAndProperties extends MetricImpl implements
 	private Pinpointer pinpointer;
 	
 	private final List<String> propertyOnSubjPosWhitelist = new ArrayList<String>(
-			Arrays.asList(
-					"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
-					"http://www.w3.org/2000/01/rdf-schema#subPropertyOf",
-					"http://www.w3.org/2002/07/owl#equivalentProperty",
-					"http://www.w3.org/2002/07/owl#inverseOf",
-					"http://www.w3.org/2000/01/rdf-schema#domain",
-					"http://www.w3.org/2000/01/rdf-schema#range"));
+			Arrays.asList( RDF.type.getURI(), RDFS.subPropertyOf.getURI(),
+					OWL.equivalentProperty.getURI(), OWL.inverseOf.getURI(),
+					RDFS.domain.getURI(), RDFS.range.getURI(),
+					RDFS.label.getURI(), RDFS.comment.getURI()));
 	
 	private final List<String> propertyOnObjPosWhitelist = new ArrayList<String>(
-			Arrays.asList(
-					"http://www.w3.org/2000/01/rdf-schema#subPropertyOf",
-					"http://www.w3.org/2002/07/owl#equivalentProperty",
-					"http://www.w3.org/2002/07/owl#inverseOf",
-					"http://www.w3.org/2002/07/owl#onProperty"));
+			Arrays.asList(RDFS.subPropertyOf.getURI(),
+					OWL.equivalentProperty.getURI(), OWL.inverseOf.getURI(),
+					OWL.onProperty.getURI()));
 
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
 			throws NotImplementedException, SQLException {
 
-		/*
+		/* ====================================================================
 		 * checks for wrong-placed properties
 		 */
-		OntModel ontModel = ModelFactory.createOntologyModel(
-				OntModelSpec.OWL_LITE_MEM_RULES_INF, dataset);
+		List<String> propertyClsUris = new ArrayList<String>(Arrays.asList(
+				RDF.Property.getURI(), OWL.AnnotationProperty.getURI(),
+				OWL.DatatypeProperty.getURI(), OWL.DeprecatedProperty.getURI(),
+				OWL.FunctionalProperty.getURI(),
+				OWL.InverseFunctionalProperty.getURI(),
+				OWL.ObjectProperty.getURI(), OWL.OntologyProperty.getURI(),
+				OWL.SymmetricProperty.getURI(), OWL.TransitiveProperty.getURI()
+			));
 		
-		// get all properties
-		ExtendedIterator<OntProperty> propIt = ontModel.listOntProperties();
+		Set<Node> properties = new HashSet<Node>();
+
+
 		
-		// loop over them
-		while (propIt.hasNext()) {
-			OntProperty prop = propIt.next();
+		String genPropQueryStr = "SELECT distinct ?p { ?s ?p ?o }";
+		Query genPropQuery = QueryFactory.create(genPropQueryStr);
+		QueryExecution genPropQe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+			genPropQe = QueryExecutionFactory.createServiceRequest(dataset.getSparqlServiceUri(), genPropQuery);
+		} else {
+			genPropQe = QueryExecutionFactory.create(genPropQuery, dataset);
+		}
+		ResultSet genPropRes = genPropQe.execSelect();
+		
+		while (genPropRes.hasNext()) {
+			QuerySolution sol = genPropRes.next();
+			Node prop = sol.get("p").asNode();
+			properties.add(prop);
+		}
+		genPropQe.close();
+		
+		for(String propUri : propertyClsUris) {
+			String propQueryStr =
+				"SELECT ?p {" +
+					"{ ?p a <" + propUri + "> } UNION " +
+					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + propUri + "> }" +
+				"}";
+			Query propQuery = QueryFactory.create(propQueryStr);
+			
+			QueryExecution propQe;
+			if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+				propQe = QueryExecutionFactory.createServiceRequest(dataset.getSparqlServiceUri(), propQuery);
+			} else {
+				propQe = QueryExecutionFactory.create(propQuery, dataset);
+			}
+			
+			ResultSet propRes = propQe.execSelect();
+
+			while(propRes.hasNext()) {
+				QuerySolution sol = propRes.next();
+				Node pred = sol.get("p").asNode();
+				properties.add(pred);
+			}
+			propQe.close();
+		}
+		
+		for (Node prop : properties) {
 			
 			// property is on subject position...
-			StmtIterator propInSubjPosIt = dataset.listStatements(
-					prop.asResource(), (Property) null, (RDFNode) null);
-			while (propInSubjPosIt.hasNext()) {
-				Statement statement = propInSubjPosIt.next();
+			String propSubjQueryStr = "SELECT * { <" + prop.getURI() + "> ?p ?o }";
+			Query propSubjQuery = QueryFactory.create(propSubjQueryStr);
+			
+			QueryExecution propSubjQe;
+			if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+				propSubjQe = QueryExecutionFactory.createServiceRequest(
+						dataset.getSparqlServiceUri(), propSubjQuery);
+			} else {
+				propSubjQe = QueryExecutionFactory.create(propSubjQuery, dataset);
+			}
+			
+			ResultSet propSubjRes = propSubjQe.execSelect();
+
+			while(propSubjRes.hasNext()) {
+				QuerySolution sol = propSubjRes.nextSolution();
+				Node pred = sol.get("p").asNode();
+				Node obj = sol.get("o").asNode();
 				
-				Property statementPred = statement.getPredicate();
-				if (!propertyOnSubjPosWhitelist.contains(statementPred.getURI())) {
+				if (!propertyOnSubjPosWhitelist.contains(pred.getURI())) {
 					// ...and used in connection with a predicate that is not
 					// whitelisted explicitly
 					
+					Triple triple = new Triple(prop, pred, obj);
 					Set<ViewQuad<ViewDefinition>> viewQuads =
-							pinpointer.getViewCandidates(statement.asTriple());
+							pinpointer.getViewCandidates(triple);
 					
-					writeTripleMeasureToSink(0, statement.asTriple(), viewQuads);
+					writeTripleMeasureToSink(0, triple, viewQuads);
 				}
+				
 			}
 			
 			// property is on object position...
-			StmtIterator propInObjPosIt = dataset.listStatements(
-					(Resource) null, (Property) null, prop);
+			String propObjQueryStr = "SELECT * { ?s ?p <" + prop.getURI() + "> }";
+			Query propObjQuery = QueryFactory.create(propObjQueryStr);
 			
-			while (propInObjPosIt.hasNext()) {
-				Statement statement = propInObjPosIt.next();
+			QueryExecution propObjQe;
+			if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+				propObjQe = QueryExecutionFactory.createServiceRequest(
+						dataset.getSparqlServiceUri(), propObjQuery);
+			} else {
+				propObjQe = QueryExecutionFactory.create(propObjQuery, dataset);
+			}
+			
+			ResultSet propObjRes = propObjQe.execSelect();
+
+			while(propObjRes.hasNext())
+			{
+				QuerySolution sol = propObjRes.nextSolution();
+				Node subj = sol.get("s").asNode();
+				Node pred = sol.get("p").asNode();
 				
-				Property statementPred = statement.getPredicate();
-				if (!propertyOnObjPosWhitelist.contains(statementPred.getURI())) {
+				if (!propertyOnObjPosWhitelist.contains(pred.getURI())) {
 					// ...and used in connection with a predicate that is not
 					// whitelisted explicitly
 					
+					Triple triple = new Triple(subj, pred, prop);
 					Set<ViewQuad<ViewDefinition>> viewQuads =
-							pinpointer.getViewCandidates(statement.asTriple());
+							pinpointer.getViewCandidates(triple);
 					
-					writeTripleMeasureToSink(0, statement.asTriple(), viewQuads);
+					writeTripleMeasureToSink(0, triple, viewQuads);
 				}
+				
 			}
 		}
 		
 		/*
+		 * In a second step a more throughout query would be required, e.g.
+		 * using the query below. But this query was not used due to
+		 * performance problems
+		 */
+//		String propQueryStr =
+//				"SELECT distinct ?p {" +
+//					"{ ?s ?p ?o } UNION " +
+					// is (subclass of) rdf:Property
+//					"{ ?p a <" + RDF.Property.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + RDF.Property.getURI() + "> } UNION " +
+					// is (subclass of) owl:AnnotationProperty
+//					"{ ?p a <" + OWL.AnnotationProperty.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + OWL.AnnotationProperty.getURI() + "> } UNION " +
+					// is (subclass of) owl:DatatypeProperty
+//					"{ ?p a <" + OWL.DatatypeProperty.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + OWL.DatatypeProperty.getURI() + "> } UNION " +
+					// is (subclass of) owl:DeprecatedProperty
+//					"{ ?p a <" + OWL.DeprecatedProperty.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + OWL.DeprecatedProperty.getURI() + "> } UNION " +
+					// is (subclass of) owl:FunctionalProperty
+//					"{ ?p a <" + OWL.FunctionalProperty.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + OWL.FunctionalProperty.getURI() + "> } UNION " +
+					// is (subclass of) owl:InverseFunctionalProperty
+//					"{ ?p a <" + OWL.InverseFunctionalProperty.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + OWL.InverseFunctionalProperty.getURI() + "> } UNION " +
+					// is (subclass of) owl:ObjectProperty
+//					"{ ?p a <" + OWL.ObjectProperty.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + OWL.ObjectProperty.getURI() + "> } UNION " +
+					// is (subclass of) owl:OntologyProperty
+//					"{ ?p a <" + OWL.OntologyProperty.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + OWL.OntologyProperty.getURI() + "> } UNION " +
+					// is (subclass of) owl:SymmetricProperty
+//					"{ ?p a <" + OWL.SymmetricProperty.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + OWL.SymmetricProperty.getURI() + "> } UNION " +
+					// is (subclass of) owl:TransitiveProperty
+//					"{ ?p a <" + OWL.TransitiveProperty.getURI() + "> } UNION " +
+//					"{ ?p a ?cls. ?cls <" + RDFS.subClassOf.getURI() + ">+ <" + OWL.TransitiveProperty.getURI() + "> } " +
+//				"}";
+		
+		
+		
+		/* ====================================================================
 		 * checks for wrong-placed classes
 		 */
 		
 		// get classes
-		ExtendedIterator<OntClass> classIt = ontModel.listClasses();
+		List<String> clsUris = new ArrayList<String>(Arrays.asList(
+				RDFS.Class.getURI(), OWL.Class.getURI()
+			));
 		
-		// loop over them
-		while (classIt.hasNext()) {
-			OntClass cls = classIt.next();
+		Set<Node> classes = new HashSet<Node>();
+		
+		String genClsQueryStr = "SELECT distinct ?cls { ?s a ?cls }";
+		Query genClsQuery = QueryFactory.create(genClsQueryStr);
+		QueryExecution genClsQe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+			genClsQe = QueryExecutionFactory.createServiceRequest(dataset.getSparqlServiceUri(), genClsQuery);
+		} else {
+			genClsQe = QueryExecutionFactory.create(genClsQuery, dataset);
+		}
+		ResultSet genClsRes = genClsQe.execSelect();
+		while (genClsRes.hasNext()) {
+			QuerySolution sol = genClsRes.next();
+			Node cls = sol.get("cls").asNode();
+			classes.add(cls);
+		}
+		genClsQe.close();
+		
+		for(String clsUri : clsUris) {
+			String clsQueryStr =
+				"SELECT ?cls {" +
+					"{ ?cls a <" + clsUri + "> } UNION " +
+					"{ ?cls a ?sth. ?sth <" + RDFS.subClassOf.getURI() + ">+ <" + clsUri + "> }" +
+				"}";
+			Query clsQuery = QueryFactory.create(clsQueryStr);
 			
-			Property clsAsProperty = ResourceFactory.createProperty(cls.getURI());
-			// statements where class appears in predicate position
-			StmtIterator statementsIt = dataset.listStatements(null,
-					clsAsProperty, (RDFNode) null);
+			QueryExecution clsQe;
+			if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+				clsQe = QueryExecutionFactory.createServiceRequest(dataset.getSparqlServiceUri(), clsQuery);
+			} else {
+				clsQe = QueryExecutionFactory.create(clsQuery, dataset);
+			}
 			
-			// loop over them and report
-			while (statementsIt.hasNext()) {
-				Statement statement = statementsIt.next();
+			ResultSet clsRes = clsQe.execSelect();
+
+			while(clsRes.hasNext()) {
+				QuerySolution sol = clsRes.next();
+				Node cls = sol.get("cls").asNode();
+				classes.add(cls);
+			}
+			clsQe.close();
+		}
+		
+		
+		for (Node cls : classes) {
+			
+			if (cls.isBlank()) continue;
+			String clsPredQueryStr = "SELECT * { ?s <" + cls.getURI() + "> ?o }";
+			
+			Query clsPredQuery = QueryFactory.create(clsPredQueryStr);
+			
+			QueryExecution clsPredQe;
+			if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+				clsPredQe = QueryExecutionFactory.createServiceRequest(
+						dataset.getSparqlServiceUri(), clsPredQuery);
+			} else {
+				clsPredQe = QueryExecutionFactory.create(clsPredQuery, dataset);
+			}
+			
+			ResultSet clsPredRes = clsPredQe.execSelect();
+			
+			while (clsPredRes.hasNext()) {
+				QuerySolution sol = clsPredRes.nextSolution();
+				Node subj = sol.get("s").asNode();
+				Node obj = sol.get("o").asNode();
+				Triple triple = new Triple(subj, cls, obj);
 				
 				Set<ViewQuad<ViewDefinition>> viewQuads =
-						pinpointer.getViewCandidates(statement.asTriple());
+						pinpointer.getViewCandidates(triple);
 				
-				writeTripleMeasureToSink(0, statement.asTriple(), viewQuads);
+				writeTripleMeasureToSink(0, triple, viewQuads);
 			}
 		}
 		
