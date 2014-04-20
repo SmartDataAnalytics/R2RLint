@@ -2,12 +2,12 @@ package org.aksw.sparqlify.qa.metrics.consistency;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
@@ -35,13 +35,15 @@ public class NoOntologyHijackingTest {
 	private Pinpointer pinpointer;
 	@Autowired
 	private NoOntologyHijacking metric;
-
+	
+	private List<String> prefixes;
 
 	@Before
 	public void setUp() throws Exception {
 		// initialize dummy pinpointer
 		Collection<ViewDefinition> viewDefs = new ArrayList<ViewDefinition>();
 		pinpointer.registerViewDefs(viewDefs);
+		prefixes = Arrays.asList("http://ex.org/");
 	}
 
 
@@ -60,9 +62,9 @@ public class NoOntologyHijackingTest {
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/res/02> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		dataset.setPrefix("http://ex.org/");
+		dataset.read(new StringReader(content), null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.setPrefixes(prefixes);
 		dataset.setUsedPrefixes(Arrays.asList(
 				"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 				"http://www.w3.org/2000/01/rdf-schema#"));
@@ -100,9 +102,9 @@ public class NoOntologyHijackingTest {
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/res/02> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		dataset.setPrefix("http://ex.org/");
+		dataset.read(new StringReader(content), null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.setPrefixes(prefixes);
 		dataset.setUsedPrefixes(Arrays.asList(
 				"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 				"http://www.w3.org/2000/01/rdf-schema#"));
@@ -140,9 +142,9 @@ public class NoOntologyHijackingTest {
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/res/02> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		dataset.setPrefix("http://ex.org/");
+		dataset.read(new StringReader(content), null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.setPrefixes(prefixes);
 		dataset.setUsedPrefixes(Arrays.asList(
 				"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 				"http://www.w3.org/2000/01/rdf-schema#"));
@@ -180,9 +182,9 @@ public class NoOntologyHijackingTest {
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/res/02> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		dataset.setPrefix("http://ex.org/");
+		dataset.read(new StringReader(content), null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.setPrefixes(prefixes);
 		dataset.setUsedPrefixes(Arrays.asList(
 				"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 				"http://www.w3.org/2000/01/rdf-schema#"));
@@ -221,9 +223,9 @@ public class NoOntologyHijackingTest {
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/res/02> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		dataset.setPrefix("http://ex.org/");
+		dataset.read(new StringReader(content), null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.setPrefixes(prefixes);
 		dataset.setUsedPrefixes(Arrays.asList(
 				"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 				"http://www.w3.org/2000/01/rdf-schema#"));

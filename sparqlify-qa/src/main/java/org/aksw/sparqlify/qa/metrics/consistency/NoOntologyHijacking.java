@@ -16,11 +16,13 @@ import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 /**
  * Ontology hijacking refers to cases where external ontologigal concepts are
@@ -77,51 +79,91 @@ public class NoOntologyHijacking extends MetricImpl implements DatasetMetric {
 			e.printStackTrace();
 		}
 
-		String prefix;
-		if (dataset.getPrefix() != null) prefix = dataset.getPrefix();
-		else prefix = "";
-		
 		// iterate over all triples of the dataset
-		StmtIterator stmntsIt = dataset.listStatements(null, null, (RDFNode) null);
-		while (stmntsIt.hasNext()) {
-			Statement statement = stmntsIt.next();
-			Resource subject = statement.getSubject();
+		for (Triple triple : dataset) {
+			Node subject = triple.getSubject();
+			Node predicate = triple.getPredicate();
+			Node object = triple.getObject();
 			
-			if (!subject.getURI().startsWith(prefix)) {
-				// statement is a hijacking candidate
-				boolean subjectPrefixKnown = false;
-				for (String extPrefix : usedPrefixes) {
-					if (subject.getURI().startsWith(extPrefix)) {
-						subjectPrefixKnown = true;
+			if (subject.isURI()) {
+				boolean isLocal = false;
+				String subjectUri = subject.getURI();
+				for (String prefix : dataset.getPrefixes()) {
+					if (subjectUri.startsWith(prefix)) {
+						isLocal = true;
 						break;
 					}
 				}
-				if (subjectPrefixKnown) {
-					if (!vocabularies.listStatements(subject,
-							statement.getPredicate(), statement.getObject())
-							.hasNext()) {
-					
-						// subject is from a known vocabulary but the statement
-						// about this subject is not part of the corresponding
-						// vocabulary definition --> violation
-						Set<ViewQuad<ViewDefinition>> viewQuads =
-								pinpointer.getViewCandidates(statement.asTriple());
-						writeTripleMeasureToSink(errorValue,
-								statement.asTriple(), viewQuads);
+				
+				if (!isLocal) {
+					// statement is a hijacking candidate
+					boolean subjectPrefixKnown = false;
+					for (String extPrefix : usedPrefixes) {
+						if (subjectUri.startsWith(extPrefix)) {
+							subjectPrefixKnown = true;
+							break;
+						}
 					}
+					if (subjectPrefixKnown) {
+						// build statement
+						Resource subjRes = ResourceFactory.createResource(subject.getURI());
 					
-				} else {
-					// non-local subject is from a vocabulary not known by the
-					// VocabularyLoader instance --> it cannot be confirmed if
-					// this is an ontology hijacking case or not --> bad smell
-					Set<ViewQuad<ViewDefinition>> viewQuads =
-							pinpointer.getViewCandidates(statement.asTriple());
-					writeTripleMeasureToSink(badSmellValue,
-							statement.asTriple(), viewQuads);
+						Property predRes = ResourceFactory.createProperty(predicate.getURI());
+					
+						RDFNode objRes = convertObjectNodeToRes(object);
+						
+						if (!vocabularies.listStatements(subjRes, predRes, objRes).hasNext()) {
+					
+							// subject is from a known vocabulary but the statement
+							// about this subject is not part of the corresponding
+							// vocabulary definition --> violation
+							Set<ViewQuad<ViewDefinition>> viewQuads =
+									pinpointer.getViewCandidates(triple);
+							writeTripleMeasureToSink(errorValue, triple, viewQuads);
+						}
+					} else {
+						// non-local subject is from a vocabulary not known by the
+						// VocabularyLoader instance --> it cannot be confirmed if
+						// this is an ontology hijacking case or not --> bad smell
+						Set<ViewQuad<ViewDefinition>> viewQuads =
+								pinpointer.getViewCandidates(triple);
+						writeTripleMeasureToSink(badSmellValue, triple, viewQuads);
+					}
 				}
 			}
 		}
 
+	}
+	
+	private RDFNode convertObjectNodeToRes(Node object) {
+		RDFNode objRes;
+		
+		// URI
+		if (object.isURI()) {
+			objRes = ResourceFactory.createResource(object.getURI());
+			
+		// literal
+		} else if (object.isLiteral()) {
+			// typed literal
+			if (object.getLiteralDatatypeURI() != null
+					&& !object.getLiteralDatatypeURI().isEmpty()) {
+				objRes = ResourceFactory.createTypedLiteral(object.getLiteralLexicalForm(), object.getLiteralDatatype());
+			} else {
+				// plain literal with lang tag
+				if (object.getLiteralLanguage() != null
+						&& !object.getLiteralLanguage().isEmpty()) {
+					objRes = ResourceFactory.createLangLiteral(object.getLiteralLexicalForm(), object.getLiteralLanguage());
+				// plain literal without lang tag
+				} else {
+					objRes = ResourceFactory.createPlainLiteral(object.getLiteralLexicalForm());
+				}
+			}
+		} else {
+			// blank node
+			objRes = ResourceFactory.createResource();
+		}
+		
+		return objRes;
 	}
 
 }
