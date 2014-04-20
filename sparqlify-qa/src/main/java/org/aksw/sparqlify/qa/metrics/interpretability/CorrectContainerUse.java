@@ -210,17 +210,24 @@ public class CorrectContainerUse extends MetricImpl implements
 
 	private void ckeckLeadingZeros(SparqlifyDataset dataset)
 			throws NotImplementedException, SQLException {
+		// http://www.w3.org/TR/2003/WD-rdf-syntax-grammar-20030123/#rdf-ns-uri
 		
 		String queryStr =
-			"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
-			"SELECT * {" +
+			"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+			"SELECT * { " +
 				"?s ?p ?o . " +
-				"FILTER(regex(str(?p), \"^http://www.w3.org/1999/02/22-rdf-syntax-ns#_0\"))" +
+				"FILTER(regex(str(?p), \"^http://www.w3.org/1999/02/22-rdf-syntax-ns#_0\")) " +
 			"}";
 		
 		Query query = QueryFactory.create(queryStr);
 		
-		QueryExecution qe = QueryExecutionFactory.create(query, dataset);
+		QueryExecution qe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+			qe = QueryExecutionFactory.createServiceRequest(
+					dataset.getSparqlServiceUri(), query);
+		} else {
+			qe = QueryExecutionFactory.create(query, dataset);
+		}
 		ResultSet res = qe.execSelect();
 		
 		List<Triple> leadingZeroTriples = new ArrayList<Triple>();
