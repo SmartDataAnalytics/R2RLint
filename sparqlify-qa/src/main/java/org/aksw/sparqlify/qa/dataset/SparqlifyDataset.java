@@ -81,10 +81,8 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 		it = new NTripleIterator(iteratorStream, null, null);
 	}
 	
-	public void setPrefixes(String prefixes) {
-		for (String prefix : prefixes.split(",")) {
-			this.prefixes.add(prefix.trim());
-		}
+	public void setPrefixes(List<String> prefixes) {
+		this.prefixes = prefixes;
 	}
 
 

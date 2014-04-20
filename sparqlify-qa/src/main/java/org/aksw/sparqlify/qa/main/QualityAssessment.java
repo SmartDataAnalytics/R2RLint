@@ -32,7 +32,7 @@ import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.exceptions.TripleParseException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.Metric;
 import org.aksw.sparqlify.qa.metrics.NodeMetric;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
@@ -52,12 +52,12 @@ import com.hp.hpl.jena.graph.Triple;
  * 
  * The QualityAssessment class is meant to do the actual quality assessment. All
  * it needs to do that are
- * - a Sparqlify dump (SparqlifyDump)
+ * - a Sparqlify dump (SparqlifyDump) or a SPARQL service
  * - the view definitions (Collection<ViewDefinition>)
  * - access the to database (Connection)
  * - data quality dimensions holding certain metrics to be applied to the data
- *   of the Sparqlify dump (Collection<Dimension> and Collection<Metric>
- *   respectively)
+ *   of the Sparqlify dump or SPARQL service (Collection<Dimension> and
+ *   Collection<Metric> respectively)
  * - a target to write relevant measure data to (MeasureDataSink)
  * 
  * The following steps are done in the given order:
@@ -93,7 +93,7 @@ public class QualityAssessment {
 	private String datasetServiceUri;
 	private String datasetGraphIri;
 	private String datasetDumpFilePath;
-	private String datasetPrefix;
+	private List<String> datasetPrefixes;
 	private List<String> datasetUsedPrefixes;
 	private SparqlifyDataset dataset;
 	
@@ -217,14 +217,14 @@ public class QualityAssessment {
 						metric.setName(metricName);
 						metric.setParentDimension(dimensionName);
 						metric.initMeasureDataSink();
-						metric.setPrefix(datasetPrefix);
+						metric.setPrefixes(datasetPrefixes);
 						if (metric instanceof DatasetMetric) {
 							datasetMetrics.add(metric);
 						} else if (metric instanceof TripleMetric) {
 							tripleMetrics.add(metric);
 						} else if (metric instanceof NodeMetric) {
 							nodeMetrics.add(metric);
-						} else if (metric instanceof MappingMetric) {
+						} else if (metric instanceof ViewMetric) {
 							mappingMetrics.add(metric);
 						}
 					}
@@ -259,7 +259,7 @@ public class QualityAssessment {
 			dataset = new SparqlifyDataset();
 			dataset.readFromDump(datasetDumpFilePath);
 		}
-		dataset.setPrefix(datasetPrefix);
+		dataset.setPrefixes(datasetPrefixes);
 		dataset.setUsedPrefixes(datasetUsedPrefixes);
 	}
 	
@@ -285,10 +285,9 @@ public class QualityAssessment {
 			logger.info("starting triple assessment");
 			int counter = 0;
 			for (Triple triple : dataset) {
+				counter++;
 				if (runTripleAssessment) assessTriple(triple);
 				if (runNodeAssessment) assessNodes(triple);
-				counter++;
-				
 				if (counter%1000 == 0) {
 					logger.info(counter + "triples processed");
 				}
@@ -328,7 +327,7 @@ public class QualityAssessment {
 		logger.info("assessMappings() called");
 		for (Metric metric : mappingMetrics) {
 			logger.info("start assessment with metric " + metric.getName());
-			((MappingMetric) metric).assessMappings(viewDefs);
+			((ViewMetric) metric).assessViews(viewDefs);
 			logger.info("finished assessment with metric " + metric.getName());
 		}
 		logger.info("finished assessMappings()");
@@ -364,7 +363,8 @@ public class QualityAssessment {
 				.split(",")));
 	}
 	
-	public void setDatasetPrefix(String prefix) {
-		datasetPrefix = prefix;
+	public void setDatasetPrefixes(String prefixes) {
+		datasetPrefixes = new ArrayList<String>(Arrays.asList(
+				prefixes.split(",")));
 	}
 }
