@@ -15,6 +15,9 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.apache.jena.atlas.web.HttpException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -71,6 +74,8 @@ import com.hp.hpl.jena.reasoner.ValidityReport.Report;
  * - OWL.intersectionOf
  * - OWL.unionOf
  * 
+ * 
+ * XXX: added -XX:-UseGCOverheadLimit and increased the usable amount of memory
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
@@ -80,6 +85,7 @@ public class BasicOntologyConformance extends MetricImpl implements DatasetMetri
 	@Autowired
 	private Pinpointer pinpointer;
 	
+	private Logger logger = LoggerFactory.getLogger(BasicOntologyConformance.class);
 	final static String correctDtPropValue = "correct_datatype_property_value";
 	final static String correctObjPropValue = "correct_object_property_value";
 	final static String disjointClassesConformance = "disjoint_classes_conformance";
@@ -106,8 +112,12 @@ public class BasicOntologyConformance extends MetricImpl implements DatasetMetri
 			throws NotImplementedException, SQLException {
 
 		Reasoner reasoner = ReasonerRegistry.getOWLMicroReasoner();
+		logger.debug("building inf model");
 		InfModel infModel = ModelFactory.createInfModel(reasoner, dataset);
+		infModel.prepare();
+		logger.debug("built inf model");
 		
+		logger.debug("generating valReport");
 		ValidityReport valReport = infModel.validate();
 		Iterator<Report> reportIt = valReport.getReports();
 		
@@ -128,6 +138,14 @@ public class BasicOntologyConformance extends MetricImpl implements DatasetMetri
 				
 					pinpointRes.add(tmp);
 				}
+				
+//				// <just for Amrapali's QA>
+//				float val;
+//				if (report.isError()) val = 0;
+//				else val = (float) 0.5;
+//				Set<ViewQuad<ViewDefinition>> viewQuads = new HashSet<ViewQuad<ViewDefinition>>();
+//				writeTripleMeasureToSink(val, triple, viewQuads);
+//				// </just for Amrapali's QA>
 			}
 			float val;
 			if (report.isError()) val = 0;
@@ -142,8 +160,12 @@ public class BasicOntologyConformance extends MetricImpl implements DatasetMetri
 		StringBuilder queryStr = new StringBuilder(); 
 		queryStr.append("ASK { ");
 		
-		queryStr.append(String.format("<%s> ", triple.getSubject().getURI()));
-		queryStr.append(String.format("<%s> ", triple.getPredicate().getURI()));
+		try {
+			queryStr.append(String.format("<%s> ", triple.getSubject().getURI()));
+			queryStr.append(String.format("<%s> ", triple.getPredicate().getURI()));
+		} catch (NullPointerException e) {
+			return false;
+		}
 		
 		Node obj = triple.getObject();
 		if (obj.isLiteral()) {
@@ -184,9 +206,28 @@ public class BasicOntologyConformance extends MetricImpl implements DatasetMetri
 		
 		Query query = QueryFactory.create(queryStr.toString());
 		
-		QueryExecution qe = QueryExecutionFactory.create(query, dataset);
-		boolean res = qe.execAsk();
+		QueryExecution qe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+			qe = QueryExecutionFactory.createServiceRequest(dataset.getSparqlServiceUri(), query);
+		} else {
+			qe = QueryExecutionFactory.create(query, dataset);
+		}
 		
+		boolean res;
+		try {
+			res = qe.execAsk();
+		} catch (HttpException e) {
+			/*
+			 * Exception in thread "main" HttpException: 400 Bad Request
+			 * Virtuoso 22005 Error SR334: Invalid floating point value converting 'NAN'
+			 * 
+			 * SPARQL query:
+			 * ASK
+			 * WHERE
+			 *   { <http://linkedgeodata.org/triplify/way25406700> <http://linkedgeodata.org/ontology/frequency> "NAN"^^<http://www.w3.org/2001/XMLSchema#float> }
+			 */
+			res = false;
+		}
 		qe.close(); 
 		
 		return res;
