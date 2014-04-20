@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 
 	private Iterator<Triple> it;
 	// to be able to differentiate between "re-used" and own resources
-	private String prefix = null;
+	private List<String> prefixes = null;
 	private List<String> usedPrefixes = null;
 	private boolean sparqlWrapping = false;
 	private long size = -1;
@@ -53,6 +54,7 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 	public SparqlifyDataset(Graph g) {
 		super(g);
 		sparqlWrapping = true;
+		prefixes = new ArrayList<String>();
 	}
 
 	public boolean isSparqlService() {
@@ -70,26 +72,24 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 			return ((SparqlGraph) getGraph()).getGraphIri();
 		} else return null;
 	}
-
+	
 	public void readFromDump(String dumpFilePath) throws IOException {
 		
 		File dumpFile = new File(dumpFilePath);
-		InputStream modelStream = new FileInputStream(dumpFile);
-		read(modelStream, null, "TTL");
-		modelStream.close();
 		
 		InputStream iteratorStream = new FileInputStream(dumpFile);
 		it = new NTripleIterator(iteratorStream, null, null);
 	}
-
-
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
+	
+	public void setPrefixes(String prefixes) {
+		for (String prefix : prefixes.split(",")) {
+			this.prefixes.add(prefix.trim());
+		}
 	}
 
 
-	public String getPrefix() {
-		return prefix;
+	public List<String> getPrefixes() {
+		return prefixes;
 	}
 
 
@@ -105,8 +105,7 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 	public Iterator<Triple> iterator() {
 		return it;
 	}
-
-
+	
 	public void registerDump(String dumpFilePath) throws FileNotFoundException {
 		File dumpFile = new File(dumpFilePath);
 		InputStream iteratorStream = new FileInputStream(dumpFile);
@@ -118,15 +117,17 @@ public class SparqlifyDataset extends ModelCom implements Model, Iterable<Triple
 	public long size() {
 		if (sparqlWrapping) {
 			if (size < 0 || !cachingEnabled) {
-				Query query = QueryFactory.create("SELECT DISTINCT (count(*) AS ?count) {?s ?p ?o}");
-				QueryExecution qe = QueryExecutionFactory.sparqlService(((SparqlGraph) getGraph()).getServiceUri(), query);
+				Query query = QueryFactory.create(
+						"SELECT DISTINCT (count(*) AS ?count) {?s ?p ?o}");
+				QueryExecution qe = QueryExecutionFactory.sparqlService(
+						((SparqlGraph) getGraph()).getServiceUri(),
+						query);
 				ResultSet res = qe.execSelect();
 				RDFNode count = null;
 				while(res.hasNext())
 				{
 					QuerySolution sol = res.nextSolution();
 					count = sol.get("count").asLiteral();
-					
 				}
 				qe.close();
 				
