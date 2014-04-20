@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.believability;
+package org.aksw.sparqlify.qa.metrics.understandability;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -73,6 +73,7 @@ public class DatasetMetadata extends MetricImpl implements DatasetMetric {
 	public void assessDataset(SparqlifyDataset dataset)
 			throws NotImplementedException, SQLException {
 
+		// TODO: maybe use a SPARQL query here
 		// get all defined datasets
 		StmtIterator datasetIt = dataset.listStatements(null, RDF.type, VoID.Dataset);
 		
@@ -81,9 +82,13 @@ public class DatasetMetadata extends MetricImpl implements DatasetMetric {
 			// not even a dataset resource defined
 			Node datasetNode;
 			try {
-				datasetNode = NodeFactory.createURI(dataset.getPrefix());
+				// create dummy resource representing the dataset
+				datasetNode = NodeFactory.createURI(dataset.getPrefixes().get(0));
 			} catch (JenaException e) {
-				datasetNode = NodeFactory.createURI(dataset.getPrefix() + "#");
+				datasetNode = NodeFactory.createURI(dataset.getPrefixes() + "#");
+			} catch (NullPointerException e) {
+				// ...in case there are no local prefixes defined
+				datasetNode = NodeFactory.createURI("#");
 			}
 				
 			writeNodeMeasureToSink(noDatasetStatementsValue, datasetNode);
