@@ -45,7 +45,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 public class InterlinkingCompleteness extends MetricImpl implements DatasetMetric {
 
 
-	private String numInterlinksQueryStr;
+	private String numInterlinkedResQueryStr;
 	private String numSubjQueryStr;
 	private String numObjQueryStr;
 
@@ -53,98 +53,154 @@ public class InterlinkingCompleteness extends MetricImpl implements DatasetMetri
 	@Override
 	public void assessDataset(SparqlifyDataset dataset)
 			throws NotImplementedException, SQLException {
-	
+		
+		/*
+		 *  build string to check if a resource ?r is local
+		 */
+		String localPrefixesRegexTest =
+				"  ( ";
+		for (String prefix : dataset.getPrefixes()) {
+			localPrefixesRegexTest +=
+						"regex(str(?r), \"^" + prefix + "\") || ";
+		}
+		// strip off the last four characters: either ' || ' or '  ( '
+		localPrefixesRegexTest = localPrefixesRegexTest.substring(0, localPrefixesRegexTest.length() - 4);
+		// close parenthesis (if there were any local prefixes to consider)
+		if (dataset.getPrefixes().size() > 0) {
+			localPrefixesRegexTest +=
+				"  ) && ";
+		}
+		
+		/*
+		 *  build string to check if resource ?n is external
+		 */
+		String notLocalPrefixesRegexTest = 
+				"  ( ";
+		for (String prefix : dataset.getPrefixes()) {
+			notLocalPrefixesRegexTest +=
+						"!regex(str(?n), \"^" + prefix + "\") && ";
+		}
+		// strip off the last four characters: either '  ( ' or ' && '
+		notLocalPrefixesRegexTest = notLocalPrefixesRegexTest.substring(0, notLocalPrefixesRegexTest.length() - 4);
+		if (dataset.getPrefixes().size() > 0) {
+			notLocalPrefixesRegexTest +=
+				"  ) && ";
+		}
+		
+		
 		numSubjQueryStr =
-				"Prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
-				"Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>" +
+			"Prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+			"Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
+					
+			"SELECT (COUNT(*) AS ?count) {" +
+				"SELECT DISTINCT ?r {" +
+					"?r ?p ?o. " +
+					"OPTIONAL {?i rdf:type ?r}. " +
+					"FILTER (" +
+						// must not be a class
+						"!BOUND(?i) && " +
 						
-				"SELECT (COUNT(*) AS ?count) {" +
-					"SELECT DISTINCT ?s {" +
-						"?s ?p ?o." +
-						"OPTIONAL {?i rdf:type ?s}. " +
-						"FILTER (" +
-							// must not be a class
-							"!BOUND(?i) && " +
-							// must be a local resource 
-							"regex(str(?s), \"^" + dataset.getPrefix() + "\") &&" +
-							// must not be a class
-							"?p != rdfs:subClassOf" +
-						")" +
-					"}" +
-				"}";
+						// must be a local resource 
+						localPrefixesRegexTest +
+						
+						// must not be a class
+						" ?p != rdfs:subClassOf " +
+					")" +
+				"}" +
+			"}";
 		
 		numObjQueryStr =
 			"Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
-			"Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>" +
+			"Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
 						
-			"SELECT (COUNT(*) AS ?count) {" +
-				"SELECT DISTINCT ?o {" +
-					"?s ?p ?o. " +
-					"OPTIONAL{?o ?p2 ?o2}. " +
-					"OPTIONAL {?i rdf:type ?o}. " +
+			"SELECT (COUNT(*) AS ?count) { " +
+				"SELECT DISTINCT ?r {" +
+					"?s ?p ?r. " +
+					"OPTIONAL{?r ?p2 ?o}. " +
+					"OPTIONAL {?i rdf:type ?r}. " +
 
 					"FILTER(" +
-						"isURI(?o) && " +  // must not be a literal
+						// must not be a literal
+						"isURI(?r) && " +
+					
 						// must not be a duplicate of an already captured subject
-						"!BOUND(?o2) && " +  
+						"!BOUND(?o) && " +  
+						
 						// must not be a class
 						"!BOUND(?i) && " +
-						// must be a local resource 
-						"regex(str(?o), \"^" + dataset.getPrefix() + "\") && " +
+						
+						// must be a local resource
+						localPrefixesRegexTest +
+						
 						// must not be a class (assigned via rdf:type)
 						"?p != rdf:type && " +
+						
 						// must not be a class
 						"?p != rdfs:subClassOf" +
 					")" +
 				"}" +
 			"}";
 		
-		numInterlinksQueryStr = 
-				"Prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
-				"Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>" +
-					
-				"SELECT (COUNT(*) AS ?count) {" +
+		numInterlinkedResQueryStr = 
+			"Prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+			"Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
+				
+			"SELECT (COUNT(*) AS ?count) { " +
+				"SELECT DISTINCT ?n { " +
 					"{" +
 						// <external instance> <some predicate> <local instance>
-						"?s ?p ?o." +
-						"OPTIONAL { ?i rdf:type ?s }. " +
+						"?n ?p ?r. " +
+						"OPTIONAL { ?i rdf:type ?n }. " +
 						"FILTER (" +
-							// ?o must not be a literal
-							"isURI(?o) && " +
-							// ?s must not be a class
+							// ?r must not be a literal
+							"isURI(?r) && " +
+							
+							// ?n must not be a class
 							"!BOUND(?i) && " +
-							// ?o must not be a class
+							
+							// ?r must not be a class
 							"?p != rdf:type && " +
-							"?p != rdfs:subClassOf && " +
-							// ?s must be an external
-							"!regex(str(?s), \"^" + dataset.getPrefix() + "\") && " +
-							// ?o must be a local
-							"regex(str(?o), \"^" + dataset.getPrefix() + "\") " +
+							
+							// ?e must be external
+							notLocalPrefixesRegexTest +
+							
+							// ?r must be a local
+							localPrefixesRegexTest +
+							
+							// ?n and ?r must not be classes
+							"?p != rdfs:subClassOf " +
+							
 						")" +
 					"} UNION {" +
 						// <local instance> <some predicate> <external instance>
-						"?s ?p ?o. " +
-						"OPTIONAL { ?i rdf:type ?s }. " +
-						"FILTER(" +
-							// ?o must not be a literal 
-							"isURI(?o) && " +
-							// ?s must not be a class
+						"?r ?p ?n. " +
+						"OPTIONAL { ?i rdf:type ?r }. " +
+						"FILTER (" +
+							// ?n must not be a literal 
+							"isURI(?n) && " +
+							
+							// ?r must not be a class
 							"!BOUND(?i) && " +
-							// ?o must not be a class
+							
+							// ?n must not be a class
 							"?p != rdf:type && " +
-							// ?s and ?o must not be classes
-							"?p != rdfs:subClassOf && " +
-							// ?s must be local
-							"regex(str(?s), \"^" + dataset.getPrefix() + "\") && " +
-							// ?o must be external
-							"!regex(str(?o), \"^" + dataset.getPrefix() + "\") " +
+							
+							// ?r must be local
+							localPrefixesRegexTest +
+							
+							// ?n must be external
+							notLocalPrefixesRegexTest +
+							
+							// ?r and ?n must not be classes
+							"?p != rdfs:subClassOf " +
 						")" +
-					"}" +
-				"}";
+					"} " +
+				"} " +
+			"}";
 		
 		
 		int numResources = getNumResources(dataset);
-		int numInterlinkedResources = getCountResult(numInterlinksQueryStr, dataset);
+		int numInterlinkedResources = getCountResult(numInterlinkedResQueryStr, dataset);
 
 		float value = (float) numInterlinkedResources / (float) numResources;
 		if (threshold == 0 || value < threshold ) {
@@ -172,7 +228,6 @@ public class InterlinkingCompleteness extends MetricImpl implements DatasetMetri
 		} else {
 			qe = QueryExecutionFactory.create(query, dataset);
 		}
-//		QueryExecution qe = QueryExecutionFactory.create(query, dataset);
 		ResultSet res = qe.execSelect();
 		
 		while(res.hasNext())

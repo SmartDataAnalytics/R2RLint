@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.StringReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
@@ -24,9 +27,10 @@ public class InterlinkingCompletenessTest {
 	@Autowired
 	private InterlinkingCompleteness metric;
 	
-	private final String prefix = "http://ex.org/";
+	private final List<String> prefixes =
+			new ArrayList<String>(Arrays.asList("http://ex.org/"));
 	
-	// 0 interlinks; 7 subj + 1 obj = 8 instances
+	// 0 external interlinked instances; 7 subj + 1 obj = 8 local instances
 	private final String datasetContent01 =
 "<http://ex.org/sth/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/classes/Sth> ." +
 "<http://ex.org/sth/01> <http://www.w3.org/2000/01/rdf-schema#label> \"Something 01\" ." +
@@ -56,7 +60,7 @@ public class InterlinkingCompletenessTest {
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		StringReader reader = new StringReader(datasetContent01);
 		dataset.read(reader, null, "TTL");
-		dataset.setPrefix(prefix);
+		dataset.setPrefixes(prefixes);
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 0/(float) 8;
@@ -64,7 +68,7 @@ public class InterlinkingCompletenessTest {
 	}
 
 
-	// 0 interlinks; 7 subj + 1 obj = 8 instances
+	// 0 external interlinked instances; 7 subj + 1 obj = 8 local instances
 	private final String datasetContent02 =
 "<http://ex.org/sth/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://other.org/classes/Sth> ." +
 "<http://ex.org/sth/01> <http://www.w3.org/2000/01/rdf-schema#label> \"Something 01\" ." +
@@ -94,7 +98,7 @@ public class InterlinkingCompletenessTest {
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		StringReader reader = new StringReader(datasetContent02);
 		dataset.read(reader, null, "TTL");
-		dataset.setPrefix(prefix);
+		dataset.setPrefixes(prefixes);
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 0/(float) 8;
@@ -102,7 +106,7 @@ public class InterlinkingCompletenessTest {
 	}
 	
 	
-	// 0 interlinks; 7 subj + 1 obj = 8 instances
+	// 0 external interlinked instances; 7 subj + 1 obj = 8 local instances
 	private final String datasetContent03 =
 "<http://other.org/classes/Sth> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ex.org/classes/Sth> ." +
 "<http://ex.org/sth/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://other.org/classes/Sth> ." +
@@ -133,7 +137,7 @@ public class InterlinkingCompletenessTest {
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		StringReader reader = new StringReader(datasetContent03);
 		dataset.read(reader, null, "TTL");
-		dataset.setPrefix(prefix);
+		dataset.setPrefixes(prefixes);
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 0/(float) 8;
@@ -141,7 +145,7 @@ public class InterlinkingCompletenessTest {
 	}
 	
 	
-	// 0 interlinks; 5 subj + 3 obj = instances
+	// 0 external interlinked instances; 5 subj + 3 obj = local instances
 	private final String datasetContent04 =
 "<http://other.org/classes/Sth> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ex.org/classes/Sth> ." +
 "<http://ex.org/sth/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://other.org/classes/Sth> ." +
@@ -172,7 +176,7 @@ public class InterlinkingCompletenessTest {
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		StringReader reader = new StringReader(datasetContent04);
 		dataset.read(reader, null, "TTL");
-		dataset.setPrefix(prefix);
+		dataset.setPrefixes(prefixes);
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 0/(float) 8;
@@ -180,7 +184,7 @@ public class InterlinkingCompletenessTest {
 	}
 	
 	
-	// 2 interlinks; 5 subj + 1 obj = 6 instances
+	// 2 external, interlinked instances; 5 subj + 1 obj = 6 local instances
 	private final String datasetContent05 =
 "<http://other.org/classes/Sth> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ex.org/classes/Sth> ." +
 "<http://ex.org/sth/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/classes/Sth> ." +
@@ -211,7 +215,7 @@ public class InterlinkingCompletenessTest {
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		StringReader reader = new StringReader(datasetContent05);
 		dataset.read(reader, null, "TTL");
-		dataset.setPrefix(prefix);
+		dataset.setPrefixes(prefixes);
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 2/(float) 6;
@@ -219,7 +223,7 @@ public class InterlinkingCompletenessTest {
 	}
 	
 	
-	// 2 interlinks; 5 subj + 1 obj = 6 instances
+	// 2 external, interlinked instances; 5 subj + 1 obj = 6 local instances
 	private final String datasetContent06 =
 "<http://other.org/classes/Sth> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ex.org/classes/Sth> ." +
 "<http://ex.org/sth/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/classes/Sth> ." +
@@ -250,7 +254,7 @@ public class InterlinkingCompletenessTest {
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		StringReader reader = new StringReader(datasetContent06);
 		dataset.read(reader, null, "TTL");
-		dataset.setPrefix(prefix);
+		dataset.setPrefixes(prefixes);
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 2/(float) 6;
@@ -258,7 +262,7 @@ public class InterlinkingCompletenessTest {
 	}
 	
 	
-	// 4 interlinks; 5 subj + 3 obj = 8 instances
+	// 4 external, interlinked instances; 5 subj + 3 obj = 8 local instances
 	private final String datasetContent07 =
 "<http://other.org/classes/Sth2> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ex.org/classes/Sth> ." +
 "<http://ex.org/sth/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/classes/Sth> ." +
@@ -291,7 +295,7 @@ public class InterlinkingCompletenessTest {
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		StringReader reader = new StringReader(datasetContent07);
 		dataset.read(reader, null, "TTL");
-		dataset.setPrefix(prefix);
+		dataset.setPrefixes(prefixes);
 		
 		metric.assessDataset(dataset);
 		float expected = (float) 4/(float) 8;
@@ -299,7 +303,7 @@ public class InterlinkingCompletenessTest {
 	}
 	
 	
-	// 3 interlinks; 5 subj + 1 obj = 7 instances
+	// 2 distinct external, interlinked instances; 5 subj + 2 obj = 7 local instances
 	private final String datasetContent08 =
 "<http://ex.org/classes/Sth2>  <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://other.org/classes/Sth2> ." +
 "<http://ex.org/sth/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/classes/Sth> ." +
@@ -332,10 +336,10 @@ public class InterlinkingCompletenessTest {
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		StringReader reader = new StringReader(datasetContent08);
 		dataset.read(reader, null, "TTL");
-		dataset.setPrefix(prefix);
+		dataset.setPrefixes(prefixes);
 		
 		metric.assessDataset(dataset);
-		float expected = (float) 3/(float) 7;
+		float expected = (float) 2/(float) 7;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
 }
