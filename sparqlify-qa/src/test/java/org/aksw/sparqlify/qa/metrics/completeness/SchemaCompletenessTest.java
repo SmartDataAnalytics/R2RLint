@@ -260,7 +260,7 @@ public class SchemaCompletenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(employeeView1, deptView));
+		metric.assessViews(Arrays.asList(employeeView1, deptView));
 		
 		float expected = 10/(float) 13;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -274,7 +274,7 @@ public class SchemaCompletenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(employeeView2, deptView));
+		metric.assessViews(Arrays.asList(employeeView2, deptView));
 		
 		float expected = 21/(float) 13;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -289,14 +289,10 @@ public class SchemaCompletenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(employeeView2, deptView));
+		metric.assessViews(Arrays.asList(employeeView2, deptView));
 		metric.setCountVariablePredicates(true);
 		
 		float expected = 11/(float) 13;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
 	}
-
-	
-
-	
 }

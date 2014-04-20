@@ -20,7 +20,7 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,7 +48,7 @@ import com.hp.hpl.jena.sparql.core.Var;
  *
  */
 @Component
-public class SchemaCompleteness extends MetricImpl implements MappingMetric {
+public class SchemaCompleteness extends MetricImpl implements ViewMetric {
 	
 	@Autowired
 	private DataSource rdb;
@@ -79,7 +79,7 @@ public class SchemaCompleteness extends MetricImpl implements MappingMetric {
 
 
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs)
+	public void assessViews(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException, SQLException {
 
 		int numColumns = getNumColumns();
