@@ -22,6 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.vocabulary.OWL2;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
+import com.hp.hpl.jena.vocabulary.XSD;
+
 /**
  * TODO: This tests do not cover the case where the Jena reasoner adds
  * deprecation statements given in an external vocabulary/ontology. The problem
@@ -57,9 +63,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset01() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.class + "> . " +
+			"<http://ex.org/pred01> <"+ RDF.type +"> <" + RDF.predicate + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -85,12 +91,12 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 	/*
-	 * deprecated class (assigned via rdf:type); subject position
+	 * deprecated class declared via rdf:type but not used
 	 */
 	private SparqlifyDataset dataset02() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DeprecatedClass> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + OWL.DeprecatedClass + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -110,20 +116,20 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset02();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
-
+	
 	/*
-	 * deprecated class (assigned via rdf:type); object position
+	 * deprecated class declared via rdf:type, used on subject position
 	 */
 	private SparqlifyDataset dataset03() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DeprecatedClass> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + OWL.DeprecatedClass + "> . " +
+			"<http://ex.org/Cls01> <" + RDFS.label + "> \"deprecated class\" . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -145,18 +151,18 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		
 		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
-
-
+	
+	
 	/*
-	 * deprecated class (assigned via owl:equivalentClass (subject)); subject
-	 * position
+	 * deprecated class assigned via rdf:type, used on object position
 	 */
 	private SparqlifyDataset dataset04() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/2002/07/owl#DeprecatedClass> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + OWL.DeprecatedClass + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -176,21 +182,19 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset04();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 
 	/*
-	 * deprecated class (assigned via owl:equivalentClass (subject)); object
-	 * position
+	 * deprecated class declared via owl:equivalentClass (subject), but not used 
 	 */
 	private SparqlifyDataset dataset05() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/2002/07/owl#equivalentClass> <http://www.w3.org/2002/07/owl#DeprecatedClass> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + OWL.equivalentClass + "> <" + OWL.DeprecatedClass + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -210,21 +214,21 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset05();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
-
-
+	
+	
 	/*
-	 * deprecated class (assigned via owl:equivalentClass (object)); subject
-	 * position
+	 * deprecated class declared via owl:equivalentClass (subject), used on
+	 * subject position 
 	 */
 	private SparqlifyDataset dataset06() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://www.w3.org/2002/07/owl#DeprecatedClass> <http://www.w3.org/2002/07/owl#equivalentClass> <http://ex.org/Cls01> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
+			"<http://ex.org/Cls01> <" + OWL.equivalentClass + "> <" + OWL.DeprecatedClass + "> . " +
+			"<http://ex.org/Cls01> <" + RDFS.label + "> \"deprecated class\" . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -246,18 +250,20 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		
 		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
-
+	
+	
 	/*
-	 * deprecated class (assigned via owl:equivalentClass (object)); object
-	 * position
+	 * deprecated class declared via owl:equivalentClass (subject), used on
+	 * object position
 	 */
 	private SparqlifyDataset dataset07() {
 		String content = 
-			"<http://www.w3.org/2002/07/owl#DeprecatedClass> <http://www.w3.org/2002/07/owl#equivalentClass> <http://ex.org/Cls01> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
+			"<http://ex.org/Cls01> <" + OWL.equivalentClass + "> <" + OWL.DeprecatedClass + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -283,16 +289,14 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	}
 
 
-	
 	/*
-	 * deprecated property (assigned via rdf:type); subject position
+	 * deprecated class declared via owl:equivalentClass (object), but not used
 	 */
 	private SparqlifyDataset dataset08() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DeprecatedProperty> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
-			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
+			"<" + OWL.DeprecatedClass + "> <" + OWL.equivalentClass + "> <http://ex.org/Cls01> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -311,20 +315,21 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset08();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
-
-
+	
+	
 	/*
-	 * deprecated property (assigned via rdf:type); predicate position
+	 * deprecated class declared via owl:equivalentClass (object), used on 
+	 * subject position
 	 */
 	private SparqlifyDataset dataset09() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DeprecatedProperty> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<" + OWL.DeprecatedClass + "> <" + OWL.equivalentClass + "> <http://ex.org/Cls01> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -345,21 +350,21 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		metric.assessDataset(dataset);
 		
 		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
-
-
+	
+	
 	/*
-	 * deprecated property (assigned via rdf:type); object position
+	 * deprecated class declared via owl:equivalentClass (object), used on
+	 * object position
 	 */
 	private SparqlifyDataset dataset10() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DeprecatedProperty> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
-			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " +
-			"<http://ex.org/pred02> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://ex.org/pred01> . ";
+			"<" + OWL.DeprecatedClass + "> <" + OWL.equivalentClass + "> <http://ex.org/Cls01> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> . " +
+			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -378,21 +383,21 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset10();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
 		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 
+	
 	/*
-	 * deprecated property (assigned via owl:equivalentProperty (subject));
-	 * subject position
+	 * deprecated property declared via rdf:type, but not used 
 	 */
 	private SparqlifyDataset dataset11() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/2002/07/owl#equivalentProperty> <http://www.w3.org/2002/07/owl#DeprecatedProperty> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + OWL.DeprecatedProperty + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -412,22 +417,21 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset11();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
-
 	/*
-	 * deprecated property (assigned via owl:equivalentProperty (subject));
-	 * predicate position
+	 * deprecated property declared via rdf:type, used on subject position
 	 */
 	private SparqlifyDataset dataset12() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/2002/07/owl#equivalentProperty> <http://www.w3.org/2002/07/owl#DeprecatedProperty> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
-			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + OWL.DeprecatedProperty + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.label + "> \"deprecated property\" . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -447,22 +451,20 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		metric.assessDataset(dataset);
 		
 		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 
 	/*
-	 * deprecated property (assigned via owl:equivalentProperty (subject)); object
-	 * position
+	 * deprecated property declared via rdf:type, used on predicate position
 	 */
 	private SparqlifyDataset dataset13() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/2002/07/owl#equivalentProperty> <http://www.w3.org/2002/07/owl#DeprecatedProperty> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
-			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " +
-			"<http://ex.org/pred02> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://ex.org/pred01> . ";
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + OWL.DeprecatedProperty + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -481,23 +483,22 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset13();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 
 	/*
-	 * deprecated property (assigned via owl:equivalentProperty (object));
-	 * subject position
+	 * deprecated property declared via rdf:type; used on object position
 	 */
 	private SparqlifyDataset dataset14() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://www.w3.org/2002/07/owl#DeprecatedProperty> <http://www.w3.org/2002/07/owl#equivalentProperty> <http://ex.org/pred01> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
-			"<http://ex.org/pred01> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> . " +
-			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + OWL.DeprecatedProperty + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " +
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -516,22 +517,22 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset14();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
 		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 
 	/*
-	 * deprecated property (assigned via owl:equivalentClass (object));
-	 * predicate position
+	 * deprecated property declared via owl:equivalentProperty (subject), but
+	 * not used
 	 */
 	private SparqlifyDataset dataset15() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://www.w3.org/2002/07/owl#DeprecatedProperty> <http://www.w3.org/2002/07/owl#equivalentProperty> <http://ex.org/pred01> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
-			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + OWL.equivalentProperty + "> <" + OWL.DeprecatedProperty + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -551,20 +552,21 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		metric.assessDataset(dataset);
 		
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
-
+	
 	/*
-	 * deprecated property (directly assigned via owl:equivalentClass (object));
-	 * object position
+	 * deprecated property declared via owl:equivalentProperty (subject), used
+	 * on subject position
 	 */
 	private SparqlifyDataset dataset16() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://www.w3.org/2002/07/owl#DeprecatedProperty> <http://www.w3.org/2002/07/owl#equivalentProperty> <http://ex.org/pred01> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.label + "> \"deprecated property\" . " +
+			"<http://ex.org/pred01> <" + OWL.equivalentProperty + "> <" + OWL.DeprecatedProperty + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -584,23 +586,21 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset16();
 		metric.assessDataset(dataset);
 		
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
-
 	/*
-	 * deprecated resource (assigned via owl:deprecated "true"^^xsd:boolean);
-	 * subject position
+	 * deprecated property declared via owl:equivalentProperty (subject), used
+	 * on predicate position
 	 */
 	private SparqlifyDataset dataset17() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/2002/07/owl#deprecated> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean> ." +
-			"<http://ex.org/pred02> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://ex.org/pred01> . ";
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + OWL.equivalentProperty + "> <" + OWL.DeprecatedProperty + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -619,22 +619,23 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset17();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 
 	/*
-	 * deprecated resource (assigned via owl:deprecated "true"^^xsd:boolean);
-	 * predicate position
+	 * deprecated property declared via owl:equivalentProperty (subject), used
+	 * on object position
 	 */
 	private SparqlifyDataset dataset18() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Cls01> ." +
-			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . " +
-			"<http://ex.org/pred01> <http://www.w3.org/2002/07/owl#deprecated> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean> .";
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + OWL.equivalentProperty + "> <" + OWL.DeprecatedProperty + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " +
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -653,24 +654,22 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset18();
 		metric.assessDataset(dataset);
 		
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
-		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
-		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}
 
 
 	/*
-	 * deprecated resource (assigned via owl:deprecated "true"^^xsd:boolean);
-	 * object position
+	 * deprecated property declared via owl:equivalentProperty (object), but
+	 * not used
 	 */
 	private SparqlifyDataset dataset19() {
 		String content = 
-			"<http://ex.org/Cls01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> . " +
-			"<http://ex.org/pred01> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> . " +
-			"<http://ex.org/res/02> <http://ex.org/pred02> <http://ex.org/res/01> . " +
-			"<http://ex.org/res/01> <http://www.w3.org/2002/07/owl#deprecated> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean> ." +
-			"<http://ex.org/pred02> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://ex.org/pred01> . ";
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<" + OWL.DeprecatedProperty + "> <" + OWL.equivalentProperty + "> <http://ex.org/pred01> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -689,7 +688,250 @@ public class NoDeprecatedClassesOrPropertiesTest {
 		SparqlifyDataset dataset = dataset19();
 		metric.assessDataset(dataset);
 		
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+	}
+
+	
+	/*
+	 * deprecated property declared via owl:equivalentProperty (object), used
+	 * on subject position
+	 */
+	private SparqlifyDataset dataset20() {
+		String content = 
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<" + OWL.DeprecatedProperty + "> <" + OWL.equivalentProperty + "> <http://ex.org/pred01> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/pred01> <" + RDFS.range + "> <"+ XSD.xstring + "> . " +
+			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
+		
+		SparqlifyDataset dataset = new SparqlifyDataset();
+		Reader reader = new StringReader(content);
+		dataset.read(reader, null, "TTL");
+		
+		return dataset;
+	}
+
+	@Test
+	public synchronized void test20() throws NotImplementedException, SQLException {
+		String metricName = "test20";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset20();
+		metric.assessDataset(dataset);
+		
 		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+	}
+
+
+	/*
+	 * deprecated property declared via owl:equivalentProperty (object)), used
+	 * on predicate position
+	 */
+	private SparqlifyDataset dataset21() {
+		String content = 
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<" + OWL.DeprecatedProperty + "> <" + OWL.equivalentProperty + "> <http://ex.org/pred01> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
+		
+		SparqlifyDataset dataset = new SparqlifyDataset();
+		Reader reader = new StringReader(content);
+		dataset.read(reader, null, "TTL");
+		
+		return dataset;
+	}
+
+	@Test
+	public synchronized void test21() throws NotImplementedException, SQLException {
+		String metricName = "test21";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset21();
+		metric.assessDataset(dataset);
+		
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+	}
+
+	/*
+	 * deprecated property declared via owl:equivalentProperty (object)), used
+	 * on object position
+	 */
+	private SparqlifyDataset dataset22() {
+		String content = 
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<" + OWL.DeprecatedProperty + "> <" + OWL.equivalentProperty + "> <http://ex.org/pred01> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " + 
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+		
+		SparqlifyDataset dataset = new SparqlifyDataset();
+		Reader reader = new StringReader(content);
+		dataset.read(reader, null, "TTL");
+		
+		return dataset;
+	}
+
+	@Test
+	public synchronized void test22() throws NotImplementedException, SQLException {
+		String metricName = "test22";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset22();
+		metric.assessDataset(dataset);
+		
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+	}
+
+	/*
+	 * deprecated resource declared via owl:deprecated "true"^^xsd:boolean,
+	 * not used
+	 */
+	private SparqlifyDataset dataset23() {
+		String content = 
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.range + "> <" + XSD.xstring + "> . " +
+			"<http://ex.org/res/01> <" + OWL2.deprecated + "> \"true\"^^<" + XSD.xboolean + "> ." +
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+		
+		SparqlifyDataset dataset = new SparqlifyDataset();
+		Reader reader = new StringReader(content);
+		dataset.read(reader, null, "TTL");
+		
+		return dataset;
+	}
+
+	@Test
+	public synchronized void test23() throws NotImplementedException, SQLException {
+		String metricName = "test23";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset23();
+		metric.assessDataset(dataset);
+		
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+	}
+
+
+	/*
+	 * deprecated resource declared via owl:deprecated "true"^^xsd:boolean,
+	 * used on subject position
+	 */
+	private SparqlifyDataset dataset24() {
+		String content = 
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.range + "> <" + XSD.xstring + "> . " +
+			"<http://ex.org/res/01> <" + OWL2.deprecated + "> \"true\"^^<" + XSD.xboolean + "> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " +
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+
+		SparqlifyDataset dataset = new SparqlifyDataset();
+		Reader reader = new StringReader(content);
+		dataset.read(reader, null, "TTL");
+		
+		return dataset;
+	}
+
+	@Test
+	public synchronized void test24() throws NotImplementedException, SQLException {
+		String metricName = "test24";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset24();
+		metric.assessDataset(dataset);
+		
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+	}
+	
+	
+	/*
+	 * deprecated resource (assigned via owl:deprecated "true"^^xsd:boolean);
+	 * predicate position
+	 */
+	private SparqlifyDataset dataset25() {
+		String content = 
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . " +
+			"<http://ex.org/pred01> <" + OWL2.deprecated + "> \"true\"^^<" + XSD.xboolean + "> .";
+		
+		SparqlifyDataset dataset = new SparqlifyDataset();
+		Reader reader = new StringReader(content);
+		dataset.read(reader, null, "TTL");
+		
+		return dataset;
+	}
+
+	@Test
+	public synchronized void test25() throws NotImplementedException, SQLException {
+		String metricName = "test25";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset25();
+		metric.assessDataset(dataset);
+		
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
+		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
+	}
+
+
+	/*
+	 * deprecated resource (assigned via owl:deprecated "true"^^xsd:boolean);
+	 * object position
+	 */
+	private SparqlifyDataset dataset26() {
+		String content = 
+			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.range + "> <" + XSD.xstring + "> . " +
+			"<http://ex.org/res/02> <http://ex.org/pred02> <http://ex.org/res/01> . " +
+			"<http://ex.org/res/01> <" + OWL2.deprecated + "> \"true\"^^<" + XSD.xboolean + "> ." +
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+		
+		SparqlifyDataset dataset = new SparqlifyDataset();
+		Reader reader = new StringReader(content);
+		dataset.read(reader, null, "TTL");
+		
+		return dataset;
+	}
+
+	@Test
+	public synchronized void test26() throws NotImplementedException, SQLException {
+		String metricName = "test26";
+		metric.setName(metricName);
+		metric.setParentDimension("parent");
+		metric.initMeasureDataSink();
+		
+		SparqlifyDataset dataset = dataset26();
+		metric.assessDataset(dataset);
+		
+		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.SUBJECT));
 		assertFalse(sink.nodeMeasureWritten(metricName, TriplePosition.PREDICATE));
 		assertTrue(sink.nodeMeasureWritten(metricName, TriplePosition.OBJECT));
 	}

@@ -25,6 +25,9 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.shared.InvalidPropertyURIException;
+import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.vocabulary.OWL2;
+import com.hp.hpl.jena.vocabulary.RDF;
 
 @Component
 public class NoDeprecatedClassesOrProperties extends MetricImpl implements
@@ -44,7 +47,8 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 			.createProperty(owl + "equivalentProperty");
 	private final Property owl_deprecated = ResourceFactory.createProperty(owl
 			+ "deprecated");
-	
+	private RDFNode trueLiteral = ResourceFactory.createTypedLiteral("true",
+			XSDDatatype.XSDboolean);
 	// classes
 	private final Resource owl_DeprecatedClass = ResourceFactory
 			.createResource(owl + "DeprecatedClass");
@@ -169,10 +173,12 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 		while (deprPropOnSubjPosIt.hasNext()) {
 			Statement statement = deprPropOnSubjPosIt.next();
 			
-			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-					.getViewCandidates(statement.asTriple());
-			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
-					statement.asTriple(), viewQuads);
+			if (!isDeprecationDeclaration(statement)) {
+				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+						.getViewCandidates(statement.asTriple());
+				writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
+						statement.asTriple(), viewQuads);
+			}
 		}
 		
 		// property on predicate position
@@ -182,10 +188,12 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 		while (deprPropOnPredPosIt.hasNext()) {
 			Statement statement = deprPropOnPredPosIt.next();
 			
-			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-					.getViewCandidates(statement.asTriple());
-			writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE,
-					statement.asTriple(), viewQuads);
+			if (!isDeprecationDeclaration(statement)) {
+				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+						.getViewCandidates(statement.asTriple());
+				writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE,
+						statement.asTriple(), viewQuads);
+			}
 		}
 		
 		// property on object position
@@ -195,11 +203,12 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 		while (deprPropOnObjPosIt.hasNext()) {
 			Statement statement = deprPropOnObjPosIt.next();
 			
-			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-					.getViewCandidates(statement.asTriple());
-			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
-					statement.asTriple(), viewQuads);
-			
+			if (!isDeprecationDeclaration(statement)) {
+				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+						.getViewCandidates(statement.asTriple());
+				writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
+						statement.asTriple(), viewQuads);
+			}
 		}
 	}
 
@@ -224,11 +233,13 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 		while (deprClsOnObjPosIt.hasNext()) {
 			Statement statement = deprClsOnObjPosIt.next();
 			
-			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-					.getViewCandidates(statement.asTriple());
-						
-			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
-					statement.asTriple(), viewQuads);
+			if (!isDeprecationDeclaration(statement)) {
+				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+						.getViewCandidates(statement.asTriple());
+							
+				writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
+						statement.asTriple(), viewQuads);
+			}
 		}
 		
 		// class in subject position
@@ -238,11 +249,13 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 		while (depClsOnSubjPosIt.hasNext()) {
 			Statement statement = depClsOnSubjPosIt.next();
 			
-			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-					.getViewCandidates(statement.asTriple());
-			
-			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
-					statement.asTriple(), viewQuads);
+			if (!isDeprecationDeclaration(statement)) {
+				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+						.getViewCandidates(statement.asTriple());
+				
+				writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
+						statement.asTriple(), viewQuads);
+			}
 		}
 			
 	}
@@ -257,10 +270,12 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 		while (resOnSubjPosIt.hasNext()) {
 			Statement statement = resOnSubjPosIt.next();
 			
-			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-					.getViewCandidates(statement.asTriple());
-			writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
-					statement.asTriple(), viewQuads);
+			if (!isDeprecationDeclaration(statement)) {
+				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+						.getViewCandidates(statement.asTriple());
+				writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
+						statement.asTriple(), viewQuads);
+			}
 		}
 		
 		// resource on predicate position
@@ -271,10 +286,12 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 			while (resOnPredPosIt.hasNext()) {
 				Statement statement = resOnPredPosIt.next();
 				
-				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-						.getViewCandidates(statement.asTriple());
-				writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE,
-						statement.asTriple(), viewQuads);
+				if (!isDeprecationDeclaration(statement)) {
+					Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+							.getViewCandidates(statement.asTriple());
+					writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE,
+							statement.asTriple(), viewQuads);
+				}
 			}
 		} catch (InvalidPropertyURIException e) { /* just ignore */ };
 		
@@ -284,10 +301,61 @@ public class NoDeprecatedClassesOrProperties extends MetricImpl implements
 		while (resOnObjPos.hasNext()) {
 			Statement statement = resOnObjPos.next();
 			
-			Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-					.getViewCandidates(statement.asTriple());
-			writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
-					statement.asTriple(), viewQuads);
+			if (!isDeprecationDeclaration(statement)) {
+				Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+						.getViewCandidates(statement.asTriple());
+				writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
+						statement.asTriple(), viewQuads);
+			}
 		}
+	}
+	
+	
+	/**
+	 * Checks if a given statement is a deprecation declaration. If so, the
+	 * statement is not a violation w.r.t. this metric, since the deprecation
+	 * declaration of a resource is not considered as resource usage. Thus,
+	 * if a resource is just declared to be deprecated, this is not a violation.
+	 * Only if the so declared resource is actually used, this a violation will
+	 * be reported.
+	 * 
+	 * @param statement A statement to check
+	 * @return is the checked statement a deprecation declaration
+	 */
+	private boolean isDeprecationDeclaration(Statement statement) {
+		Resource subj = statement.getSubject();
+		Property pred = statement.getPredicate();
+		RDFNode obj = statement.getObject();
+		
+		// owl:deprecated "true"^^xsd:boolean
+		if (pred.equals(OWL2.deprecated) && obj.equals(trueLiteral)) {
+			return true;
+		}
+		// <class> rdf:type owl:DeprecetedClass
+		if (pred.equals(RDF.type) && obj.equals(OWL.DeprecatedClass)) {
+			return true;
+		}
+		// owl:DeprecatedClass owl:equivalentClass <class>
+		if (subj.equals(OWL.DeprecatedClass) && pred.equals(OWL.equivalentClass)) {
+			return true;
+		}
+		// <class> owl:equivalentClass owl:DeprecatedClass
+		if (pred.equals(OWL.equivalentClass) && obj.equals(OWL.DeprecatedClass)) {
+			return true;
+		}
+		// <prop> rdf:type owl:DeprecatedProperty
+		if (pred.equals(RDF.type) && obj.equals(OWL.DeprecatedProperty)) {
+			return true;
+		}
+		// <prop> owl:equivalentProperty owl:DeprecatedProperty
+		if (pred.equals(OWL.equivalentProperty) && obj.equals(OWL.DeprecatedProperty)) {
+			return true;
+		}
+		// owl:DeprecatedProperty owl:equivalentProperty <prop>
+		if (subj.equals(OWL.DeprecatedProperty) && pred.equals(OWL.equivalentProperty)) {
+			return true;
+		}
+		
+		return false;
 	}
 }
