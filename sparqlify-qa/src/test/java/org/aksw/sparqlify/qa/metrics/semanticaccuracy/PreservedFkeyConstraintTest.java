@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.accuracy;
+package org.aksw.sparqlify.qa.metrics.semanticaccuracy;
 
 import static org.junit.Assert.*;
 
@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import org.aksw.commons.util.MapReader;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.semanticaccuracy.PreservedFkeyConstraint;
 import org.aksw.sparqlify.qa.sinks.BooleanTestingSink;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
@@ -115,7 +116,7 @@ public class PreservedFkeyConstraintTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef01()));
+		metric.assessViews(Arrays.asList(viewDef01()));
 		
 		assertTrue(sink.measureWritten(metricName));
 	}
@@ -153,7 +154,7 @@ public class PreservedFkeyConstraintTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef02()));
+		metric.assessViews(Arrays.asList(viewDef02()));
 		
 		assertTrue(sink.measureWritten(metricName));
 	}
@@ -191,7 +192,7 @@ public class PreservedFkeyConstraintTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef03()));
+		metric.assessViews(Arrays.asList(viewDef03()));
 		
 		assertFalse(sink.measureWritten(metricName));
 	}

@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.accuracy;
+package org.aksw.sparqlify.qa.metrics.semanticaccuracy;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -22,7 +22,7 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,7 +34,7 @@ import com.hp.hpl.jena.sparql.core.Quad;
 import com.hp.hpl.jena.sparql.core.Var;
 
 @Component
-public class PreservedFkeyConstraint extends MetricImpl implements MappingMetric {
+public class PreservedFkeyConstraint extends MetricImpl implements ViewMetric {
 
 	@Autowired
 	DataSource rdb;
@@ -52,7 +52,7 @@ public class PreservedFkeyConstraint extends MetricImpl implements MappingMetric
 	
 	
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs)
+	public void assessViews(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException, SQLException {
 		
 		for (ViewDefinition viewDef : viewDefs) {
@@ -164,7 +164,7 @@ public class PreservedFkeyConstraint extends MetricImpl implements MappingMetric
 	
 	private List<String> getFkCols(String tableName) throws SQLException {
 		
-		List<String> fkColss = new ArrayList<String>();
+		List<String> fkCols = new ArrayList<String>();
 		DatabaseMetaData meta = conn.getMetaData();
 		
 		// query foreign keys
@@ -172,9 +172,9 @@ public class PreservedFkeyConstraint extends MetricImpl implements MappingMetric
 		
 		while (fkRes.next()) {
 			String fkeyCol = fkRes.getString(8);
-			fkColss.add(fkeyCol);
+			fkCols.add(fkeyCol);
 		}
 		
-		return fkColss;
+		return fkCols;
 	}
 }
