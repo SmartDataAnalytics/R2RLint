@@ -63,9 +63,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset01() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.class + "> . " +
-			"<http://ex.org/pred01> <"+ RDF.type +"> <" + RDF.predicate + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <"+ RDF.type.getURI() +"> <" + RDF.Property.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -95,8 +95,8 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset02() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + OWL.DeprecatedClass + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + OWL.DeprecatedClass.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -127,9 +127,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset03() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + OWL.DeprecatedClass + "> . " +
-			"<http://ex.org/Cls01> <" + RDFS.label + "> \"deprecated class\" . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + OWL.DeprecatedClass.getURI() + "> . " +
+			"<http://ex.org/Cls01> <" + RDFS.label.getURI() + "> \"deprecated class\" . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -160,9 +160,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset04() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + OWL.DeprecatedClass + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + OWL.DeprecatedClass.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -193,8 +193,8 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset05() {
 		String content = 
-			"<http://ex.org/Cls01> <" + OWL.equivalentClass + "> <" + OWL.DeprecatedClass + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/Cls01> <" + OWL.equivalentClass.getURI() + "> <" + OWL.DeprecatedClass.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -226,9 +226,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset06() {
 		String content = 
-			"<http://ex.org/Cls01> <" + OWL.equivalentClass + "> <" + OWL.DeprecatedClass + "> . " +
-			"<http://ex.org/Cls01> <" + RDFS.label + "> \"deprecated class\" . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/Cls01> <" + OWL.equivalentClass.getURI() + "> <" + OWL.DeprecatedClass.getURI() + "> . " +
+			"<http://ex.org/Cls01> <" + RDFS.label.getURI() + "> \"deprecated class\" . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -261,9 +261,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset07() {
 		String content = 
-			"<http://ex.org/Cls01> <" + OWL.equivalentClass + "> <" + OWL.DeprecatedClass + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + OWL.equivalentClass.getURI() + "> <" + OWL.DeprecatedClass.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -294,8 +294,8 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset08() {
 		String content = 
-			"<" + OWL.DeprecatedClass + "> <" + OWL.equivalentClass + "> <http://ex.org/Cls01> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<" + OWL.DeprecatedClass.getURI() + "> <" + OWL.equivalentClass.getURI() + "> <http://ex.org/Cls01> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -327,9 +327,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset09() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<" + OWL.DeprecatedClass + "> <" + OWL.equivalentClass + "> <http://ex.org/Cls01> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<" + OWL.DeprecatedClass.getURI() + "> <" + OWL.equivalentClass.getURI() + "> <http://ex.org/Cls01> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -361,9 +361,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset10() {
 		String content = 
-			"<" + OWL.DeprecatedClass + "> <" + OWL.equivalentClass + "> <http://ex.org/Cls01> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> . " +
+			"<" + OWL.DeprecatedClass.getURI() + "> <" + OWL.equivalentClass.getURI() + "> <http://ex.org/Cls01> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -395,9 +395,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset11() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + OWL.DeprecatedProperty + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + OWL.DeprecatedProperty.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -427,10 +427,10 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset12() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + OWL.DeprecatedProperty + "> . " +
-			"<http://ex.org/pred01> <" + RDFS.label + "> \"deprecated property\" . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + OWL.DeprecatedProperty.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.label.getURI() + "> \"deprecated property\" . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -461,9 +461,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset13() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + OWL.DeprecatedProperty + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + OWL.DeprecatedProperty.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -494,11 +494,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset14() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + OWL.DeprecatedProperty + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + OWL.DeprecatedProperty.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " +
-			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf.getURI() + "> <http://ex.org/pred01> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -529,9 +529,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset15() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + OWL.equivalentProperty + "> <" + OWL.DeprecatedProperty + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + OWL.equivalentProperty.getURI() + "> <" + OWL.DeprecatedProperty.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -563,10 +563,10 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset16() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + RDFS.label + "> \"deprecated property\" . " +
-			"<http://ex.org/pred01> <" + OWL.equivalentProperty + "> <" + OWL.DeprecatedProperty + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.label.getURI() + "> \"deprecated property\" . " +
+			"<http://ex.org/pred01> <" + OWL.equivalentProperty.getURI() + "> <" + OWL.DeprecatedProperty.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -597,9 +597,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset17() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + OWL.equivalentProperty + "> <" + OWL.DeprecatedProperty + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + OWL.equivalentProperty.getURI() + "> <" + OWL.DeprecatedProperty.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -631,11 +631,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset18() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + OWL.equivalentProperty + "> <" + OWL.DeprecatedProperty + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + OWL.equivalentProperty.getURI() + "> <" + OWL.DeprecatedProperty.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " +
-			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf.getURI() + "> <http://ex.org/pred01> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -666,9 +666,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset19() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<" + OWL.DeprecatedProperty + "> <" + OWL.equivalentProperty + "> <http://ex.org/pred01> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<" + OWL.DeprecatedProperty.getURI() + "> <" + OWL.equivalentProperty.getURI() + "> <http://ex.org/pred01> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -700,10 +700,10 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset20() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<" + OWL.DeprecatedProperty + "> <" + OWL.equivalentProperty + "> <http://ex.org/pred01> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
-			"<http://ex.org/pred01> <" + RDFS.range + "> <"+ XSD.xstring + "> . " +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<" + OWL.DeprecatedProperty.getURI() + "> <" + OWL.equivalentProperty.getURI() + "> <http://ex.org/pred01> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/pred01> <" + RDFS.range.getURI() + "> <"+ XSD.xstring.getURI() + "> . " +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -735,9 +735,9 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset21() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<" + OWL.DeprecatedProperty + "> <" + OWL.equivalentProperty + "> <http://ex.org/pred01> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<" + OWL.DeprecatedProperty.getURI() + "> <" + OWL.equivalentProperty.getURI() + "> <http://ex.org/pred01> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
@@ -768,11 +768,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset22() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<" + OWL.DeprecatedProperty + "> <" + OWL.equivalentProperty + "> <http://ex.org/pred01> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<" + OWL.DeprecatedProperty.getURI() + "> <" + OWL.equivalentProperty.getURI() + "> <http://ex.org/pred01> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " + 
-			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf.getURI() + "> <http://ex.org/pred01> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -802,11 +802,11 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset23() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
-			"<http://ex.org/pred01> <" + RDFS.range + "> <" + XSD.xstring + "> . " +
-			"<http://ex.org/res/01> <" + OWL2.deprecated + "> \"true\"^^<" + XSD.xboolean + "> ." +
-			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.range.getURI() + "> <" + XSD.xstring.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + OWL2.deprecated.getURI() + "> \"true\"^^<" + XSD.xboolean.getURI() + "> ." +
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf.getURI() + "> <http://ex.org/pred01> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -837,12 +837,12 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset24() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
-			"<http://ex.org/pred01> <" + RDFS.range + "> <" + XSD.xstring + "> . " +
-			"<http://ex.org/res/01> <" + OWL2.deprecated + "> \"true\"^^<" + XSD.xboolean + "> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.range.getURI() + "> <" + XSD.xstring.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + OWL2.deprecated.getURI() + "> \"true\"^^<" + XSD.xboolean.getURI() + "> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred02> \"Sth\" . " +
-			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf.getURI() + "> <http://ex.org/pred01> . ";
 
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -873,10 +873,10 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset25() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/res/01> <" + RDF.type + "> <http://ex.org/Cls01> ." +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Cls01> ." +
 			"<http://ex.org/res/01> <http://ex.org/pred01> \"Sth\" . " +
-			"<http://ex.org/pred01> <" + OWL2.deprecated + "> \"true\"^^<" + XSD.xboolean + "> .";
+			"<http://ex.org/pred01> <" + OWL2.deprecated.getURI() + "> \"true\"^^<" + XSD.xboolean.getURI() + "> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
@@ -907,12 +907,12 @@ public class NoDeprecatedClassesOrPropertiesTest {
 	 */
 	private SparqlifyDataset dataset26() {
 		String content = 
-			"<http://ex.org/Cls01> <" + RDF.type + "> <" + RDFS.Class + "> . " +
-			"<http://ex.org/pred01> <" + RDF.type + "> <" + RDF.Property + "> . " +
-			"<http://ex.org/pred01> <" + RDFS.range + "> <" + XSD.xstring + "> . " +
+			"<http://ex.org/Cls01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> . " +
+			"<http://ex.org/pred01> <" + RDFS.range.getURI() + "> <" + XSD.xstring.getURI() + "> . " +
 			"<http://ex.org/res/02> <http://ex.org/pred02> <http://ex.org/res/01> . " +
-			"<http://ex.org/res/01> <" + OWL2.deprecated + "> \"true\"^^<" + XSD.xboolean + "> ." +
-			"<http://ex.org/pred02> <" + RDFS.subPropertyOf + "> <http://ex.org/pred01> . ";
+			"<http://ex.org/res/01> <" + OWL2.deprecated.getURI() + "> \"true\"^^<" + XSD.xboolean.getURI() + "> ." +
+			"<http://ex.org/pred02> <" + RDFS.subPropertyOf.getURI() + "> <http://ex.org/pred01> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
 		Reader reader = new StringReader(content);
