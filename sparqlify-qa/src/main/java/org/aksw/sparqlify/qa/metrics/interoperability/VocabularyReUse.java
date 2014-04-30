@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.reprconsistency;
+package org.aksw.sparqlify.qa.metrics.interoperability;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,19 +9,20 @@ import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntModelSpec;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.vocabulary.RDFS;
 
 /**
  * This metric measures the ratio the appearance of properties and classes that
@@ -46,10 +47,12 @@ import com.hp.hpl.jena.vocabulary.RDF;
 @Component
 public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 	
+	private static Logger logger = LoggerFactory.getLogger(VocabularyReUse.class);
+	
 	private long numAll;
 	private long numEstablishedReUsed;
-	private List<Property> seenProperties;
-	private List<Resource> seenClasses;
+	private List<Node> seenProperties;
+	private List<Node> seenClasses;
 	
 	private List<String> top100Prefixes = new ArrayList<String>(Arrays.asList(
 			"http://yago-knowledge.org/resource/",
@@ -156,8 +159,8 @@ public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 			));
 	
 	protected void clearCaches() {
-		seenProperties = new ArrayList<Property>();
-		seenClasses = new ArrayList<Resource>();
+		seenProperties = new ArrayList<Node>();
+		seenClasses = new ArrayList<Node>();
 		numAll = 0;
 		numEstablishedReUsed = 0;
 	}
@@ -167,8 +170,8 @@ public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 		super();
 		numAll = 0;
 		numEstablishedReUsed = 0;
-		seenProperties = new ArrayList<Property>();
-		seenClasses = new ArrayList<Resource>();
+		seenProperties = new ArrayList<Node>();
+		seenClasses = new ArrayList<Node>();
 	}
 
 
@@ -179,11 +182,13 @@ public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 		/*
 		 * check all properties
 		 */
-		StmtIterator statementsIt = dataset.listStatements();
 		
-		while (statementsIt.hasNext()) {
-			Statement statement = statementsIt.next();
-			Property pred = statement.getPredicate();
+		int dbgCounter = 0;
+		
+		for (Triple triple : dataset) {
+			if (dbgCounter++ % 10000 == 0) logger.debug(""+dbgCounter);
+
+			Node pred = triple.getPredicate();
 			
 			if (!seenProperties.contains(pred)) {
 				
@@ -192,6 +197,7 @@ public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 				seenProperties.add(pred);
 			}
 		}
+		logger.debug("finished property part");
 		
 		/*
 		 * check all classes
@@ -211,41 +217,87 @@ public class VocabularyReUse extends MetricImpl implements DatasetMetric {
 		 */
 		
 		// 1)
-		OntModel ontModel = ModelFactory.createOntologyModel(
-				OntModelSpec.OWL_MEM_MINI_RULE_INF, dataset);
+		logger.debug("starting class part 1");
+		String rdfsClsQueryStr = "SELECT ?s { ?s a <" + RDFS.Class.getURI() + "> }";
+		Query rdfsClsQuery = QueryFactory.create(rdfsClsQueryStr);
 		
-		ExtendedIterator<OntClass> classesIt = ontModel.listClasses();
+		QueryExecution rdfsClsQe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+			rdfsClsQe = QueryExecutionFactory.createServiceRequest(
+					dataset.getSparqlServiceUri(), rdfsClsQuery);
+		} else {
+			rdfsClsQe = QueryExecutionFactory.create(rdfsClsQuery, dataset);
+		}
 		
-		while (classesIt.hasNext()) {
-			OntClass cls = classesIt.next();
+		ResultSet rdfsClsRes = rdfsClsQe.execSelect();
+		
+		while (rdfsClsRes.hasNext()) {
+			QuerySolution sol = rdfsClsRes.next();
+			Node cls = sol.get("s").asNode();
 			
-			// 2) check if class not already processed and if it occurs in the
-			// original SparqlifyDataset (and is not an artifact of inference)
-			if (!seenClasses.contains(cls)
-					&& (dataset.listStatements(cls, null, (RDFNode) null).hasNext()
-							|| dataset.listStatements(null, null, cls).hasNext())){
-				
+			if (!seenClasses.contains(cls) && cls.isURI()) {
 				checkPrefix(cls.getURI());
 				numAll++;
 				seenClasses.add(cls);
 			}
 		}
+		rdfsClsQe.close();
 		
-		// 3) get all implicit classes
-		StmtIterator typeStatementsIt = dataset.listStatements(null, RDF.type,
-				(RDFNode) null);
+		String owlClsQueryStr = "SELECT ?s { ?s a <" + OWL.Class.getURI() + "> }";
+		Query owlClsQuery = QueryFactory.create(owlClsQueryStr);
 		
-		while (typeStatementsIt.hasNext()) {
-			Statement typeStatement = typeStatementsIt.next();
+		QueryExecution owlClsQe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+			owlClsQe = QueryExecutionFactory.createServiceRequest(
+					dataset.getSparqlServiceUri(), owlClsQuery);
+		} else {
+			owlClsQe = QueryExecutionFactory.create(owlClsQuery, dataset);
+		}
+		
+		ResultSet owlClsRes = owlClsQe.execSelect();
+		
+		while (owlClsRes.hasNext()) {
+			QuerySolution sol = owlClsRes.next();
+			Node cls = sol.get("s").asNode();
 			
-			RDFNode cls = typeStatement.getObject();
-			if (!seenClasses.contains(cls) && cls.isURIResource()) {
-				checkPrefix(cls.asResource().getURI());
+			if (!seenClasses.contains(cls) && cls.isURI()) {
+				checkPrefix(cls.getURI());
 				numAll++;
-				seenClasses.add(cls.asResource());
+				seenClasses.add(cls);
 			}
 		}
-
+		rdfsClsQe.close();
+		
+		logger.debug("finished class part 1; starting class part 2");
+		// 3) get all implicit classes
+		
+		String typeQueryStr = "SELECT ?o { ?s a ?o }";
+		Query typeQuery = QueryFactory.create(typeQueryStr);
+		
+		QueryExecution typeQe;
+		if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+			typeQe = QueryExecutionFactory.createServiceRequest(
+					dataset.getSparqlServiceUri(), typeQuery);
+		} else {
+			typeQe = QueryExecutionFactory.create(typeQuery, dataset);
+		}
+		
+		ResultSet res = typeQe.execSelect();
+		
+		while (res.hasNext()) {
+			QuerySolution sol = res.next();
+			Node cls = sol.get("o").asNode();
+			
+			if (!seenClasses.contains(cls) && cls.isURI()) {
+				checkPrefix(cls.getURI());
+				numAll++;
+				seenClasses.add(cls);
+			}
+		}
+		typeQe.close();
+		
+		
+		logger.debug("finished class part 2");
 		float ratio = numEstablishedReUsed / (float) numAll;
 		if (threshold == 0 || ratio <= threshold) {
 			writeDatasetMeasureToSink(ratio);

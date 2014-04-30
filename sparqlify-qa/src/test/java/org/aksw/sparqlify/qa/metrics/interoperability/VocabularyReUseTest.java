@@ -1,8 +1,7 @@
-package org.aksw.sparqlify.qa.metrics.reprconsistency;
+package org.aksw.sparqlify.qa.metrics.interoperability;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
 
@@ -60,8 +59,8 @@ public class VocabularyReUseTest {
 			"_:23 <http://ex232.org/prop01> \"42\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -104,8 +103,8 @@ public class VocabularyReUseTest {
 			"_:23 <http://ex232.org/prop01> \"42\" . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
