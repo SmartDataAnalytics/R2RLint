@@ -3,7 +3,6 @@ package org.aksw.sparqlify.qa.metrics.consistency;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.Reader;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +19,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.hp.hpl.jena.vocabulary.OWL;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
+import com.hp.hpl.jena.vocabulary.XSD;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:test_bool_beans.xml"})
@@ -48,15 +52,15 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset01() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -83,16 +87,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset02() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
 			"<http://ex.org/res/01> <http://ex.org/Class01> <http://ex.org/res/02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -120,16 +124,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset03() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> ." +
-			"<http://ex.org/Class01> <http://ex.org/prop01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> . ";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.DatatypeProperty.getURI() + "> ." +
+			"<http://ex.org/Class01> <http://ex.org/prop01> \"23\"^^<" + XSD.integer.getURI() + "> . ";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -157,16 +161,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset04() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"<http://ex.org/Class01> <http://ex.org/prop01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
+			"<http://ex.org/Class01> <http://ex.org/prop01> \"23\"^^<" + XSD.integer.getURI() + "> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -194,16 +198,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset05() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.ObjectProperty.getURI() + "> ." +
 			"<http://ex.org/Class01> <http://ex.org/prop01> <http://ex.org/res/01> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -231,16 +235,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset06() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
 			"<http://ex.org/Class01> <http://ex.org/prop01> <http://ex.org/res/01> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -269,16 +273,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset07() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
 			"<http://ex.org/Class01> <http://ex.org/prop01> <http://ex.org/Class02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -306,16 +310,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset08() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.DatatypeProperty.getURI() + "> ." +
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/Class02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -343,16 +347,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset09() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type + "> <" + OWL.ObjectProperty.getURI() + "> ." +
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/Class02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -380,15 +384,15 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset10() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI()  + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/Class02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -416,13 +420,13 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset11() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -450,17 +454,17 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset12() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"<http://ex.org/prop02> <http://ex.org/prop01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.DatatypeProperty.getURI() + "> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
+			"<http://ex.org/prop02> <http://ex.org/prop01> \"23\"^^<" + XSD.integer.getURI() + "> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -488,17 +492,17 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset13() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"<http://ex.org/prop02> <http://ex.org/prop01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.ObjectProperty.getURI() + "> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
+			"<http://ex.org/prop02> <http://ex.org/prop01> \"23\"^^<" + XSD.integer.getURI() + "> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -526,16 +530,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset14() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"<http://ex.org/prop02> <http://ex.org/prop01> \"23\"^^<http://www.w3.org/2001/XMLSchema#int> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
+			"<http://ex.org/prop02> <http://ex.org/prop01> \"23\"^^<" + XSD.integer.getURI() + "> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -563,16 +567,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset15() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#int> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
+			"<http://ex.org/prop02> <" + RDFS.range.getURI() + "> <" + XSD.integer.getURI() + "> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -600,17 +604,17 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset16() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.DatatypeProperty.getURI() + "> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/prop02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -638,17 +642,17 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset17() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.ObjectProperty.getURI() + "> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/prop02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -676,16 +680,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset18() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
 			"<http://ex.org/res/01> <http://ex.org/prop01> <http://ex.org/prop02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -713,16 +717,16 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset19() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/2002/07/owl#inverseOf> <http://ex.org/prop02> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
+			"<http://ex.org/prop01> <" + OWL.inverseOf.getURI() + "> <http://ex.org/prop02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -747,17 +751,17 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset20() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.ObjectProperty.getURI() + "> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
 			"<http://ex.org/res/01> <http://ex.org/res/02> <http://ex.org/sth> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -783,17 +787,17 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset21() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ex.org/Class02> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.ObjectProperty.getURI() + "> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDFS.subClassOf.getURI() + "> <http://ex.org/Class02> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -819,17 +823,17 @@ public class NoResourceNameClashesTest {
 	 */
 	public SparqlifyDataset dataset22() {
 		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/2002/07/owl#equivalentClass> <http://ex.org/res/01> .";
+			"<http://ex.org/Class01> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + RDF.type.getURI() + "> <" + RDFS.Class.getURI() + "> ." +
+			"<http://ex.org/res/01> <" + RDF.type.getURI() + "> <http://ex.org/Class01> ." +
+			"<http://ex.org/res/02> <" + RDF.type.getURI() + "> <http://ex.org/Class02> ." +
+			"<http://ex.org/prop01> <" + RDF.type.getURI() + "> <" + OWL.ObjectProperty.getURI() + "> ." +
+			"<http://ex.org/prop02> <" + RDF.type.getURI() + "> <" + RDF.Property.getURI() + "> ." +
+			"<http://ex.org/Class02> <" + OWL.equivalentClass.getURI() + "> <http://ex.org/res/01> .";
 		
 		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
+		dataset.registerDump(new StringReader(content));
+		dataset.read(new StringReader(content), null, "TTL");
 		
 		return dataset;
 	}
@@ -842,80 +846,6 @@ public class NoResourceNameClashesTest {
 		metric.initMeasureDataSink();
 		
 		SparqlifyDataset dataset = dataset22();
-		metric.assessDataset(dataset);
-		metric.clearCaches();
-		
-		assertTrue(sink.measureWritten(metricName));
-	}
-
-
-	/* 
-	 * #23
-	 * 
-	 * blank node used as subject of certain (blacklisted) ontology defining
-	 * properties
-	 */
-	public SparqlifyDataset dataset23() {
-		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"_:23 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"_:23 <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ex.org/Class02> .";
-		
-		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		
-		return dataset;
-	}
-	
-	@Test
-	public synchronized void test23() throws NotImplementedException, SQLException {
-		String metricName = "test23";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.initMeasureDataSink();
-		
-		SparqlifyDataset dataset = dataset23();
-		metric.assessDataset(dataset);
-		metric.clearCaches();
-		
-		assertTrue(sink.measureWritten(metricName));
-	}
-	/* #24
-	 * blank node used as object of certain (blacklisted) ontology defining
-	 * properties
-	 */
-	public SparqlifyDataset dataset24() {
-		String content = 
-			"<http://ex.org/Class01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> ." +
-			"<http://ex.org/res/01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class01> ." +
-			"<http://ex.org/res/02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"_:23 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Class02> ." +
-			"<http://ex.org/prop01> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> ." +
-			"<http://ex.org/prop02> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> ." +
-			"<http://ex.org/Class02> <http://www.w3.org/2002/07/owl#equivalentClass> _:23 .";
-		
-		SparqlifyDataset dataset = new SparqlifyDataset();
-		Reader reader = new StringReader(content);
-		dataset.read(reader, null, "TTL");
-		
-		return dataset;
-	}
-	
-	@Test
-	public synchronized void test24() throws NotImplementedException, SQLException {
-		String metricName = "test24";
-		metric.setName(metricName);
-		metric.setParentDimension("parent");
-		metric.initMeasureDataSink();
-		
-		SparqlifyDataset dataset = dataset24();
 		metric.assessDataset(dataset);
 		metric.clearCaches();
 		
