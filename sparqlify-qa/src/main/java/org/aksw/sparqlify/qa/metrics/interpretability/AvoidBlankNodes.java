@@ -10,7 +10,7 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.stereotype.Component;
 
@@ -29,11 +29,11 @@ import com.hp.hpl.jena.sparql.expr.Expr;
  * 
  */
 @Component
-public class AvoidBlankNodes extends MetricImpl implements MappingMetric{
+public class AvoidBlankNodes extends MetricImpl implements ViewMetric{
 
 
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs)
+	public void assessViews(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException, SQLException {
 		
 		for (ViewDefinition viewDef : viewDefs) {

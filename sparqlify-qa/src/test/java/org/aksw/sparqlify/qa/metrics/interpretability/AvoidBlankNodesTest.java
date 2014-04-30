@@ -74,7 +74,7 @@ public class AvoidBlankNodesTest {
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
-		metric.assessMappings(Arrays.asList(viewDef01()));
+		metric.assessViews(Arrays.asList(viewDef01()));
 
 		assertFalse(sink.measureWritten(metricName));
 	}
@@ -115,7 +115,7 @@ public class AvoidBlankNodesTest {
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
-		metric.assessMappings(Arrays.asList(viewDef02()));
+		metric.assessViews(Arrays.asList(viewDef02()));
 
 		assertTrue(sink.measureWritten(metricName));
 	}
@@ -155,7 +155,7 @@ public class AvoidBlankNodesTest {
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
-		metric.assessMappings(Arrays.asList(viewDef03()));
+		metric.assessViews(Arrays.asList(viewDef03()));
 
 		assertTrue(sink.measureWritten(metricName));
 	}
@@ -196,7 +196,7 @@ public class AvoidBlankNodesTest {
 		metric.setName(metricName);
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
-		metric.assessMappings(Arrays.asList(viewDef04()));
+		metric.assessViews(Arrays.asList(viewDef04()));
 
 		assertTrue(sink.measureWritten(metricName));
 	}
