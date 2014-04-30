@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.amountofdata;
+package org.aksw.sparqlify.qa.metrics.relevancy;
 
 import java.sql.SQLException;
 
