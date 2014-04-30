@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.amountofdata;
+package org.aksw.sparqlify.qa.metrics.relevancy;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
+import org.aksw.sparqlify.qa.metrics.relevancy.CoverageDetail;
 import org.aksw.sparqlify.qa.sinks.ValueTestingSink;
 import org.junit.Before;
 import org.junit.Test;
