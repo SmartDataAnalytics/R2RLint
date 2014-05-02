@@ -26,6 +26,7 @@ import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
@@ -46,11 +47,11 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 public class OWLOntologyDeclarations extends MetricImpl implements
 		DatasetMetric {
 	
-	private Logger logger = LoggerFactory.getLogger(OWLOntologyDeclarationsTest.class);
+	private Logger logger = LoggerFactory.getLogger(OWLOntologyDeclarations.class);
 
 	@Autowired
 	private Pinpointer pinpointer;
-//	List<Resource> seenResources;
+	List<Resource> seenResources;
 	List<Node> seenNodes;
 	List<Property> ontDefProperties = new ArrayList<Property>(Arrays.asList(
 			// rdf(s)
