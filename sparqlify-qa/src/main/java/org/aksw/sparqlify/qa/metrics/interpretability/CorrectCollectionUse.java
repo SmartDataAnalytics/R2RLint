@@ -2,6 +2,7 @@ package org.aksw.sparqlify.qa.metrics.interpretability;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -13,16 +14,18 @@ import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
 import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
-import org.aksw.sparqlify.qa.sinks.TriplePosition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.NodeFactory;
 import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
@@ -33,365 +36,295 @@ import com.hp.hpl.jena.vocabulary.RDF;
  *
  */
 @Component
-public class CorrectCollectionUse extends MetricImpl implements
-		DatasetMetric {
-	
-	@Autowired
-	private Pinpointer pinpointer;
-	private float listNodeHasNoRdfFirstVal = 0;
-	private float listNodeHasMultipleRdfFirstStmntsVal = 0;
-	private float rdfRestIsLiteralVal = 0;
-	private float multiplePredecessorsVal = 0;
-	private float multipleSuccessorsVal = 0;
-	private float listEndedWithoutRdfNilVal = 0;
-	private float nilHasSuccessorVal = 0;
-	private List<Resource> seenListNodes;
-
-
-	// setter mainly used for testing purposes
-	public void setListNodeHasNoRdfFirstVal(float val) {
-		listNodeHasNoRdfFirstVal = val;
-	}
-	public void setListNodeHasMultipleRdfFirstStmntsVal(float val) {
-		listNodeHasMultipleRdfFirstStmntsVal = val;
-	}
-	public void setRdfRestIsLiteralVal(float val) {
-		rdfRestIsLiteralVal = val;
-	}
-	public void setMultiplePredecessorsVal(float val) {
-		multiplePredecessorsVal = val;
-	}
-	public void setMultipleSuccessorsVal(float val) {
-		multipleSuccessorsVal = val;
-	}
-	public void setListEndedWithoutRdfNilVal(float val) {
-		listEndedWithoutRdfNilVal = val;
-	}
-	public void setNilHasSuccessorVal (float val) {
-		nilHasSuccessorVal = val;
-	}
-	
-	protected void clearCaches() {
-		seenListNodes = new ArrayList<Resource>();
-	}
-	
-	
-	public CorrectCollectionUse()  {
-		seenListNodes = new ArrayList<Resource>();
-	}
-
-	@Override
-	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException, SQLException {
-		/*
-		 * entry point: find statements like <sth> rdf:rest <sthElse> .
-		 * since this statement does not necessarily have to be the head of the
-		 * list the further search has to be performed in both directions:
-		 * towards the head and towards the end of the list
-		 */
-		StmtIterator listStatementsIt = dataset.listStatements(null, RDF.rest,
-				(RDFNode) null);
-		while(listStatementsIt.hasNext()) {
-			Statement statement = listStatementsIt.next();
-			
-			searchHeadwards(statement, dataset);
-			searchTailwards(statement, dataset);
-		}
-	}
-
-
-	/**
-	 * This method is intended to check if nodes of a list are valid as far as
-	 * the RDF collection syntax is concerned. This checking is done iteratively
-	 * stepping towards the head of the given list, only regarding one
-	 * "subject rdf:rest object ." statement at a time. Doing so, only the
-	 * subject is of interest, since it is assumed, that the object (which was
-	 * the subject in the former step) is already checked.
-	 * 
-	 * What it actually does is
-	 * - checking if the given subject is rdf:nil (this would be a violation
-	 *   since rdf:nil is always the last entry of a collection)
-	 * - calling a check for valid rdf:first use
-	 * - calling a check for multiple successors
-	 * - performing one step towards the list head
-	 * 
-	 * @param statement
-	 *         A Statement expressing the currently considered part of the
-	 *         collection ("pred rdf:rest succ .")
-	 * @param dataset
-	 *         The SparqlifyDataset under assessment
-	 * @throws NotImplementedException
-	 * @throws SQLException 
-	 */
-	private void searchHeadwards(Statement statement, SparqlifyDataset dataset)
-			throws NotImplementedException, SQLException {
-
-		Resource subject = statement.getSubject();
-		
-		if (subject.equals(RDF.nil)) {
-			// rdf:nil has a successor (== the object of 'statement')
-			// --> report error
-			Set<ViewQuad<ViewDefinition>> viewQuads =
-					pinpointer.getViewCandidates(statement.asTriple());
-			writeTripleMeasureToSink(nilHasSuccessorVal, statement.asTriple(),
-					viewQuads);
-		}
-		
-		if (!seenListNodes.contains(subject)) {
-			seenListNodes.add(subject);
-			
-			// check if there is no or more than one
-			// "subject rdf:first sth ." triple
-			checkRdfFirst(subject, dataset);
-			// check if there is more than one "subject rdf:rest sth ." triple
-			checkForMultipleSuccessors(subject, dataset);
-			// go on headwards
-			goHeadwards(subject, dataset);
-		}
-	}
-
-
-	/**
-	 * This methods checks if there is no or if there are multiple statements
-	 * like "listNode rdf:first sth ." in the dataset.
-	 * 
-	 * @param listNode
-	 *         The subject of a "subject rdf:rest sth ." triple that will be
-	 *         checked.
-	 * @param dataset
-	 *         The Sparqlify dataset under assessment
-	 * @throws NotImplementedException
-	 * @throws SQLException 
-	 */
-	private void checkRdfFirst(Resource listNode,
-			SparqlifyDataset dataset) throws NotImplementedException, SQLException {
-		
-		StmtIterator nodeRdfFirstStatetementsIt = dataset.listStatements(
-				listNode, RDF.first, (RDFNode) null);
-		List<Statement> nodeRdfFirstStatements = nodeRdfFirstStatetementsIt.toList();
-		
-		if (nodeRdfFirstStatements.isEmpty()) {
-			// node has no rdf:first statement which is a violation
-			
-			// dummy triple that represents the missing statement
-			Triple triple = new Triple(listNode.asNode(),
-					RDF.first.asResource().asNode(), NodeFactory.createAnon());
-			
-			writeNodeTripleMeasureToSink(listNodeHasNoRdfFirstVal,
-					TriplePosition.SUBJECT, triple, null);
-			
-		} else if (nodeRdfFirstStatements.size() > 1) {
-			// there are multiple rdf:first statements which is a violation
-			reportStatements(nodeRdfFirstStatements, listNodeHasMultipleRdfFirstStmntsVal);
-		}
-		
-	}
-	
-	
-	private void checkForMultipleSuccessors(Resource listNode,
-			SparqlifyDataset dataset) throws NotImplementedException, SQLException {
-		
-		StmtIterator nodeRdfRestStatementsIt =
-				dataset.listStatements(listNode, RDF.rest, (RDFNode) null);
-		List<Statement> nodeRdfRestStatements = nodeRdfRestStatementsIt.toList();
-		
-		if (nodeRdfRestStatements.size() > 1) {
-			// there is more than one statement "subject rdf:rest sth ."
-			// which is a violation
-			reportStatements(nodeRdfRestStatements, multipleSuccessorsVal);
-		}
-		
-	}
-	
-	
-	/**
-	 * This method takes a node of a collection and tries to find its
-	 * predecessor. When doing so it also checks if
-	 * - there is no predecessor: then we're at the list head (nothing left to
-	 *   do)
-	 * - there is exactly one predecessor: expected case; call searchHeadwards()
-	 *   on the predecessor statement
-	 * - there are multiple predecessors: this is a violation and will be
-	 *   reported; afterwards searchHeadwards() is called for all predecessors
-	 * 
-	 * @param subject
-	 * @param dataset
-	 * @throws NotImplementedException
-	 * @throws SQLException 
-	 */
-	private void goHeadwards(Resource subject, SparqlifyDataset dataset)
-			throws NotImplementedException, SQLException {
-		
-		/*
-		 * make one step headwards (== find triple like "sth rdf:rest subject")
-		 * and check how many predecessor triples were found
-		 */
-		StmtIterator predStatementsIt =
-				dataset.listStatements(null, RDF.rest, subject);
-		List<Statement> predStatements = predStatementsIt.toList();
-		
-		if (predStatements.isEmpty()) {
-			// 0: we're at the list head --> nothing to do
-			
-		} else if (predStatements.size() == 1) {
-			// 1: normal case --> go ahead (== headwards)
-			searchHeadwards(predStatements.get(0), dataset);
-		
-		} else {
-			// >1: there is more than one predecessor --> report error and go
-			// ahead
-			reportStatements(predStatements, multiplePredecessorsVal);
-			
-			for (Statement statement : predStatements) {
-				searchHeadwards(statement, dataset);
-			}
-		}
-		
-	}
-
-
-	/**
-	 * This method is intended to check if nodes of a list are valid as far as
-	 * the RDF collection syntax is concerned. This checking is done iteratively
-	 * stepping towards the end of the list, only regarding one
-	 * "subject rdf:rest object ." statement at a time. Doing so, only the
-	 * object is of interest, since it is assumed, that the subject (which was
-	 * the object in the former step) is already checked.
-	 * 
-	 * What it actually does is
-	 * - checking if the given object is a literal (this would be a violation
-	 *   and will be reported)
-	 * - checking if the object was already processed (nothing left to do in
-	 *   this case)
-	 * - checking if the object is rdf:nil, which means, we're at the end of
-	 *   the list (nothing left to do)
-	 * - performing one step towards the end of the list if object not rdf:nil
-	 *   and not already processed
-	 * 
-	 * @param statement
-	 * @param dataset
-	 * @throws NotImplementedException
-	 * @throws SQLException 
-	 */
-	private void searchTailwards(Statement statement, SparqlifyDataset dataset)
-			throws NotImplementedException, SQLException {
-		
-		RDFNode object = statement.getObject();
-		
-		// check the object node
-		if(!object.isResource()) {
-			// object node is a literal which is a violation --> report triple
-
-			Triple triple = statement.asTriple();
-			Set<ViewQuad<ViewDefinition>> viewQuads =
-					pinpointer.getViewCandidates(triple);
-			writeTripleMeasureToSink(rdfRestIsLiteralVal, triple, viewQuads);
-		
-		} else {
-			// object node is resource (== blank node or URI node) as expected
-			
-			// do further checks if object was not already processed and
-			// we're not at the end of the list
-			if (!seenListNodes.contains(object.asResource()) 
-					&& !object.asResource().equals(RDF.nil)) {
-				seenListNodes.add(object.asResource());
-				
-				checkForMultiplePredecessors(object.asResource(), dataset);
-				
-				goTailwards(object.asResource(), dataset);
-			}
-		}
-	}
-
-
-	private void checkForMultiplePredecessors(Resource listNode,
-			SparqlifyDataset dataset) throws NotImplementedException, SQLException {
-		
-		// check if listNode is used as rdf:rest more than once
-		StmtIterator rdfRestNodeStmntsIt =
-				dataset.listStatements(null, RDF.rest, listNode);
-		List<Statement> rdfRestNodeStmnts = rdfRestNodeStmntsIt.toList();
-		
-		if (rdfRestNodeStmnts.size() > 1) {
-			// used more than once --> multiple predecessors
-			reportStatements(rdfRestNodeStmnts, multiplePredecessorsVal);
-		}
-	}
-
-
-	/**
-	 * This method takes a node of a collection and tries to find its
-	 * successors. When doing so it also checks if
-	 * - there is no successor: then we're at the end of the list; but since we
-	 *   checked if the object of the predecessor statement was rdf:nil one
-	 *   step before (and would have stopped if so) there should be a successor;
-	 *   so if there is no successor this is a violation since the collection
-	 *   ended abruptly, which will be reported
-	 * - there is exactly one successor as expected:
-	 *   - check if the rdf:first property of the successor is correct (call
-	 *     checkRdfFirst() )
-	 *   - call searchTailwards() on the successor statement
-	 * - there is more than one successor: this is a violation and will be
-	 *   reported
-	 * 
-	 * @param resource
-	 * @param dataset
-	 * @throws NotImplementedException
-	 * @throws SQLException 
-	 */
-	private void goTailwards(Resource resource, SparqlifyDataset dataset)
-			throws NotImplementedException, SQLException {
-		
-		/*
-		 * make one step tailwards (== find triple like "resource rdf:rest sth")
-		 * and check how many successor triples were found
-		 */
-		StmtIterator succStatementsIt =
-				dataset.listStatements(resource, RDF.rest, (RDFNode) null);
-		List<Statement> succStatements = succStatementsIt.toList();
-		
-		if (succStatements.isEmpty()) {
-			// 0: list ended abruptly (without rdf:nil) --> report error
-			
-			// build dummy triple that represents the missing statement
-			Triple triple = new Triple(resource.asNode(), RDF.rest.asNode(), RDF.nil.asNode());
-			writeTripleMeasureToSink(listEndedWithoutRdfNilVal, triple, null);
-		
-		} else if (succStatements.size() == 1) {
-			// 1: there is just on successor (as expected) --> go on tailwards
-			Statement succStatement = succStatements.get(0);
-			checkRdfFirst(succStatement.getSubject(), dataset);
-			searchTailwards(succStatement, dataset);
-		
-		} else {
-			// >1: there are multiple successors which is a violation --> report
-			// violation and go ahead
-			reportStatements(succStatements, multipleSuccessorsVal);
-			
-			for (Statement statement : succStatements) {
-				checkRdfFirst(statement.getSubject(), dataset);
-				searchTailwards(statement, dataset);
-			}
-		}
-	}
-
-
-	private void reportStatements(List<Statement> statements, float value)
-			throws NotImplementedException, SQLException {
-		
-		List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> pinpointResults =
-				new ArrayList<Pair<Triple,Set<ViewQuad<ViewDefinition>>>>();
-		
-		for (Statement statement : statements) {
-			
-			Set<ViewQuad<ViewDefinition>> quadViewDefs =
-					pinpointer.getViewCandidates(statement.asTriple());
-			
-			pinpointResults.add(
-					new Pair<Triple, Set<ViewQuad<ViewDefinition>>>(
-							statement.asTriple(), quadViewDefs));
-		}
-		
-		writeTriplesMeasureToSink(value, pinpointResults);
-	}
+public class CorrectCollectionUse extends MetricImpl implements DatasetMetric {
+    
+    @Autowired
+    private Pinpointer pinpointer;
+    private float score_nilHasRest = (float) 0.5;  // a)
+    private float score_restStatementHasLiteralObject = 0;  // b)
+    private float score_noneOrMultipleFirstStatements = (float) 0.5;  // c)
+    private float score_firstStatementHasLiteralObject = 0;  // d)
+    private float score_collectionNotTerminatedWithNil = (float) 0.5;  // e)
+    private float score_restStatementHasMultipleSuccessors = (float) 0.5;  // f)
+    private float score_restStatementHasMultiplePredecessors = (float) 0.5; // g)
+    
+    
+    // setter mainly used for testing purposes
+    protected void setScore_nilHasRest(float val) {
+        score_nilHasRest = val;
+    }
+    protected void setScore_restStatementHasLiteralObject(float val) {
+        score_restStatementHasLiteralObject = val;
+    }
+    protected void setScore_noneOrMultipleFirstStatements(float val) {
+        score_noneOrMultipleFirstStatements = val;
+    }
+    protected void setScore_firstStatementHasLiteralObject(float val) {
+        score_firstStatementHasLiteralObject = val;
+    }
+    public void setScore_collectionNotTerminatedWithNil(float val) {
+        score_collectionNotTerminatedWithNil = val;
+    }
+    public void setScore_restStatementHasMultipleSuccessors(float val) {
+        score_restStatementHasMultipleSuccessors = val;
+    }
+    public void setScore_restStatementHasMultiplePredecessors(float val) {
+        score_restStatementHasMultiplePredecessors = val;
+    }
+    
+    
+    @Override
+    public void assessDataset(SparqlifyDataset dataset)
+            throws NotImplementedException, SQLException {
+        
+        check_nilHasRest(dataset);
+        check_noneOrMultipleFirstStatements(dataset);
+        check_firstStatementHasLiteralObject(dataset);
+        check_collectionNotTerminatedWithNil(dataset);
+        check_restStatementHasLiteralObject(dataset);
+        check_restStatementHasMultipleSuccessors(dataset);
+        check_restStatementHasMultiplePredecessors(dataset);
+    }
+    
+    
+    private void check_nilHasRest(SparqlifyDataset dataset)
+            throws NotImplementedException, SQLException {
+        
+        String queryStr =
+                "SELECT * { " +
+                    "<" + RDF.nil.getURI() + "> <" + RDF.rest.getURI() + "> ?rest . " +
+                "}";
+        QueryExecution qe = getQueryExecution(queryStr, dataset);
+        ResultSet res = qe.execSelect();
+        while (res.hasNext()) {
+            QuerySolution sol = res.next();
+            Node rest = sol.get("rest").asNode();
+            // build triple for reporting
+            Triple triple = new Triple(RDF.nil.asNode(), RDF.rest.asNode(), rest);
+            Set<ViewQuad<ViewDefinition>> quadViewDefs = pinpointer
+                    .getViewCandidates(triple);
+            writeTripleMeasureToSink(score_nilHasRest, triple, quadViewDefs);
+        }
+        
+        
+    }
+    
+    
+    private void check_restStatementHasLiteralObject(SparqlifyDataset dataset)
+            throws NotImplementedException, SQLException {
+        
+        String queryStr =
+                "SELECT * { " +
+                    "?lnode <" + RDF.rest.getURI() + "> ?rest . " +
+                    "FILTER (isLiteral(?rest) ) " +
+                "}";
+        QueryExecution qe = getQueryExecution(queryStr, dataset);
+        ResultSet res = qe.execSelect();
+        while (res.hasNext()) {
+            QuerySolution sol = res.next();
+            // build tripe to report
+            Node lNode = sol.get("lnode").asNode();
+            Node rest = sol.get("rest").asNode();
+            Triple triple = new Triple(lNode, RDF.rest.asNode(), rest);
+            Set<ViewQuad<ViewDefinition>> quadViewDefs = pinpointer
+                    .getViewCandidates(triple);
+            writeTripleMeasureToSink(score_restStatementHasLiteralObject,
+                    triple, quadViewDefs);
+        }
+    }
+    
+    
+    private void check_noneOrMultipleFirstStatements(SparqlifyDataset dataset)
+            throws NotImplementedException, SQLException {
+        
+        // ----------------- none -----------------
+        String noneQueryStr =
+                "SELECT * { " +
+                    "?lnode <" + RDF.rest.getURI() + "> ?rest . " +
+                    "FILTER ( NOT EXISTS {?lnode <" + RDF.first.getURI() + "> [] } ) " +
+                "}";
+        QueryExecution noneQe = getQueryExecution(noneQueryStr, dataset);
+        ResultSet noneRes = noneQe.execSelect();
+        while (noneRes.hasNext()) {
+            QuerySolution sol = noneRes.next();
+            // build triple for reporting (actually the missing triple is
+            // reported here)
+            Node lNode = sol.get("lnode").asNode();
+            Node first = NodeFactory.createURI("http://ex.org/missing");
+            Triple triple = new Triple(lNode, RDF.first.asNode(), first);
+            
+            Set<ViewQuad<ViewDefinition>> quadViewDefs = pinpointer
+                    .getViewCandidates(triple);
+            writeTripleMeasureToSink(score_noneOrMultipleFirstStatements,
+                    triple, quadViewDefs);
+        }
+        
+        // --------------- multiple ---------------
+        String mulQueryStr =
+                "SELECT * { " +
+//                    "?lnode <" + RDF.rest.getURI() + "> ?rest . " +
+                    "?lnode <" + RDF.first.getURI() + "> ?first1 . " +
+                    "?lnode <" + RDF.first.getURI() + "> ?first2 . " +
+                    "FILTER (?first1 != ?first2 ) " +
+                "}";
+        QueryExecution mulQe = getQueryExecution(mulQueryStr, dataset);
+        ResultSet mulRes = mulQe.execSelect();
+        while (mulRes.hasNext()) {
+            QuerySolution sol = mulRes.next();
+            // build triples for reporting
+            Node lNode = sol.get("lnode").asNode();
+            Node first1 = sol.get("first1").asNode();
+            Node first2 = sol.get("first2").asNode();
+            Triple triple1 = new Triple(lNode, RDF.first.asNode(), first1);
+            Triple triple2 = new Triple(lNode, RDF.first.asNode(), first2);
+            
+            reportTriples(Arrays.asList(triple1, triple2),
+                    score_noneOrMultipleFirstStatements);
+        }
+    }
+    
+    
+    private void check_firstStatementHasLiteralObject(SparqlifyDataset dataset)
+            throws NotImplementedException, SQLException {
+        
+        String queryStr =
+                "SELECT * {" +
+                    "?lnode <" + RDF.first.getURI() + "> ?first " +
+                    "FILTER (isLiteral(?first)) " +
+                "}";
+        QueryExecution qe = getQueryExecution(queryStr, dataset);
+        ResultSet res = qe.execSelect();
+        while (res.hasNext()) {
+            QuerySolution sol = res.next();
+            Node lNode = sol.get("lnode").asNode();
+            Node firstVal = sol.get("first").asNode();
+            Triple triple = new Triple(lNode, RDF.first.asNode(), firstVal);
+            
+            Set<ViewQuad<ViewDefinition>> quadViewDefs = pinpointer
+                    .getViewCandidates(triple);
+            writeTripleMeasureToSink(score_firstStatementHasLiteralObject,
+                    triple, quadViewDefs);
+        }
+    }
+    
+    
+    private void check_collectionNotTerminatedWithNil(SparqlifyDataset dataset)
+            throws NotImplementedException, SQLException {
+        
+        String queryStr =
+                "SELECT * { " +
+                    "?lnode <" + RDF.rest.getURI() + "> ?rest . " +
+                    "FILTER (NOT EXISTS { ?lnode <" + RDF.rest.getURI() + ">+ <" + RDF.nil.getURI() + "> } ) " +
+                "}";
+        QueryExecution qe = getQueryExecution(queryStr, dataset);
+        ResultSet res = qe.execSelect();
+        while (res.hasNext()) {
+            QuerySolution sol = res.next();
+            // report violation
+            Node lNode = sol.get("lnode").asNode();
+            Node rest = sol.get("rest").asNode();
+            Triple triple = new Triple(lNode, RDF.rest.asNode(), rest);
+            
+            Set<ViewQuad<ViewDefinition>> quadViewDefs = pinpointer
+                    .getViewCandidates(triple);
+            writeTripleMeasureToSink(score_collectionNotTerminatedWithNil,
+                    triple, quadViewDefs);
+        }
+        qe.close();
+    }
+    
+    
+    private void check_restStatementHasMultipleSuccessors(
+            SparqlifyDataset dataset) throws NotImplementedException,
+            SQLException {
+        
+        String queryStr =
+                "SELECT *  { " +
+                    "?par <" + RDF.rest.getURI() + "> ?rest1 . " +
+                    "?par <" + RDF.rest.getURI() + "> ?rest2 . " +
+                    "FILTER (?rest1 != ?rest2)" +
+                "}";
+        QueryExecution qe = getQueryExecution(queryStr, dataset);
+        ResultSet res = qe.execSelect();
+        while (res.hasNext()) {
+            QuerySolution sol = res.next();
+            // build statement for reporting
+            Node par = sol.get("par").asNode();
+            Node pred = RDF.rest.asNode();
+            Node obj1 = sol.get("rest1").asNode();
+            Node obj2 = sol.get("rest2").asNode();
+            
+            Triple triple1 = new Triple(par, pred, obj1);
+            Triple triple2 = new Triple(par, pred, obj2);
+            
+            reportTriples(Arrays.asList(triple1, triple2),
+                    score_restStatementHasMultipleSuccessors);
+        }
+        qe.close();
+    }
+    
+    
+    private void check_restStatementHasMultiplePredecessors(
+            SparqlifyDataset dataset) throws NotImplementedException,
+            SQLException {
+        
+        String queryStr =
+                "SELECT * {" +
+                    "?child <" + RDF.rest.getURI() + "> ?rest . " +
+                    "?par1 <" + RDF.rest.getURI() + "> ?child . " +
+                    "?par2 <" + RDF.rest.getURI() + "> ?child . " +
+                    "FILTER ( ?par1 != ?par2 ) " +
+                "}";
+        
+        QueryExecution qe = getQueryExecution(queryStr, dataset);
+        ResultSet res = qe.execSelect();
+        while (res.hasNext()) {
+            QuerySolution sol = res.next();
+            // build statement for reporting
+            Node child = sol.get("child").asNode();
+            Node pred = RDF.rest.asNode();
+            Node subj1 = sol.get("par1").asNode();
+            Node subj2 = sol.get("par2").asNode();
+            
+            Triple triple1 = new Triple(subj1, pred, child);
+            Triple triple2 = new Triple(subj2, pred, child);
+            
+            reportTriples(Arrays.asList(triple1, triple2),
+                    score_restStatementHasMultiplePredecessors);
+        }
+        qe.close();
+    }
+    
+    
+    private QueryExecution getQueryExecution(String queryStr, SparqlifyDataset dataset) {
+        Query query = QueryFactory.create(queryStr);
+        QueryExecution qe;
+        if (dataset.isSparqlService() && dataset.getSparqlServiceUri() != null) {
+            qe = QueryExecutionFactory.createServiceRequest(
+                    dataset.getSparqlServiceUri(), query);
+        } else {
+            qe = QueryExecutionFactory.create(query, dataset);
+        }
+        
+        return qe;
+    }
+    
+    
+    private void reportTriples(List<Triple> triples, float value)
+            throws NotImplementedException, SQLException {
+        
+        List<Pair<Triple, Set<ViewQuad<ViewDefinition>>>> pinpointResults =
+                new ArrayList<Pair<Triple,Set<ViewQuad<ViewDefinition>>>>();
+        
+        for (Triple triple : triples) {
+            
+            Set<ViewQuad<ViewDefinition>> quadViewDefs =
+                    pinpointer.getViewCandidates(triple);
+            
+            pinpointResults.add(
+                    new Pair<Triple, Set<ViewQuad<ViewDefinition>>>(
+                            triple, quadViewDefs));
+        }
+        writeTriplesMeasureToSink(value, pinpointResults);
+    }
 }
