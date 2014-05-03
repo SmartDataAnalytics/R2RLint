@@ -1,4 +1,4 @@
-package org.aksw.sparqlify.qa.metrics.accuracy;
+package org.aksw.sparqlify.qa.metrics.semanticaccuracy;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -20,7 +20,7 @@ import org.aksw.sparqlify.algebra.sql.nodes.SqlOpTable;
 import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,7 +57,7 @@ import com.hp.hpl.jena.vocabulary.OWL;
  *
  */
 @Component
-public class PreservedNotNullConstraint extends MetricImpl implements MappingMetric {
+public class PreservedNotNullConstraint extends MetricImpl implements ViewMetric {
 
 	@Autowired
 	DataSource rdb;
@@ -75,7 +75,7 @@ public class PreservedNotNullConstraint extends MetricImpl implements MappingMet
 	
 	
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs)
+	public void assessViews(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException, SQLException {
 		
 		for (ViewDefinition viewDef : viewDefs) {
