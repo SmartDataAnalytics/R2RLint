@@ -13,13 +13,17 @@ import org.aksw.sparqlify.qa.metrics.DatasetMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
 import org.aksw.sparqlify.qa.sinks.TriplePosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
 /**
@@ -38,95 +42,152 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  */
 @Component
 public class LabeledResources extends MetricImpl implements DatasetMetric {
-	
-	@Autowired
-	private Pinpointer pinpointer;
-	
-	List<Resource> seenResources;
-
-
-	protected void clearCaches() {
-		seenResources = new ArrayList<Resource>();
-	}
-	
-	public LabeledResources() {
-		super();
-		seenResources = new ArrayList<Resource>();
-	}
-
-
-	@Override
-	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException, SQLException {
-
-		StmtIterator statementsIt = dataset.listStatements();
-		
-		while (statementsIt.hasNext()) {
-			Statement statement = statementsIt.next();
-			
-			Resource subject = statement.getSubject();
-			Resource predicate = statement.getPredicate().asResource();
-			RDFNode object = statement.getObject();
-			
-			/* subject */
-			
-			if (!seenResources.contains(subject)) {
-				
-				// subject is a local URI resource 
-				if (subject.isURIResource() && subject.getURI().startsWith(dataset.getPrefix()) 
-						// there is no statement <subj> rdfs:label "sth"
-						&& !dataset.listStatements(subject, RDFS.label, (RDFNode) null).hasNext()
-						// there is no statement <subj> rdfs:comment "sth"
-						&& !dataset.listStatements(subject, RDFS.comment, (RDFNode) null).hasNext()) {
-					
-					Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-							.getViewCandidates(statement.asTriple());
-					writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
-							statement.asTriple(), viewQuads);
-				}
-				seenResources.add(subject);
-			}
-			
-			/* predicate */
-			
-			if (!seenResources.contains(predicate)) {
-				// predicate is a local URI resource
-				if(predicate.getURI().startsWith(dataset.getPrefix())
-						// there is no statement <pred> rdfs:label "sth"
-						&& !dataset.listStatements(predicate, RDFS.label, (RDFNode) null).hasNext()
-						// there is no statement <pred> rdfs:comment "sth"
-						&& !dataset.listStatements(predicate, RDFS.comment, (RDFNode) null).hasNext()) {
-					
-					Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-							.getViewCandidates(statement.asTriple());
-					writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE,
-							statement.asTriple(), viewQuads);
-				}
-				seenResources.add(predicate);
-			}
-			
-			
-			/* object */
-			
-			// object is a URI resource, not seen yet...
-			if (object.isURIResource() &&!seenResources.contains(object.asResource())) {
-				
-				// object is a local resource...
-				if(object.asResource().getURI().startsWith(dataset.getPrefix())
-					// ...and there is no statement <obj> rdfs:label "sth"...
-					&& !dataset.listStatements(object.asResource(), RDFS.label, (RDFNode) null).hasNext()
-					// ...and there is no statement <obj> rdfs:comment "sth"
-					&& !dataset.listStatements(object.asResource(), RDFS.comment, (RDFNode) null).hasNext()) {
-					
-					Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
-							.getViewCandidates(statement.asTriple());
-				
-					writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
-							statement.asTriple(), viewQuads);
-				}
-				seenResources.add(object.asResource());
-			}
-		}
-		
-	}
+    private static Logger logger = LoggerFactory.getLogger(LabeledResources.class);
+    @Autowired
+    private Pinpointer pinpointer;
+    
+    List<Node> seenResources;
+    
+    
+    protected void clearCaches() {
+        seenResources = new ArrayList<Node>();
+    }
+    
+    public LabeledResources() {
+        super();
+        seenResources = new ArrayList<Node>();
+    }
+    
+    
+    @Override
+    public void assessDataset(SparqlifyDataset dataset)
+            throws NotImplementedException, SQLException {
+        
+        int dbgCount = 0;
+        for (Triple triple : dataset) {
+            if (dbgCount++ % 10000 == 0) logger.debug("assessed " + dbgCount + " triples");
+            
+            Node subject = triple.getSubject();
+            Node predicate = triple.getPredicate();
+            Node object = triple.getObject();
+            
+            /* subject */
+            if (!seenResources.contains(subject)) {
+                // subject is a local URI resource 
+                boolean isLocal = false;
+                for (String prefix : dataset.getPrefixes()) {
+                    if (subject.isURI() && subject.getURI().startsWith(prefix)) {
+                        isLocal = true;
+                        break;
+                    }
+                }
+                
+                if (isLocal) {
+                    
+                    boolean hasLabel = false;
+                    String lblQueryStr = "ASK { <" + subject.getURI() + "> <" + RDFS.label.getURI() + "> ?l }";
+                    Query lblQuery = QueryFactory.create(lblQueryStr);
+                    
+                    QueryExecution lblQe;
+                    if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+                        lblQe = QueryExecutionFactory.createServiceRequest(
+                                dataset.getSparqlServiceUri(), lblQuery);
+                    } else {
+                        lblQe = QueryExecutionFactory.create(lblQuery, dataset);
+                    }
+                    
+                    hasLabel = lblQe.execAsk();
+                    lblQe.close();
+                    
+                    if (!hasLabel) {
+                        Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+                                .getViewCandidates(triple);
+                        writeNodeTripleMeasureToSink(0, TriplePosition.SUBJECT,
+                                triple, viewQuads);
+                    }
+                }
+                seenResources.add(subject);
+            }
+            
+            
+            /* predicate */
+            
+            if (!seenResources.contains(predicate)) {
+                // predicate is a local URI resource
+                boolean isLocal = false;
+                for (String prefix : dataset.getPrefixes()) {
+                    if (predicate.getURI().startsWith(prefix)) {
+                        isLocal = true;
+                        break;
+                    }
+                }
+                
+                if(isLocal){
+                    
+                    boolean hasLabel = false;
+                    String lblQueryStr = "ASK { <" + predicate.getURI() + "> <" + RDFS.label.getURI() + "> ?l }";
+                    Query lblQuery = QueryFactory.create(lblQueryStr);
+                    
+                    QueryExecution lblQe;
+                    if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+                        lblQe = QueryExecutionFactory.createServiceRequest(
+                                dataset.getSparqlServiceUri(), lblQuery);
+                    } else {
+                        lblQe = QueryExecutionFactory.create(lblQuery, dataset);
+                    }
+                    
+                    hasLabel = lblQe.execAsk();
+                    lblQe.close();
+                    
+                    if (!hasLabel) {
+                        Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer
+                                .getViewCandidates(triple);
+                        writeNodeTripleMeasureToSink(0, TriplePosition.PREDICATE,
+                                triple, viewQuads);
+                    }
+                }
+                seenResources.add(predicate);
+            }
+            
+            
+            /* object */
+            
+            // object is a URI resource, not seen yet...
+            if (object.isURI() &&!seenResources.contains(object)) {
+                
+                // object is a local resource...
+                boolean isLocal = false;
+                for (String prefix : dataset.getPrefixes()) {
+                    if (object.getURI().startsWith(prefix)) {
+                        isLocal = true;
+                        break;
+                    }
+                }
+                if(isLocal) {
+                    
+                    boolean hasLabel = false;
+                    String lblQueryStr = "ASK { <" + object.getURI() + "> <" + RDFS.label.getURI() + "> ?l }";
+                    Query lblQuery = QueryFactory.create(lblQueryStr);
+                    
+                    QueryExecution lblQe;
+                    if (dataset.isSparqlService() && dataset.getSparqlServiceUri()!=null) {
+                        lblQe = QueryExecutionFactory.createServiceRequest(
+                                dataset.getSparqlServiceUri(), lblQuery);
+                    } else {
+                        lblQe = QueryExecutionFactory.create(lblQuery, dataset);
+                    }
+                    
+                    hasLabel = lblQe.execAsk();
+                    lblQe.close();
+                    
+                    if (!hasLabel) {
+                        Set<ViewQuad<ViewDefinition>> viewQuads = pinpointer.getViewCandidates(triple);
+                        writeNodeTripleMeasureToSink(0, TriplePosition.OBJECT,
+                                triple, viewQuads);
+                    }
+                }
+                seenResources.add(object);
+            }
+        }
+    }
 }
