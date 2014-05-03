@@ -155,7 +155,7 @@ public class ExtensionalConcisenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef01));
+		metric.assessViews(Arrays.asList(viewDef01));
 		
 		float expected = (float) -1;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -169,7 +169,7 @@ public class ExtensionalConcisenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef02));
+		metric.assessViews(Arrays.asList(viewDef02));
 		
 		float expected = 1 / (float) 2;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -183,7 +183,7 @@ public class ExtensionalConcisenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef01, viewDef02));
+		metric.assessViews(Arrays.asList(viewDef01, viewDef02));
 		
 		float expected = 1 / (float) 3;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -197,7 +197,7 @@ public class ExtensionalConcisenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef03));
+		metric.assessViews(Arrays.asList(viewDef03));
 		
 		float expected = 1 / (float) 2;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -211,7 +211,7 @@ public class ExtensionalConcisenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef04));
+		metric.assessViews(Arrays.asList(viewDef04));
 		
 		float expected = 1 / (float) 2;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -225,7 +225,7 @@ public class ExtensionalConcisenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef03, viewDef04));
+		metric.assessViews(Arrays.asList(viewDef03, viewDef04));
 		
 		float expected = 1 / (float) 2;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);
@@ -239,7 +239,7 @@ public class ExtensionalConcisenessTest {
 		metric.setParentDimension("parent");
 		metric.initMeasureDataSink();
 		
-		metric.assessMappings(Arrays.asList(viewDef01, viewDef02, viewDef05));
+		metric.assessViews(Arrays.asList(viewDef01, viewDef02, viewDef05));
 		
 		float expected = 1 / (float) 4;
 		assertEquals(expected, ((ValueTestingSink) sink).writtenValue(metricName), 0);

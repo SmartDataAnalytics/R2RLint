@@ -18,7 +18,7 @@ import org.aksw.sparqlify.core.domain.input.RestrictedExpr;
 import org.aksw.sparqlify.core.domain.input.VarDefinition;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.exceptions.NotImplementedException;
-import org.aksw.sparqlify.qa.metrics.MappingMetric;
+import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.metrics.MetricImpl;
 import org.springframework.stereotype.Component;
 
@@ -35,14 +35,16 @@ import com.hp.hpl.jena.sparql.core.Var;
  * are (in some way) built based in a certain DB entity or one of its
  * attributes.
  * 
+ * FIXME: referencing foreign keys are not considered!!!
+ * 
  * @author Patrick Westphal <patrick.westphal@informatik.uni-leipzig.de>
  *
  */
 @Component
-public class ExtensionalConciseness extends MetricImpl implements MappingMetric {
+public class ExtensionalConciseness extends MetricImpl implements ViewMetric {
 
 	@Override
-	public void assessMappings(Collection<ViewDefinition> viewDefs)
+	public void assessViews(Collection<ViewDefinition> viewDefs)
 			throws NotImplementedException, SQLException {
 
 		ViewDefsInfosEC vdInfos = new ViewDefsInfosEC();
@@ -131,6 +133,7 @@ class ViewDefsInfosEC {
 							varDefs.getDefinitions(nodevar);
 					
 					Set<Var> colVars = null;
+					// FIXME: check if term constructor constructs URI?
 					for (RestrictedExpr termConstructor : termConstructors) {
 						colVars =
 								termConstructor.getExpr().getVarsMentioned();
