@@ -35,116 +35,118 @@ import com.hp.hpl.jena.vocabulary.RDF;
  */
 @Component
 public class DatasetMetadata extends MetricImpl implements DatasetMetric {
-	
-	float noDatasetStatementsValue = 0;
-	float noSuggestedPropertiesUsedValue = (float) 0.5;
-	
-	List<Property> datasetTitleProperties = new ArrayList<Property>(
-			Arrays.asList(DCTerms.alternative, DCTerms.title, DC.title,
-					SIOC.name));
-	
-	List<Property> datasetContentProperties = new ArrayList<Property>(
-			Arrays.asList(DCTerms.abstract_, DCTerms.accrualMethod,
-					DCTerms.accrualPeriodicity, DCTerms.accrualPolicy,
-					DCTerms.audience, DCTerms.available, DCTerms.coverage,
-					DCTerms.description, DCTerms.language, DCTerms.provenance,
-					DCTerms.source, DCTerms.spatial, DCTerms.subject,
-					DCTerms.tableOfContents, DCTerms.type, DC.coverage,
-					DC.description, DC.language, DC.source, DC.subject, DC.type,
-					SIOC.about, SIOC.has_space, SIOC.topic, FOAF.primaryTopic,
-					FOAF.topic, VoID.class_, VoID.classPartition, VoID.classes,
-					VoID.dataDump, VoID.distinctObjects, VoID.distinctSubjects,
-					VoID.documents, VoID.entities, VoID.exampleResource,
-					VoID.feature, VoID.inDataset, VoID.linkPredicate,
-					VoID.objectsTarget, VoID.openSearchDescription,
-					VoID.properties, VoID.property, VoID.propertyPartition,
-					VoID.rootResource, VoID.sparqlEndpoint, VoID.subjectsTarget,
-					VoID.subset, VoID.target, VoID.triples,
-					VoID.uriLookupEndpoint, VoID.uriRegexPattern, VoID.uriSpace,
-					VoID.vocabulary));
-	
-	List<Property> datasetCreatorProperties = new ArrayList<Property>(
-			Arrays.asList(DCTerms.contributor, DCTerms.creator,
-					DCTerms.publisher, DC.contributor, DC.creator, DC.publisher,
-					SIOC.has_creator, FOAF.maker ));
-	
-	
-	@Override
-	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException, SQLException {
-
-		// TODO: maybe use a SPARQL query here
-		// get all defined datasets
-		StmtIterator datasetIt = dataset.listStatements(null, RDF.type, VoID.Dataset);
-		
-		if (!datasetIt.hasNext() && (noDatasetStatementsValue >= threshold)) {
-			// report a value of <noDatasetStatementsValue> since there are is
-			// not even a dataset resource defined
-			Node datasetNode;
-			try {
-				// create dummy resource representing the dataset
-				datasetNode = NodeFactory.createURI(dataset.getPrefixes().get(0));
-			} catch (JenaException e) {
-				datasetNode = NodeFactory.createURI(dataset.getPrefixes() + "#");
-			} catch (NullPointerException e) {
-				// ...in case there are no local prefixes defined
-				datasetNode = NodeFactory.createURI("#");
-			}
-				
-			writeNodeMeasureToSink(noDatasetStatementsValue, datasetNode);
-		}
-
-		while (datasetIt.hasNext()) {
-			// check for every dataset if any properties from the dataset
-			// properties lists are used
-			Resource datasetResource = datasetIt.next().getSubject();
-			
-			StmtIterator datasetStatementsIt = dataset.listStatements(
-					datasetResource, null, (RDFNode) null);
-			
-			boolean suggestedPropertiesUsed = false;
-			boolean onlyRdfTypeVoidDatasetStatement = true;
-			while (datasetStatementsIt.hasNext()) {
-				Statement datasetStatement = datasetStatementsIt.next();
-				Property pred = datasetStatement.getPredicate();
-				
-				if (!pred.equals(RDF.type))
-					// the is not just the <..> rdf:type void:Dataset statement
-					onlyRdfTypeVoidDatasetStatement = false;
-				
-				if (datasetTitleProperties.contains(pred)
-						|| datasetContentProperties.contains(pred)
-						|| datasetCreatorProperties.contains(pred)) {
-					suggestedPropertiesUsed = true;
-				}
-			}
-			if (!suggestedPropertiesUsed) {
-				
-				if (onlyRdfTypeVoidDatasetStatement
-						&& (noDatasetStatementsValue >= threshold))
-					// report a value of <noDatasetStatementsValue> since there
-					// are no statements (other than rdf:type void:Dataset)
-					// made about the given dataset
-					writeNodeMeasureToSink(noDatasetStatementsValue,
-							datasetResource.asNode());
-				
-				else if (noSuggestedPropertiesUsedValue >= threshold)
-					// report a value of <noSuggestedPropertiesUsedValue> since
-					// there are statements made but not with the dataset
-					// properties suggested above
-					writeNodeMeasureToSink(noSuggestedPropertiesUsedValue,
-							datasetResource.asNode());
-			}
-		}
-	}
-
-
-	// mainly for testing purposes
-	public void setNoDatasetStatementsValue(float value) {
-		noDatasetStatementsValue = value;
-	}
-	public void setNoSuggestedPropertiesUsedValue(float value) {
-		noSuggestedPropertiesUsedValue = value;
-	}
-
+    
+    float noDatasetStatementsValue = 0;
+    float noSuggestedPropertiesUsedValue = (float) 0.5;
+    
+    List<Property> datasetTitleProperties = new ArrayList<Property>(
+            Arrays.asList(DCTerms.alternative, DCTerms.title, DC.title, SIOC.name));
+    
+    List<Property> datasetContentProperties = new ArrayList<Property>(
+            Arrays.asList(DCTerms.abstract_, DCTerms.accrualMethod,
+                    DCTerms.accrualPeriodicity, DCTerms.accrualPolicy,
+                    DCTerms.audience, DCTerms.available, DCTerms.coverage,
+                    DCTerms.description, DCTerms.language, DCTerms.provenance,
+                    DCTerms.source, DCTerms.spatial, DCTerms.subject,
+                    DCTerms.tableOfContents, DCTerms.type, DC.coverage,
+                    DC.description, DC.language, DC.source, DC.subject, DC.type,
+                    SIOC.about, SIOC.has_space, SIOC.topic, FOAF.primaryTopic,
+                    FOAF.topic, VoID.class_, VoID.classPartition, VoID.classes,
+                    VoID.dataDump, VoID.distinctObjects, VoID.distinctSubjects,
+                    VoID.documents, VoID.entities, VoID.exampleResource,
+                    VoID.feature, VoID.inDataset, VoID.linkPredicate,
+                    VoID.objectsTarget, VoID.openSearchDescription,
+                    VoID.properties, VoID.property, VoID.propertyPartition,
+                    VoID.rootResource, VoID.sparqlEndpoint, VoID.subjectsTarget,
+                    VoID.subset, VoID.target, VoID.triples,
+                    VoID.uriLookupEndpoint, VoID.uriRegexPattern, VoID.uriSpace,
+                    VoID.vocabulary));
+    
+    List<Property> datasetCreatorProperties = new ArrayList<Property>(
+            Arrays.asList(DCTerms.contributor, DCTerms.creator,
+                    DCTerms.publisher, DC.contributor, DC.creator, DC.publisher,
+                    SIOC.has_creator, FOAF.maker ));
+    
+    
+    @Override
+    public void assessDataset(SparqlifyDataset dataset)
+            throws NotImplementedException, SQLException {
+        
+        // TODO: maybe use a SPARQL query here
+        // get all defined datasets
+        StmtIterator datasetIt = dataset.listStatements(null, RDF.type, VoID.Dataset);
+        
+        if (!datasetIt.hasNext() && (noDatasetStatementsValue >= threshold)) {
+            // report a value of <noDatasetStatementsValue> since there are is
+            // not even a dataset resource defined
+            Node datasetNode;
+            try {
+                // create dummy resource representing the dataset
+                if (dataset.getPrefixes().size() > 0) {
+                    datasetNode = NodeFactory.createURI(dataset.getPrefixes().get(0));
+                } else {
+                    datasetNode = NodeFactory.createURI("#");
+                }
+            } catch (JenaException e) {
+                datasetNode = NodeFactory.createURI(dataset.getPrefixes() + "#");
+            } catch (NullPointerException e) {
+                // ...in case there are no local prefixes defined
+                datasetNode = NodeFactory.createURI("#");
+            }
+            
+            writeNodeMeasureToSink(noDatasetStatementsValue, datasetNode);
+        }
+        
+        while (datasetIt.hasNext()) {
+            // check for every dataset if any properties from the dataset
+            // properties lists are used
+            Resource datasetResource = datasetIt.next().getSubject();
+            
+            StmtIterator datasetStatementsIt = dataset.listStatements(
+                    datasetResource, null, (RDFNode) null);
+            
+            boolean suggestedPropertiesUsed = false;
+            boolean onlyRdfTypeVoidDatasetStatement = true;
+            while (datasetStatementsIt.hasNext()) {
+                Statement datasetStatement = datasetStatementsIt.next();
+                Property pred = datasetStatement.getPredicate();
+                
+                if (!pred.equals(RDF.type))
+                    // the is not just the <..> rdf:type void:Dataset statement
+                    onlyRdfTypeVoidDatasetStatement = false;
+                
+                if (datasetTitleProperties.contains(pred)
+                        || datasetContentProperties.contains(pred)
+                        || datasetCreatorProperties.contains(pred)) {
+                    suggestedPropertiesUsed = true;
+                }
+            }
+            if (!suggestedPropertiesUsed) {
+                
+                if (onlyRdfTypeVoidDatasetStatement
+                        && (noDatasetStatementsValue >= threshold))
+                    // report a value of <noDatasetStatementsValue> since there
+                    // are no statements (other than rdf:type void:Dataset)
+                    // made about the given dataset
+                    writeNodeMeasureToSink(noDatasetStatementsValue,
+                            datasetResource.asNode());
+                
+                else if (noSuggestedPropertiesUsedValue >= threshold)
+                    // report a value of <noSuggestedPropertiesUsedValue> since
+                    // there are statements made but not with the dataset
+                    // properties suggested above
+                    writeNodeMeasureToSink(noSuggestedPropertiesUsedValue,
+                            datasetResource.asNode());
+            }
+        }
+    }
+    
+    
+    // mainly for testing purposes
+    public void setNoDatasetStatementsValue(float value) {
+        noDatasetStatementsValue = value;
+    }
+    public void setNoSuggestedPropertiesUsedValue(float value) {
+        noSuggestedPropertiesUsedValue = value;
+    }
 }
