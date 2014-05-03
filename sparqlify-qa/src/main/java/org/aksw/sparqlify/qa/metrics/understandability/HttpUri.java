@@ -108,17 +108,17 @@ public class HttpUri extends MetricImpl implements NodeMetric {
 			// rel_path      = [ path_segments ] [ "?" query ]
 			// query         = *urlc
 			// urlc          = reserved | unreserved | escaped
-		    // reserved      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+"
+			// reserved      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+"
 			// unreserved    = alpha | digit | mark
-		    // escaped       = "%" hex hex
+			// escaped       = "%" hex hex
 			
-		    // http://tools.ietf.org/html/rfc3986#page-23:
-		    //
-		    // query      = *( pchar / "/" / "?" )
-		    // pchar      = unreserved / pct-encoded / sub-delims / ":" / "@"
-		    // unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
-		    // sub-delims = "!" / "$" / "&" / "'" / "(" / ")"
-            //                 / "*" / "+" / "," / ";" / "="
+			// http://tools.ietf.org/html/rfc3986#page-23:
+			//
+			// query      = *( pchar / "/" / "?" )
+			// pchar      = unreserved / pct-encoded / sub-delims / ":" / "@"
+			// unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
+			// sub-delims = "!" / "$" / "&" / "'" / "(" / ")"
+			//                 / "*" / "+" / "," / ";" / "="
 			"(?:\\?" +
 				"(?:" +
 					// field
