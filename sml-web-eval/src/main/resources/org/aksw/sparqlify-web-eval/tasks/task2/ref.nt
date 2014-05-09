@@ -1,4 +1,0 @@
-<http://example.org/resource/person1> <http://example.org/vocab/country> <http://downlode.org/rdf/iso-3166/countries#us> .
-<http://example.org/resource/person1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
-<http://example.org/resource/person1> <http://xmlns.com/foaf/0.1/firstName> "Anne" .
-<http://example.org/resource/person1> <http://example.org/workplaceHomepage> <http://example.org/Anne> .
