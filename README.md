@@ -1,4 +1,4 @@
-Sparqlify-Extensions
+R2RLint
 ====================
 
-Extension projects for Sparqlify
+An RDB2RDF quality assessment tool
