@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.aksw.sparqlify</groupId>
-	<artifactId>sparqlify-qa</artifactId>
-	<version>0.6.5-SNAPSHOT</version>
+	<artifactId>r2rlint</artifactId>
+	<version>0.1</version>
 	<packaging>jar</packaging>
 
-	<name>Sparqlify SPARQL-&gt;SQL rewriter - </name>
-	<url>http://aksw.org/Projects/Sparqlify</url>
+	<name>R2RLint</name>
+	<url>http://aksw.org/Projects/R2RLint</url>
 
 	<properties>
 		<maven.compiler.source>1.6</maven.compiler.source>
@@ -21,6 +21,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<aksw.commons.version>0.6-SNAPSHOT</aksw.commons.version>
+        <sparqlify.version>0.6.5-SNAPSHOT</sparqlify.version>
 	</properties>
 	<scm>
 		<connection>scm:git:git@github.com:AKSW/Sparqlify.git</connection>
@@ -91,7 +92,7 @@
         <dependency>
             <groupId>org.aksw.sparqlify</groupId>
             <artifactId>sparqlify-core</artifactId>
-            <version>${project.version}</version>
+            <version>${sparqlify.version}</version>
         </dependency>
         <dependency>
             <groupId>org.aksw.commons</groupId>
