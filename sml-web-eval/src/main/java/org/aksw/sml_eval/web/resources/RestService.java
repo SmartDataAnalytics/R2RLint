@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -48,7 +49,6 @@ import org.aksw.sparqlify.core.interfaces.CandidateViewSelector;
 import org.aksw.sparqlify.core.interfaces.OpMappingRewriter;
 import org.aksw.sparqlify.core.interfaces.SparqlSqlStringRewriter;
 import org.aksw.sparqlify.core.sparql.QueryExecutionFactoryEx;
-import org.aksw.sparqlify.core.sparql.QueryExecutionFactoryExWrapper;
 import org.aksw.sparqlify.core.sparql.QueryExecutionFactorySparqlifyDs;
 import org.aksw.sparqlify.util.SparqlifyUtils;
 import org.aksw.sparqlify.util.ViewDefinitionFactory;
@@ -809,12 +809,13 @@ public class RestService {
 		RdfViewSystemOld.initSparqlifyFunctions();
 		TypeSystem typeSystem = NewWorldTest.createDefaultDatatypeSystem();
 		OpMappingRewriter opMappingRewriter = SparqlifyUtils.createDefaultOpMappingRewriter(typeSystem);
+		DataSource db = SparqlifyUtils.createDefaultDatabase("Dummy");
+		Schema dbSchema = Schema.create(db.getConnection());
 
 		// Initialisieren von Sparqlify
 
-
 		SparqlSqlStringRewriter rewriter = SparqlifyUtils.createTestRewriter(
-				candidateViewSelector, opMappingRewriter, typeSystem, schema);
+				candidateViewSelector, opMappingRewriter, typeSystem, dbSchema);
 		QueryExecutionFactory qef = new QueryExecutionFactorySparqlifyDs(
 				rewriter, dataSource);
 
@@ -935,9 +936,7 @@ public class RestService {
 	{
 		QueryExecutionFactory qef = buildQueryExecutionFactory(req);
 		
-		QueryExecutionFactoryEx qefEx = new QueryExecutionFactoryExWrapper(qef);
-		
-		return ProcessQuery.processQuery(queryString, format, qefEx);
+		return ProcessQuery.processQuery(queryString, format, (QueryExecutionFactoryEx) qef);
 	}
 
 	/*

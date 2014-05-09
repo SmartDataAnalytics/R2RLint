@@ -1,0 +1,2307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:qb="http://purl.org/linked-data/cube#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:scovo="http://purl.org/NET/scovo#" xmlns:sdmx-attribute="http://purl.org/linked-data/sdmx/2009/attribute#" xmlns:sdmx-code="http://purl.org/linked-data/sdmx/2009/code#" xmlns:sdmx-concept="http://purl.org/linked-data/sdmx/2009/concept#" xmlns:sdmx-dimension="http://purl.org/linked-data/sdmx/2009/dimension#" xmlns:sdmx-measure="http://purl.org/linked-data/sdmx/2009/measure#" xmlns:sdmx-metadata="http://purl.org/linked-data/sdmx/2009/metadata#" xmlns:sdmx-subject="http://purl.org/linked-data/sdmx/2009/subject#" xmlns:sdmx="http://purl.org/linked-data/sdmx#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:void="http://rdfs.org/ns/void#">
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accessibility">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accessibility">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accessibility">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#accessibility"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accessibility">
+    <rdfs:label xml:lang="en">Accessibility</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accessibility">
+    <rdfs:comment xml:lang="en">The ease and the conditions under which statistical information can be obtained.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accessibility">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracy">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracy">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#accuracy"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracy">
+    <rdfs:label xml:lang="en">Accuracy</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracy">
+    <rdfs:comment xml:lang="en">Closeness of computations or estimates to the exact or true values that the statistics were intended to measure.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracy">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracyOverall">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracyOverall">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracyOverall">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#accuracyOverall"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracyOverall">
+    <rdfs:label xml:lang="en">Accuracy - overall</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracyOverall">
+    <rdfs:comment xml:lang="en">Assessment of accuracy, linked to a certain data set or domain, which is summarising the various components into one single measure.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#accuracyOverall">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#nonsamplingErr">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#nonsamplingErr">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#nonsamplingErr">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#nonsamplingErr"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#nonsamplingErr">
+    <rdfs:label xml:lang="en">Accuracy - nonsampling error</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#nonsamplingErr">
+    <rdfs:comment xml:lang="en">Error in sample estimates which cannot be attributed to sampling fluctuations.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#nonsamplingErr">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#samplingErr">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#samplingErr">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#samplingErr">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#samplingErr"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#samplingErr">
+    <rdfs:label xml:lang="en">Accuracy - sampling error</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#samplingErr">
+    <rdfs:comment xml:lang="en">That part of the difference between a population value and an estimate thereof, derived from a random sample, which is due to the fact that only a subset of the population is enumerated.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#samplingErr">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustment">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustment">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustment">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#adjustment"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustment">
+    <rdfs:label xml:lang="en">Adjustment</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustment">
+    <rdfs:comment xml:lang="en">The set of procedures employed to modify statistical data to enable it to conform to national or international standards or to address data quality differences when compiling specific data sets.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustment">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustCoded">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustCoded">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustCoded">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#adjustCoded"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustCoded">
+    <rdfs:label xml:lang="en">Adjustment - coded</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustCoded">
+    <rdfs:comment xml:lang="en">Type of adjustment used, represented by a code.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustCoded">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustDetail">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustDetail">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustDetail">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#adjustDetail"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustDetail">
+    <rdfs:label xml:lang="en">Adjustment - detail</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustDetail">
+    <rdfs:comment xml:lang="en">Textual description of the type of adjustment used.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#adjustDetail">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#basePer">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#basePer">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#basePer">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#basePer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#basePer">
+    <rdfs:label xml:lang="en">Base Period</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#basePer">
+    <rdfs:comment xml:lang="en">The period of time used as the base of an index number, or to which a constant price series refers.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#basePer">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#clarity">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#clarity">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#clarity">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#clarity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#clarity">
+    <rdfs:label xml:lang="en">Clarity</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#clarity">
+    <rdfs:comment xml:lang="en">The extent to which easily comprehensible metadata are available, where these metadata are necessary to give a full understanding of statistical data.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#clarity">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#classSystem">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#classSystem">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#classSystem">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#classSystem"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#classSystem">
+    <rdfs:label xml:lang="en">Classification systems</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#classSystem">
+    <rdfs:comment xml:lang="en">Arrangement or division of objects into groups based on characteristics which the objects have in common.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#classSystem">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherence">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherence">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherence">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#coherence"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherence">
+    <rdfs:label xml:lang="en">Coherence</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherence">
+    <rdfs:comment xml:lang="en">Adequacy of statistics to be combined in different ways and for various uses.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherence">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherXDom">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherXDom">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherXDom">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#coherXDom"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherXDom">
+    <rdfs:label xml:lang="en">Coherence - cross domain</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherXDom">
+    <rdfs:comment xml:lang="en">Extent to which statistics are reconcilable with those obtained through other data sources or statistical domains.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherXDom">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherInternal">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherInternal">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherInternal">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#coherInternal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherInternal">
+    <rdfs:label xml:lang="en">Coherence - Internal</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherInternal">
+    <rdfs:comment xml:lang="en">Extent to which statistics are consistent within a given data set.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coherInternal">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comment">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comment">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comment">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#comment"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comment">
+    <rdfs:label xml:lang="en">Comment</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comment">
+    <rdfs:comment xml:lang="en">Supplementary descriptive text which can be attached to data or metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comment">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparability">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparability">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparability">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#comparability"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparability">
+    <rdfs:label xml:lang="en">Comparability</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparability">
+    <rdfs:comment xml:lang="en">The extent to which differences between statistics can be attributed to differences between the true values of the statistical characteristics.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparability">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparDomains">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparDomains">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparDomains">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#comparDomains"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparDomains">
+    <rdfs:label xml:lang="en">Comparability - between domains</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparDomains">
+    <rdfs:comment xml:lang="en">Extent to which statistics are comparable between different statistical domains.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparDomains">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparGeo">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparGeo">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparGeo">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#comparGeo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparGeo">
+    <rdfs:label xml:lang="en">Comparability - geographical</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparGeo">
+    <rdfs:comment xml:lang="en">Extent to which statistics are comparable between geographical areas.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparGeo">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparTime">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparTime">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparTime">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#comparTime"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparTime">
+    <rdfs:label xml:lang="en">Comparability - over time</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparTime">
+    <rdfs:comment xml:lang="en">Extent to which statistics are comparable or reconcilable over time.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#comparTime">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#compilingOrg">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#compilingOrg">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#compilingOrg">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#compilingOrg"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#compilingOrg">
+    <rdfs:label xml:lang="en">Compiling agency</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#compilingOrg">
+    <rdfs:comment xml:lang="en">The organisation compiling the data being reported.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#compilingOrg">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#conf">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#conf">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#conf">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#conf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#conf">
+    <rdfs:label xml:lang="en">Confidentiality</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#conf">
+    <rdfs:comment xml:lang="en">A property of data indicating the extent to which their unauthorised disclosure could be prejudicial or harmful to the interest of the source or other relevant parties.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#conf">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confDataTr">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confDataTr">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confDataTr">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#confDataTr"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confDataTr">
+    <rdfs:label xml:lang="en">Confidentiality - data treatment</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confDataTr">
+    <rdfs:comment xml:lang="en">Rules applied for treating the data set to ensure statistical confidentiality and prevent unauthorised disclosure.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confDataTr">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confPolicy">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confPolicy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confPolicy">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#confPolicy"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confPolicy">
+    <rdfs:label xml:lang="en">Confidentiality - policy</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confPolicy">
+    <rdfs:comment xml:lang="en">Legislative measures or other formal procedures which prevent unauthorised disclosure of data that identify a person or economic entity either directly or indirectly.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confPolicy">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confStatus">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confStatus">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confStatus">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#confStatus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confStatus">
+    <rdfs:label xml:lang="en">Confidentiality - status</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confStatus">
+    <rdfs:comment xml:lang="en">Information about the confidentiality status of the object to which this attribute is attached.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confStatus">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contact">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contact">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contact">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#contact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contact">
+    <rdfs:label xml:lang="en">Contact</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contact">
+    <rdfs:comment xml:lang="en">Individual or organisational contact points for the data or metadata, including information on how to reach the contact points.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contact">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactEmail">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactEmail">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactEmail">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#contactEmail"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactEmail">
+    <rdfs:label xml:lang="en">Contact email address</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactEmail">
+    <rdfs:comment xml:lang="en">E-mail address of the contact points for the data or metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactEmail">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFax">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFax">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFax">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#contactFax"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFax">
+    <rdfs:label xml:lang="en">Contact fax number</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFax">
+    <rdfs:comment xml:lang="en">Fax number of the contact points for the data or metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFax">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactMail">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactMail">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactMail">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#contactMail"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactMail">
+    <rdfs:label xml:lang="en">Contact mail address</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactMail">
+    <rdfs:comment xml:lang="en">The postal address of the contact points for the data or metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactMail">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactName">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactName">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactName">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#contactName"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactName">
+    <rdfs:label xml:lang="en">Contact name</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactName">
+    <rdfs:comment xml:lang="en">The name of the contact points for the data or metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactName">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactOrganisation">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactOrganisation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactOrganisation">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#contactOrganisation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactOrganisation">
+    <rdfs:label xml:lang="en">Contact organisation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactOrganisation">
+    <rdfs:comment xml:lang="en">The name of the organisation of the contact points for the data or metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactOrganisation">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#organisationUnit">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#organisationUnit">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#organisationUnit">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#organisationUnit"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#organisationUnit">
+    <rdfs:label xml:lang="en">Contact organization unit</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#organisationUnit">
+    <rdfs:comment xml:lang="en">An addressable subdivision of an organization.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#organisationUnit">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFunct">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFunct">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFunct">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#contactFunct"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFunct">
+    <rdfs:label xml:lang="en">Contact person job title</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFunct">
+    <rdfs:comment xml:lang="en">The area of technical responsibility of the contact, such as "methodology", "database management" or "dissemination".</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactFunct">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactPhone">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactPhone">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactPhone">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#contactPhone"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactPhone">
+    <rdfs:label xml:lang="en">Contact phone number</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactPhone">
+    <rdfs:comment xml:lang="en">The telephone number of the contact points for the data or metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#contactPhone">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurden">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurden">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurden">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#costBurden"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurden">
+    <rdfs:label xml:lang="en">Cost and Burden</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurden">
+    <rdfs:comment xml:lang="en">Costs associated with the collection and production of a statistical product and burden on respondents.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurden">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenEff">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenEff">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenEff">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#costBurdenEff"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenEff">
+    <rdfs:label xml:lang="en">Cost and Burden - efficiency management</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenEff">
+    <rdfs:comment xml:lang="en">Cost benefit analysis, effectiveness of execution of medium term statistical programs, and ensuring efficient use of resources.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenEff">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenRes">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenRes">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenRes">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#costBurdenRes"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenRes">
+    <rdfs:label xml:lang="en">Cost and Burden - resources</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenRes">
+    <rdfs:comment xml:lang="en">Staff, facilities, computing resources, and financing to undertake statistical production.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#costBurdenRes">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#visArea">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#visArea">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#visArea">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#visArea"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#visArea">
+    <rdfs:label xml:lang="en">Counterpart Reference Area</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#visArea">
+    <rdfs:comment xml:lang="en">The secondary area, as opposed to reference area, to which the measured data is in relation.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#visArea">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverage">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverage">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverage">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#coverage"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverage">
+    <rdfs:label xml:lang="en">Coverage</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverage">
+    <rdfs:comment xml:lang="en">The definition of the population that statistics aim to cover.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverage">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageSector">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageSector">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageSector">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#coverageSector"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageSector">
+    <rdfs:label xml:lang="en">Coverage - sector</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageSector">
+    <rdfs:comment xml:lang="en">Main economic or other sectors covered by the statistics.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageSector">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageTime">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageTime">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageTime">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#coverageTime"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageTime">
+    <rdfs:label xml:lang="en">Coverage- time</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageTime">
+    <rdfs:comment xml:lang="en">The length of time for which data are available.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#coverageTime">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#currency">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#currency">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#currency">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#currency"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#currency">
+    <rdfs:label xml:lang="en">Currency</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#currency">
+    <rdfs:comment xml:lang="en">Monetary denomination of the object being measured.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#currency">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#collMethod">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#collMethod">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#collMethod">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#collMethod"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#collMethod">
+    <rdfs:label xml:lang="en">Data Collection Method</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#collMethod">
+    <rdfs:comment xml:lang="en">Systematic process of gathering data for official statistics.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#collMethod">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataComp">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataComp">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataComp">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataComp"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataComp">
+    <rdfs:label xml:lang="en">Data Compilation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataComp">
+    <rdfs:comment xml:lang="en">Operations performed on data to derive new information according to a given set of rules.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataComp">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOrg">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOrg">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOrg">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dissOrg"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOrg">
+    <rdfs:label xml:lang="en">Data Dissemination Agency</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOrg">
+    <rdfs:comment xml:lang="en">The organisation disseminating the data.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOrg">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataEditing">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataEditing">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataEditing">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataEditing"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataEditing">
+    <rdfs:label xml:lang="en">Data Editing</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataEditing">
+    <rdfs:comment xml:lang="en">Activity aimed at detecting and correcting errors, logical inconsistencies and suspicious data.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataEditing">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataPres">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataPres">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataPres">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataPres"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataPres">
+    <rdfs:label xml:lang="en">Data Presentation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataPres">
+    <rdfs:comment xml:lang="en">Description of the disseminated data.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataPres">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataDescr">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataDescr">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataDescr">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataDescr"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataDescr">
+    <rdfs:label xml:lang="en">Data Presentation - data description</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataDescr">
+    <rdfs:comment xml:lang="en">Main characteristics of the data set described in an easily understandable manner, referring to the data and indicators disseminated.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataDescr">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissDet">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissDet">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissDet">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dissDet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissDet">
+    <rdfs:label xml:lang="en">Data Presentation - disseminated detail</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissDet">
+    <rdfs:comment xml:lang="en">Disseminated domain, measure, and time period breakdowns of statistics in the dataset.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissDet">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataProvider">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataProvider">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataProvider">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataProvider"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataProvider">
+    <rdfs:label xml:lang="en">Data Provider</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataProvider">
+    <rdfs:comment xml:lang="en">Organisation which produces data or metadata</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataProvider">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataRev">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataRev">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataRev">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataRev"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataRev">
+    <rdfs:label xml:lang="en">Data Revision</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataRev">
+    <rdfs:comment xml:lang="en">Any change in a value of a statistic released to the public.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataRev">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPolicy">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPolicy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPolicy">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#revPolicy"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPolicy">
+    <rdfs:label xml:lang="en">Data Revision - policy</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPolicy">
+    <rdfs:comment xml:lang="en">Policy aimed at ensuring the transparency of disseminated data, whereby preliminary data are compiled that are later revised.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPolicy">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPractice">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPractice">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPractice">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#revPractice"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPractice">
+    <rdfs:label xml:lang="en">Data Revision - practice</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPractice">
+    <rdfs:comment xml:lang="en">Information on the data revision practice.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revPractice">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revStudy">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revStudy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revStudy">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#revStudy"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revStudy">
+    <rdfs:label xml:lang="en">Data Revision - studies</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revStudy">
+    <rdfs:comment xml:lang="en">Information about data revision studies and analyses.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#revStudy">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dsi">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dsi">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dsi">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dsi"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dsi">
+    <rdfs:label xml:lang="en">Data Set Identifier</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dsi">
+    <rdfs:comment xml:lang="en">Sequence of characters identifying the data set with which it is associated.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dsi">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataUpdate">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataUpdate">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataUpdate">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataUpdate"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataUpdate">
+    <rdfs:label xml:lang="en">Data Update</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataUpdate">
+    <rdfs:comment xml:lang="en">The date on which the data element was inserted or modified in the database.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataUpdate">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValidation">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValidation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValidation">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataValidation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValidation">
+    <rdfs:label xml:lang="en">Data Validation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValidation">
+    <rdfs:comment xml:lang="en">Process of monitoring the results of data compilation and ensuring the quality of the statistical results.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValidation">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValInter">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValInter">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValInter">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataValInter"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValInter">
+    <rdfs:label xml:lang="en">Data Validation - intermediate</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValInter">
+    <rdfs:comment xml:lang="en">Validation that intermediate calculations leading to statistical outputs have been correctly done.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValInter">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValOutput">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValOutput">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValOutput">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataValOutput"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValOutput">
+    <rdfs:label xml:lang="en">Data Validation - output</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValOutput">
+    <rdfs:comment xml:lang="en">Assessment of discrepancies and other problems in statistical outputs.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValOutput">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValSource">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValSource">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValSource">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dataValSource"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValSource">
+    <rdfs:label xml:lang="en">Data Validation - source</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValSource">
+    <rdfs:comment xml:lang="en">Assessment of discrepancies and other problems related to source data.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dataValSource">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#decimals">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#decimals">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#decimals">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#decimals"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#decimals">
+    <rdfs:label xml:lang="en">Decimals</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#decimals">
+    <rdfs:comment xml:lang="en">The number of digits of an observation to the right of a decimal point.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#decimals">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissFormat">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissFormat">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissFormat">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dissFormat"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissFormat">
+    <rdfs:label xml:lang="en">Dissemination Format</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissFormat">
+    <rdfs:comment xml:lang="en">Media by which statistical data and metadata are disseminated.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissFormat">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#microDatAcc">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#microDatAcc">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#microDatAcc">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#microDatAcc"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#microDatAcc">
+    <rdfs:label xml:lang="en">Dissemination Format - mirco-data access</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#microDatAcc">
+    <rdfs:comment xml:lang="en">Information on whether micro-data are also disseminated.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#microDatAcc">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#newsRel">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#newsRel">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#newsRel">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#newsRel"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#newsRel">
+    <rdfs:label xml:lang="en">Dissemination Format - news release</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#newsRel">
+    <rdfs:comment xml:lang="en">Regular or ad-hoc press releases linked to the data.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#newsRel">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#onlineDb">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#onlineDb">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#onlineDb">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#onlineDb"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#onlineDb">
+    <rdfs:label xml:lang="en">Dissemination Format - online database</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#onlineDb">
+    <rdfs:comment xml:lang="en">Information about on-line databases in which the disseminated data can be accessed.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#onlineDb">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOther">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOther">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOther">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#dissOther"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOther">
+    <rdfs:label xml:lang="en">Dissemination Format - other</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOther">
+    <rdfs:comment xml:lang="en">References to the most important other data dissemination done.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#dissOther">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#publications">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#publications">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#publications">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#publications"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#publications">
+    <rdfs:label xml:lang="en">Dissemination Format - publications</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#publications">
+    <rdfs:comment xml:lang="en">Regular or ad-hoc publications in which the data are made available to the public.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#publications">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#docMethod">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#docMethod">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#docMethod">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#docMethod"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#docMethod">
+    <rdfs:label xml:lang="en">Documentation on methodology</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#docMethod">
+    <rdfs:comment xml:lang="en">Descriptive text and references to methodological documents available.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#docMethod">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#advNotice">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#advNotice">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#advNotice">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#advNotice"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#advNotice">
+    <rdfs:label xml:lang="en">Documentation on methodology - advance notice</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#advNotice">
+    <rdfs:comment xml:lang="en">Policy on notifying the public of changes in methodology, indicating whether the public is notified before a methodological change affects disseminated data and, if so, how long before.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#advNotice">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#embargoTime">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#embargoTime">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#embargoTime">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#embargoTime"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#embargoTime">
+    <rdfs:label xml:lang="en">Embargo Time</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#embargoTime">
+    <rdfs:comment xml:lang="en">The exact time at which the data could be made available to the public.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#embargoTime">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDetail">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDetail">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDetail">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#freqDetail"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDetail">
+    <rdfs:label xml:lang="en">Frequency Detail</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDetail">
+    <rdfs:comment xml:lang="en">A further specification of the frequency to include more detailed information about the type of frequency and frequencies not commonly used.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDetail">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqColl">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqColl">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqColl">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#freqColl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqColl">
+    <rdfs:label xml:lang="en">Frequency of data collection</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqColl">
+    <rdfs:comment xml:lang="en">Frequency with which the source data are collected.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqColl">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDiss">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDiss">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDiss">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#freqDiss"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDiss">
+    <rdfs:label xml:lang="en">Frequency of dissemination</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDiss">
+    <rdfs:comment xml:lang="en">The time interval at which the statistics are disseminated over a given time period.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#freqDiss">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#grossNet">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#grossNet">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#grossNet">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#grossNet"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#grossNet">
+    <rdfs:label xml:lang="en">Grossing/Netting</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#grossNet">
+    <rdfs:comment xml:lang="en">Form of consolidation used in presenting the data.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#grossNet">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#indType">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#indType">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#indType">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#indType"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#indType">
+    <rdfs:label xml:lang="en">Index Type</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#indType">
+    <rdfs:comment xml:lang="en">The type of index number used in the statistical production process.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#indType">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instMandate">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instMandate">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instMandate">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#instMandate"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instMandate">
+    <rdfs:label xml:lang="en">Institutional Mandate</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instMandate">
+    <rdfs:comment xml:lang="en">Set of rules or other formal set of instructions assigning responsibility as well as the authority to an organisation for the collection, processing, and dissemination of statistics.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instMandate">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManShar">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManShar">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManShar">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#instManShar"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManShar">
+    <rdfs:label xml:lang="en">Institutional Mandate - data sharing</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManShar">
+    <rdfs:comment xml:lang="en">Arrangements or procedures for data sharing and coordination between data producing agencies.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManShar">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManLaOa">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManLaOa">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManLaOa">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#instManLaOa"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManLaOa">
+    <rdfs:label xml:lang="en">Institutional Mandate - legal acts and other agreements.</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManLaOa">
+    <rdfs:comment xml:lang="en">Legal acts or other formal or informal agreements that assign responsibility as well as the authority to an agency for the collection, processing, and dissemination of statistics.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#instManLaOa">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#iMResRel">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#iMResRel">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#iMResRel">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#iMResRel"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#iMResRel">
+    <rdfs:label xml:lang="en">Institutional Mandate - respondent relations.</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#iMResRel">
+    <rdfs:comment xml:lang="en">Measures to encourage statistical reporting and/or to sanction non-reporting.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#iMResRel">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#mAgency">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#mAgency">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#mAgency">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#mAgency"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#mAgency">
+    <rdfs:label xml:lang="en">Maintenance Agency</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#mAgency">
+    <rdfs:comment xml:lang="en">The organisation or other expert body that maintains a domain-specific data or metadata structure definition.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#mAgency">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaUpdate">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaUpdate">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaUpdate">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#metaUpdate"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaUpdate">
+    <rdfs:label xml:lang="en">Metadata Update</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaUpdate">
+    <rdfs:comment xml:lang="en">The date on which the metadata element was inserted or modified in the database.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaUpdate">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaCertified">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaCertified">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaCertified">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#metaCertified"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaCertified">
+    <rdfs:label xml:lang="en">Metadata Update - last certified</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaCertified">
+    <rdfs:comment xml:lang="en">Date of the latest certification provided by the domain manager to confirm that the metadata posted are still up-to-date, even if the content has not been amended.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaCertified">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaPosted">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaPosted">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaPosted">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#metaPosted"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaPosted">
+    <rdfs:label xml:lang="en">Metadata Update - last posted</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaPosted">
+    <rdfs:comment xml:lang="en">Date of the latest dissemination of the metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaPosted">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaLastUpdate">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaLastUpdate">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaLastUpdate">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#metaLastUpdate"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaLastUpdate">
+    <rdfs:label xml:lang="en">Metadata Update - last update</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaLastUpdate">
+    <rdfs:comment xml:lang="en">Date of last update of the content of the metadata.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#metaLastUpdate">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsPreBreak">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsPreBreak">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsPreBreak">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#obsPreBreak"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsPreBreak">
+    <rdfs:label xml:lang="en">Observation Pre-break Value</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsPreBreak">
+    <rdfs:comment xml:lang="en">The observation, at a time series break period, that was calculated using the old methodology.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsPreBreak">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsStatus">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsStatus">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsStatus">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#obsStatus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsStatus">
+    <rdfs:label xml:lang="en">Observation Status</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsStatus">
+    <rdfs:comment xml:lang="en">Information on the quality of a value or an unusual or missing value.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsStatus">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#origDataId">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#origDataId">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#origDataId">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#origDataId"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#origDataId">
+    <rdfs:label xml:lang="en">Original Data Identifier</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#origDataId">
+    <rdfs:comment xml:lang="en">The data identifier as found in the originating database.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#origDataId">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#prof">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#prof">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#prof">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#prof"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#prof">
+    <rdfs:label xml:lang="en">Professionalism</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#prof">
+    <rdfs:comment xml:lang="en">The standard, skill and ability suitable for producing statistics of good quality.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#prof">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profCond">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profCond">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profCond">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#profCond"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profCond">
+    <rdfs:label xml:lang="en">Professionalism - code of conduct</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profCond">
+    <rdfs:comment xml:lang="en">Provision for assuring the qualifications of staff and allowing staff to perform their functions without intervention motivated by non-statistical objectives.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profCond">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profImp">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profImp">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profImp">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#profImp"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profImp">
+    <rdfs:label xml:lang="en">Professionalism - impartiality</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profImp">
+    <rdfs:comment xml:lang="en">Description of the elements providing assurances that statistics are produced on an impartial basis.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profImp">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profMeth">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profMeth">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profMeth">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#profMeth"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profMeth">
+    <rdfs:label xml:lang="en">Professionalism - methodology</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profMeth">
+    <rdfs:comment xml:lang="en">Describes the elements providing assurances that the choices of sources and statistical techniques as well as decisions about dissemination are informed solely by statistical considerations.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profMeth">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profStatCom">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profStatCom">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profStatCom">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#profStatCom"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profStatCom">
+    <rdfs:label xml:lang="en">Professionalism - statistical commentary</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profStatCom">
+    <rdfs:comment xml:lang="en">Describes the elements providing assurances that the statistical entity is entitled to comment on erroneous interpretation and misuse of statistics.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#profStatCom">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#punctuality">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#punctuality">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#punctuality">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#punctuality"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#punctuality">
+    <rdfs:label xml:lang="en">Punctuality</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#punctuality">
+    <rdfs:comment xml:lang="en">Time lag between the actual delivery of the data and the target date when it should have been delivered.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#punctuality">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityMgmnt">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityMgmnt">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityMgmnt">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#qualityMgmnt"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityMgmnt">
+    <rdfs:label xml:lang="en">Quality Management</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityMgmnt">
+    <rdfs:comment xml:lang="en">Systems and frameworks in place within an organisation to manage the quality of statistical products and processes.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityMgmnt">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssmnt">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssmnt">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssmnt">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#qualityAssmnt"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssmnt">
+    <rdfs:label xml:lang="en">Quality Management - assessment</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssmnt">
+    <rdfs:comment xml:lang="en">Overall assessment of data quality, based on standard quality criteria.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssmnt">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssure">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssure">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssure">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#qualityAssure"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssure">
+    <rdfs:label xml:lang="en">Quality Management - assurance</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssure">
+    <rdfs:comment xml:lang="en">Guidelines focusing on quality in general and dealing with quality of statistical programmes, including measures for ensuring the efficient use of resources.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityAssure">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityDoc">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityDoc">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityDoc">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#qualityDoc"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityDoc">
+    <rdfs:label xml:lang="en">Quality Management - documentation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityDoc">
+    <rdfs:comment xml:lang="en">Documentation on procedures applied for quality management and quality assessment.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#qualityDoc">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#recording">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#recording">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#recording">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#recording"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#recording">
+    <rdfs:label xml:lang="en">Recording Basis</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#recording">
+    <rdfs:comment xml:lang="en">Processes and standards employed in calculating statistical aggregates.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#recording">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#refPerWgts">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#refPerWgts">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#refPerWgts">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#refPerWgts"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#refPerWgts">
+    <rdfs:label xml:lang="en">Reference Period - weights</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#refPerWgts">
+    <rdfs:comment xml:lang="en">Dates or periods to which the observations used to compile the weights refer.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#refPerWgts">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolicy">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolicy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolicy">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#relPolicy"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolicy">
+    <rdfs:label xml:lang="en">Release Policy</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolicy">
+    <rdfs:comment xml:lang="en">Rules for disseminating statistical data to interested parties.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolicy">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolLegActs">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolLegActs">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolLegActs">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#relPolLegActs"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolLegActs">
+    <rdfs:label xml:lang="en">Release Policy - legal acts and other agreements</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolLegActs">
+    <rdfs:comment xml:lang="en">Legal acts and other agreements pertaining to data access.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolLegActs">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relComment">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relComment">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relComment">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#relComment"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relComment">
+    <rdfs:label xml:lang="en">Release Policy - policy commentary</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relComment">
+    <rdfs:comment xml:lang="en">Legal acts and other agreements pertaining to data access.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relComment">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalPolicy">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalPolicy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalPolicy">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#relCalPolicy"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalPolicy">
+    <rdfs:label xml:lang="en">Release Policy - release calendar</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalPolicy">
+    <rdfs:comment xml:lang="en">The schedule of statistical release dates.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalPolicy">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalAccess">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalAccess">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalAccess">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#relCalAccess"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalAccess">
+    <rdfs:label xml:lang="en">Release Policy - release calendar access</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalAccess">
+    <rdfs:comment xml:lang="en">Access to the release calendar information.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relCalAccess">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolTra">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolTra">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolTra">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#relPolTra"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolTra">
+    <rdfs:label xml:lang="en">Release Policy - transparency</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolTra">
+    <rdfs:comment xml:lang="en">Dissemination of the release policy to the public.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolTra">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolUsAc">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolUsAc">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolUsAc">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#relPolUsAc"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolUsAc">
+    <rdfs:label xml:lang="en">Release Policy - user access</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolUsAc">
+    <rdfs:comment xml:lang="en">The policy for release of the data to users, the scope of dissemination (eg, to the public, to selected users), how users are informed that the data are being released, and whether the policy provides determines the dissemination of statistical data to all users.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relPolUsAc">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relevance">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relevance">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relevance">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#relevance"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relevance">
+    <rdfs:label xml:lang="en">Relevance</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relevance">
+    <rdfs:comment xml:lang="en">The degree to which statistical information meets the real or perceived needs of clients.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#relevance">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#completeness">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#completeness">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#completeness">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#completeness"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#completeness">
+    <rdfs:label xml:lang="en">Relevance - Completeness</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#completeness">
+    <rdfs:comment xml:lang="en">The extent to which all statistics that are needed are available.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#completeness">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userNeeds">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userNeeds">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userNeeds">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#userNeeds"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userNeeds">
+    <rdfs:label xml:lang="en">Relevance - user needs</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userNeeds">
+    <rdfs:comment xml:lang="en">Description of users and their respective needs with respect to the statistical data.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userNeeds">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userSat">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userSat">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userSat">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#userSat"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userSat">
+    <rdfs:label xml:lang="en">Relevance - user satisifaction</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userSat">
+    <rdfs:comment xml:lang="en">Measure to determine user satisfaction.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#userSat">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#repAgency">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#repAgency">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#repAgency">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#repAgency"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#repAgency">
+    <rdfs:label xml:lang="en">Reporting Agency</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#repAgency">
+    <rdfs:comment xml:lang="en">The organisation that supplies the data for a given  instance of the statistics.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#repAgency">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sampling">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sampling">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sampling">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#sampling"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sampling">
+    <rdfs:label xml:lang="en">Sampling</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sampling">
+    <rdfs:comment xml:lang="en">The process of selecting a number of cases from all the cases in a particular group or universe.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sampling">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sourceType">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sourceType">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sourceType">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#sourceType"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sourceType">
+    <rdfs:label xml:lang="en">Source Data</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sourceType">
+    <rdfs:comment xml:lang="en">Characteristics and components of the raw statistical data used for compiling statistical aggregates.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#sourceType">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statConcDef">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statConcDef">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statConcDef">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#statConcDef"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statConcDef">
+    <rdfs:label xml:lang="en">Statistical Concepts and Definitions</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statConcDef">
+    <rdfs:comment xml:lang="en">Statistical characteristics of statistical observations.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statConcDef">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statPop">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statPop">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statPop">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#statPop"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statPop">
+    <rdfs:label xml:lang="en">Statistical Population</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statPop">
+    <rdfs:comment xml:lang="en">The total membership or population or "universe" of a defined class of people, objects or events.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statPop">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statUnit">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statUnit">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statUnit">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#statUnit"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statUnit">
+    <rdfs:label xml:lang="en">Statistical Unit</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statUnit">
+    <rdfs:comment xml:lang="en">Entity for which information is sought and for which statistics are ultimately compiled.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#statUnit">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeFormat">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeFormat">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeFormat">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#timeFormat"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeFormat">
+    <rdfs:label xml:lang="en">Time Format</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeFormat">
+    <rdfs:comment xml:lang="en">Technical format in which time is represented for the measured phenomenon.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeFormat">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timePerCollect">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timePerCollect">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timePerCollect">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#timePerCollect"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timePerCollect">
+    <rdfs:label xml:lang="en">Time Period - collection</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timePerCollect">
+    <rdfs:comment xml:lang="en">Dates or periods during which the observations have been collected (such as middle, average or end of period) to compile the indicator for the target reference period.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timePerCollect">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeliness">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeliness">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeliness">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#timeliness"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeliness">
+    <rdfs:label xml:lang="en">Timelinesst</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeliness">
+    <rdfs:comment xml:lang="en">Length of time between data availability and the event or phenomenon they describe.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeliness">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeOutput">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeOutput">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeOutput">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#timeOutput"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeOutput">
+    <rdfs:label xml:lang="en">Timeliness - output</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeOutput">
+    <rdfs:comment xml:lang="en">The lapse of time between the end of a reference period and dissemination of the data.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeOutput">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeSource">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeSource">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeSource">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#timeSource"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeSource">
+    <rdfs:label xml:lang="en">Timeliness - source data</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeSource">
+    <rdfs:comment xml:lang="en">The time between the end of a reference period and actual receipt of the data by the compiling agency.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeSource">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#title">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#title">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#title">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#title"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#title">
+    <rdfs:label xml:lang="en">Title</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#title">
+    <rdfs:comment xml:lang="en">Textual label used as identification of a statistical object.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#title">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMult">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMult">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMult">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#unitMult"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMult">
+    <rdfs:label xml:lang="en">Unit Multiplier</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMult">
+    <rdfs:comment xml:lang="en">Exponent in base 10 specified so that multiplying the observation numeric values by 10^UNIT_MULT gives a value expressed in the UNIT.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMult">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#unitMeasure"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure">
+    <rdfs:label xml:lang="en">Unit of Measure</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure">
+    <rdfs:comment xml:lang="en">The unit in which the data values are measured.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasDetail">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasDetail">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasDetail">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#unitMeasDetail"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasDetail">
+    <rdfs:label xml:lang="en">Unit of Measure Detail</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasDetail">
+    <rdfs:comment xml:lang="en">Additional textual information on the unit of measure.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMeasDetail">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#valuation">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#AttributeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#valuation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#valuation">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#valuation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#valuation">
+    <rdfs:label xml:lang="en">Valuation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#valuation">
+    <rdfs:comment xml:lang="en">The definition of the price per unit, for goods and services flows and asset stocks.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#valuation">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#currency">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#currency">
+    <qb:codeList rdf:resource="http://purl.org/linked-data/sdmx/2009/code#currency"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#currency">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/sdmx/2009/code#Currency"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#decimals">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#decimals">
+    <qb:codeList rdf:resource="http://purl.org/linked-data/sdmx/2009/code#decimals"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#decimals">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/sdmx/2009/code#Decimals"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confStatus">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confStatus">
+    <qb:codeList rdf:resource="http://purl.org/linked-data/sdmx/2009/code#confStatus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#confStatus">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/sdmx/2009/code#ConfStatus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsStatus">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsStatus">
+    <qb:codeList rdf:resource="http://purl.org/linked-data/sdmx/2009/code#obsStatus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#obsStatus">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/sdmx/2009/code#ObsStatus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeFormat">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeFormat">
+    <qb:codeList rdf:resource="http://purl.org/linked-data/sdmx/2009/code#timeFormat"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#timeFormat">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/sdmx/2009/code#TimeFormat"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMult">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMult">
+    <qb:codeList rdf:resource="http://purl.org/linked-data/sdmx/2009/code#unitMult"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/attribute#unitMult">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/sdmx/2009/code#UnitMult"/>
+  </rdf:Description>
+</rdf:RDF>

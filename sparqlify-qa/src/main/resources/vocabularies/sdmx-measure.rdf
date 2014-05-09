@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:qb="http://purl.org/linked-data/cube#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:scovo="http://purl.org/NET/scovo#" xmlns:sdmx-attribute="http://purl.org/linked-data/sdmx/2009/attribute#" xmlns:sdmx-code="http://purl.org/linked-data/sdmx/2009/code#" xmlns:sdmx-concept="http://purl.org/linked-data/sdmx/2009/concept#" xmlns:sdmx-dimension="http://purl.org/linked-data/sdmx/2009/dimension#" xmlns:sdmx-measure="http://purl.org/linked-data/sdmx/2009/measure#" xmlns:sdmx-metadata="http://purl.org/linked-data/sdmx/2009/metadata#" xmlns:sdmx-subject="http://purl.org/linked-data/sdmx/2009/subject#" xmlns:sdmx="http://purl.org/linked-data/sdmx#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:void="http://rdfs.org/ns/void#">
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#age">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#age">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#age">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#age"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#age">
+    <rdfs:label xml:lang="en">Age</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#age">
+    <rdfs:comment xml:lang="en">The length of time that a person has lived or a thing has existed.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#age">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#civilStatus">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#civilStatus">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#civilStatus">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#civilStatus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#civilStatus">
+    <rdfs:label xml:lang="en">Civil Status</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#civilStatus">
+    <rdfs:comment xml:lang="en">Legal, conjugal status of each individual in relation to the marriage laws or customs of the country.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#civilStatus">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#currency">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#currency">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#currency">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#currency"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#currency">
+    <rdfs:label xml:lang="en">Currency</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#currency">
+    <rdfs:comment xml:lang="en">Monetary denomination of the object being measured.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#currency">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#educationLev">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#educationLev">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#educationLev">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#educationLev"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#educationLev">
+    <rdfs:label xml:lang="en">Education Level</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#educationLev">
+    <rdfs:comment xml:lang="en">The highest level of an educational programme the person has successfully completed.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#educationLev">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#obsValue">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#obsValue">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#obsValue">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#obsValue"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#obsValue">
+    <rdfs:label xml:lang="en">Observation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#obsValue">
+    <rdfs:comment xml:lang="en">The value of a particular variable at a particular period.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#obsValue">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#occupation">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#occupation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#occupation">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#occupation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#occupation">
+    <rdfs:label xml:lang="en">Occupation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#occupation">
+    <rdfs:comment xml:lang="en">Job or position held by an individual who performs a set of tasks and duties.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#occupation">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#sex">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#MeasureProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#sex">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#sex">
+    <qb:concept rdf:resource="http://purl.org/linked-data/sdmx/2009/concept#sex"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#sex">
+    <rdfs:label xml:lang="en">Sex</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#sex">
+    <rdfs:comment xml:lang="en">The state of being male or female.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#sex">
+    <rdfs:isDefinedBy rdf:resource="http://sdmx.org/wp-content/uploads/2009/01/01_sdmx_cog_annex_1_cdc_2009.pdf"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#currency">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#currency">
+    <qb:codeList rdf:resource="http://purl.org/linked-data/sdmx/2009/code#currency"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#currency">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/sdmx/2009/code#Currency"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#sex">
+    <rdf:type rdf:resource="http://purl.org/linked-data/cube#CodedProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#sex">
+    <qb:codeList rdf:resource="http://purl.org/linked-data/sdmx/2009/code#sex"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/linked-data/sdmx/2009/measure#sex">
+    <rdfs:range rdf:resource="http://purl.org/linked-data/sdmx/2009/code#Sex"/>
+  </rdf:Description>
+</rdf:RDF>

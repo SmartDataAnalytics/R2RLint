@@ -1,0 +1,76 @@
+Prefix ex: <http://ex.org/>
+Prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+Prefix foaf:<http://xmlns.com/foaf/0.1/>
+Prefix xsd:<http://www.w3.org/2001/XMLSchema#>
+Prefix owl:<http://www.w3.org/2002/07/owl#>
+Prefix spy:<http://aksw.org/sparqlify/>
+
+/*
+ * cases to cover:
+ * 
+ * - create wrong URI for foreign key parents, e.g.
+ *     ?dept = uri('http://ex.org/', ?id) in employee
+ *   and 
+ *     ?dept = uri('http://ex.org/dept', ?id) in dept
+ */
+
+Create View employees As
+  Construct {
+    // no class assigned!
+    //?empl a ex:Employee.
+    ?empl rdfs:label ?fnme.
+    // just for testing schema completeness with variable predicate
+    //?empl ?wbid ?empl.
+    ?empl ex:employmentTime ?empt.
+    ?empl ex:birthDay ?bday.
+    ?empl ex:salary ?salr.
+    ?empl ex:webId ?wbid.
+    ?empl ex:privateWebId ?pwid.
+    ?empl ex:marriedTo ?spou.
+    ?empl ex:department ?dept.
+  }
+  With
+    // uri: result of concat with urlEncode; sounding name + subpath not starting with int
+    ?empl = uri(ex:employee, '/', spy:urlEncode(?lastname), '/', spy:urlEncode(?firstname))
+    // plainLiteral: plain literal with concat
+    ?fnme = plainLiteral(concat(?firstname, ' ', ?lastname))
+    // typedLiteral: typed literal with type from db; invalid type; no consistent range
+    ?empt = typedLiteral(?employment_time, concat('http://www.w3.org/2001/XMLSchema#', ?employment_time_unit))
+    // typedLiteral: with constant type
+    ?bday = typedLiteral(?birthday, xsd:date)
+    // typedLiteral: result of arithmetic expression
+    ?salr = typedLiteral(
+        ?salary_monthly + ?salary_monthly + ?salary_monthly
+        + ?salary_monthly + ?salary_monthly + ?salary_monthly
+        + ?salary_monthly + ?salary_monthly + ?salary_monthly
+        + ?salary_monthly + ?salary_monthly + ?salary_monthly, xsd:int)
+    // uri: result of concat (without urlEncode)
+    ?wbid = uri('http://ex.org/', ?lastname, '/', ?firstname)
+    // uri: without concat
+    ?pwid = uri(?web_id)
+    // bNode
+    ?spou = bNode(?id)
+    // uri: no sounding name and subpath starting with int
+    ?dept = uri('http://ex.org/', ?dept) 
+  From
+    employee
+
+
+Create View departments As
+  Construct {
+    // will result in redundant rdf:type statements
+    ?dept a ex:Department.
+    ?dept rdfs:label ?dnme.
+
+    ?dept ex:title ?dttl.
+  }
+  With
+    // uri: no sounding name and subpath starting with int
+    ?dept = uri('http://ex.org/', ?id)
+    // plainLiteral: without language label
+    ?dnme = plainLiteral(?default_name)
+    // plainLiteral: with language tag from db
+    ?dttl = plainLiteral(?name, ?lang)
+  From
+    [[ SELECT dept.id AS id, default_name, lang, name  FROM dept JOIN dept_translation ON dept.id=dept_translation.id ]]

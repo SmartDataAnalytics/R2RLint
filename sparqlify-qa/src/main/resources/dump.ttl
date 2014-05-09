@@ -1,0 +1,109 @@
+<http://ex.org/employee/Alliteration/Alf> <http://www.w3.org/2000/01/rdf-schema#label> "Alf Alliteration" .
+<http://ex.org/employee/B./Bela> <http://www.w3.org/2000/01/rdf-schema#label> "Bela B." .
+<http://ex.org/employee/Chaplin/Charly> <http://www.w3.org/2000/01/rdf-schema#label> "Charly Chaplin" .
+<http://ex.org/employee/Defoe/Daniel> <http://www.w3.org/2000/01/rdf-schema#label> "Daniel Defoe" .
+<http://ex.org/employee/Erdmann/Edna> <http://www.w3.org/2000/01/rdf-schema#label> "Edna Erdmann" .
+<http://ex.org/employee/Flintstone/Fred> <http://www.w3.org/2000/01/rdf-schema#label> "Fred Flintstone" .
+<http://ex.org/employee/Guarino/Guiseppe> <http://www.w3.org/2000/01/rdf-schema#label> "Guiseppe Guarino" .
+<http://ex.org/employee/Hart/Hillary> <http://www.w3.org/2000/01/rdf-schema#label> "Hillary Hart" .
+<http://ex.org/employee/Idehen/Iadh> <http://www.w3.org/2000/01/rdf-schema#label> "Iadh Idehen" .
+<http://ex.org/employee/Jin/Jiao> <http://www.w3.org/2000/01/rdf-schema#label> "Jiao Jin" .
+<http://ex.org/employee/H%C3%B6llm%C3%B8ll%C3%A2r/H%C3%A8l%C3%A9na> <http://www.w3.org/2000/01/rdf-schema#label> "H\u00E8l\u00E9na H\u00F6llm\u00F8ll\u00E2r" .
+<http://ex.org/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Department> .
+<http://ex.org/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Department> .
+<http://ex.org/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Department> .
+<http://ex.org/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Department> .
+<http://ex.org/3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Department> .
+<http://ex.org/3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Department> .
+<http://ex.org/4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Department> .
+<http://ex.org/4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Department> .
+<http://ex.org/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://ex.org/Department> .
+<http://ex.org/employee/Alliteration/Alf> <http://ex.org/salary> "43200"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/B./Bela> <http://ex.org/salary> "50400"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/Chaplin/Charly> <http://ex.org/salary> "22500"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/Defoe/Daniel> <http://ex.org/salary> "26400"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/Erdmann/Edna> <http://ex.org/salary> "27600"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/Flintstone/Fred> <http://ex.org/salary> "36000"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/Guarino/Guiseppe> <http://ex.org/salary> "38400"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/Hart/Hillary> <http://ex.org/salary> "31200"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/Idehen/Iadh> <http://ex.org/salary> "26400"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/Jin/Jiao> <http://ex.org/salary> "31200"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/H%C3%B6llm%C3%B8ll%C3%A2r/H%C3%A8l%C3%A9na> <http://ex.org/salary> "38400"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://ex.org/employee/Alliteration/Alf> <http://ex.org/privateWebId> <http://alf.alliteration.name> .
+<http://ex.org/employee/Defoe/Daniel> <http://ex.org/privateWebId> <http://defoe.name/daniel> .
+<http://ex.org/employee/Flintstone/Fred> <http://ex.org/privateWebId> <http://flintstones.name/fred> .
+<http://ex.org/employee/Hart/Hillary> <http://ex.org/privateWebId> <http://hillary.hart.name> .
+<http://ex.org/employee/Jin/Jiao> <http://ex.org/privateWebId> <http://jin.name/ids/jiao> .
+<http://ex.org/employee/Alliteration/Alf> <http://ex.org/department> <http://ex.org/1> .
+<http://ex.org/employee/B./Bela> <http://ex.org/department> <http://ex.org/4> .
+<http://ex.org/employee/Chaplin/Charly> <http://ex.org/department> <http://ex.org/4> .
+<http://ex.org/employee/Defoe/Daniel> <http://ex.org/department> <http://ex.org/3> .
+<http://ex.org/employee/Erdmann/Edna> <http://ex.org/department> <http://ex.org/2> .
+<http://ex.org/employee/Flintstone/Fred> <http://ex.org/department> <http://ex.org/1> .
+<http://ex.org/employee/Guarino/Guiseppe> <http://ex.org/department> <http://ex.org/2> .
+<http://ex.org/employee/Hart/Hillary> <http://ex.org/department> <http://ex.org/3> .
+<http://ex.org/employee/Idehen/Iadh> <http://ex.org/department> <http://ex.org/1> .
+<http://ex.org/employee/Jin/Jiao> <http://ex.org/department> <http://ex.org/1> .
+<http://ex.org/employee/H%C3%B6llm%C3%B8ll%C3%A2r/H%C3%A8l%C3%A9na> <http://ex.org/department> <http://ex.org/4> .
+<http://ex.org/1> <http://www.w3.org/2000/01/rdf-schema#label> "it" .
+<http://ex.org/1> <http://www.w3.org/2000/01/rdf-schema#label> "it" .
+<http://ex.org/2> <http://www.w3.org/2000/01/rdf-schema#label> "accounting" .
+<http://ex.org/2> <http://www.w3.org/2000/01/rdf-schema#label> "accounting" .
+<http://ex.org/3> <http://www.w3.org/2000/01/rdf-schema#label> "production" .
+<http://ex.org/3> <http://www.w3.org/2000/01/rdf-schema#label> "production" .
+<http://ex.org/4> <http://www.w3.org/2000/01/rdf-schema#label> "marketing" .
+<http://ex.org/4> <http://www.w3.org/2000/01/rdf-schema#label> "marketing" .
+<http://ex.org/1> <http://www.w3.org/2000/01/rdf-schema#label> "it" .
+<http://ex.org/employee/Alliteration/Alf> <http://ex.org/birthDay> "1979-01-05"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/B./Bela> <http://ex.org/birthDay> "1968-02-28"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/Chaplin/Charly> <http://ex.org/birthDay> "1983-09-17"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/Defoe/Daniel> <http://ex.org/birthDay> "1990-12-04"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/Erdmann/Edna> <http://ex.org/birthDay> "1960-03-03"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/Flintstone/Fred> <http://ex.org/birthDay> "0975-02-20"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/Guarino/Guiseppe> <http://ex.org/birthDay> "1980-12-14"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/Hart/Hillary> <http://ex.org/birthDay> "1987-01-23"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/Idehen/Iadh> <http://ex.org/birthDay> "1985-04-12"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/Jin/Jiao> <http://ex.org/birthDay> "1979-08-07"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/H%C3%B6llm%C3%B8ll%C3%A2r/H%C3%A8l%C3%A9na> <http://ex.org/birthDay> "1977-11-01"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://ex.org/employee/Alliteration/Alf> <http://ex.org/webId> <http://ex.org/Alliteration/Alf> .
+<http://ex.org/employee/B./Bela> <http://ex.org/webId> <http://ex.org/B./Bela> .
+<http://ex.org/employee/Chaplin/Charly> <http://ex.org/webId> <http://ex.org/Chaplin/Charly> .
+<http://ex.org/employee/Defoe/Daniel> <http://ex.org/webId> <http://ex.org/Defoe/Daniel> .
+<http://ex.org/employee/Erdmann/Edna> <http://ex.org/webId> <http://ex.org/Erdmann/Edna> .
+<http://ex.org/employee/Flintstone/Fred> <http://ex.org/webId> <http://ex.org/Flintstone/Fred> .
+<http://ex.org/employee/Guarino/Guiseppe> <http://ex.org/webId> <http://ex.org/Guarino/Guiseppe> .
+<http://ex.org/employee/Hart/Hillary> <http://ex.org/webId> <http://ex.org/Hart/Hillary> .
+<http://ex.org/employee/Idehen/Iadh> <http://ex.org/webId> <http://ex.org/Idehen/Iadh> .
+<http://ex.org/employee/Jin/Jiao> <http://ex.org/webId> <http://ex.org/Jin/Jiao> .
+<http://ex.org/employee/H%C3%B6llm%C3%B8ll%C3%A2r/H%C3%A8l%C3%A9na> <http://ex.org/webId> <http://ex.org/Höllmøllâr/Hèléna> .
+<http://ex.org/employee/Alliteration/Alf> <http://ex.org/marriedTo> _:B1 .
+<http://ex.org/employee/B./Bela> <http://ex.org/marriedTo> _:B2 .
+<http://ex.org/employee/Chaplin/Charly> <http://ex.org/marriedTo> _:B3 .
+<http://ex.org/employee/Defoe/Daniel> <http://ex.org/marriedTo> _:B4 .
+<http://ex.org/employee/Erdmann/Edna> <http://ex.org/marriedTo> _:B5 .
+<http://ex.org/employee/Flintstone/Fred> <http://ex.org/marriedTo> _:B6 .
+<http://ex.org/employee/Guarino/Guiseppe> <http://ex.org/marriedTo> _:B7 .
+<http://ex.org/employee/Hart/Hillary> <http://ex.org/marriedTo> _:B8 .
+<http://ex.org/employee/Idehen/Iadh> <http://ex.org/marriedTo> _:B9 .
+<http://ex.org/employee/Jin/Jiao> <http://ex.org/marriedTo> _:B10 .
+<http://ex.org/employee/H%C3%B6llm%C3%B8ll%C3%A2r/H%C3%A8l%C3%A9na> <http://ex.org/marriedTo> _:B11 .
+<http://ex.org/employee/Alliteration/Alf> <http://ex.org/employmentTime> "3"^^<http://www.w3.org/2001/XMLSchema#month> .
+<http://ex.org/employee/B./Bela> <http://ex.org/employmentTime> "15"^^<http://www.w3.org/2001/XMLSchema#year> .
+<http://ex.org/employee/Chaplin/Charly> <http://ex.org/employmentTime> "2"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://ex.org/employee/Defoe/Daniel> <http://ex.org/employmentTime> "6"^^<http://www.w3.org/2001/XMLSchema#month> .
+<http://ex.org/employee/Erdmann/Edna> <http://ex.org/employmentTime> "6"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://ex.org/employee/Flintstone/Fred> <http://ex.org/employmentTime> "5"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://ex.org/employee/Guarino/Guiseppe> <http://ex.org/employmentTime> "2"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://ex.org/employee/Hart/Hillary> <http://ex.org/employmentTime> "4"^^<http://www.w3.org/2001/XMLSchema#month> .
+<http://ex.org/employee/Idehen/Iadh> <http://ex.org/employmentTime> "3"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://ex.org/employee/Jin/Jiao> <http://ex.org/employmentTime> "11"^^<http://www.w3.org/2001/XMLSchema#month> .
+<http://ex.org/employee/H%C3%B6llm%C3%B8ll%C3%A2r/H%C3%A8l%C3%A9na> <http://ex.org/employmentTime> "3"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://ex.org/1> <http://ex.org/title> "IT"@en .
+<http://ex.org/1> <http://ex.org/title> "IT"@de .
+<http://ex.org/2> <http://ex.org/title> "Accounting"@en .
+<http://ex.org/2> <http://ex.org/title> "Buchhaltung"@de .
+<http://ex.org/3> <http://ex.org/title> "Production"@en .
+<http://ex.org/3> <http://ex.org/title> "Produktion"@de .
+<http://ex.org/4> <http://ex.org/title> "Marketing"@en .
+<http://ex.org/4> <http://ex.org/title> "Marketing"@de .
+<http://ex.org/1> <http://ex.org/title> "Ei Dieh"@sx .

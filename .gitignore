@@ -19,6 +19,7 @@ target
 *.gz
 *.substvars
 *.swp
+*.bak
 
 config.js
 

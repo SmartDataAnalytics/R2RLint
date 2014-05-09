@@ -1,0 +1,470 @@
+Prefix spy:<http://aksw.org/sparqlify/>
+Prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+Prefix foaf:<http://xmlns.com/foaf/0.1/>
+Prefix dc:<http://purl.org/dc/elements/1.1/>
+Prefix xsd:<http://www.w3.org/2001/XMLSchema#>
+Prefix plx:<http://ld.panlex.org/plx/>
+Prefix plx-wc:<http://ld.panlex.org/plx/wordClass/>
+Prefix owl:<http://www.w3.org/2002/07/owl#>
+Prefix lvont: <http://lexvo.org/ontology#>
+Prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+Prefix gold: <http://purl.org/linguistics/gold/>
+Prefix lemon: <http://www.lemon-model.net/lemon#>
+
+/*****************************************************************************
+ *
+ * PanLex ontology view definitions
+ *
+ *****************************************************************************/
+
+// (ap)
+// mappings concerning approvers beeing sources of tranlations stored in
+// the ap table
+Create View ap As
+    Construct {
+        ?appr a plx:Approver.
+        ?appr plx:registrationDate ?rgdt.
+        ?appr rdfs:label ?labl.
+        ?appr foaf:homepage ?uri.
+        ?appr dbpedia-owl:isbn ?isbn.
+        ?appr dc:creator ?auth.
+        ?appr dc:title ?titl.
+        ?appr dc:publisher ?publ.
+        ?appr dc:date ?year.
+        ?appr plx:quality ?qual.
+        ?appr plx:license ?lcns.
+    }
+    With
+        ?appr = uri(concat(plx:approver, '/', ?ap))
+        ?rgdt = typedLiteral(?dt, xsd:date)
+        ?labl = plainLiteral(?tt)
+        ?uri  = uri(?ur)
+        ?isbn = plainLiteral(?bn)
+        ?auth = typedLiteral(?au, xsd:string)
+        ?titl = typedLiteral(?ti, xsd:string)
+        ?publ = plainLiteral(?pb)
+        ?year = typedLiteral(?yr, xsd:gYear)
+        ?qual = typedLiteral(?uq, xsd:integer)
+        ?lcns = uri(concat(plx:license, '/', ?li))
+    From
+        ap
+
+// (apli)
+// mappings concerning the licenses of approver sources
+Create View apli AS
+    Construct {
+        ?lcns a plx:License.
+        ?lcns rdfs:label ?llbl.
+    }
+    With
+        ?lcns = uri(concat(plx:license, '/', ?li))
+        ?llbl = plainLiteral(?lbl)
+    From
+        [[WITH license_labels AS (
+            SELECT 10 AS id, 'Public Domain' AS lbl UNION ALL  -- nr/pbl
+            SELECT 20 AS id, 'Create Commons' AS lbl UNION ALL  -- cc/ccl
+            SELECT 30 AS id, 'request' AS lbl UNION ALL  -- rp/ask
+            SELECT 40 AS id, 'GNU General Public License' AS lbl UNION ALL  -- gp/gpl
+            SELECT 50 AS id, 'GNU Lesser General Public License' AS lbl UNION ALL  -- gl/gll
+            SELECT 60 AS id, 'GNU Free Documentation License' AS lbl UNION ALL  -- gd/gfd
+            SELECT 65 AS id, 'MIT License' AS lbl UNION ALL  -- mi/mit
+            SELECT 70 AS id, 'copyright' AS lbl UNION ALL  -- co/cpr
+            SELECT 80 AS id, 'other' AS lbl UNION ALL  -- zz/ali
+            SELECT 90 AS id, 'unknown' AS lbl  -- na/zxx
+        )
+        SELECT apli.li, ll.lbl FROM apli JOIN license_labels ll ON (apli.id = ll.id)]]
+
+// (av)
+// mappings concerning approver varieties stored in the av table
+Create View av As
+    Construct {
+        ?appr plx:languageVariety ?lvar.
+    }
+    With
+        ?appr = uri(concat(plx:approver, '/', ?ap))
+        ?lvar = uri(concat(plx:languageVariety, '/', ?lv))
+    From
+        av
+
+// (df)
+// mappings concerning definitions (being a textual representation of a
+// meaning in a given variety) stored in the df table
+Create View df As
+    Construct {
+        ?defn a plx:Definition.
+        ?mean plx:meaningDefinition ?defn.
+        ?defn plx:languageVariety ?lvar.
+        ?defn rdfs:label ?text.
+    }
+    With
+        ?defn = uri(concat(plx:definition, '/', ?df))
+        ?mean = uri(concat(plx:meaning, '/', ?mn))
+        ?lvar = uri(concat(plx:languageVariety, '/', ?lv))
+        ?text = plainLiteral(?tt)
+    From
+        df
+
+// (dn)
+// mappings concerning denotations (connecting expressions with meanings)
+// stored in the dn table
+Create View dn As
+    Construct {
+        ?deno a plx:Denotation.
+        ?deno plx:denotationMeaning ?mean.
+        ?deno plx:denotationExpression ?expr.
+    }
+    With
+        ?deno = uri(concat(plx:denotation, '/', ?dn))
+        ?mean = uri(concat(plx:meaning, '/', ?mn))
+        ?expr = uri(concat(plx:expression, '/', ?ex))
+    From
+        dn
+
+
+// (md)
+// mappings for meta data about denotations
+// stored in md table
+Create View md As
+    Construct {
+        ?m
+            a plx:MetaDatum ;
+            plx:key ?k ;
+            plx:value ?v .
+
+        ?d
+            plx:metaDatum ?m .
+    }
+    With
+	?m = uri(plx:metaDatum, ?md)
+        ?d = uri(plx:denotation, '/', ?dn)
+        ?k = plainLiteral(?vb)
+        ?v = plainLiteral(?vl)
+    From
+        md
+
+
+// (ex)
+// mappings concerning expressions stored in the ex table
+Create View ex As
+    Construct {
+        ?expr a plx:Expression.
+        ?expr plx:languageVariety ?lvar.
+        ?expr rdfs:label ?etxt.
+        ?expr plx:degradedText ?dtxt.
+    }
+    With
+        ?expr = uri(concat(plx:expression, '/', ?ex))
+        ?lvar = uri(concat(plx:languageVariety, '/', ?lv))
+        ?etxt = typedLiteral(?tt, xsd:string)
+        ?dtxt = typedLiteral(?td, xsd:string)
+    From
+        ex
+
+// (i1)
+// ISO 639-3 language name links to lexvo.org
+Create View i1 As
+    Construct {
+        ?iso1 a plx:Iso639-1Code.
+        ?iso3 a plx:Iso639-3Code.
+        ?iso1 owl:sameAs ?lexvo1.
+        ?iso3 owl:sameAs ?lexvo3.
+        ?lang a plx:Language.
+        ?lang a lvont:Language.
+        ?lang a <http://schema.org/Language>.
+        ?lang plx:iso639-1Code ?iso1.
+        ?lang plx:iso639-3Code ?iso3.
+    }
+    With
+        ?iso1 = uri(concat(plx:iso639-1, '/', ?iso1))
+        ?iso3 = uri(concat(plx:iso639-3, '/', ?iso3))
+        ?lexvo1 = uri(concat('http://lexvo.org/id/iso639-1/', ?iso1))
+        ?lexvo3 = uri(concat('http://lexvo.org/id/iso639-3/', ?iso3))
+        ?lang = uri(concat(plx:language, '/', ?iso3))
+    From
+        i1
+
+// (lv)
+// mappings concerning language varieties stored in the lv table
+Create View lv AS
+    Construct {
+        ?lvar a plx:LanguageVariety.
+        ?lvar plx:languageVarietyOf ?lang.
+        ?lvar rdfs:label ?name
+    }
+    With
+        ?lvar = uri(concat(plx:languageVariety, '/', ?lv))
+        ?lang = uri(concat(plx:language, '/', ?lc))
+        ?name = plainLiteral(?tt)
+    From
+        // join with ex since the language variety name is now taken from the
+        // expression table
+        [[SELECT lv.lv, lv.lc, ex.tt FROM lv JOIN ex ON lv.ex=ex.ex]]
+
+// (mi)
+// mappings concerning meaning identifiers (representing ids of other web
+// sites) stored in the mi table
+Create View mi As
+    Construct {
+        ?mean plx:identifier ?labl.
+    }
+    With
+        ?mean = uri(concat(plx:meaning, '/', ?mn))
+        ?labl = plainLiteral(?tt)
+    From
+        mi
+
+// (mn)
+// mappings concerning meanings stored in the mn table
+Create View mn As
+    Construct {
+        ?mean a plx:Meaning.
+        ?mean plx:approver ?appr.
+    }
+    With
+        ?mean = uri(concat(plx:meaning, '/', ?mn))
+        ?appr = uri(concat(plx:approver, '/', ?ap))
+    From
+        mn
+
+// (wc, wcex)
+// mappings concerning word classes (verb, noun, pronoun etc.) of a denotation
+Create View dn_wc As
+    Construct {
+        ?deno plx:wordClass ?wcls.
+    }
+    With
+        ?wcls = uri(concat(plx:wordClass, '/', ?tt))
+        ?deno = uri(concat(plx:denotation, '/', ?dn))
+    From
+        // TODO: know why there are ~3981405 expressions but only 15 word
+        // classes and why there are no direct references to the word classes
+        [[SELECT wc.dn, wcex.tt FROM wc JOIN wcex ON wc.ex = wcex.ex]]
+
+Create View wc As
+    Construct {
+        ?wcls a plx:WordClass.
+        ?wcls rdfs:label ?labl.
+    }
+    With
+        ?wcls = uri(concat(plx:wordClass, '/', ?tt))
+        ?labl = plainLiteral(?tt)
+    From
+        wcex
+
+/******************************************************************************
+ *
+ * view definition for links to DBpedia
+ *
+ ******************************************************************************/
+
+// TODO: check if there is a LLOD source providing OLIF data
+
+Create View dbpedia_wc As
+    Construct {
+        plx-wc:misc owl:sameAs <http://dbpedia.org/resource/Miscellaneous>.
+        plx-wc:pron owl:sameAs <http://dbpedia.org/resource/Pronoun>.
+        plx-wc:affx owl:sameAs <http://dbpedia.org/resource/Affix>.
+        plx-wc:auxv owl:sameAs <http://dbpedia.org/resource/Auxiliary_verb>.
+        plx-wc:name owl:sameAs <http://dbpedia.org/resource/Name>.
+        plx-wc:adjv owl:sameAs <http://dbpedia.org/resource/Adjective>.
+        plx-wc:detr owl:sameAs <http://dbpedia.org/resource/Determiner_%28linguistics%29>.
+        plx-wc:verb owl:sameAs <http://dbpedia.org/resource/Verb>.
+        plx-wc:post owl:sameAs <http://dbpedia.org/resource/Postposition>.
+        plx-wc:noun owl:sameAs <http://dbpedia.org/resource/Noun>.
+        plx-wc:ijec owl:sameAs <http://dbpedia.org/resource/Interjection>.
+        plx-wc:vpar owl:sameAs <http://dbpedia.org/resource/Verb_particle>.
+        plx-wc:prep owl:sameAs <http://dbpedia.org/resource/Preposition>.
+        plx-wc:advb owl:sameAs <http://dbpedia.org/resource/Adverb>.
+        plx-wc:conj owl:sameAs <http://dbpedia.org/resource/Conjunction_(grammar)>.
+    }
+
+
+/******************************************************************************
+ *
+ * view definitions for the lemon model
+ *
+ ******************************************************************************/
+
+Create View lemon_Form_LexicalEntry_LexicalSense As
+    Construct {
+        ?lexEntry a lemon:LexicalEntry.
+        ?lexEntry lemon:lexicalForm ?form.
+        //?lexSense lemon:isSenseOf ?lexEntry.
+        ?lexEntry lemon:sense ?lexSense.
+    }
+    With
+        ?form = uri(concat(plx:lexicalForm, ?ex))
+        ?lexEntry = uri(concat(plx:expression, '/', ?ex))
+        ?lexSense = uri(concat(plx:meaning, '/', ?mn))
+    From
+        [[SELECT ex.ex, mn.mn FROM ex JOIN dn ON ex.ex=dn.ex JOIN mn ON dn.mn=mn.mn]]
+
+Create View lemon_Form As
+    Construct {
+        ?form a lemon:Form.
+        ?form lemon:writtenRep ?repr.
+    }
+    With
+        ?form = uri(concat(plx:lexicalForm, ?ex))
+        ?repr = typedLiteral(?tt, xsd:string)
+    From
+        ex
+
+Create View lemon_LexicalSense As
+    Construct {
+        ?lexSense a lemon:LexicalSense.
+    }
+    With
+        ?lexSense = uri(concat(plx:meaning, '/', ?mn))
+    From
+        mn
+
+// TODO: sense definition
+
+
+/******************************************************************************
+ *
+ * view definitions for the GOLD ontology
+ *
+ * - main structure of a linguistic sign in the GOLD ontology:
+ *
+ *   gold:LinguisticSign  // reuse of plx:denotation/<?dn>
+ *  
+ *           gold:hasForm               // reuse of
+ *                   gold:FormUnit.     // plx:expression/<?ex>
+ *
+ *           gold:hasGrammar            // not
+ *                   gold:GrammarUnit.  // used
+ *  
+ *           gold:hasMeaning            // reuse of
+ *                   gold:Meaning.      // plx:meaning/<?mn>
+ *  
+ *           gold:hasProperty                  // reuse of
+ *                   gold:LinguisticProperty.  // plx:wordClass/<?wc>
+ *
+ ******************************************************************************/
+
+// mappings concerning denotaions, which are used to model linguistic signs
+Create View gold_LinguisticSign As
+    Construct {
+        ?sign a gold:LinguisticSign.
+        ?sign gold:hasForm ?form.
+        ?sign gold:hasMeaning ?semU.
+    }
+    With
+        ?sign = uri(concat(plx:denotation, '/', ?dn))
+        ?form = uri(concat(plx:expression, '/', ?ex))
+        ?semU = uri(concat(plx:meaning, '/', ?mn))
+    From
+        dn
+
+// mappings concerning the gold:SemanticUnit entities (gotten from mn table)
+Create View gold_SemanticUnit As
+    Construct {
+        ?semU a gold:SemanticUnit.
+    }
+    With
+        ?semU = uri(concat(plx:meaning, '/', ?mn))
+    From
+        mn
+
+// mappings concerning the gold:FormUnit entities (gotten from ex table)
+Create View gold_FormUnit As
+    Construct {
+        ?form a gold:FormUnit.
+        ?wrEx a gold:WrittenLinguisticExpression.
+        ?form gold:writtenRealization ?wrEx.
+        ?wrEx rdfs:label ?labl.
+    }
+    With
+        ?form = uri(concat(plx:expression, '/', ?ex))
+        //?wrEx = uri(concat(plx:writtenExpression, '/', ?td))
+        ?wrEx = uri(concat(plx:lexicalForm, ?ex))
+        ?labl = plainLiteral(?tt)
+    From
+        ex
+
+// static mappings for the part of speech entities derived from the
+// plx:WordClasses
+Create View gold_PartOfSpeechProperty As
+    Construct {
+        // general case
+        // assumption is based on the statement:
+        //
+        // 12. Word Classifications
+        // A denotation may optionally have word classifications. These assign
+        // grammatical word classes (parts of speech) to denotations.
+        //
+        // from http://www.panlex.org/tech/doc/design/panlex-db-design.pdf
+        plx-wc:misc owl:sameAs <http://purl.org/linguistics/gold/PartOfSpeechProperty>.
+
+        plx-wc:pron owl:sameAs <http://purl.org/linguistics/gold/Pronominal>.
+
+        // this is not a LinguisticProperty in GOLD, but a GrammarUnit !!!
+        plx-wc:affx owl:sameAs <http://purl.org/linguistics/gold/Affix>.
+
+        plx-wc:auxv owl:sameAs <http://purl.org/linguistics/gold/Auxiliary>.
+        plx-wc:name owl:sameAs <http://purl.org/linguistics/gold/ProperNoun>.
+        plx-wc:adjv owl:sameAs <http://purl.org/linguistics/gold/Adjectival>.
+        plx-wc:detr owl:sameAs <http://purl.org/linguistics/gold/Determiner>.
+        plx-wc:verb owl:sameAs <http://purl.org/linguistics/gold/Verbal>.
+        plx-wc:post owl:sameAs <http://purl.org/linguistics/gold/Postposition>.
+        plx-wc:noun owl:sameAs <http://purl.org/linguistics/gold/Noun>.
+        plx-wc:ijec owl:sameAs <http://purl.org/linguistics/gold/Interjection>.
+        plx-wc:vpar owl:sameAs <http://purl.org/linguistics/gold/VerbalParticle>.
+        plx-wc:prep owl:sameAs <http://purl.org/linguistics/gold/Preposition>.
+        plx-wc:advb owl:sameAs <http://purl.org/linguistics/gold/Adverbial>.
+        plx-wc:conj owl:sameAs <http://purl.org/linguistics/gold/Conjunction>.
+    }
+
+// mappings concerning the gold:LinguisticProperty (gotten from ex, dn and
+// wcex)
+Create View gold_LinguisticProperty As
+    Construct {
+        ?posp a gold:PartOfSpeechProperty.
+        ?sign gold:hasProperty ?posp.
+    }
+    With
+        ?sign = uri(concat(plx:denotation, '/', ?dn))
+        ?posp = uri(?uri)
+    From
+        // plx=> SELECT * FROM wcex;
+        //    ex    |  tt  
+        // ---------+------
+        //  3846607 | noun
+        //  3846608 | verb
+        //  3846609 | adjv
+        //  3846610 | advb
+        //  3846611 | name
+        //  3846614 | pron
+        //  3846615 | vpar
+        //  3956917 | auxv
+        //  3956918 | detr
+        //  3956920 | prep
+        //  3956923 | post
+        //  3956926 | conj
+        //  3956927 | ijec
+        //  3956930 | affx
+        //  3957012 | misc
+        //  (15 Zeilen)
+        [[WITH pos_uris AS (
+            SELECT 3846607 AS ex_id, 'http://purl.org/linguistics/gold/Noun' AS uri UNION ALL -- noun
+            SELECT 3846608 AS ex_id, 'http://purl.org/linguistics/gold/Verbal' AS uri UNION ALL -- verb
+            SELECT 3846609 AS ex_id, 'http://purl.org/linguistics/gold/Adjectival' AS uri UNION ALL -- adjv
+            SELECT 3846610 AS ex_id, 'http://purl.org/linguistics/gold/Adverbial' AS uri UNION ALL -- advb
+            SELECT 3846611 AS ex_id, 'http://purl.org/linguistics/gold/ProperNoun' AS uri UNION ALL -- name
+            SELECT 3846614 AS ex_id, 'http://purl.org/linguistics/gold/Pronominal' AS uri UNION ALL -- pron
+            SELECT 3846615 AS ex_id, 'http://purl.org/linguistics/gold/VerbalParticle' AS uri UNION ALL -- vpar
+            SELECT 3956917 AS ex_id, 'http://purl.org/linguistics/gold/Auxiliary' AS uri UNION ALL -- auxv
+            SELECT 3956918 AS ex_id, 'http://purl.org/linguistics/gold/Determiner' AS uri UNION ALL -- detr
+            SELECT 3956920 AS ex_id, 'http://purl.org/linguistics/gold/Preposition' AS uri UNION ALL -- prep
+            SELECT 3956923 AS ex_id, 'http://purl.org/linguistics/gold/Postposition' AS uri UNION ALL -- post
+            SELECT 3956926 AS ex_id, 'http://purl.org/linguistics/gold/Conjunction' AS uri UNION ALL -- conj
+            SELECT 3956927 AS ex_id, 'http://purl.org/linguistics/gold/Interjection' AS uri UNION ALL -- ijec
+            -- not a LinguisticProperty!!!  SELECT 3956930 AS ex_id, 'http://purl.org/linguistics/gold/Affix' AS uri UNION ALL -- affx
+            SELECT 3957012 AS ex_id, 'http://purl.org/linguistics/gold/PartOfSpeechProperty' AS uri -- misc
+        )
+        SELECT wc.dn, uri FROM wc JOIN pos_uris ON wc.ex=pos_uris.ex_id]]
+
+// TODO: gold:SemanticUnit gold:stringRep string
