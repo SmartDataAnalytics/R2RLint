@@ -53,117 +53,125 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
 @Component
 public class NoOntologyHijacking extends MetricImpl implements DatasetMetric {
 
-	@Autowired
-	private Pinpointer pinpointer;
-	
-	private final float badSmellValue = (float) 0.5;
-	private final float errorValue = 0;
-	
-	// FIXME: provide the loader via autowiring or something else to avoid
-	// multiple instantiations
-	private VocabularyLoader vocabLoader;
-	
-	public NoOntologyHijacking() {
-		super();
-		vocabLoader = new VocabularyLoader();
-	}
-	@Override
-	public void assessDataset(SparqlifyDataset dataset)
-			throws NotImplementedException, SQLException {
-		
-		Model vocabularies = null;
-		Collection<String> usedPrefixes = dataset.getUsedPrefixes();
-		try {
-			vocabularies = vocabLoader.getVocabularies(usedPrefixes);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+    @Autowired
+    private Pinpointer pinpointer;
 
-		// iterate over all triples of the dataset
-		for (Triple triple : dataset) {
-			Node subject = triple.getSubject();
-			Node predicate = triple.getPredicate();
-			Node object = triple.getObject();
-			
-			if (subject.isURI()) {
-				boolean isLocal = false;
-				String subjectUri = subject.getURI();
-				for (String prefix : dataset.getPrefixes()) {
-					if (subjectUri.startsWith(prefix)) {
-						isLocal = true;
-						break;
-					}
-				}
-				
-				if (!isLocal) {
-					// statement is a hijacking candidate
-					boolean subjectPrefixKnown = false;
-					for (String extPrefix : usedPrefixes) {
-						if (subjectUri.startsWith(extPrefix)) {
-							subjectPrefixKnown = true;
-							break;
-						}
-					}
-					if (subjectPrefixKnown) {
-						// build statement
-						Resource subjRes = ResourceFactory.createResource(subject.getURI());
-					
-						Property predRes = ResourceFactory.createProperty(predicate.getURI());
-					
-						RDFNode objRes = convertObjectNodeToRes(object);
-						
-						if (!vocabularies.listStatements(subjRes, predRes, objRes).hasNext()) {
-					
-							// subject is from a known vocabulary but the statement
-							// about this subject is not part of the corresponding
-							// vocabulary definition --> violation
-							Set<ViewQuad<ViewDefinition>> viewQuads =
-									pinpointer.getViewCandidates(triple);
-							writeTripleMeasureToSink(errorValue, triple, viewQuads);
-						}
-					} else {
-						// non-local subject is from a vocabulary not known by the
-						// VocabularyLoader instance --> it cannot be confirmed if
-						// this is an ontology hijacking case or not --> bad smell
-						Set<ViewQuad<ViewDefinition>> viewQuads =
-								pinpointer.getViewCandidates(triple);
-						writeTripleMeasureToSink(badSmellValue, triple, viewQuads);
-					}
-				}
-			}
-		}
+    private final float badSmellValue = (float) 0.5;
+    private final float errorValue = 0;
 
-	}
-	
-	private RDFNode convertObjectNodeToRes(Node object) {
-		RDFNode objRes;
-		
-		// URI
-		if (object.isURI()) {
-			objRes = ResourceFactory.createResource(object.getURI());
-			
-		// literal
-		} else if (object.isLiteral()) {
-			// typed literal
-			if (object.getLiteralDatatypeURI() != null
-					&& !object.getLiteralDatatypeURI().isEmpty()) {
-				objRes = ResourceFactory.createTypedLiteral(object.getLiteralLexicalForm(), object.getLiteralDatatype());
-			} else {
-				// plain literal with lang tag
-				if (object.getLiteralLanguage() != null
-						&& !object.getLiteralLanguage().isEmpty()) {
-					objRes = ResourceFactory.createLangLiteral(object.getLiteralLexicalForm(), object.getLiteralLanguage());
-				// plain literal without lang tag
-				} else {
-					objRes = ResourceFactory.createPlainLiteral(object.getLiteralLexicalForm());
-				}
-			}
-		} else {
-			// blank node
-			objRes = ResourceFactory.createResource();
-		}
-		
-		return objRes;
-	}
+    // FIXME: provide the loader via autowiring or something else to avoid
+    // multiple instantiations
+    private VocabularyLoader vocabLoader;
 
+    public NoOntologyHijacking() {
+        super();
+        vocabLoader = new VocabularyLoader();
+    }
+
+    @Override
+    public void assessDataset(SparqlifyDataset dataset)
+            throws NotImplementedException, SQLException {
+        
+        Model vocabularies = null;
+        Collection<String> usedPrefixes = dataset.getUsedPrefixes();
+        try {
+            vocabularies = vocabLoader.getVocabularies(usedPrefixes);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // iterate over all triples of the dataset
+        for (Triple triple : dataset) {
+            Node subject = triple.getSubject();
+            Node predicate = triple.getPredicate();
+            Node object = triple.getObject();
+
+            if (subject.isURI()) {
+                boolean isLocal = false;
+                String subjectUri = subject.getURI();
+                for (String prefix : dataset.getPrefixes()) {
+                    if (subjectUri.startsWith(prefix)) {
+                        isLocal = true;
+                        break;
+                    }
+                }
+
+                if (!isLocal) {
+                    // statement is a hijacking candidate
+                    boolean subjectPrefixKnown = false;
+                    for (String extPrefix : usedPrefixes) {
+                        if (subjectUri.startsWith(extPrefix)) {
+                            subjectPrefixKnown = true;
+                            break;
+                        }
+                    }
+                    if (subjectPrefixKnown) {
+                        // build statement
+                        Resource subjRes = ResourceFactory.createResource(subject.getURI());
+
+                        Property predRes = ResourceFactory.createProperty(predicate.getURI());
+
+                        RDFNode objRes = convertObjectNodeToRes(object);
+
+                        if (!vocabularies.listStatements(subjRes, predRes, objRes).hasNext()) {
+
+                            // subject is from a known vocabulary but the statement
+                            // about this subject is not part of the corresponding
+                            // vocabulary definition --> violation
+                            Set<ViewQuad<ViewDefinition>> viewQuads =
+                                    pinpointer.getViewCandidates(triple);
+                            writeTripleMeasureToSink(errorValue, triple, viewQuads);
+                        }
+                    } else {
+                        // non-local subject is from a vocabulary not known by the
+                        // VocabularyLoader instance --> it cannot be confirmed if
+                        // this is an ontology hijacking case or not --> bad smell
+                        Set<ViewQuad<ViewDefinition>> viewQuads =
+                                pinpointer.getViewCandidates(triple);
+                        writeTripleMeasureToSink(badSmellValue, triple, viewQuads);
+                    }
+                }
+            }
+        }
+    }
+
+    private RDFNode convertObjectNodeToRes(Node object) {
+        RDFNode objRes;
+
+        // URI
+        if (object.isURI()) {
+            objRes = ResourceFactory.createResource(object.getURI());
+
+        // literal
+        } else if (object.isLiteral()) {
+            // typed literal
+            if (object.getLiteralDatatypeURI() != null
+                    && !object.getLiteralDatatypeURI().isEmpty()) {
+
+                objRes = ResourceFactory.createTypedLiteral(
+                        object.getLiteralLexicalForm(),
+                        object.getLiteralDatatype());
+
+            } else {
+                // plain literal with lang tag
+                if (object.getLiteralLanguage() != null
+                        && !object.getLiteralLanguage().isEmpty()) {
+
+                    objRes = ResourceFactory.createLangLiteral(
+                            object.getLiteralLexicalForm(),
+                            object.getLiteralLanguage());
+
+                // plain literal without lang tag
+                } else {
+                    objRes = ResourceFactory.createPlainLiteral(object
+                            .getLiteralLexicalForm());
+                }
+            }
+        } else {
+            // blank node
+            objRes = ResourceFactory.createResource();
+        }
+
+        return objRes;
+    }
 }
