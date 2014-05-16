@@ -7,11 +7,11 @@ h2.Installation
 
 To install R2RLint run the following commands:
 
-1. Get the source code from GitHub:
+* Get the source code from GitHub:
 ```bash
 git clone https://github.com/AKSW/R2RLint.git
 ```
-2. Go to the Git repo directory and run `install.sh`:
+* Go to the Git repo directory and run `install.sh`:
 ```bash
 cd R2RLint
 ./install.sh
