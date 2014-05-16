@@ -24,7 +24,6 @@ import org.aksw.sparqlify.config.v0_2.bridge.SchemaProvider;
 import org.aksw.sparqlify.config.v0_2.bridge.SchemaProviderImpl;
 import org.aksw.sparqlify.config.v0_2.bridge.SyntaxBridge;
 import org.aksw.sparqlify.core.RdfViewSystemOld;
-import org.aksw.sparqlify.core.cast.NewWorldTest;
 import org.aksw.sparqlify.core.cast.TypeSystem;
 import org.aksw.sparqlify.core.domain.input.ViewDefinition;
 import org.aksw.sparqlify.qa.dataset.SparqlifyDataset;
@@ -36,6 +35,7 @@ import org.aksw.sparqlify.qa.metrics.NodeMetric;
 import org.aksw.sparqlify.qa.metrics.TripleMetric;
 import org.aksw.sparqlify.qa.metrics.ViewMetric;
 import org.aksw.sparqlify.qa.pinpointing.Pinpointer;
+import org.aksw.sparqlify.util.SparqlifyCoreInit;
 import org.antlr.runtime.RecognitionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,7 +139,7 @@ public class QualityAssessment {
 		 *  init sparqlify views
 		 */
 		RdfViewSystemOld.initSparqlifyFunctions();
-		TypeSystem typeSystem = NewWorldTest.createDefaultDatatypeSystem();
+		TypeSystem typeSystem = SparqlifyCoreInit.createDefaultDatatypeSystem();
 		
 		File file = new File(typeAliasFilePath);
 		InputStreamReader reader = new FileReader(file);

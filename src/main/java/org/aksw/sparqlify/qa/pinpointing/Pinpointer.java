@@ -33,7 +33,6 @@ public class Pinpointer {
 	 */
 	
 	public void registerViewDefs(Collection<ViewDefinition> viewDefs) {
-//		this.viewDefs = viewDefs;
 		candidateSelector = new CandidateViewSelectorImpl();
 		for (ViewDefinition viewDef : viewDefs) {
 			candidateSelector.addView(viewDef);
