@@ -56,4 +56,40 @@ The following options provide access to some files needed to run an assessment
 
 An assessment sink is the actual target where the evaluated quality scores with respect to a given metric is written to. Due to the modularity of the R2RLint framework, sinks can be added without bigger wiring efforts and without the need to know the framework internals. The sinks currently implemented are introduced in dedicated sections below. The configuration options are sink specific and thus discussed in the corresponding sink section.
 
+### Metrics
+
+The settings with regards to the actual metrics to run can be found in the file `etc/metrics.properties`. R2RLint provides metrics for the following quality dimensions:
+
+* availability
+* completeness
+* conciseness
+* consistency
+* interlinking
+* interoperability
+* interpretability
+* performance
+* relevancy
+* representational conciseness
+* semantic accuracy
+* syntactic validity
+* understandability
+
+To enable a certain dimension for the assessment its value in the `etc/metrics.properties` file has to be switched to `yes`, e.g.
+```java
+semantic_accuracy = yes
+```
+Only if a dimension is enabled, its metrics are considered. To also activate certain metrics, their values have to be switched to `yes`, too, e.g.
+```java
+semantic_accuracy.preservedFkeyConstraint = yes
+```
+Accordingly, in an assessment run, only those metrics are applied, that
+
+* belong to an activated quality dimension
+* are activated as well
+
+Besides the activation, thresholds can be set up per metric. If a threshold is set, only those quality scores (and the corresponding metadata) are written to the sink, that have a score that is lower than the configured threshold. To configure a threshold value, a property named `<dimension>.<metric>.threshold` has to be added, e.g.:
+```java
+consistency.homogeneousDatatypes.threshold = 0.95
+```
+
 ## Sinks
