@@ -109,8 +109,8 @@ The RDB sink is a measure data sink that writes the actual quality scores and me
 The sink reflects the class structure of the R2RLint framework and creates the following tables:
 
 `measure_datum`
-|id _bigint PRIMARY KEY_ | dimension _varchar(400)_ | metric _varchar(400)_ | value _real NOT NULL_ | assessment_id _bigint NOT NULL_ | timestamp _timestamp default current_timestamp_ |
-|------------------------|--------------------------|-----------------------|-----------------------|---------------------------------|-------------------------------------------------|
+| id _bigint PRIMARY KEY_  | dimension _varchar(400)_ | metric _varchar(400)_ | value _real NOT NULL_ | assessment_id _bigint NOT NULL_ | timestamp _timestamp default current_timestamp_ |
+| ------------------------ | ------------------------ | --------------------- | --------------------- | ------------------------------- | ----------------------------------------------- |
 | | | | | | |
 
 
