@@ -93,3 +93,23 @@ consistency.homogeneousDatatypes.threshold = 0.95
 ```
 
 ## Sinks
+
+In this section the sink implementations provided by R2RLint are introduced.
+
+### RDB Sink
+
+The RDB sink is a measure data sink that writes the actual quality scores and metadata to a relational database. To set up such a sink, the following configuration options have to be provided in the `etc/environment.properties` file:
+
+* `rdbSink.host`: the hostname or IP address of the host the database management system is running on
+* `rdbSink.port`: the TCP port the database management system is listening on
+* `rdbSink.dbName`: the name of the database
+* `rdbSink.user`: a user to access the database
+* `rdbSink.password`: the password of the database user
+
+The sink reflects the class structure of the R2RLint framework and creates the following tables:
+
+`measure_datum`
+|id _bigint PRIMARY KEY_ | dimension _varchar(400)_ | metric _varchar(400)_ | value _real NOT NULL_ | assessment_id _bigint NOT NULL_ | timestamp _timestamp default current_timestamp_ |
+|------------------------|--------------------------|-----------------------|-----------------------|---------------------------------|-------------------------------------------------|
+
+
