@@ -3,4 +3,4 @@
 MVNEXEC="mvn"
 MAINCLS="org.aksw.sparqlify.qa.main.Run"
 
-$MVNEXEC exec:java -Dexec.mainClass="$MAINCLS"
+$MVNEXEC exec:java -Dexec.mainClass="$MAINCLS" -q
