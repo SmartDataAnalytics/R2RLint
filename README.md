@@ -108,9 +108,74 @@ The RDB sink is a measure data sink that writes the actual quality scores and me
 
 The sink reflects the class structure of the R2RLint framework and creates the following tables:
 
-`measure_datum`
+#### `measure_datum`
 
-| `id` _bigint PRIMARY KEY_  | `dimension` _varchar(400)_ | `metric` _varchar(400)_ | `value` _real NOT NULL_ | `assessment_id` _bigint NOT NULL_ | `timestamp` _timestamp default current_timestamp_ |
+The measure datum table holds the actual quality scores and corrsponding meta data like the ID of the assessment run, its metric name, timestamp etc.
+
+| `id` <sub>_[bigint PRIMARY KEY]_</sub>  | `dimension` <sub>_[varchar(400)]_</sub> | `metric` <sub>_[varchar(400)]_</sub> | `value` <sub>_[real NOT NULL]_</sub> | `assessment_id` <sub>_[bigint NOT NULL]_</sub> | `timestamp` <sub>_[timestamp default current_timestamp]_</sub> |
 | ------------------------ | ------------------------ | --------------------- | --------------------- | ------------------------------- | ----------------------------------------------- |
 
+
+#### `node`
+
+The `node` table holds _nodes_ (i.e. resources or literals) that were reported in the assessment.
+
+| `id` <sub>_[bigint PRIMARY KEY]_</sub> | `name` <sub>_[varchar(300) NOT NULL]_</sub> |
+| -------------------------------------- | ------------------------------------------- |
+
+
+#### `measure_datum__node`
+
+N.M table linking between `measure_datum` and `node`.
+
+| `measure_datum_id` <sub>_[bigint REFERENCES measure_datum(id)]_</sub> | `node_id` <sub>_[bigint REFERENCES node(id)]_</sub> | `assessment_id` <sub>_[bigint]_</sub> |
+| -------------------------------------------- | -------------------------------------------- | ---------------------- |
+
+
+#### `triple`
+
+The `triple` table holds triples that were reported in the assessment.
+
+| `id` <sub>_[bigint PRIMARY KEY]_</sub> | `subject` <sub>_[varchar(500)]_</sub> | `predicate` <sub>_[varchar(500)]_</sub> | `object` <sub>_[varchar(3000)]_</sub> |
+| ------------------ | ---------------------------- | --------------- | ------- |
+
+#### `measure_datum__triple`
+
+N:M table linking between `measure_datum` and `triple`.
+
+| measure_datum_id bigint REFERENCES measure_datum(id) | triple_id bigint REFERENCES triple(id) | assessment_id bigint |
+| ---------------------------------------------------- | -------------------------------------- | -------------------- |
+
+#### `node_triple`
+
+Sometimes, triples are reported in the assessment because of certain characteristic concerning either the subject, predicate or object. In these cases, the triple can be reported with an additional hint, which triple position caused the quality violation.
+
+| `id` <sub>_[bigint PRIMARY KEY]_</sub> | `position` <sub>_[varchar(20)]_</sub> | `subject` <sub>_[varchar(300)]_</sub> | `predicate` <sub>_[varchar(300)]_</sub> | `object` <sub>_[varchar(3000)]_</sub> |
+| ------- | ------- | ------ | -------- | -------- |
+
+#### `measure_datum__node_triple`
+
+N:M table linking between `measure_datum` and `node_triple`.
+
+| `measure_datum_id` <sub>_[bigint REFERENCES measure_datum(id)]_</sub> | `node_triple_id` <sub>_[bigint REFERENCES node_triple(id)]_</sub> | `assessment_id` <sub>_[bigint]_</sub> |
+| ---------- | ---------- | ---------- |
+
+#### `view_definition`
+
+The `view_definition` table holds all view definitions that were reported in an assessment.
+
+| `id` <sub>_[bigint PRIMARY KEY]_</sub> | `name` <sub>_[varchar(200)]_</sub> | `mapping_sql_op` <sub>_[varchar(3000)]_</sub> | `mapping_definitions` <sub>_[varchar(3000)]_</sub> |
+| --------- | --------- | --------- | --------- |
+
+#### `measure_datum__view_definition`
+
+| `measure_datum_id` <sub>_[bigint REFERENCES  measure_datum(id)]_</sub> | `view_definition_id` <sub>_[bigint REFERENCES view_definition(id)]_</sub> | `assessment_id` <sub>_[bigint]_</sub> |
+
+#### `quad`
+
+The `quad` table contains view definitions' quads that are reported in an assessment run.
+
+| `id` <sub>_[bigint PRIMARY KEY]_</sub> | `graph` <sub>_[varchar(300)]_</sub> | `subject` <sub>_[varchar(300)]_</sub> | `predicate` <sub>_[varchar(300)]_</sub> | `object` <sub>_[varchar(3000)]_</sub> |
+
+There are also M:N tables linking between `measure_datum` and `quad`, between `triple` and `quad`, as well as between `view_definition` and `quad`. The corresponding M:N tables follow the scheme of the M:N tables introduced so far.
 
