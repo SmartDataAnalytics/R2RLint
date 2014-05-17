@@ -170,12 +170,14 @@ The `view_definition` table holds all view definitions that were reported in an 
 #### `measure_datum__view_definition`
 
 | `measure_datum_id` <sub>_[bigint REFERENCES  measure_datum(id)]_</sub> | `view_definition_id` <sub>_[bigint REFERENCES view_definition(id)]_</sub> | `assessment_id` <sub>_[bigint]_</sub> |
+| ------ | ------ | ----- |
 
 #### `quad`
 
 The `quad` table contains view definitions' quads that are reported in an assessment run.
 
 | `id` <sub>_[bigint PRIMARY KEY]_</sub> | `graph` <sub>_[varchar(300)]_</sub> | `subject` <sub>_[varchar(300)]_</sub> | `predicate` <sub>_[varchar(300)]_</sub> | `object` <sub>_[varchar(3000)]_</sub> |
+| ------ | ------ | ------ | ----- | -------- |
 
 There are also M:N tables linking between `measure_datum` and `quad`, between `triple` and `quad`, as well as between `view_definition` and `quad`. The corresponding M:N tables follow the scheme of the M:N tables introduced so far.
 
