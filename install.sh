@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MVNEXEC="mvn"
-CLSDIR="target/classes"
+RESDIR="src/main/resources"
 
 
 $MVNEXEC compile
@@ -11,14 +11,14 @@ if (! [ -d etc ])
     mkdir etc
   fi
 
-if [ -d "$CLSDIR" ]
+if [ -d "$RESDIR" ]
   then
-    for PFILE in ../"$CLSDIR"/*properties
+    for PFILE in ../"$RESDIR"/*properties
       do
         if (! [ -f etc/"$PFLIE" ])
           then
             cd etc
-            ln -s ../"$CLSDIR"/*properties .
+            ln -s ../"$RESDIR"/*properties .
             cd - > /dev/null
           fi
       done
