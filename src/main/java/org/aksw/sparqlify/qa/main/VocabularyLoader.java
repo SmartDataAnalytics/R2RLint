@@ -60,6 +60,8 @@ public class VocabularyLoader {
 						new Pair<String, String>("sdmx-dimension.rdf", "RDF/XML"));
 				put("http://purl.org/linked-data/sdmx/2009/measure#",
 						new Pair<String, String>("sdmx-measure", "RDF/XML"));
+				put("http://rdfs.org/ns/void#",
+						new Pair<String, String>("void.rdf", "RDF/XML"));
 			}};
 	
 	private final HashMap<String, String> knownPrefixes =
@@ -85,6 +87,7 @@ public class VocabularyLoader {
 				put("sdmx-concept", "http://purl.org/linked-data/sdmx/2009/concept#");
 				put("sdmx-dimension", "http://purl.org/linked-data/sdmx/2009/dimension#");
 				put("sdmx-measure", "http://purl.org/linked-data/sdmx/2009/measure#");
+				put("void", "http://rdfs.org/ns/void#");
 			}};
 	
 	// model cache for already loaded vocabularies; key is the whole namespace
