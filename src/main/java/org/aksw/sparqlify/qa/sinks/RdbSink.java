@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -372,7 +372,7 @@ public class RdbSink implements MeasureDataSink {
         insStmnt.setString(3, metric);
         insStmnt.setFloat(4, value);
         insStmnt.setLong(5, assessmentId);
-        insStmnt.setNull(6, Types.TIMESTAMP);
+        insStmnt.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
         insStmnt.executeUpdate();
         conn.commit();
     }
