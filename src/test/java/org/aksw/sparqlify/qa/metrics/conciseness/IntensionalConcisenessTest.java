@@ -29,7 +29,7 @@ public class IntensionalConcisenessTest {
 	@Autowired
 	private MeasureDataSink sink;
 	@Autowired
-	private IntensionalConciseness metric;
+	private PropertyRedundancy metric;
 	
 	ViewDefinition viewDef01;
 	ViewDefinition viewDef02;

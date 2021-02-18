@@ -67,7 +67,7 @@ import com.hp.hpl.jena.sparql.core.Var;
  *
  */
 @Component
-public class IntensionalConciseness extends MetricImpl implements ViewMetric {
+public class PropertyRedundancy extends MetricImpl implements ViewMetric {
 	
 	@Override
 	public void assessViews(Collection<ViewDefinition> viewDefs)
