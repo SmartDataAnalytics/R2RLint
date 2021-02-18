@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 import com.hp.hpl.jena.sparql.core.Quad;
 
 /**
- * This metric measures the property completeness giving a score of the
+ * This metric measures the instance completeness giving a score of the
  * completeness of the available values of a property. In the RDB2RDF case this
  * means the ratio of the number of property values to the number of attribute
  * values in the considered (logical) table.
@@ -39,7 +39,7 @@ import com.hp.hpl.jena.sparql.core.Quad;
  *
  */
 @Component
-public class PropertyCompleteness extends MetricImpl implements ViewMetric {
+public class InstanceCompleteness extends MetricImpl implements ViewMetric {
 	
 	@Autowired
 	private DataSource rdb;

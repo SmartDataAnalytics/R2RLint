@@ -30,7 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:test_val_beans.xml"})
-public class PropertyCompletenessTest {
+public class InstanceCompletenessTest {
 	
 	@Autowired
 	private DataSource rdb;
@@ -38,7 +38,7 @@ public class PropertyCompletenessTest {
 	@Autowired
 	private MeasureDataSink sink;
 	@Autowired
-	private PropertyCompleteness metric;
+	private InstanceCompleteness metric;
 	
 	private ViewDefinition employeeView;
 	private ViewDefinition deptView1;
