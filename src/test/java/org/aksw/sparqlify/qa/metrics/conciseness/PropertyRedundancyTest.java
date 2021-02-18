@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:test_val_beans.xml"})
-public class IntensionalConcisenessTest {
+public class PropertyRedundancyTest {
 
 	@Autowired
 	private MeasureDataSink sink;
