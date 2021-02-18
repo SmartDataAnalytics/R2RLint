@@ -64,7 +64,7 @@ The settings with regards to the actual metrics to run can be found in the file 
 * completeness
 * conciseness
 * consistency
-* interlinkingggg
+* interlinking
 * interoperability
 * interpretability
 * performance
