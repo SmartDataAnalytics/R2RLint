@@ -38,7 +38,7 @@ public class PropertyCompletenessTest {
 	@Autowired
 	private MeasureDataSink sink;
 	@Autowired
-	private PropertyCompleteness metric;
+	private InstanceCompleteness metric;
 	
 	private ViewDefinition employeeView;
 	private ViewDefinition deptView1;
